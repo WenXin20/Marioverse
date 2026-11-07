@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dyes/gray": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/gray"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_parkour_blocks/normal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:parkour_blocks/normal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:gray_parkour_block_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dyes/gray",
+      "has_parkour_blocks/normal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:gray_parkour_block_from_dye"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dripstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:pointed_dripstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_fortstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:fortstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:rocky_fortstone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dripstone",
+      "has_fortstone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:rocky_fortstone"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "parent": "marioverse:block/template_loophole_middle",
+  "textures": {
+    "bottom": "minecraft:block/exposed_cut_copper",
+    "front": "minecraft:block/exposed_cut_copper",
+    "particle": "minecraft:block/exposed_cut_copper",
+    "side": "minecraft:block/exposed_cut_copper",
+    "top": "minecraft:block/exposed_cut_copper"
+  }
+}

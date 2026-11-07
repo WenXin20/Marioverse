@@ -71,34 +71,35 @@ dependencies {
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}" // Required Dependency
 
     compileOnly "curse.maven:aether-255308:6389857" // Requires Accessories, Owo Lib
-    compileOnly "curse.maven:amendments-896746:7461027" // Requires Moonlight
+    compileOnly "curse.maven:amendments-896746:8825641" // Requires Moonlight
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
+    implementation "curse.maven:copycats-968398:8822348" // Requires Create
     compileOnly "curse.maven:caverns-and-chasms-438005:8155745" // Requires Blueprint
-    compileOnly "curse.maven:copycats-968398:7251823" // Requires Create
     implementation "curse.maven:create-328085:7963363"
-    compileOnly "maven.modrinth:create-aeronautics:1.2.1+mc1.21.1-neoforge" // Requires Create, Sable, Incompatible w/ Embeddium
-    compileOnly "maven.modrinth:porkchop-express:0.1.1-neoforge" // Requires Sable
+    implementation "curse.maven:create-aeronautics-676721:8763471" // Requires Create, Sable, Incompatible w/ Embeddium
+    implementation "curse.maven:create-coasters-simulated-1601871:8655742" // Requires Create, Sable
     compileOnly "curse.maven:framedblocks-441647:7584453"
     compileOnly "curse.maven:deep-aether-852465:6839619"
-    compileOnly "curse.maven:gardens-of-the-dead-683174:5640395"
-    compileOnly "maven.modrinth:grassier-grass:1.4.5-neoforge"
-    compileOnly "curse.maven:guard-villagers-360203:6066966"
+    implementation "curse.maven:gardens-of-the-dead-683174:5640395"
+    implementation "curse.maven:guard-villagers-360203:6066966"
+    implementation "curse.maven:hole-filler-mod-440585:6583948"
     compileOnly "curse.maven:immersive-paintings-639584:7583940" // Requires Fzzy Config
-    compileOnly "curse.maven:inspectability-1312917:6805145"
+    implementation "curse.maven:inspectability-1312917:6805145"
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
-    compileOnly "curse.maven:inventory-item-groups-1447374:8447055"
     implementation "curse.maven:jade-324717:6853386"
     implementation "curse.maven:jei-${jei_version}"
+    implementation "curse.maven:jei-trade-1641894:8998466"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     compileOnly "curse.maven:packs-editor-1606070:8432925"
     compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     compileOnly "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
     compileOnly "curse.maven:the-twilight-forest-227639:7797302"
-    compileOnly "curse.maven:treechop-421377:6254465"
-    compileOnly "curse.maven:tree-physics-1522010:8448844"
-    compileOnly "curse.maven:vista-${vista_version}" // Requires Moonlight
-    compileOnly "curse.maven:worldedit-225608:5830452"
+    compileOnly "curse.maven:the-undergarden-379849:7862546"
+    implementation "curse.maven:treechop-421377:6254465"
+    implementation "curse.maven:tree-physics-1522010:8448844"
+    implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
+    implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:7598595"
     implementation "curse.maven:xaeros-world-map-317780:7598481"
 
@@ -110,14 +111,14 @@ dependencies {
     compileOnly "curse.maven:embeddium-${embeddium_version}" // Incompatible w/ Sodium
     implementation "curse.maven:kotlin-for-forge-351264:7471280"
     implementation "curse.maven:framework-549225:7530361"
-    compileOnly "curse.maven:fzzy-config-1005914:7568897"
+    implementation "curse.maven:fzzy-config-1005914:7568897"
     implementation "curse.maven:owo-lib-${owo_version}"
-    compileOnly "curse.maven:sable-1312371:8263584" // Requires Create
+    implementation "curse.maven:sable-${sable_version}" // Requires Create
     implementation "curse.maven:selene-${moonlight_version}"
-    implementation "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
-    compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[1.6.0,)"
+    compileOnly "curse.maven:sodium-${sodium_version}" // Incompatible w/ Embeddium
+    compileOnly "dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:[${sable_companion_version},)"
 
-    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:1.6.0"))
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${minecraft_version}:${sable_companion_version}"))
     implementation "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_spef_version}"
 
     // implementation "curse.maven:simple-clouds-${simple_clouds_version}"
@@ -134,7 +135,7 @@ dependencies {
 runs {
     configureEach {
         systemProperty 'forge.logging.markers', 'REGISTRIES'
-        systemProperty 'forge.logging.console.level', 'debug'
+        systemProperty 'forge.logging.console.level', 'info'
         programArguments '-mixin.config=marioverse.mixins.json'
 
         modSource project.sourceSets.main
@@ -148,10 +149,11 @@ runs {
         gameTest false
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         programArguments.addAll '--username', 'WenXin2'
+        jvmArgument '-Xmx6G'
     }
 
     server {
-        workingDirectory 'run'
+        workingDirectory 'run/server'
         client false
         server true
         dataGenerator false

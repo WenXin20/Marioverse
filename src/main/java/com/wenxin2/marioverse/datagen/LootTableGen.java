@@ -1,0 +1,442 @@
+package com.wenxin2.marioverse.datagen;
+
+import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BloomflowerBlock;
+import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
+import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
+import com.wenxin2.marioverse.blocks.CoralTowerBlock;
+import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
+import com.wenxin2.marioverse.blocks.DeathBlock;
+import com.wenxin2.marioverse.blocks.GoalPoleBlock;
+import com.wenxin2.marioverse.blocks.HedgeBlock;
+import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
+import com.wenxin2.marioverse.blocks.PipeBubblesBlock;
+import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
+import com.wenxin2.marioverse.blocks.StarCoinBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomCapBlock;
+import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.blocks.states.HalfBlockStates;
+import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
+import com.wenxin2.marioverse.blocks.states.SideBlockStates;
+import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
+import com.wenxin2.marioverse.data.BlockFamilyExtended;
+import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.DataComponentRegistry;
+import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.registries.LootTableRegistry;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.IntRange;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.CopyBlockState;
+import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
+import net.minecraft.world.level.storage.loot.functions.LimitCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.NotNull;
+
+public class LootTableGen extends LootTableProvider {
+    protected static final float[] NORMAL_LEAVES_SAPLING_CHANCES = new float[]{0.05F, 0.0625F, 0.083333336F, 0.1F};
+    protected static final float[] HALVED_LEAVES_SAPLING_CHANCES = new float[]{0.025F, 0.03125F, 0.041666668F, 0.05F};
+    protected static final float[] DOUBLED_LEAVES_SAPLING_CHANCES = new float[]{0.1F, 0.125F, 0.16666667F, 0.2F};
+
+    public LootTableGen(PackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
+        super(output, Set.of(), List.of(
+                new LootTableProvider.SubProviderEntry(BlockSubProvider::new, LootContextParamSets.BLOCK),
+                new LootTableProvider.SubProviderEntry(HedgeSnowLootSubProvider::new, LootContextParamSets.BLOCK_USE),
+                new LootTableProvider.SubProviderEntry(BounceRewardLootSubProvider::new, LootContextParamSets.GIFT)),
+                completableFuture);
+    }
+
+    public static class HedgeSnowLootSubProvider implements LootTableSubProvider {
+        public HedgeSnowLootSubProvider(HolderLookup.Provider provider) {
+        }
+
+        @Override
+        public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
+            output.accept(LootTableRegistry.HEDGE_SNOW, LootTable.lootTable()
+                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(Items.SNOWBALL)
+                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))));
+        }
+    }
+
+    public static class BounceRewardLootSubProvider implements LootTableSubProvider {
+        public BounceRewardLootSubProvider(HolderLookup.Provider provider) {
+        }
+
+        @Override
+        public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
+            output.accept(LootTableRegistry.CONSECUTIVE_BOUNCE_REWARD, LootTable.lootTable()
+                    .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(ItemRegistry.ONE_UP_MUSHROOM.get()))));
+        }
+    }
+
+    public static class BlockSubProvider extends BlockLootSubProvider {
+        public BlockSubProvider(HolderLookup.Provider provider) {
+            super(Set.of(), FeatureFlags.DEFAULT_FLAGS, provider);
+        }
+
+        @NotNull
+        @Override
+        protected Iterable<Block> getKnownBlocks() {
+            return Marioverse.BLOCKS.getEntries().stream().map(DeferredHolder::value)
+                    .filter(block -> block instanceof Block && !(block instanceof PipeBubblesBlock) && !(block instanceof WaterSpoutBlock))
+                    .map(block -> (Block) block).toList();
+        }
+
+        @Override
+        protected void generate() {
+            this.genBlockVariants();
+
+            Marioverse.BLOCKS.getEntries().forEach(deferredHolder -> {
+                Block block = deferredHolder.get();
+                if (block.getLootTable() != BuiltInLootTables.EMPTY && !isBlockInVariants(block)) {
+                    if (block instanceof CheckpointFlagBlock)
+                        this.add(block, this.createCheckpointFlagDrop(block));
+                    else if (block instanceof CoralTowerBlock || block instanceof DeadCoralTowerBlock)
+                        this.add(block, this.createSilkTouchOnlyTable(block));
+                    else if (block instanceof GoalPoleBlock)
+                        this.add(block, this.createNameableBlockEntityTable(block));
+                    else if (block instanceof PipeBubblesBlock || block instanceof BlockSpawnerBlock
+                            || block instanceof DeathBlock)
+                        this.add(block, this.createNoLootDrop());
+                    else if (block instanceof StarCoinBlock)
+                        this.add(block, this.createStarCoinDrop(block));
+                    else if (block instanceof WarpPipeBlock)
+                        this.add(block, this.createNameableWarpPipeBEDrop(block));
+                    else if (block instanceof WaterSpoutBlock)
+                        this.add(block, this.createNoLootDrop());
+                    else if (block == BlockRegistry.DEEP_FUNGAL_STONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get()));
+                    else if (block == BlockRegistry.FUNGAL_STONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.FUNGAL_COBBLESTONE.get()));
+                    else if (block == BlockRegistry.FORTSTONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.COBBLED_FORTSTONE.get()));
+                    else if (block == BlockRegistry.GRASSY_FUNGAL_STONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.FUNGAL_STONE.get()));
+                    else if (block == BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.DEEP_FUNGAL_STONE.get()));
+                    else if (block == BlockRegistry.GRASSY_FORTSTONE.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.FORTSTONE.get()));
+                    else if (block == BlockRegistry.MUSHROOT_LEAVES.get())
+                        this.add(block, this.createLeavesDrops(BlockRegistry.MUSHROOT_LEAVES.get(),
+                                BlockRegistry.MUSHROOT_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
+                    else if (block == BlockRegistry.SPOOKROOT_LEAVES.get())
+                        this.add(block, this.createLeavesDrops(BlockRegistry.SPOOKROOT_LEAVES.get(),
+                                BlockRegistry.SPOOKROOT_SAPLING.get(), HALVED_LEAVES_SAPLING_CHANCES));
+                    else if (block == BlockRegistry.DARK_SPOOKROOT_LEAVES.get())
+                        this.add(block, this.createLeavesDrops(BlockRegistry.DARK_SPOOKROOT_LEAVES.get(),
+                                BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get(), DOUBLED_LEAVES_SAPLING_CHANCES));
+                    else if (block == BlockRegistry.SHROOMGRASS_BLOCK.get())
+                        this.add(block, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock,
+                                BlockRegistry.SHROOMSOIL.get()));
+                    else if (block == BlockRegistry.SHROOMSOIL_FARMLAND.get() || block == BlockRegistry.SHROOMSOIL_PATH.get())
+                        this.dropOther(block, BlockRegistry.SHROOMSOIL.get());
+                    else if (block == BlockRegistry.SNOWY_HEDGE.get())
+                        this.add(block, this.createSnowyHedgeDrop(block));
+                    else if (block instanceof HedgeBlock)
+                        this.add(block, this.createHedgeDrop(block));
+                    else if (block == BlockRegistry.SHORT_SHROOMGRASS.get() || block == BlockRegistry.SHROOMGRASS.get())
+                        this.add(block, this.createGrassDrops(block));
+                    else if (block == BlockRegistry.TALL_SHROOMGRASS.get())
+                        this.add(block, this.createDoublePlantWithSeedDrops(block, BlockRegistry.SHROOMGRASS.get()));
+                    else if (block == BlockRegistry.WET_MUD_FARMLAND.get() || block == BlockRegistry.DEEP_WET_MUD.get())
+                        this.dropOther(block, BlockRegistry.WET_MUD.get());
+                    else if (block instanceof BloomflowerBlock)
+                        this.add(block, this.createBloomflowerDrop(block));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHORT_SHROOMGRASS.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHORT_SHROOMGRASS.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHROOMGRASS.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHROOMGRASS.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SHRUBROOM.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SHRUBROOM.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.HEDGE.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.HEDGE.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SNOWY_HEDGE.get())
+                        this.add(block, this.createPottedSnowyHedgeDrop(block));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.PINK_ROSE_HEDGE.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.PINK_ROSE_HEDGE.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.RED_ROSE_HEDGE.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_ROSE_HEDGE.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.WHITE_ROSE_HEDGE.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.WHITE_ROSE_HEDGE.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() instanceof BloomflowerBlock)
+                        this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
+                    else if (block instanceof SuperMushroomCapBlock)
+                        this.add(block, this.createSuperMushroomCapDrop(block));
+                    else if (block instanceof FlowerPotBlock pot && (pot.getPotted() instanceof SuperMushroomBlock
+                            || pot.getPotted() instanceof MegaMushroomBlock))
+                        this.add(block, this.createPotFlowerItemTable(pot.getPotted()));
+                    else if (block instanceof PottedPiranhaPlantBlock)
+                        this.add(block, this.createPottedPiranhaPlantTable(ItemRegistry.PIRANHA_PLANT_POD));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.DANGO_BLOSSOM.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.DANGO_BLOSSOM.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.MUSHROOT_SAPLING.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.MUSHROOT_SAPLING.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SPOOKROOT_SAPLING.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SPOOKROOT_SAPLING.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get()));
+                    else if (block instanceof FlowerPotBlock pot && pot.getPotted() == BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                        this.add(block, this.createPotFlowerItemTable(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get()));
+                    else this.dropSelf(block);
+                }
+            });
+        }
+
+        private boolean isBlockInVariants(Block block) {
+            for (BlockFamilyExtended blockFamily : BlockFamilyRegistry.getAllExtendedFamilies().toList()) {
+                for (Map.Entry<BlockFamilyExtended.Variant, Block> entry : blockFamily.getVariants().entrySet()) {
+                    if (entry.getValue().equals(block))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        private void genBlockVariants() {
+            BlockFamilyRegistry.getAllExtendedFamilies().forEach(blockFamily -> {
+                blockFamily.getVariants().forEach((variant, variantBlock) -> {
+                    BlockFamilyExtended.Variant arrowSign = BlockFamilyExtended.Variant.ARROW_SIGN;
+                    BlockFamilyExtended.Variant door = BlockFamilyExtended.Variant.DOOR;
+                    BlockFamilyExtended.Variant hangingArrowSign = BlockFamilyExtended.Variant.HANGING_ARROW_SIGN;
+                    BlockFamilyExtended.Variant largeArrowSign = BlockFamilyExtended.Variant.LARGE_ARROW_SIGN;
+                    BlockFamilyExtended.Variant largeWallArrowSign = BlockFamilyExtended.Variant.LARGE_WALL_ARROW_SIGN;
+                    BlockFamilyExtended.Variant logPlatform = BlockFamilyExtended.Variant.LOG_PLATFORM;
+                    BlockFamilyExtended.Variant questionBlock = BlockFamilyExtended.Variant.QUESTION_BLOCK;
+                    BlockFamilyExtended.Variant quicksand = BlockFamilyExtended.Variant.QUICKSAND;
+                    BlockFamilyExtended.Variant rocky = BlockFamilyExtended.Variant.ROCKY;
+                    BlockFamilyExtended.Variant slabs = BlockFamilyExtended.Variant.SLAB;
+                    BlockFamilyExtended.Variant smashableBlocks = BlockFamilyExtended.Variant.SMASHABLE_BLOCKS;
+                    BlockFamilyExtended.Variant storageBricks = BlockFamilyExtended.Variant.STORAGE_BRICKS;
+                    BlockFamilyExtended.Variant wallArrowSign = BlockFamilyExtended.Variant.WALL_ARROW_SIGN;
+
+                    if (variant == wallArrowSign || variant == hangingArrowSign || variant == largeWallArrowSign) {
+                    } else if (variant == arrowSign)
+                        this.add(variantBlock, this.createArrowSignBEDrop(variantBlock));
+                    else if (variant == largeArrowSign)
+                        this.add(variantBlock, this.createLargeArrowSignBEDrop(variantBlock));
+                    else if (variant == door)
+                        this.add(variantBlock, this.createDoorTable(variantBlock));
+                    else if (variant == quicksand)
+                        dropOther(variantBlock, blockFamily.getBaseBlock());
+                    else if (variant == rocky) {
+                        Block cobblestone = blockFamily == BlockFamilyRegistry.DEEP_FUNGAL_STONE
+                                ? BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get()
+                                : blockFamily == BlockFamilyRegistry.FORTSTONE
+                                ? BlockRegistry.COBBLED_FORTSTONE.get()
+                                : BlockRegistry.FUNGAL_COBBLESTONE.get();
+                        this.add(variantBlock, silkTouchBlock -> this.createSingleItemTableWithSilkTouch(silkTouchBlock, cobblestone));
+                    } else if (variant == questionBlock)
+                        this.add(variantBlock, this.createNameableBlockEntityTable(variantBlock));
+                    else if (variant == smashableBlocks)
+                        this.add(variantBlock, this.createSilkTouchOnlyTable(variantBlock));
+                    else if (variant == storageBricks)
+                        this.add(variantBlock, this.createNameableBlockEntityTable(variantBlock));
+                    else if (variant == logPlatform || variant == slabs)
+                        this.add(variantBlock, this.createSlabItemTable(variantBlock));
+                    else dropSelf(variantBlock);
+                });
+            });
+        }
+
+        protected LootTable.Builder createNoLootDrop() {
+            return LootTable.lootTable();
+        }
+
+        protected LootTable.Builder createArrowSignBEDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                            .include(DataComponentRegistry.DYE_COLOR.get())
+                                            .include(DataComponentRegistry.GLOWING.get())
+                                            .include(DataComponentRegistry.WAXED.get()))))
+            );
+        }
+
+        protected LootTable.Builder createCheckpointFlagDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponents.CUSTOM_NAME)
+                                            .include(DataComponents.CONTAINER)
+                                            .include(DataComponents.LOCK)
+                                            .include(DataComponents.CONTAINER_LOOT)))
+                            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                                            .hasProperty(CheckpointFlagBlock.PART, TripleBlockStates.BOTTOM))))
+            );
+        }
+
+        protected LootTable.Builder createLargeArrowSignBEDrop(Block block) {
+            StatePropertiesPredicate.Builder properties = StatePropertiesPredicate.Builder.properties()
+                    .hasProperty(BlockStatePropertyRegistry.HALF, HalfBlockStates.BOTTOM);
+            if (block instanceof LargeWallArrowSignBlock)
+                properties.hasProperty(BlockStatePropertyRegistry.SIDE, SideBlockStates.LEFT);
+
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponentRegistry.ARROW_SIGN_DIRECTION.get())
+                                            .include(DataComponentRegistry.DYE_COLOR.get())
+                                            .include(DataComponentRegistry.GLOWING.get())
+                                            .include(DataComponentRegistry.WAXED.get()))
+                                    .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                            .setProperties(properties))))
+            );
+        }
+
+        protected LootTable.Builder createNameableWarpPipeBEDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponents.CUSTOM_NAME)
+                                            .include(DataComponentRegistry.PIPE_NAME.get()))))
+            );
+        }
+
+        protected LootTable.Builder createPottedPiranhaPlantTable(ItemLike itemLike) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(Blocks.FLOWER_POT,
+                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(Blocks.FLOWER_POT))))
+                    .withPool(this.applyExplosionCondition(itemLike, LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(itemLike)
+                                    .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                            .include(DataComponentRegistry.VARIANT.get())))));
+        }
+
+        protected LootTable.Builder createBloomflowerDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))
+                                            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                            .hasProperty(BloomflowerBlock.AMOUNT, 1))))
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F))
+                                            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                            .hasProperty(BloomflowerBlock.AMOUNT, 2))))
+                                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(3.0F))
+                                            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                    .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                            .hasProperty(BloomflowerBlock.AMOUNT, 3))))))
+            );
+        }
+
+        protected LootTable.Builder createHedgeDrop(Block block) {
+            return LootTable.lootTable()
+                    .withPool(this.applyExplosionCondition(block,
+                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(block))))
+                    .withPool(this.applyExplosionCondition(Items.SNOWBALL,
+                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(Items.SNOWBALL)
+                                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))
+                                    .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                            .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                    .hasProperty(HedgeBlock.SNOWY, true)))
+                                    .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.SHOVELS)))));
+        }
+
+        protected LootTable.Builder createSnowyHedgeDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .apply(CopyBlockState.copyState(block).copy(HedgeBlock.SNOWY))))
+            );
+        }
+
+        protected LootTable.Builder createSuperMushroomCapDrop(Block block) {
+            ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
+            String mushroomName = blockId.getPath().replace("_block", "");
+            String megaMushroomName = mushroomName.replace("super_mushroom", "mushroom").replace("mushroom", "mega_mushroom");
+            Block superMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(mushroomName));
+            Block megaMushroom = BuiltInRegistries.BLOCK.get(blockId.withPath(megaMushroomName));
+
+            return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                    .add(LootItem.lootTableItem(block).when(this.hasSilkTouch()))
+                    .add(this.applyExplosionDecay(block, LootItem.lootTableItem(superMushroom).setWeight(3)
+                            .when(this.doesNotHaveSilkTouch())
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(-6.0F, 2.0F)))
+                            .apply(LimitCount.limitCount(IntRange.lowerBound(0)))))
+                    .add(this.applyExplosionDecay(block, LootItem.lootTableItem(megaMushroom)
+                            .when(this.doesNotHaveSilkTouch())
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(-6.0F, 2.0F)))
+                            .apply(LimitCount.limitCount(IntRange.lowerBound(0))))));
+        }
+
+        protected LootTable.Builder createPottedSnowyHedgeDrop(Block block) {
+            return LootTable.lootTable()
+                    .withPool(this.applyExplosionCondition(Blocks.FLOWER_POT,
+                            LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                                    .add(LootItem.lootTableItem(Blocks.FLOWER_POT))))
+                    .withPool(this.applyExplosionCondition(BlockRegistry.SNOWY_HEDGE.get(), LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(BlockRegistry.SNOWY_HEDGE.get())
+                                    .apply(CopyBlockState.copyState(block).copy(HedgeBlock.SNOWY)))));
+        }
+
+        protected LootTable.Builder createStarCoinDrop(Block block) {
+            return LootTable.lootTable().withPool(this.applyExplosionCondition(block,
+                    LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
+                            .add(LootItem.lootTableItem(block)
+                                    .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                            .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                    .hasProperty(StarCoinBlock.HALF, DoubleBlockHalf.LOWER)
+                                                    .hasProperty(StarCoinBlock.QUADRANT, QuadrantBlockStates.NORTH_WEST)))))
+            );
+        }
+    }
+}

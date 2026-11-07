@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:calcite_stairs_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/cyan"
+    },
+    {
+      "tag": "marioverse:calcite_stairs"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:cyan_calcite_stairs"
+  }
+}

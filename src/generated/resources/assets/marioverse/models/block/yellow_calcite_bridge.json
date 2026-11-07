@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_stone_bridge",
+  "textures": {
+    "bottom": "marioverse:block/yellow_calcite_bridge_bottom",
+    "front": "marioverse:block/yellow_calcite_bridge",
+    "side": "marioverse:block/yellow_calcite_bridge_side",
+    "top": "marioverse:block/yellow_calcite_bridge_top"
+  }
+}

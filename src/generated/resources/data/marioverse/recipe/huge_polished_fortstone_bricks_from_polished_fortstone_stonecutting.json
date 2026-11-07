@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:polished_fortstone"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:huge_polished_fortstone_bricks"
+  }
+}

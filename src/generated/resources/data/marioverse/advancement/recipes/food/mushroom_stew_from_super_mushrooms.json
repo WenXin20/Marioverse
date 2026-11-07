@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mega_mushroom": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:mega_mushrooms"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_super_mushroom": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:super_mushrooms"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:mushroom_stew_from_super_mushrooms"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_super_mushroom",
+      "has_mega_mushroom"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:mushroom_stew_from_super_mushrooms"
+    ]
+  }
+}

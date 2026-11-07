@@ -31,6 +31,12 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider lookupProvider) {
+        tag(Tags.EntityTypes.BOATS)
+                .add(EntityRegistry.MUSHROOT_BOAT.get())
+                .add(EntityRegistry.MUSHROOT_CHEST_BOAT.get())
+                .add(EntityRegistry.SPOOKROOT_BOAT.get())
+                .add(EntityRegistry.SPOOKROOT_CHEST_BOAT.get());
+
         tag(EntityTypeTags.AQUATIC)
                 .addTag(TagRegistry.CHEEP_CHEEPS);
 
@@ -95,8 +101,23 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
         tag(EntityTypeTags.UNDEAD)
                 .add(EntityRegistry.BOO.get());
 
+        tag(TagRegistry.BEE_CAN_POLLINATE)
+                .add(EntityRegistry.FIRE_FLOWER.get())
+                .add(EntityRegistry.ICE_FLOWER.get());
+
         tag(TagRegistry.BOO_CAN_ATTACK)
                 .add(EntityType.PLAYER);
+
+        tag(TagRegistry.CANNOT_BE_STOMPED)
+                .addTag(TagRegistry.POKEY_ENTITIES)
+                .add(EntityRegistry.PIRANHA_PLANT.get())
+                .add(EntityRegistry.PORCUPUFFER.get())
+                .add(EntityRegistry.SNOW_POKEY_BODY.get())
+                .add(EntityRegistry.SPINY_CHEEP_CHEEP.get())
+                .add(EntityRegistry.SUPER_STAR.get())
+                .add(EntityType.ELDER_GUARDIAN)
+                .add(EntityType.GUARDIAN)
+                .add(EntityType.PUFFERFISH);
 
         tag(TagRegistry.CANNOT_BOUNCE_ON_BLOCKS);
 
@@ -980,6 +1001,14 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .addTag(TagRegistry.POKEY_ENTITIES)
                 .addTag(TagRegistry.SNOW_POKEY_ENTITIES)
                 .add(EntityRegistry.PORCUPUFFER.get());
+
+        tag(TagRegistry.TRAVELS_HEAD_FIRST_IN_PIPES)
+                .add(EntityRegistry.FIRE_GOOMBA.get())
+                .add(EntityRegistry.GOOMBA.get())
+                .add(EntityRegistry.HEFTY_GOOMBA.get())
+                .add(EntityRegistry.MEGA_GOOMBA.get())
+                .add(EntityRegistry.MINI_GOOMBA.get())
+                .add(EntityRegistry.SPLUNKIN.get());
 
         tag(TagRegistry.WARP_PIPE_CANNOT_SPAWN);
     }

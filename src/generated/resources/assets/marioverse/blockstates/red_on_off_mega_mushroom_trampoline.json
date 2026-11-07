@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "active=false,top=false": {
+      "model": "marioverse:block/mega_mushroom_stem"
+    },
+    "active=false,top=true": {
+      "model": "marioverse:block/red_on_off_mega_mushroom_trampoline_off"
+    },
+    "active=true,top=false": {
+      "model": "marioverse:block/mega_mushroom_stem"
+    },
+    "active=true,top=true": {
+      "model": "marioverse:block/red_on_off_mega_mushroom_trampoline"
+    }
+  }
+}

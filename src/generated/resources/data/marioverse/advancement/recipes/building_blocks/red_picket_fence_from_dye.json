@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dyes/red": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/red"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_picket_fences": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:picket_fences"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:red_picket_fence_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dyes/red",
+      "has_picket_fences"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:red_picket_fence_from_dye"
+    ]
+  }
+}

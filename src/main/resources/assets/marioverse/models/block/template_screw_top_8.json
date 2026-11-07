@@ -1,0 +1,53 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"render_type": "cutout_mipped",
+	"textures": {
+		"particle": "#top",
+		"top": "marioverse:block/iron_screw",
+		"bottom": "marioverse:block/iron_screw_bottom",
+		"overlay": "marioverse:block/iron_screw_overlay"
+	},
+	"elements": [
+		{
+			"name": "head",
+			"from": [2, 6, 2],
+			"to": [14, 8, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 7, 8]},
+			"faces": {
+				"north": {"uv": [0, 12, 12, 14], "texture": "#top"},
+				"east": {"uv": [0, 12, 12, 14], "texture": "#top"},
+				"south": {"uv": [0, 12, 12, 14], "texture": "#top"},
+				"west": {"uv": [0, 12, 12, 14], "texture": "#top"},
+				"up": {"uv": [0, 0, 12, 12], "rotation": 180, "texture": "#top", "cullface": "up"},
+				"down": {"uv": [0, 0, 12, 12], "rotation": 180, "texture": "#bottom"}
+			}
+		},
+		{
+			"name": "screw",
+			"from": [6, 0, 6],
+			"to": [10, 6, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [12, 2, 16, 8], "texture": "#top"},
+				"east": {"uv": [12, 2, 16, 8], "texture": "#top"},
+				"south": {"uv": [12, 2, 16, 8], "texture": "#top"},
+				"west": {"uv": [12, 2, 16, 8], "texture": "#top"},
+				"down": {"uv": [12, 0, 16, 4], "texture": "#bottom", "cullface": "down"}
+			}
+		},
+		{
+			"name": "threads",
+			"from": [5.85, -0.15, 5.85],
+			"to": [10.15, 6.15, 10.15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [12, 2, 16, 8], "texture": "#overlay"},
+				"east": {"uv": [12, 2, 16, 8], "texture": "#overlay"},
+				"south": {"uv": [12, 2, 16, 8], "texture": "#overlay"},
+				"west": {"uv": [12, 2, 16, 8], "texture": "#overlay"}
+			}
+		}
+	]
+}

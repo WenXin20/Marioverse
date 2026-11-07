@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:parkour_blocks_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/black"
+    },
+    {
+      "tag": "marioverse:parkour_blocks/normal"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:black_parkour_block"
+  }
+}

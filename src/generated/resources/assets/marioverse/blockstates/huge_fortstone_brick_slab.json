@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "marioverse:block/huge_fortstone_brick_slab"
+    },
+    "type=double": {
+      "model": "marioverse:block/huge_fortstone_bricks"
+    },
+    "type=top": {
+      "model": "marioverse:block/huge_fortstone_brick_slab_top"
+    }
+  }
+}

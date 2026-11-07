@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:loopholes",
+  "key": {
+    "#": {
+      "item": "marioverse:polished_fortstone_bricks"
+    }
+  },
+  "pattern": [
+    "# #",
+    "# #",
+    "# #"
+  ],
+  "result": {
+    "count": 6,
+    "id": "marioverse:polished_fortstone_loophole"
+  }
+}

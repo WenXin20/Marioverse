@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:invisible_question_blocks",
+  "key": {
+    "#": {
+      "item": "marioverse:polished_deep_fungal_stone"
+    },
+    "I": {
+      "tag": "marioverse:invisible_question_blocks"
+    }
+  },
+  "pattern": [
+    "###",
+    "#I#",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:invisible_deep_fungal_question_block"
+  }
+}

@@ -60,8 +60,15 @@ public class BlockFamilyExtended {
             return this.family;
         }
 
-        public BlockFamilyExtended.Builder button(Block block) {
-            this.family.variants.put(Variant.BUTTON, block);
+        public BlockFamilyExtended.Builder arrowSign(Block block, Block blockWall, Block blockHanging) {
+            this.family.variants.put(Variant.ARROW_SIGN, block);
+            this.family.variants.put(Variant.HANGING_ARROW_SIGN, blockHanging);
+            this.family.variants.put(Variant.WALL_ARROW_SIGN, blockWall);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder boards(Block block) {
+            this.family.variants.put(Variant.BOARDS, block);
             return this;
         }
 
@@ -80,8 +87,18 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder button(Block block) {
+            this.family.variants.put(Variant.BUTTON, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder chiseled(Block block) {
             this.family.variants.put(Variant.CHISELED, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder cobble(Block block) {
+            this.family.variants.put(Variant.COBBLE, block);
             return this;
         }
 
@@ -120,8 +137,45 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder floor(Block block) {
+            this.family.variants.put(Variant.FLOOR, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder hangingSign(Block block, Block blockWall) {
+            this.family.variants.put(Variant.HANGING_SIGN, block);
+            this.family.variants.put(Variant.WALL_HANGING_SIGN, blockWall);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder hardBlock(Block block) {
+            this.family.variants.put(Variant.HARD_BLOCK, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder huge(Block block) {
+            this.family.variants.put(Variant.HUGE, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder invisibleQuestionBlock(Block block) {
             this.family.variants.put(Variant.INVISIBLE_QUESTION_BLOCK, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder largeArrowSign(Block block, Block blockWall) {
+            this.family.variants.put(Variant.LARGE_ARROW_SIGN, block);
+            this.family.variants.put(Variant.LARGE_WALL_ARROW_SIGN, blockWall);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder logPlatform(Block block) {
+            this.family.variants.put(Variant.LOG_PLATFORM, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder loophole(Block block) {
+            this.family.variants.put(Variant.LOOPHOLE, block);
             return this;
         }
 
@@ -130,8 +184,33 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder panels(Block block) {
+            this.family.variants.put(Variant.PANELS, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder panelsFromBoards(Block block) {
+            this.family.variants.put(Variant.PANELS_FROM_BOARDS, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder pedestal(Block block) {
             this.family.variants.put(Variant.PEDESTAL, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder picketFence(Block block) {
+            this.family.variants.put(Variant.PICKET_FENCE, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder picketFenceGate(Block block) {
+            this.family.variants.put(Variant.PICKET_FENCE_GATE, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder planks(Block block) {
+            this.family.variants.put(Variant.PLANKS, block);
             return this;
         }
 
@@ -165,6 +244,11 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder rocky(Block block) {
+            this.family.variants.put(Variant.ROCKY, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder sign(Block block, Block blockWall) {
             this.family.variants.put(Variant.SIGN, block);
             this.family.variants.put(Variant.WALL_SIGN, blockWall);
@@ -191,6 +275,16 @@ public class BlockFamilyExtended {
             return this;
         }
 
+        public BlockFamilyExtended.Builder stoneBridge(Block block) {
+            this.family.variants.put(Variant.STONE_BRIDGE, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder tiles(Block block) {
+            this.family.variants.put(Variant.TILES, block);
+            return this;
+        }
+
         public BlockFamilyExtended.Builder trapdoor(Block block) {
             this.family.variants.put(Variant.TRAPDOOR, block);
             return this;
@@ -198,6 +292,16 @@ public class BlockFamilyExtended {
 
         public BlockFamilyExtended.Builder wall(Block block) {
             this.family.variants.put(Variant.WALL, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder window(Block block) {
+            this.family.variants.put(Variant.WINDOW, block);
+            return this;
+        }
+
+        public BlockFamilyExtended.Builder windowPane(Block block) {
+            this.family.variants.put(Variant.WINDOW_PANE, block);
             return this;
         }
 
@@ -223,11 +327,14 @@ public class BlockFamilyExtended {
     }
 
     public static enum Variant {
-        BUTTON("button"),
+        ARROW_SIGN("arrow_sign"),
+        BOARDS("boards"),
         BRICKS("bricks"),
         BRIDGE("bridge"),
         BRIDGE_STAIRS("bridge_stairs"),
+        BUTTON("button"),
         CHISELED("chiseled"),
+        COBBLE("cobble"),
         CRACKED("cracked"),
         CUSTOM_FENCE("fence"),
         CUSTOM_FENCE_GATE("fence_gate"),
@@ -235,23 +342,44 @@ public class BlockFamilyExtended {
         DOOR("door"),
         FENCE("fence"),
         FENCE_GATE("fence_gate"),
+        FLOOR("floor"),
+        HANGING_ARROW_SIGN("hanging_arrow_sign"),
+        HANGING_SIGN("hanging_sign"),
+        HARD_BLOCK("hard_block"),
+        HUGE("huge"),
         INVISIBLE_QUESTION_BLOCK("invisible_question_block"),
+        LARGE_ARROW_SIGN("large_arrow_sign"),
+        LARGE_WALL_ARROW_SIGN("large_wall_arrow_sign"),
+        LOG_PLATFORM("log_platform"),
+        LOOPHOLE("loophole"),
         MOSAIC("mosaic"),
+        PANELS("panels"),
+        PANELS_FROM_BOARDS("panels_from_boards"),
         PEDESTAL("pedestal"),
+        PICKET_FENCE("picket_fence"),
+        PICKET_FENCE_GATE("picket_fence_gate"),
+        PLANKS("planks"),
         POLISHED("polished"),
         PRESSURE_PLATE("pressure_plate"),
         QUESTION_BLOCK("question_block"),
         QUESTION_BLOCK_TAG("question_block_tag"),
         QUESTION_PANEL("question_panel"),
         QUICKSAND("quicksand"),
+        ROCKY("rocky"),
         SIGN("sign"),
         SLAB("slab"),
         SMASHABLE_BLOCKS("smashable_blocks"),
         STAIRS("stairs"),
+        STONE_BRIDGE("bridges"),
         STORAGE_BRICKS("storage_bricks"),
+        TILES("tiles"),
         TRAPDOOR("trapdoor"),
         WALL("wall"),
-        WALL_SIGN("wall_sign");
+        WALL_ARROW_SIGN("wall_arrow_sign"),
+        WALL_HANGING_SIGN("wall_hanging_sign"),
+        WALL_SIGN("wall_sign"),
+        WINDOW("window"),
+        WINDOW_PANE("window_pane");
 
         private final String recipeGroup;
 

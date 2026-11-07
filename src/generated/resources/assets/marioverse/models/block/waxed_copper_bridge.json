@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_stone_bridge",
+  "textures": {
+    "bottom": "marioverse:block/copper_bridge_bottom",
+    "front": "marioverse:block/copper_bridge",
+    "side": "marioverse:block/copper_bridge_side",
+    "top": "marioverse:block/copper_bridge_top"
+  }
+}

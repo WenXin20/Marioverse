@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_hedge_rose",
+  "textures": {
+    "bottom": "marioverse:block/red_rose_hedge_bottom",
+    "leaves": "marioverse:block/hedge_leaves",
+    "side": "marioverse:block/red_rose_hedge_side",
+    "side_rose": "marioverse:block/red_rose_hedge_side_rose"
+  }
+}

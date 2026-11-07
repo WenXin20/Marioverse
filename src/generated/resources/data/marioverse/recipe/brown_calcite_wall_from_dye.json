@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:calcite_walls_from_dye",
+  "ingredients": [
+    {
+      "tag": "c:dyes/brown"
+    },
+    {
+      "tag": "marioverse:calcite_walls"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:brown_calcite_wall"
+  }
+}

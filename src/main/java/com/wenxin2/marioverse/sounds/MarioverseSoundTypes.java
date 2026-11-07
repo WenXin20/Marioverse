@@ -37,6 +37,9 @@ public class MarioverseSoundTypes {
     public static final SoundType COIN_TYPE = new DeferredSoundType(1.0F, 1.0F, () -> SoundEvents.NETHERITE_BLOCK_BREAK,
             SoundRegistry.COIN_PICKUP, SoundRegistry.COIN_PLACE, SoundRegistry.COIN_PLACE, SoundRegistry.COIN_PLACE);
 
+    public static final SoundType DEEP_MUD = new DeferredSoundType(4.0F, 1.0F,  () -> SoundEvents.MUD_BREAK,
+            SoundRegistry.MUD_STEP,  () -> SoundEvents.MUD_PLACE, () -> SoundEvents.MUD_HIT, () -> SoundEvents.MUD_FALL);
+
     public static final SoundType WATER_SPOUT_TYPE = new DeferredSoundType(1.0F, 1.0F, () -> SoundEvents.BUCKET_FILL,
             () -> SoundEvents.BUCKET_FILL, () -> SoundEvents.BUCKET_EMPTY, () -> SoundEvents.BUCKET_FILL, () -> SoundEvents.BUCKET_FILL);
 

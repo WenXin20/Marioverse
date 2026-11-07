@@ -1,0 +1,22 @@
+{
+  "parent": "minecraft:block/grass_block",
+  "render_type": "minecraft:cutout_mipped",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/shroomsoil_top",
+    "side": "marioverse:block/shroomgrass_block_1",
+    "top": "marioverse:block/shroomgrass_block_top",
+    "overlay": "marioverse:block/shroomgrass_block_overlay_1",
+    "particle": "#bottom"
+  },
+  "connections": {
+    "default": {
+      "type": "and",
+      "predicates": [
+        { "type": "match_block", "blocks": [ "marioverse:shroomgrass_block" ] },
+        { "type": "is_face_visible" }
+      ]
+    }
+  }
+}

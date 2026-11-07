@@ -84,30 +84,12 @@
 			}
 		},
 		{
-			"from": [-0.07071, 8.07071, 0],
-			"to": [15.92929, 8.07071, 16],
-			"rotation": {"angle": 45, "axis": "z", "origin": [8, 8, 8]},
+			"from": [2, 8, 0],
+			"to": [14, 8, 16],
+			"rotation": {"angle": 45, "axis": "z", "origin": [8, 8, 8], "rescale": true},
 			"faces": {
-				"up": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#rope"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#rope"}
-			}
-		},
-		{
-			"from": [0, 2, 0],
-			"to": [1, 2, 16],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
-			"faces": {
-				"up": {"uv": [0, 0, 1, 16], "rotation": 180, "texture": "#rope"},
-				"down": {"uv": [0, 0, 1, 16], "texture": "#rope"}
-			}
-		},
-		{
-			"from": [15, 14, 0],
-			"to": [16, 14, 16],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
-			"faces": {
-				"up": {"uv": [15, 0, 16, 16], "rotation": 180, "texture": "#rope"},
-				"down": {"uv": [15, 0, 16, 16], "texture": "#rope"}
+				"up": {"uv": [2, 0, 14, 16], "rotation": 180, "texture": "#rope"},
+				"down": {"uv": [2, 0, 14, 16], "texture": "#rope"}
 			}
 		}
 	],
@@ -119,7 +101,7 @@
 			"name": "rope",
 			"origin": [0, 0, 0],
 			"color": 0,
-			"children": [3, 4, 5, 6, 7, 8]
+			"children": [3, 4, 5, 6]
 		}
 	]
 }

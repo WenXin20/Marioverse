@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "flowers=false,snowy=false,top=false": {
+      "model": "marioverse:block/pink_rose_hedge_no_flowers"
+    },
+    "flowers=false,snowy=false,top=true": {
+      "model": "marioverse:block/pink_rose_hedge_no_flowers_top"
+    },
+    "flowers=false,snowy=true,top=false": {
+      "model": "marioverse:block/pink_rose_hedge_no_flowers_snowy"
+    },
+    "flowers=false,snowy=true,top=true": {
+      "model": "marioverse:block/pink_rose_hedge_no_flowers_top_snowy"
+    },
+    "flowers=true,snowy=false,top=false": {
+      "model": "marioverse:block/pink_rose_hedge"
+    },
+    "flowers=true,snowy=false,top=true": {
+      "model": "marioverse:block/pink_rose_hedge_top"
+    },
+    "flowers=true,snowy=true,top=false": {
+      "model": "marioverse:block/pink_rose_hedge_snowy"
+    },
+    "flowers=true,snowy=true,top=true": {
+      "model": "marioverse:block/pink_rose_hedge_top_snowy"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right_open",
+  "textures": {
+    "bottom": "marioverse:block/mushroot_door_bottom",
+    "top": "marioverse:block/mushroot_door_top"
+  }
+}

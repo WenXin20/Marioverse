@@ -1,0 +1,294 @@
+package com.wenxin2.marioverse.world.feature.trunk_placers;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.wenxin2.marioverse.registries.TreeRegistry;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+import org.jetbrains.annotations.NotNull;
+
+public class TaperingTrunkPlacer extends TrunkPlacer {
+    private static final int MAX_ROOT_DEPTH = 8;
+
+    public static final MapCodec<TaperingTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            trunkPlacerParts(instance)
+                    .and(IntProvider.codec(1, 8).fieldOf("taper_rate").forGetter(p -> p.taperRate))
+                    .and(Codec.BOOL.fieldOf("square_base").forGetter(p -> p.squareBase))
+                    .and(IntProvider.codec(1, 4).fieldOf("min_branch_radius").forGetter(p -> p.minBranchRadius))
+                    .and(IntProvider.codec(0, 4).fieldOf("branch_count").forGetter(p -> p.branchCount))
+                    .and(Overflow.CODEC.forGetter(p -> new Overflow(p.branchLength, p.branchDrop, p.branchesGrowLeaves, p.foliageRadius)))
+                    .apply(instance, (baseHeight1, heightRandA1, heightRandB1, taperRate1, squareBase1,
+                                      minBranchRadius1, branchCount1, overflow1)
+                            -> new TaperingTrunkPlacer(squareBase1, baseHeight1, heightRandA1, heightRandB1, taperRate1,
+                                    minBranchRadius1, branchCount1, overflow1.branchLength(), overflow1.branchDrop(),
+                                    overflow1.branchesGrowLeaves(), overflow1.foliageRadius())));
+
+    private record Overflow(IntProvider branchLength, IntProvider branchDrop, boolean branchesGrowLeaves, IntProvider foliageRadius) {
+        private static final MapCodec<Overflow> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                        IntProvider.codec(1, 10).fieldOf("branch_length").forGetter(Overflow::branchLength),
+                        IntProvider.codec(1, 10).fieldOf("branch_drop").forGetter(Overflow::branchDrop),
+                        Codec.BOOL.fieldOf("branches_grow_leaves").forGetter(Overflow::branchesGrowLeaves),
+                        IntProvider.codec(1, 16).fieldOf("foliage_radius").forGetter(Overflow::foliageRadius))
+                .apply(instance, Overflow::new));
+    }
+
+    private final IntProvider taperRate;
+    private final boolean squareBase;
+    private final IntProvider minBranchRadius;
+    private final IntProvider branchCount;
+    private final IntProvider branchLength;
+    private final IntProvider branchDrop;
+    private final boolean branchesGrowLeaves;
+    private final IntProvider foliageRadius;
+
+    public TaperingTrunkPlacer(boolean squareBase, int baseHeight, int heightRandA, int heightRandB, IntProvider taperRate,
+                               IntProvider minBranchRadius, IntProvider branchCount, IntProvider branchLength, IntProvider branchDrop,
+                               boolean branchesGrowLeaves, IntProvider foliageRadius) {
+        super(baseHeight, heightRandA, heightRandB);
+        this.taperRate = taperRate;
+        this.squareBase = squareBase;
+        this.minBranchRadius = minBranchRadius;
+        this.branchCount = branchCount;
+        this.branchLength = branchLength;
+        this.branchDrop = branchDrop;
+        this.branchesGrowLeaves = branchesGrowLeaves;
+        this.foliageRadius = foliageRadius;
+    }
+
+    @NotNull
+    @Override
+    protected TrunkPlacerType<?> type() {
+        return TreeRegistry.TAPERING_TRUNK_PLACER.get();
+    }
+
+    @NotNull
+    @Override
+    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+                                                            RandomSource random, int freeTreeHeight, BlockPos pos, TreeConfiguration config) {
+        int rate = Math.max(1, this.taperRate.sample(random));
+        boolean useSquareBase = this.squareBase && freeTreeHeight >= rate * 2 + 3;
+
+        this.placeRoots(level, blockSetter, random, config, pos, useSquareBase);
+
+        int squareEnd = useSquareBase ? Math.min(rate, freeTreeHeight) : 0;
+        int taperEnd = Math.min(squareEnd + rate, freeTreeHeight);
+        int flareStart = Math.max(taperEnd, freeTreeHeight - 2);
+        BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
+
+        int minRadius = Math.max(1, this.minBranchRadius.sample(random));
+
+        for (int y = 0; y < freeTreeHeight; y++) {
+            if (y < squareEnd)
+                this.placeSquare(level, blockSetter, random, config, pos, y, mutable);
+            else if (y < taperEnd)
+                this.placeCross(level, blockSetter, random, config, pos, y, mutable, 1);
+            else if (y < flareStart) {
+                if (minRadius <= 1) {
+                    mutable.setWithOffset(pos, 0, y, 0);
+                    placeLog(level, blockSetter, random, mutable, config);
+                } else this.placeCross(level, blockSetter, random, config, pos, y, mutable, minRadius - 1);
+            } else this.placeCross(level, blockSetter, random, config, pos, y, mutable, 1);
+        }
+
+        List<FoliagePlacer.FoliageAttachment> attachments = new ArrayList<>();
+        attachments.add(new FoliagePlacer.FoliageAttachment(pos.above(freeTreeHeight), 0, false));
+
+        List<FoliagePlacer.FoliageAttachment> branchAttachments =
+                this.placeBranches(level, blockSetter, random, config, pos, freeTreeHeight, squareEnd, taperEnd, flareStart, minRadius);
+        if (this.branchesGrowLeaves)
+            attachments.addAll(branchAttachments);
+
+        return attachments;
+    }
+
+    private void placeRoots(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,
+                            TreeConfiguration config, BlockPos pos, boolean useSquareBase) {
+        int centerDepth = this.placeRootColumn(level, blockSetter, random, config, pos);
+
+        if (useSquareBase) {
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dz = -1; dz <= 1; dz++) {
+                    if (dx == 0 && dz == 0)
+                        continue;
+                    this.placeRootColumn(level, blockSetter, random, config, pos.offset(dx, 0, dz));
+                }
+            }
+        }
+
+        if (centerDepth == 0)
+            setDirtAt(level, blockSetter, random, pos.below(), config);
+    }
+
+    private int placeRootColumn(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,
+                                TreeConfiguration config, BlockPos columnPos) {
+        BlockPos.MutableBlockPos mutable = columnPos.mutable().move(Direction.DOWN);
+        int depth = 0;
+        while (depth < MAX_ROOT_DEPTH && this.isReplaceable(level, mutable)) {
+            BlockState state = config.trunkProvider.getState(random, mutable).trySetValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);
+            blockSetter.accept(mutable.immutable(), state);
+            mutable.move(Direction.DOWN);
+            depth++;
+        }
+        return depth;
+    }
+
+    private boolean isReplaceable(LevelSimulatedReader level, BlockPos pos) {
+        return level.isStateAtPosition(pos, state -> state.isAir() || state.canBeReplaced());
+    }
+
+    private void placeSquare(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,
+                             TreeConfiguration config, BlockPos pos, int y, BlockPos.MutableBlockPos mutable) {
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                mutable.setWithOffset(pos, dx, y, dz);
+
+                if (dx == 0 && dz == 0)
+                    placeLog(level, blockSetter, random, mutable, config);
+                else placeLogIfFree(level, blockSetter, random, mutable, config);
+            }
+        }
+    }
+
+    private void placeCross(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,
+                            TreeConfiguration config, BlockPos pos, int y, BlockPos.MutableBlockPos mutable, int armLength) {
+        mutable.setWithOffset(pos, 0, y, 0);
+        placeLog(level, blockSetter, random, mutable, config);
+        for (Direction dir : Direction.Plane.HORIZONTAL) {
+            for (int step = 1; step <= armLength; step++) {
+                mutable.setWithOffset(pos, dir.getStepX() * step, y, dir.getStepZ() * step);
+                placeLogIfFree(level, blockSetter, random, mutable, config);
+            }
+        }
+    }
+
+    private List<FoliagePlacer.FoliageAttachment> placeBranches(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+                                                                RandomSource random, TreeConfiguration config, BlockPos pos, int freeTreeHeight,
+                                                                int squareEnd, int taperEnd, int flareStart, int minRadius) {
+        List<FoliagePlacer.FoliageAttachment> branchAttachments = new ArrayList<>();
+
+        int drop = Math.max(1, this.branchDrop.sample(random));
+        int splitY = Math.max(0, freeTreeHeight - drop);
+        BlockPos trunkAttach = pos.above(splitY);
+        int trunkReach = this.trunkReachAt(splitY, squareEnd, taperEnd, flareStart, minRadius);
+        int boundary = Math.max(1, this.foliageRadius.sample(random) - 1);
+
+        int centerRise = Math.min(this.branchLength.sample(random) + 2 + random.nextInt(4), boundary + drop);
+        BlockPos centerEnd = trunkAttach.above(centerRise);
+        this.placeLimb(level, blockSetter, random, config, trunkAttach, centerEnd);
+        branchAttachments.add(new FoliagePlacer.FoliageAttachment(centerEnd, 0, false));
+
+        int branches = this.branchCount.sample(random);
+        if (branches <= 0)
+            return branchAttachments;
+
+        Direction[] directions = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+        for (int i = directions.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            Direction tmp = directions[i];
+            directions[i] = directions[j];
+            directions[j] = tmp;
+        }
+
+        int maxSideRise = Math.max(1, centerRise - 1);
+        for (int i = 0; i < Math.min(branches, directions.length); i++) {
+            Direction dir = directions[i];
+            int rise = Math.min(this.branchLength.sample(random), maxSideRise);
+            int reach = Math.max(1, this.maxHorizontalReach(boundary, rise - drop) - trunkReach);
+
+            BlockPos trunkSurface = trunkAttach.relative(dir, trunkReach);
+            BlockPos branchStart = trunkAttach.relative(dir, trunkReach + 2);
+            this.placeLimb(level, blockSetter, random, config, trunkSurface, branchStart);
+            BlockPos tip = this.placeStaircaseBranch(blockSetter, random, config, branchStart, dir, reach, rise);
+
+            branchAttachments.add(new FoliagePlacer.FoliageAttachment(tip, 0, false));
+        }
+        return branchAttachments;
+    }
+
+    private int maxHorizontalReach(int boundary, int verticalOffset) {
+        double remaining = (double) boundary * boundary - (double) verticalOffset * verticalOffset;
+        return (int) Math.floor(Math.sqrt(Math.max(0.0, remaining)));
+    }
+
+    private int trunkReachAt(int y, int squareEnd, int taperEnd, int flareStart, int minRadius) {
+        if (y < squareEnd)
+            return 1;
+        if (y < taperEnd)
+            return 1;
+        if (y < flareStart)
+            return minRadius <= 1 ? 0 : minRadius - 1;
+        return 1;
+    }
+
+    private BlockPos placeStaircaseBranch(BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,
+                                          TreeConfiguration config, BlockPos start, Direction dir, int reach, int rise) {
+        BlockPos.MutableBlockPos current = start.mutable();
+        this.placeBranchLog(blockSetter, random, config, current, dir.getAxis());
+
+        int outSteps = 0;
+        int upSteps = 0;
+
+        while (outSteps < reach || upSteps < rise) {
+            boolean moveOut = outSteps < reach && (upSteps >= rise || (outSteps + 1) * rise <= (upSteps + 1) * reach);
+            if (moveOut) {
+                current.move(dir);
+                outSteps++;
+                this.placeBranchLog(blockSetter, random, config, current, dir.getAxis());
+            } else {
+                current.move(Direction.UP);
+                upSteps++;
+                this.placeBranchLog(blockSetter, random, config, current, Direction.Axis.Y);
+            }
+        }
+        return current.immutable();
+    }
+
+    private void placeBranchLog(BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random, TreeConfiguration config,
+                                BlockPos pos, Direction.Axis axis) {
+        BlockState state = config.trunkProvider.getState(random, pos).trySetValue(RotatedPillarBlock.AXIS, axis);
+        blockSetter.accept(pos.immutable(), state);
+    }
+
+    private void placeLimb(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,
+                           TreeConfiguration config, BlockPos from, BlockPos to) {
+        BlockPos delta = to.offset(-from.getX(), -from.getY(), -from.getZ());
+        int steps = Math.max(Math.abs(delta.getX()), Math.max(Math.abs(delta.getY()), Math.abs(delta.getZ())));
+        if (steps == 0)
+            return;
+
+        float stepX = (float) delta.getX() / steps;
+        float stepY = (float) delta.getY() / steps;
+        float stepZ = (float) delta.getZ() / steps;
+        Direction.Axis axis = this.limbAxis(delta);
+
+        for (int i = 0; i <= steps; i++) {
+            BlockPos logPos = from.offset(Mth.floor(0.5F + i * stepX), Mth.floor(0.5F + i * stepY),
+                    Mth.floor(0.5F + i * stepZ));
+            BlockState state = config.trunkProvider.getState(random, logPos).trySetValue(RotatedPillarBlock.AXIS, axis);
+            blockSetter.accept(logPos, state);
+        }
+    }
+
+    private Direction.Axis limbAxis(BlockPos delta) {
+        int dx = Math.abs(delta.getX());
+        int dz = Math.abs(delta.getZ());
+        int horizontal = Math.max(dx, dz);
+        if (horizontal == 0)
+            return Direction.Axis.Y;
+        return dx >= dz ? Direction.Axis.X : Direction.Axis.Z;
+    }
+}

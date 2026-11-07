@@ -1,7 +1,13 @@
 package com.wenxin2.marioverse.blocks;
 
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -15,26 +21,52 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlock, ToggleableBlock {
-    protected static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 10.0, 12.0);
+    public static final BooleanProperty ACTIVE = BlockStatePropertyRegistry.ACTIVE;
+    protected static final VoxelShape SHAPE = Shapes
+            .or(Block.box(7, 0, 7, 9, 8, 9),
+                    Block.box(4, 8, 4, 12, 10, 12)).optimize();
 
     public TrampolineCapBlock(ResourceKey<ConfiguredFeature<?, ?>> configuredFeature, Properties properties) {
         super(configuredFeature, properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(OnBlock.ACTIVE, true));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(OnBlock.ACTIVE);
+        builder.add(ACTIVE);
     }
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        final Vec3 vec3 = state.getOffset(blockGetter, pos);
+        final Vec3 offset = state.getOffset(blockGetter, pos);
 
-        return SHAPE.move(vec3.x, vec3.y, vec3.z);
+        return SHAPE.move(offset.x, offset.y, offset.z);
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        return this.getShape(state, blockGetter, pos, context);
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        boolean isOn = state.getValue(ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
+        super.fallOn(level, state, pos, entity, isOn ? fallDistance * 0.5F : fallDistance);
+    }
+
+    @Override
+    public void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity) {
+        BlockState state = blockGetter.getBlockState(entity.getOnPos());
+        Vec3 motion = entity.getDeltaMovement();
+
+        if (!entity.isSuppressingBounce() && motion.y < 0.0 && state.is(this)
+                && state.getValue(ACTIVE) != state.is(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP))
+            entity.setDeltaMovement(motion.x, -motion.y * 0.5F * (entity instanceof LivingEntity ? 1.0 : 0.8), motion.z);
+        else super.updateEntityAfterFallOn(blockGetter, entity);
     }
 
     @Override
@@ -59,6 +91,15 @@ public class TrampolineCapBlock extends MushroomBlock implements BonemealableBlo
         BlockPos posBelow = pos.below();
         BlockState stateBelow = levelReader.getBlockState(posBelow);
 
-        return stateBelow.isSolidRender(levelReader, pos) || state.getBlock() instanceof FarmBlock;
+        return Block.canSupportCenter(levelReader, posBelow, Direction.UP) || stateBelow.getBlock() instanceof FarmBlock;
+    }
+
+    public boolean hasOffset(BlockGetter blockGetter, BlockPos pos) {
+        BlockPos.MutableBlockPos posBelow = pos.mutable().move(Direction.DOWN);
+        BlockState stateBelow = blockGetter.getBlockState(posBelow);
+        for (int i = 0; i < 16 && stateBelow.is(this) && !blockGetter.isOutsideBuildHeight(posBelow); i++)
+            stateBelow = blockGetter.getBlockState(posBelow.move(Direction.DOWN));
+
+        return stateBelow.isFaceSturdy(blockGetter, posBelow, Direction.UP) || stateBelow.getBlock() instanceof FarmBlock;
     }
 }

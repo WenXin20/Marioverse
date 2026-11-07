@@ -1,0 +1,349 @@
+package com.wenxin2.marioverse.blocks;
+
+import com.mojang.serialization.MapCodec;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
+import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.VoxelShapeUtils;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.StairsShape;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public class PicketFenceBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, DyeColumnBlock {
+    public static final MapCodec<PicketFenceBlock> CODEC = simpleCodec(PicketFenceBlock::new);
+    public static final EnumProperty<StairsShape> SHAPE = BlockStateProperties.STAIRS_SHAPE;
+    public static final BooleanProperty TALL = BlockStatePropertyRegistry.TALL;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+
+    private static final int DEFAULT_DYE_TOTAL = 3;
+    private static final int DYE_DELAY_TICKS = 5;
+
+    private static final Rotation[] ROTATION_BY_STEPS =
+            {Rotation.NONE, Rotation.CLOCKWISE_90, Rotation.CLOCKWISE_180, Rotation.COUNTERCLOCKWISE_90};
+    private static final Set<Direction> TOUCHING_STRAIGHT = EnumSet.of(Direction.WEST, Direction.EAST);
+    private static final Set<Direction> TOUCHING_OUTER = EnumSet.of(Direction.NORTH, Direction.EAST);
+    private static final Set<Direction> TOUCHING_INNER = EnumSet.of(Direction.WEST, Direction.SOUTH);
+
+    private static final VoxelShape SHAPE_STRAIGHT = Shapes
+            .or(Block.box(9, 0, 7, 15, 16, 9),
+                    Block.box(1, 0, 7, 7, 15, 9),
+                    Block.box(0, 6, 9, 16, 10, 10)).optimize();
+    private static final VoxelShape SHAPE_OUTER = Shapes
+            .or(Block.box(10, 0, 7, 15, 16, 9),
+                    Block.box(7, 0, 1, 9, 15, 6),
+                    Block.box(6, 6, 9, 16, 10, 10),
+                    Block.box(6, 6, 0, 7, 10, 9)).optimize();
+    private static final VoxelShape SHAPE_INNER = Shapes
+            .or(Block.box(1, 0, 7, 6, 16, 9),
+                    Block.box(7, 0, 10, 9, 15, 15),
+                    Block.box(0, 6, 9, 7, 10, 10),
+                    Block.box(6, 6, 10, 7, 10, 16)).optimize();
+    private static final VoxelShape SHAPE_STRAIGHT_TALL = Shapes
+            .or(Block.box(9, 0, 7, 15, 16, 9),
+                    Block.box(1, 0, 7, 7, 16, 9),
+                    Block.box(0, 6, 9, 16, 10, 10)).optimize();
+    private static final VoxelShape SHAPE_OUTER_TALL = Shapes
+            .or(Block.box(10, 0, 7, 15, 16, 9),
+                    Block.box(7, 0, 1, 9, 16, 6),
+                    Block.box(6, 6, 9, 16, 10, 10),
+                    Block.box(6, 6, 0, 7, 10, 9)).optimize();
+    private static final VoxelShape SHAPE_INNER_TALL = Shapes
+            .or(Block.box(1, 0, 7, 6, 16, 9),
+                    Block.box(7, 0, 10, 9, 16, 15),
+                    Block.box(0, 6, 9, 7, 10, 10),
+                    Block.box(6, 6, 10, 7, 10, 16)).optimize();
+    private static final VoxelShape SHAPE_STRAIGHT_COLLISION = Block
+            .box(0, 0, 7, 16, 24, 10);
+    private static final VoxelShape SHAPE_OUTER_COLLISION = Shapes
+            .or(Block.box(6, 0, 7, 16, 24, 10),
+                    Block.box(6, 0, 0, 9, 24, 7)).optimize();
+    private static final VoxelShape SHAPE_INNER_COLLISION = Shapes
+            .or(Block.box(0, 0, 7, 9, 24, 10),
+                    Block.box(6, 0, 10, 9, 24, 16)).optimize();
+
+    public PicketFenceBlock(BlockBehaviour.Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(SHAPE, StairsShape.STRAIGHT)
+                .setValue(TALL, false)
+                .setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    protected MapCodec<PicketFenceBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, SHAPE, TALL, WATERLOGGED);
+    }
+
+    @NotNull
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
+                                  LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED))
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        if (direction == Direction.UP)
+            return state.setValue(TALL, !neighborState.isAir());
+        if (direction.getAxis().isHorizontal())
+            return state.setValue(SHAPE, this.computeShape(state, level, pos));
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        StairsShape shape = state.getValue(SHAPE);
+        boolean tall = state.getValue(TALL);
+
+        VoxelShape base = switch (shape) {
+            case STRAIGHT -> tall ? SHAPE_STRAIGHT_TALL : SHAPE_STRAIGHT;
+            case OUTER_LEFT, OUTER_RIGHT -> tall ? SHAPE_OUTER_TALL : SHAPE_OUTER;
+            case INNER_LEFT, INNER_RIGHT -> tall ? SHAPE_INNER_TALL : SHAPE_INNER;
+        };
+        Direction target = (shape == StairsShape.OUTER_LEFT || shape == StairsShape.INNER_LEFT)
+                ? state.getValue(FACING).getCounterClockWise() : state.getValue(FACING);
+        return VoxelShapeUtils.rotateShape(Direction.NORTH, target, base);
+    }
+
+    @NotNull
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        StairsShape shape = state.getValue(SHAPE);
+
+        VoxelShape base = switch (shape) {
+            case STRAIGHT -> SHAPE_STRAIGHT_COLLISION;
+            case OUTER_LEFT, OUTER_RIGHT -> SHAPE_OUTER_COLLISION;
+            case INNER_LEFT, INNER_RIGHT -> SHAPE_INNER_COLLISION;
+        };
+        Direction target = (shape == StairsShape.OUTER_LEFT || shape == StairsShape.INNER_LEFT)
+                ? state.getValue(FACING).getCounterClockWise() : state.getValue(FACING);
+        return VoxelShapeUtils.rotateShape(Direction.NORTH, target, base);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> list, TooltipFlag options) {
+        super.appendHoverText(stack, tooltipContext, list, options);
+
+        if (Screen.hasShiftDown()) {
+            list.add(Component.literal(""));
+
+            list.add(Component.translatable("block.marioverse.picket_fence.tooltip.instructions"));
+            list.add(Component.translatable("block.marioverse.picket_fence.tooltip.instructions.dye"));
+            list.add(Component.translatable("block.marioverse.picket_fence.tooltip.instructions.dye_one"));
+
+            list.add(Component.literal(""));
+        } else list.add(Component.translatable("block.marioverse.picket_fence.tooltip"));
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        LevelReader level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        Direction facing = context.getHorizontalDirection().getOpposite();
+        FluidState fluidState = context.getLevel().getFluidState(pos);
+
+        BlockState state = this.defaultBlockState().setValue(FACING, facing);
+        state = state.setValue(SHAPE, this.computeShape(state, level, pos));
+        state = state.setValue(TALL, !level.getBlockState(pos.above()).isAir());
+        return state.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
+    }
+
+    @NotNull
+    @Override
+    public FluidState getFluidState(final BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @NotNull
+    @Override
+    protected BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @NotNull
+    @Override
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        Direction direction = state.getValue(FACING);
+        StairsShape shape = state.getValue(SHAPE);
+
+        switch (mirror) {
+            case LEFT_RIGHT -> {
+                if (direction.getAxis() == Direction.Axis.Z) {
+                    BlockState rotated = this.rotate(state, Rotation.CLOCKWISE_180);
+                    return switch (shape) {
+                        case INNER_LEFT -> rotated.setValue(SHAPE, StairsShape.INNER_RIGHT);
+                        case INNER_RIGHT -> rotated.setValue(SHAPE, StairsShape.INNER_LEFT);
+                        case OUTER_LEFT -> rotated.setValue(SHAPE, StairsShape.OUTER_RIGHT);
+                        case OUTER_RIGHT -> rotated.setValue(SHAPE, StairsShape.OUTER_LEFT);
+                        default -> rotated;
+                    };
+                }
+            }
+            case FRONT_BACK -> {
+                if (direction.getAxis() == Direction.Axis.X) {
+                    BlockState rotated = this.rotate(state, Rotation.CLOCKWISE_180);
+                    return switch (shape) {
+                        case INNER_LEFT -> rotated.setValue(SHAPE, StairsShape.INNER_LEFT);
+                        case INNER_RIGHT -> rotated.setValue(SHAPE, StairsShape.INNER_RIGHT);
+                        case OUTER_LEFT -> rotated.setValue(SHAPE, StairsShape.OUTER_RIGHT);
+                        case OUTER_RIGHT -> rotated.setValue(SHAPE, StairsShape.OUTER_LEFT);
+                        case STRAIGHT -> rotated;
+                    };
+                }
+            }
+        }
+        return super.mirror(state, mirror);
+    }
+
+    @Override
+    protected boolean isPathfindable(BlockState state, PathComputationType type) {
+        return false;
+    }
+
+    @Override
+    protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        this.tickDye(level, pos, state);
+    }
+
+    @NotNull
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+                                              Player player, InteractionHand hand, BlockHitResult hitResult) {
+        return this.useDyeItem(stack, state, level, pos, player, hitResult);
+    }
+
+    @Override
+    public Block getColoredBlock(DyeColor color) {
+        return BlockRegistry.PICKET_FENCES.get(color).get();
+    }
+
+    @Override
+    public int getPaintRange() {
+        return ConfigRegistry.PICKET_FENCE_PAINT_RANGE.get();
+    }
+
+    @Override
+    public int getPaintRate() {
+        return ConfigRegistry.PICKET_FENCE_PAINT_RATE.get();
+    }
+
+    @Override
+    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return state.is(TagRegistry.FLAMMABLE_PICKET_FENCES);
+    }
+
+    @Override
+    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 5;
+    }
+
+    @Override
+    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+        return 20;
+    }
+
+    private StairsShape computeShape(BlockState state, LevelReader level, BlockPos pos) {
+        Direction facing = state.getValue(FACING);
+
+        BlockState aheadState = level.getBlockState(pos.relative(facing));
+        if (aheadState.getBlock() instanceof PicketFenceBlock) {
+            Direction aheadFacing = aheadState.getValue(FACING);
+            if (aheadFacing.getAxis() != facing.getAxis()
+                    && this.canTakeShape(state, level, pos, aheadFacing.getOpposite())) {
+                return aheadFacing == facing.getCounterClockWise()
+                        ? StairsShape.OUTER_LEFT : StairsShape.OUTER_RIGHT;
+            }
+        }
+
+        BlockState behindState = level.getBlockState(pos.relative(facing.getOpposite()));
+        if (behindState.getBlock() instanceof PicketFenceBlock) {
+            Direction behindFacing = behindState.getValue(FACING);
+            if (behindFacing.getAxis() != facing.getAxis()
+                    && this.canTakeShape(state, level, pos, behindFacing)) {
+                return behindFacing == facing.getCounterClockWise()
+                        ? StairsShape.INNER_LEFT : StairsShape.INNER_RIGHT;
+            }
+        }
+
+        return StairsShape.STRAIGHT;
+    }
+
+    public boolean connectsToEdge(BlockState state, Direction direction) {
+        if (direction.getAxis().isVertical())
+            return false;
+
+        StairsShape shape = state.getValue(SHAPE);
+        Set<Direction> canonical = switch (shape) {
+            case STRAIGHT -> TOUCHING_STRAIGHT;
+            case OUTER_LEFT, OUTER_RIGHT -> TOUCHING_OUTER;
+            case INNER_LEFT, INNER_RIGHT -> TOUCHING_INNER;
+        };
+
+        int steps = (this.targetDirection(state).get2DDataValue() - Direction.NORTH.get2DDataValue() + 4) % 4;
+        Rotation rotation = ROTATION_BY_STEPS[steps];
+
+        for (Direction canonicalDirection : canonical) {
+            if (rotation.rotate(canonicalDirection) == direction)
+                return true;
+        }
+        return false;
+    }
+
+    private Direction targetDirection(BlockState state) {
+        StairsShape shape = state.getValue(SHAPE);
+        Direction facing = state.getValue(FACING);
+        return (shape == StairsShape.OUTER_LEFT || shape == StairsShape.INNER_LEFT)
+                ? facing.getCounterClockWise() : facing;
+    }
+
+    private boolean canTakeShape(BlockState state, LevelReader level, BlockPos pos, Direction direction) {
+        BlockState neighbor = level.getBlockState(pos.relative(direction));
+        return !(neighbor.getBlock() instanceof PicketFenceBlock)
+                || neighbor.getValue(FACING) != state.getValue(FACING);
+    }
+}

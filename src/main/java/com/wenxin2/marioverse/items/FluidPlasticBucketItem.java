@@ -21,10 +21,12 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class FluidPlasticBucketItem extends BucketItem implements DispensibleContainerItem {
     int tooltipLineAmt = 0;
@@ -47,6 +49,26 @@ public class FluidPlasticBucketItem extends BucketItem implements DispensibleCon
             list.add(Component.literal(""));
         } else if (this.tooltipLineAmt > 0)
             list.add(Component.translatable(this.getDescriptionId() + ".tooltip"));
+    }
+
+    @NotNull
+    @Override
+    public ItemStack getCraftingRemainingItem(ItemStack stack) {
+        if (!this.hasCraftingRemainingItem(stack))
+            return ItemStack.EMPTY;
+
+        ItemStack newStack = new ItemStack(this.getCraftingRemainingItem());
+        newStack.applyComponents(stack.getComponents());
+        return newStack;
+    }
+
+    @Override
+    public boolean emptyContents(@Nullable Player player, Level level, BlockPos pos,
+                                 @Nullable BlockHitResult hitResult, @Nullable ItemStack container) {
+        if (!(this.content instanceof FlowingFluid) && this.content.getBucket() instanceof BucketItem bucketItem
+                && bucketItem != this)
+            return bucketItem.emptyContents(player, level, pos, hitResult, new ItemStack(bucketItem));
+        return super.emptyContents(player, level, pos, hitResult, container);
     }
 
     @NotNull
@@ -83,7 +105,7 @@ public class FluidPlasticBucketItem extends BucketItem implements DispensibleCon
                         CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, posFluid, stack);
                     player.awardStat(Stats.ITEM_USED.get(this));
 
-                    return InteractionResultHolder.sidedSuccess(newStack, level.isClientSide());
+                    return InteractionResultHolder.sidedSuccess(FluidPlasticBucketItem.getEmptySuccessItem(stack, player), level.isClientSide());
                 } else return InteractionResultHolder.fail(stack);
             }
         }

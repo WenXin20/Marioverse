@@ -19,6 +19,9 @@ public class EnchantmentTagsGen extends EnchantmentTagsProvider {
         tag(TagRegistry.BYPASSES_BOO_INVULNERABILITY_ENCHANTS)
                 .add(Enchantments.SMITE);
 
+        tag(TagRegistry.FIRE_PROOF_ENCHANTS)
+                .add(Enchantments.FIRE_PROTECTION);
+
         tag(TagRegistry.PREVENTS_DRY_BONES_RESURRECTION_ENCHANTS)
                 .add(Enchantments.SMITE);
     }

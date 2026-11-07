@@ -2,17 +2,23 @@ package com.wenxin2.marioverse.integration.sable_compat;
 
 import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
+import java.util.UUID;
+import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 public class SableProvider {
     private static ContextGetter CONTEXT_GETTER = (l, e) -> null;
+    private static Boolean sableLoaded;
 
     public interface SafeAccessor {
         BlockState getBlockState(BlockPos pos);
@@ -62,11 +68,154 @@ public class SableProvider {
         SableContext get(Level level, Entity entity);
     }
 
+    public static boolean isLoaded() {
+        if (sableLoaded == null)
+            sableLoaded = ModList.get().isLoaded("sable");
+        return sableLoaded;
+    }
+
     public static SableContext getContext(Level level, Entity entity) {
         return CONTEXT_GETTER.get(level, entity);
     }
 
     public static void set(ContextGetter getter) {
         CONTEXT_GETTER = getter;
+    }
+
+    public record SubLevelAnchor(UUID subLevel, BlockPos localPos) {}
+
+    public interface WarpResolver {
+        @Nullable SubLevelAnchor getAnchor(Level level, BlockPos pos);
+        boolean isPlotPos(Level level, BlockPos pos);
+        @Nullable BlockPos resolve(Level level, UUID subLevel, BlockPos localPos);
+        boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Predicate<BlockPos> isReady, Runnable onLoaded);
+        boolean requestSubLevelLoad(ServerLevel level, UUID subLevel);
+        @Nullable BlockPos toWorldPos(Level level, BlockPos pos);
+        @Nullable Vec3 toWorldVec(Level level, Vec3 pos);
+        @Nullable Vec3 toLocalVec(Level level, BlockPos plotPos, Vec3 worldPos);
+        Vec3 toWorldDirection(Level level, BlockPos plotPos, Vec3 localDirection);
+        Vec3 toLocalDirection(Level level, BlockPos plotPos, Vec3 worldDirection);
+        void recordEntityAnchor(Entity entity);
+        @Nullable SubLevelAnchor getEntityAnchor(Level level, UUID entity);
+    }
+
+    private static WarpResolver WARP_RESOLVER = new WarpResolver() {
+        @Override
+        public SubLevelAnchor getAnchor(Level level, BlockPos pos) {
+            return null;
+        }
+
+        @Override
+        public boolean isPlotPos(Level level, BlockPos pos) {
+            return false;
+        }
+
+        @Override
+        public BlockPos resolve(Level level, UUID subLevel, BlockPos localPos) {
+            return null;
+        }
+
+        @Override
+        public boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Predicate<BlockPos> isReady, Runnable onLoaded) {
+            return false;
+        }
+
+        @Override
+        public boolean requestSubLevelLoad(ServerLevel level, UUID subLevel) {
+            return false;
+        }
+
+        @Override
+        public BlockPos toWorldPos(Level level, BlockPos pos) {
+            return pos;
+        }
+
+        @Override
+        public Vec3 toWorldVec(Level level, Vec3 pos) {
+            return pos;
+        }
+
+        @Override
+        public Vec3 toLocalVec(Level level, BlockPos plotPos, Vec3 worldPos) {
+            return worldPos;
+        }
+
+        @Override
+        public Vec3 toWorldDirection(Level level, BlockPos plotPos, Vec3 localDirection) {
+            return localDirection;
+        }
+
+        @Override
+        public Vec3 toLocalDirection(Level level, BlockPos plotPos, Vec3 worldDirection) {
+            return worldDirection;
+        }
+
+        @Override
+        public void recordEntityAnchor(Entity entity) {
+        }
+
+        @Override
+        public SubLevelAnchor getEntityAnchor(Level level, UUID entity) {
+            return null;
+        }
+    };
+
+    public static void setWarpResolver(WarpResolver resolver) {
+        WARP_RESOLVER = resolver;
+    }
+
+    @Nullable
+    public static SubLevelAnchor getAnchor(Level level, BlockPos pos) {
+        return WARP_RESOLVER.getAnchor(level, pos);
+    }
+
+    public static boolean isPlotPos(Level level, BlockPos pos) {
+        return WARP_RESOLVER.isPlotPos(level, pos);
+    }
+
+    @Nullable
+    public static BlockPos resolveSubLevelPos(Level level, UUID subLevel, BlockPos localPos) {
+        return WARP_RESOLVER.resolve(level, subLevel, localPos);
+    }
+
+    @Nullable
+    public static BlockPos toWorldPos(Level level, BlockPos pos) {
+        return WARP_RESOLVER.toWorldPos(level, pos);
+    }
+
+    @Nullable
+    public static Vec3 toWorldVec(Level level, Vec3 pos) {
+        return WARP_RESOLVER.toWorldVec(level, pos);
+    }
+
+    @Nullable
+    public static Vec3 toLocalVec(Level level, BlockPos plotPos, Vec3 worldPos) {
+        return WARP_RESOLVER.toLocalVec(level, plotPos, worldPos);
+    }
+
+    public static Vec3 toWorldDirection(Level level, BlockPos plotPos, Vec3 localDirection) {
+        return WARP_RESOLVER.toWorldDirection(level, plotPos, localDirection);
+    }
+
+    public static Vec3 toLocalDirection(Level level, BlockPos plotPos, Vec3 worldDirection) {
+        return WARP_RESOLVER.toLocalDirection(level, plotPos, worldDirection);
+    }
+
+    public static void recordEntityAnchor(Entity entity) {
+        WARP_RESOLVER.recordEntityAnchor(entity);
+    }
+
+    @Nullable
+    public static SubLevelAnchor getEntityAnchor(Level level, UUID entity) {
+        return WARP_RESOLVER.getEntityAnchor(level, entity);
+    }
+
+    public static boolean requestSubLevelLoad(ServerLevel level, UUID subLevel) {
+        return WARP_RESOLVER.requestSubLevelLoad(level, subLevel);
+    }
+
+    public static boolean queueSubLevelWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity,
+                                            Predicate<BlockPos> isReady, Runnable onLoaded) {
+        return WARP_RESOLVER.queueWarp(level, subLevel, localPos, entity, isReady, onLoaded);
     }
 }

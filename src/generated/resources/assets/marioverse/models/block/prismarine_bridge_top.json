@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_stone_bridge_top",
+  "textures": {
+    "bottom": "marioverse:block/prismarine_bridge_bottom",
+    "front": "marioverse:block/prismarine_bridge",
+    "side": "marioverse:block/prismarine_bridge_side",
+    "top": "marioverse:block/prismarine_bridge_top"
+  }
+}

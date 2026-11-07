@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_large_acacia_arrow_sign": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:large_acacia_arrow_sign"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:large_acacia_arrow_sign_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_large_acacia_arrow_sign"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:large_acacia_arrow_sign_from_dye"
+    ]
+  }
+}

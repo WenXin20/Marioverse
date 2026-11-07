@@ -1,0 +1,21 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+    "parent": "block/template_wall_side_tall",
+	"textures": {
+        "particle": "#side"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 0],
+			"to": [11, 16, 8],
+			"faces": {
+				"north": {"texture": "#side", "cullface": "north"},
+				"east": {"texture": "#side"},
+				"west": {"texture": "#side"},
+				"up": {"texture": "#top", "cullface": "up"},
+				"down": {"texture": "#bottom", "cullface": "down"}
+			}
+		}
+	]
+}

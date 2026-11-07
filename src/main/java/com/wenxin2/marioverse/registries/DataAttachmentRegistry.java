@@ -2,6 +2,9 @@ package com.wenxin2.marioverse.registries;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
+import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 import net.minecraft.core.UUIDUtil;
@@ -155,8 +158,7 @@ public class DataAttachmentRegistry {
                     .sync(StreamCodec.of(FriendlyByteBuf::writeBoolean, FriendlyByteBuf::readBoolean)).build());
 
     public static final Supplier<AttachmentType<Integer>> AIRBORNE_DURATION = Marioverse.ATTACHMENT_TYPES
-            .register("airborne_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
-                    .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+            .register("airborne_duration", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT).build());
     public static final Supplier<AttachmentType<Integer>> ATTACK_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("attack_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
@@ -196,6 +198,12 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<Integer>> HIT_BLOCK_SOUND_COOLDOWN = Marioverse.ATTACHMENT_TYPES
             .register("hit_block_sound_cooldown", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
+    public static final Supplier<AttachmentType<Long2LongOpenHashMap>> HIT_BLOCK_TIMESTAMPS = Marioverse.ATTACHMENT_TYPES
+            .register("hit_block_timestamps", () -> AttachmentType.builder(() -> {
+                Long2LongOpenHashMap map = new Long2LongOpenHashMap();
+                map.defaultReturnValue(Long.MIN_VALUE / 2);
+                return map;
+            }).build());
     public static final Supplier<AttachmentType<Integer>> ICE_BALL_COUNT = Marioverse.ATTACHMENT_TYPES
             .register("ice_ball_count", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT)
                     .sync(StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt)).build());
@@ -297,6 +305,8 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<UUID>> OWNER_UUID = Marioverse.ATTACHMENT_TYPES
             .register("owner_uuid", () -> AttachmentType.<UUID>builder(() -> null).serialize(UUIDUtil.CODEC)
                     .sync(UUIDUtil.STREAM_CODEC).build());
+    public static final Supplier<AttachmentType<Set<UUID>>> STOMPED_MOBS = Marioverse.ATTACHMENT_TYPES
+            .register("stomped_mobs", () -> AttachmentType.<Set<UUID>>builder(() -> new HashSet<>()).build());
     public static final Supplier<AttachmentType<UUID>> VEHICLE_UUID = Marioverse.ATTACHMENT_TYPES
             .register("vehicle_uuid", () -> AttachmentType.<UUID>builder(() -> null).serialize(UUIDUtil.CODEC)
                     .sync(UUIDUtil.STREAM_CODEC).build());

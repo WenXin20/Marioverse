@@ -78,7 +78,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
@@ -645,7 +644,7 @@ public class KoopaShellEntity extends Monster implements CrackableEntity, GeoEnt
         double rayLength = horizontalSpeed;
 
         Object object = null;
-        if (ModList.get().isLoaded("sable"))
+        if (SableProvider.isLoaded())
             object = SableProvider.getContext(level, this);
 
         for (double offset : new double[]{0, -halfWidth, halfWidth}) {

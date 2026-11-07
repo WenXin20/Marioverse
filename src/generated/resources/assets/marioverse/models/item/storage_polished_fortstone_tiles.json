@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "marioverse:block/polished_fortstone_tiles",
+    "side": "marioverse:block/storage_polished_fortstone_tiles",
+    "top": "marioverse:block/polished_fortstone_tiles"
+  }
+}

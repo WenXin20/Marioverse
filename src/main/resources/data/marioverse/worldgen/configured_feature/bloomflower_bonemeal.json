@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:simple_random_selector",
+  "config": {
+    "features": [
+      "marioverse:bloomflower_bonemeal_white",
+      "marioverse:bloomflower_bonemeal_blue",
+      "marioverse:bloomflower_bonemeal_orange",
+      "marioverse:bloomflower_bonemeal_pink",
+      "marioverse:bloomflower_bonemeal_purple",
+      "marioverse:bloomflower_bonemeal_red",
+      "marioverse:bloomflower_bonemeal_yellow"
+    ]
+  }
+}

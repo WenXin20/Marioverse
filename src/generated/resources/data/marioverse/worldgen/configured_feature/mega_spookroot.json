@@ -1,0 +1,73 @@
+{
+  "type": "minecraft:tree",
+  "config": {
+    "decorators": [
+      {
+        "type": "marioverse:spooky_face_decorator",
+        "dark_leaves": "marioverse:dark_spookroot_leaves",
+        "probability": 0.05
+      },
+      {
+        "type": "marioverse:branch_growth_decorator",
+        "branch_count": 4,
+        "branch_drop": 4,
+        "log": "marioverse:spookroot_log"
+      }
+    ],
+    "dirt_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:dirt"
+      }
+    },
+    "foliage_placer": {
+      "type": "marioverse:dome_foliage_placer",
+      "height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": 10,
+        "min_inclusive": 7
+      },
+      "offset": 6,
+      "radius": {
+        "type": "minecraft:uniform",
+        "max_inclusive": 9,
+        "min_inclusive": 5
+      }
+    },
+    "foliage_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "marioverse:spookroot_leaves",
+        "Properties": {
+          "distance": "7",
+          "persistent": "false",
+          "waterlogged": "false"
+        }
+      }
+    },
+    "force_dirt": false,
+    "ignore_vines": true,
+    "minimum_size": {
+      "type": "minecraft:two_layers_feature_size",
+      "limit": 1,
+      "lower_size": 0,
+      "min_clipped_height": 6,
+      "upper_size": 2
+    },
+    "trunk_placer": {
+      "type": "marioverse:two_by_two_trunk_placer",
+      "base_height": 6,
+      "height_rand_a": 3,
+      "height_rand_b": 2
+    },
+    "trunk_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "marioverse:spookroot_log",
+        "Properties": {
+          "axis": "y"
+        }
+      }
+    }
+  }
+}

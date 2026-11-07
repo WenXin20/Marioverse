@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -21,6 +22,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -108,15 +110,19 @@ public class InvisibleQuestionBlock extends QuestionBlock implements SimpleWater
         return Shapes.box(8, 8, 8, 8.00001, 8.00001, 8.00001);
     }
 
+    @Override
+    public boolean hasDynamicShape() {
+        return true;
+    }
+
     @NotNull
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
         if (!state.getValue(INVISIBLE))
             return Shapes.block();
-        else if (state.getValue(INVISIBLE) && collisionContext instanceof EntityCollisionContext entityCollisionContext) {
-            if (entityCollisionContext.getEntity() != null
-                    && entityCollisionContext.getEntity().getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)) {
-                if (entityCollisionContext.getEntity().getY() + entityCollisionContext.getEntity().getBbHeight() < pos.getY()) {
+        else if (state.getValue(INVISIBLE) && SubLevelCollision.getCollisionEntity(collisionContext) instanceof Entity entity) {
+            if (entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)) {
+                if (SubLevelCollision.getFeetY(entity, pos) + entity.getBbHeight() < pos.getY()) {
                     return Shapes.block();
                 }
             }

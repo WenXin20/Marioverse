@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "marioverse:short_shroomgrass"
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "Name": "marioverse:shroomgrass"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "marioverse:shrubroom"
+          },
+          "weight": 1
+        }
+      ]
+    }
+  }
+}

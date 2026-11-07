@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "marioverse:block/grassy_deep_fungal_stone"
+    },
+    "snowy=true": {
+      "model": "marioverse:block/grassy_deep_fungal_stone"
+    }
+  }
+}

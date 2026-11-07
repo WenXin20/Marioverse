@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.AbilityBlock;
+import com.wenxin2.marioverse.event_handlers.TickEventHandlers;
 import com.wenxin2.marioverse.power_up.PowerUpSource;
 import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -48,7 +49,10 @@ public class MegaMushroomItem extends PowerUpItem implements PowerUpSource {
     }
 
     public static void megaMushroomAbility(LivingEntity entity) {
-        boolean isActive = entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
+        boolean isActive = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MEGA_MUSHROOM);
+        if (!isActive && !MegaMushroomItem.hasAbilityResidue(entity))
+            return;
+
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
         AttributeInstance blockReachAttribute = entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
@@ -66,5 +70,16 @@ public class MegaMushroomItem extends PowerUpItem implements PowerUpSource {
 
         if (entityReachAttribute != null)
             AbilityBlock.setModifier(entityReachAttribute, AttributesRegistry.MEGA_ENTITY_REACH_DISTANCE, reachDistance);
+    }
+
+    private static boolean hasAbilityResidue(LivingEntity entity) {
+        return AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.JUMP_STRENGTH),
+                    AttributesRegistry.MEGA_JUMP_BOOST, AttributesRegistry.MEGA_RUNNING_JUMP_BOOST)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.SAFE_FALL_DISTANCE),
+                    AttributesRegistry.MEGA_SAFE_FALL_DISTANCE, AttributesRegistry.MEGA_SAFE_FALL_DISTANCE)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE),
+                    AttributesRegistry.MEGA_BLOCK_REACH_DISTANCE, AttributesRegistry.MEGA_BLOCK_REACH_DISTANCE)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.ENTITY_INTERACTION_RANGE),
+                    AttributesRegistry.MEGA_ENTITY_REACH_DISTANCE, AttributesRegistry.MEGA_ENTITY_REACH_DISTANCE);
     }
 }

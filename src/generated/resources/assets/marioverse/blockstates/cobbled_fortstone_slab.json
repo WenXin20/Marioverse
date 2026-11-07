@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "marioverse:block/cobbled_fortstone_slab"
+    },
+    "type=double": {
+      "model": "marioverse:block/cobbled_fortstone"
+    },
+    "type=top": {
+      "model": "marioverse:block/cobbled_fortstone_slab_top"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "marioverse:block/template_log_platform_double",
+  "textures": {
+    "end": "marioverse:block/stripped_mushroot_log_top",
+    "log": "marioverse:block/stripped_mushroot_log",
+    "top": "marioverse:block/stripped_mushroot_log_platform"
+  }
+}

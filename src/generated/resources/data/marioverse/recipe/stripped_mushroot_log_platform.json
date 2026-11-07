@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:log_platforms",
+  "key": {
+    "#": {
+      "item": "marioverse:stripped_mushroot_log"
+    }
+  },
+  "pattern": [
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "marioverse:stripped_mushroot_log_platform"
+  }
+}

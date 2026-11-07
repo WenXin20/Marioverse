@@ -1,0 +1,22 @@
+{
+  "fusion": {
+    "type": "connecting",
+    "layout": "overlay",
+    "render_type": "cutout",
+    "tinting": "biome_grass",
+    "connections": [
+      {
+        "type": "and",
+        "predicates": [
+          {
+            "type": "match_block",
+            "block": "marioverse:shroomgrass_block"
+          },
+          {
+            "type": "is_face_visible"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "marioverse:block/orange_calcite",
+    "side": "marioverse:block/orange_calcite",
+    "top": "marioverse:block/orange_calcite"
+  }
+}

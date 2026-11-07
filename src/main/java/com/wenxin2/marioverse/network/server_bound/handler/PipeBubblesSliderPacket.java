@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.network.server_bound.handler;
 
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesSliderPayload;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,14 +21,17 @@ public class PipeBubblesSliderPacket {
     public void handle(final PipeBubblesSliderPayload payload, IPayloadContext context) {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
-                if (payload.pos() == null)
-                    return;
                 ServerPlayer player = (ServerPlayer) context.player();
-                Level world = player.level();
-                BlockEntity blockEntity = world.getBlockEntity(payload.pos());
-                if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-                    changeDistance(payload, player, (WarpPipeBlockEntity) blockEntity);
-                    pipeBlockEntity.sendData();
+                if (player.containerMenu.containerId == payload.containerId()
+                        && player.containerMenu instanceof WarpPipeMenu menu) {
+                    menu.getAccess().execute((level, pos) -> {
+                        BlockEntity blockEntity = level.getBlockEntity(pos);
+
+                        if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
+                            changeDistance(payload, player, (WarpPipeBlockEntity) blockEntity);
+                            pipeBlockEntity.sendData();
+                        }
+                    });
                 }
             });
         }

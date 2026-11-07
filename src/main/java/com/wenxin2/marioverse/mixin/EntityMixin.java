@@ -1,9 +1,11 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
-import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
@@ -18,7 +20,9 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
@@ -35,9 +39,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
@@ -48,7 +52,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -80,12 +83,21 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Unique private static final String WARP_DIMENSION = "Dimension";
     @Unique private static final String WARP_POS = "WarpPos";
     @Unique private static final String WARP_UUID = "WarpUUID";
+    @Unique private static final String WARP_TARGET = "WarpTarget";
+    @Unique private static final String WARP_TARGET_POS = "Pos";
+    @Unique private static final String WARP_TARGET_DIRECTION = "Direction";
+    @Unique private static final String WARP_TARGET_WIDTH = "Width";
+    @Unique private static final String WARP_SUB_LEVEL = "WarpSubLevel";
+    @Unique private static final String WARP_SUB_LEVEL_POS = "WarpSubLevelPos";
 
     @Unique public BlockPos mv$destinationPos;
     @Unique public Entity mv$warpEntity;
     @Unique public String mv$dimensionTag;
     @Unique public UUID mv$UUID;
     @Unique public UUID mv$warpUUID;
+    @Unique public WarpTarget mv$warpTarget;
+    @Unique public UUID mv$warpSubLevel;
+    @Unique public BlockPos mv$warpSubLevelPos;
     @Unique protected float mv$appliedHeightScale = 1.0F;
     @Unique protected float mv$appliedWidthScale = 1.0F;
 
@@ -119,6 +131,19 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
         if (this.mv$warpUUID != null)
             tag.putUUID(WARP_UUID, this.mv$getWarpUUID());
+
+        if (this.mv$warpTarget != null) {
+            CompoundTag targetTag = new CompoundTag();
+            targetTag.putLong(WARP_TARGET_POS, this.mv$warpTarget.pos().asLong());
+            targetTag.putInt(WARP_TARGET_DIRECTION, this.mv$warpTarget.direction().get3DDataValue());
+            targetTag.putInt(WARP_TARGET_WIDTH, this.mv$warpTarget.width());
+            tag.put(WARP_TARGET, targetTag);
+        }
+
+        if (this.mv$warpSubLevel != null && this.mv$warpSubLevelPos != null) {
+            tag.putUUID(WARP_SUB_LEVEL, this.mv$warpSubLevel);
+            tag.putLong(WARP_SUB_LEVEL_POS, this.mv$warpSubLevelPos.asLong());
+        }
     }
 
     @Inject(method = "load", at = @At("TAIL"))
@@ -138,6 +163,17 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
         if (tag.contains(WARP_UUID))
             this.mv$warpUUID = tag.getUUID(WARP_UUID);
+
+        if (tag.contains(WARP_TARGET)) {
+            CompoundTag targetTag = tag.getCompound(WARP_TARGET);
+            this.mv$warpTarget = new WarpTarget(BlockPos.of(targetTag.getLong(WARP_TARGET_POS)),
+                    Direction.from3DDataValue(targetTag.getInt(WARP_TARGET_DIRECTION)), targetTag.getInt(WARP_TARGET_WIDTH));
+        }
+
+        if (tag.contains(WARP_SUB_LEVEL) && tag.contains(WARP_SUB_LEVEL_POS)) {
+            this.mv$warpSubLevel = tag.getUUID(WARP_SUB_LEVEL);
+            this.mv$warpSubLevelPos = BlockPos.of(tag.getLong(WARP_SUB_LEVEL_POS));
+        }
     }
 
     @Inject(method = "move", at = @At("HEAD"))
@@ -154,6 +190,21 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 && !(entity instanceof Player)
                 && !entity.isSpectator())
             this.mv$squashEntity(livingEntity);
+    }
+
+    @WrapMethod(method = "move")
+    private void mv$trackCollidingEntity(MoverType type, Vec3 movement, Operation<Void> original) {
+        if (!SableProvider.isLoaded()) {
+            original.call(type, movement);
+            return;
+        }
+
+        Entity previous = SubLevelCollision.pushCollidingEntity((Entity) (Object) this);
+        try {
+            original.call(type, movement);
+        } finally {
+            SubLevelCollision.popCollidingEntity(previous);
+        }
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
@@ -178,8 +229,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
             this.nextStep = this.nextStep();
         }
 
-        mv$rideIceCube(entity);
-
         for (Direction facing : Direction.values()) {
             BlockPos posOffset = pos.relative(facing);
             BlockState stateOffset = level.getBlockState(posOffset);
@@ -189,6 +238,14 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                     this.enterWarp(entity, level, posOffset, posOffset, stateOffset, null);
                 if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
                     this.enterWarp(entity, level, pos, pos, state, null);
+
+                if (facing.getAxis().isHorizontal() && BlockWarpEntityHandler.isOnLoweredFloor(entity.getY())) {
+                    BlockPos liftedOffset = pos.above().relative(facing);
+                    BlockState liftedState = level.getBlockState(liftedOffset);
+
+                    if (liftedState.getBlock() instanceof WarpPipeBlock && !liftedState.getValue(WarpPipeBlock.CLOSED))
+                        this.enterWarp(entity, level, liftedOffset, liftedOffset, liftedState, null);
+                }
             }
         }
 
@@ -196,8 +253,10 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, level, pos, pos, state, null);
 
-        if (ModList.get().isLoaded("sable")) {
-            SableProvider.SableContext context = SableProvider.getContext(level, entity);
+        SableProvider.SableContext sableContext = SableProvider.isLoaded() ? SableProvider.getContext(level, entity) : null;
+
+        if (SableProvider.isLoaded()) {
+            SableProvider.SableContext context = sableContext;
             BlockPos posEmbedded;
             BlockPos posWorld;
             BlockState statePlot;
@@ -243,13 +302,25 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                         this.enterWarp(entity, level, worldOffset, embeddedOffset, stateOffset, context);
                     if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.CLOSED))
                         this.enterWarp(entity, level, posWorld, posWorld, state, context);
+
+                    if (context != null && facing.getAxis().isHorizontal() && BlockWarpEntityHandler.isOnLoweredFloor(context.posLocal.y)) {
+                        BlockPos liftedEmbedded = context.posEmbedded.above().relative(facing);
+                        BlockPos liftedWorld = context.toWorld(liftedEmbedded);
+                        BlockState liftedState = context.accessor.getBlockState(liftedEmbedded);
+
+                        if (level instanceof ServerLevel) {
+                            liftedEmbedded = context.posWorld.above().relative(facing);
+                            liftedState = context.accessor.getServerBlockState(liftedEmbedded);
+                        }
+
+                        if (liftedState.getBlock() instanceof WarpPipeBlock && !liftedState.getValue(WarpPipeBlock.CLOSED))
+                            this.enterWarp(entity, level, liftedWorld, liftedEmbedded, liftedState, context);
+                    }
                 }
             }
         }
 
-        Object object = null;
-        if (ModList.get().isLoaded("sable"))
-            object = SableProvider.getContext(level, entity);
+        Object object = sableContext;
 
         for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
             BlockState stateAbove = level.getBlockState(posAbove);
@@ -354,8 +425,10 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
             if (attributeMap != null) {
-                float height = entity.getDimensions(entity.getPose()).height();
-                cir.setReturnValue(height);
+                EntityDimensions dimensions = entity.getDimensions(entity.getPose());
+                if (ClearWarpPipeBlock.isShrunkPose(entity, entity.getPose()))
+                    dimensions = ClearWarpPipeBlock.getShrunkDimensions(dimensions, entity.getPose());
+                cir.setReturnValue(dimensions.height());
             }
         }
     }
@@ -366,8 +439,10 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
         if (entity instanceof LivingEntity livingEntity) {
             AttributeMap attributeMap = livingEntity.getAttributes();
             if (attributeMap != null) {
-                float width = entity.getDimensions(entity.getPose()).width();
-                cir.setReturnValue(width);
+                EntityDimensions dimensions = entity.getDimensions(entity.getPose());
+                if (ClearWarpPipeBlock.isShrunkPose(entity, entity.getPose()))
+                    dimensions = ClearWarpPipeBlock.getShrunkDimensions(dimensions, entity.getPose());
+                cir.setReturnValue(dimensions.width());
             }
         }
     }
@@ -380,30 +455,6 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
 
         AttributeMap attributemap = livingEntity.getAttributes();
         return attributemap == null ? 1.0F : this.mv$sanitizeScales((float) attributemap.getValue(AttributesRegistry.EYE_HEIGHT_SCALE));
-    }
-
-    @Unique
-    private static void mv$rideIceCube(Entity entity) {
-        Entity belowEntity = null;
-        for (Entity e : entity.level().getEntities(entity, entity.getBoundingBox().move(0, -1, 0))) {
-            if (e instanceof IceCubeEntity) {
-                belowEntity = e;
-                break;
-            }
-        }
-
-        if (belowEntity instanceof IceCubeEntity iceCube) {
-            Vec3 iceMovement = iceCube.getDeltaMovement();
-
-            if (!iceMovement.equals(Vec3.ZERO)) {
-                entity.setDeltaMovement(iceMovement.x, 0, iceMovement.z);
-                entity.move(MoverType.SELF, iceMovement);
-
-                if (entity instanceof Mob mob) {
-                    mob.getNavigation().stop();
-                }
-            }
-        }
     }
 
     @Unique
@@ -446,6 +497,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                             || stompingEntity.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
 
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
+                        && !damagedEntity.getType().is(TagRegistry.CANNOT_BE_STOMPED)
 
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                             || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
@@ -503,7 +555,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                                         || damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
-                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), AbilitiesHandler.getStompDamage(stompingEntity));
                             }
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get() && !stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM))
                                 OneUpMushroomEntity.consecutiveReward(stompingEntity, damagedEntity, stompingEntity.getData(DataAttachmentRegistry.CONSECUTIVE_BOUNCES));
@@ -568,5 +620,31 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
     @Override
     public void mv$setWarpEntity(Entity entity) {
         this.mv$warpEntity = entity;
+    }
+
+    @Override
+    public WarpTarget mv$getWarpTarget() {
+        return this.mv$warpTarget;
+    }
+
+    @Override
+    public void mv$setWarpTarget(WarpTarget target) {
+        this.mv$warpTarget = target;
+    }
+
+    @Override
+    public UUID mv$getWarpSubLevel() {
+        return this.mv$warpSubLevel;
+    }
+
+    @Override
+    public BlockPos mv$getWarpSubLevelPos() {
+        return this.mv$warpSubLevelPos;
+    }
+
+    @Override
+    public void mv$setWarpSubLevel(UUID subLevel, BlockPos localPos) {
+        this.mv$warpSubLevel = subLevel;
+        this.mv$warpSubLevelPos = localPos;
     }
 }

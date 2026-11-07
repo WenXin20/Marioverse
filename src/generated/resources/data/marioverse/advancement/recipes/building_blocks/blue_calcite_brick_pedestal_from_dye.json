@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_calcite_brick_pedestals": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:calcite_brick_pedestals"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dyes/blue": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/blue"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:blue_calcite_brick_pedestal_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dyes/blue",
+      "has_calcite_brick_pedestals"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:blue_calcite_brick_pedestal_from_dye"
+    ]
+  }
+}

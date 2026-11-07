@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "marioverse:chest_boats",
+  "ingredients": [
+    {
+      "tag": "c:chests/wooden"
+    },
+    {
+      "item": "marioverse:spookroot_boat"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:spookroot_chest_boat"
+  }
+}

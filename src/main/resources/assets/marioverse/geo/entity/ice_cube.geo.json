@@ -4,7 +4,7 @@
 		{
 			"description": {
 				"identifier": "geometry.ice_cube",
-				"texture_width": 16,
+				"texture_width": 80,
 				"texture_height": 16,
 				"visible_bounds_width": 3,
 				"visible_bounds_height": 2.5,

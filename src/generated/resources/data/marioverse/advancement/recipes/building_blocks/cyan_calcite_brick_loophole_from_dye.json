@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_calcite_brick_loopholes": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:calcite_brick_loopholes"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dyes/cyan": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/cyan"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:cyan_calcite_brick_loophole_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dyes/cyan",
+      "has_calcite_brick_loopholes"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:cyan_calcite_brick_loophole_from_dye"
+    ]
+  }
+}

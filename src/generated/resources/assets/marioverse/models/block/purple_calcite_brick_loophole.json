@@ -1,0 +1,10 @@
+{
+  "parent": "marioverse:block/template_loophole",
+  "textures": {
+    "bottom": "marioverse:block/purple_calcite_bricks",
+    "front": "marioverse:block/purple_calcite_bricks",
+    "particle": "marioverse:block/purple_calcite_bricks",
+    "side": "marioverse:block/purple_calcite_bricks",
+    "top": "marioverse:block/purple_calcite_bricks"
+  }
+}

@@ -1,36 +1,84 @@
 package com.wenxin2.marioverse.registries;
 
+import com.wenxin2.marioverse.blocks.CoarseShroomsoilBlock;
+import com.wenxin2.marioverse.blocks.LogBridgeStairBlock;
+import com.wenxin2.marioverse.blocks.ScrewBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperScrewBlock;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.AbilityBlock;
+import com.wenxin2.marioverse.blocks.BloomflowerBlock;
+import com.wenxin2.marioverse.blocks.BridgeBlock;
+import com.wenxin2.marioverse.blocks.DeepWetMudBlock;
+import com.wenxin2.marioverse.blocks.FungalStone;
+import com.wenxin2.marioverse.blocks.GrassyStoneBlock;
+import com.wenxin2.marioverse.blocks.HangingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LoopholeBlock;
+import com.wenxin2.marioverse.blocks.PolishedLoopholeBlock;
+import com.wenxin2.marioverse.blocks.RockyStoneBlock;
+import com.wenxin2.marioverse.blocks.RoseHedgeBlock;
+import com.wenxin2.marioverse.blocks.ShortShroomgrassBlock;
+import com.wenxin2.marioverse.blocks.ShroomgrassBlock;
+import com.wenxin2.marioverse.blocks.ShroomgrassPlantBlock;
+import com.wenxin2.marioverse.blocks.ShroomsoilBlock;
+import com.wenxin2.marioverse.blocks.ShroomsoilFarmlandBlock;
+import com.wenxin2.marioverse.blocks.ShroomsoilPathBlock;
+import com.wenxin2.marioverse.blocks.ShrubroomBlock;
+import com.wenxin2.marioverse.blocks.StandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.StoneFloorBlock;
+import com.wenxin2.marioverse.blocks.MegaMushroomBlock;
+import com.wenxin2.marioverse.blocks.MegaMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
+import com.wenxin2.marioverse.blocks.PottedMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.RedSuperMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.BlueSuperMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.RedMegaMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.BlueMegaMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomCapBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
+import com.wenxin2.marioverse.blocks.WallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.BlockSpawnerBlock;
 import com.wenxin2.marioverse.blocks.BlueDottedLineBlock;
-import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.CoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DaisyAbilityBlock;
 import com.wenxin2.marioverse.blocks.DeadCoralTowerBlock;
 import com.wenxin2.marioverse.blocks.DeathBlock;
+import com.wenxin2.marioverse.blocks.LogPlatformBlock;
 import com.wenxin2.marioverse.blocks.LuigiAbilityBlock;
 import com.wenxin2.marioverse.blocks.MarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.MonsterDeathBlock;
+import com.wenxin2.marioverse.blocks.CulledLeavesBlock;
 import com.wenxin2.marioverse.blocks.PassiveDeathBlock;
 import com.wenxin2.marioverse.blocks.PeachAbilityBlock;
+import com.wenxin2.marioverse.blocks.PicketFenceBlock;
+import com.wenxin2.marioverse.blocks.PicketFenceGateBlock;
 import com.wenxin2.marioverse.blocks.PlayerDeathBlock;
+import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
+import com.wenxin2.marioverse.blocks.PottedHedgeBlock;
+import com.wenxin2.marioverse.blocks.PottedSuperMushroomBlock;
 import com.wenxin2.marioverse.blocks.PottedTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.RedDottedLineBlock;
-import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineCapBlock;
+import com.wenxin2.marioverse.blocks.RedSuperMushroomStemBlock;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
-import com.wenxin2.marioverse.blocks.BridgeBlock;
-import com.wenxin2.marioverse.blocks.BridgeStairBlock;
+import com.wenxin2.marioverse.blocks.LogBridgeBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.CoinBlock;
 import com.wenxin2.marioverse.blocks.DangoBlossomBlock;
 import com.wenxin2.marioverse.blocks.GlowBlock;
 import com.wenxin2.marioverse.blocks.GoalPoleBlock;
+import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
-import com.wenxin2.marioverse.blocks.IronSpikeBlock;
+import com.wenxin2.marioverse.blocks.SpikeBallBlock;
 import com.wenxin2.marioverse.blocks.RosalinaAbilityBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
+import com.wenxin2.marioverse.blocks.SnowyHedgeBlock;
 import com.wenxin2.marioverse.blocks.TrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
@@ -47,16 +95,30 @@ import com.wenxin2.marioverse.blocks.WaluigiAbilityBlock;
 import com.wenxin2.marioverse.blocks.WarioAbilityBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperBridgeBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperInvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.WeatheringCopperLoopholeBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperPedestalBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperQuestionBlock;
 import com.wenxin2.marioverse.blocks.WeatheringCopperStorageBrickBlock;
+import com.wenxin2.marioverse.blocks.WetMudBlock;
+import com.wenxin2.marioverse.blocks.WetMudFarmlandBlock;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
+import com.wenxin2.marioverse.world.grower.SuperTreeGrower;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ColorRGBA;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
@@ -65,29 +127,65 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.EquipableCarvedPumpkinBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.TransparentBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.WeatheringCopperFullBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BlockRegistry {
+    private static final Holder<MobEffect> JUMP_EFFECT = MobEffects.JUMP;
+
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
-    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_PEDESTAL =
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRIDGES =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_PEDESTALS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_LOOPHOLES =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_SLABS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_STAIRS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BRICK_WALLS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_BUTTONS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_PRESSURE_PLATES =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_SLABS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_STAIRS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> CALCITE_WALLS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> CHISELED_CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
@@ -97,96 +195,175 @@ public class BlockRegistry {
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> GOAL_POLES =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> PARKOUR_BLOCKS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> PICKET_FENCES =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> PICKET_FENCE_GATES =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> PIPE_JUNCTION =
             new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> RHOMBUS_PARKOUR_BLOCKS =
+            new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE_SLABS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE_STAIRS =
+            new EnumMap<>(DyeColor.class);
+    public static final EnumMap<DyeColor, DeferredBlock<Block>> POLISHED_CALCITE_WALLS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> STORAGE_CALCITE_BRICKS =
             new EnumMap<>(DyeColor.class);
     public static final EnumMap<DyeColor, DeferredBlock<Block>> WARP_PIPES =
             new EnumMap<>(DyeColor.class);
 
+    public static final DeferredBlock<Block> ACACIA_ARROW_SIGN;
+    public static final DeferredBlock<Block> ACACIA_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE;
     public static final DeferredBlock<Block> ACACIA_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> ACACIA_PICKET_FENCE;
+    public static final DeferredBlock<Block> ACACIA_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> ACACIA_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> AMETHYST_BRICKS;
+    public static final DeferredBlock<Block> AMETHYST_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> AMETHYST_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> AMETHYST_BRICK_SLAB;
     public static final DeferredBlock<Block> AMETHYST_BRICK_STAIRS;
     public static final DeferredBlock<Block> AMETHYST_BRICK_WALL;
+    public static final DeferredBlock<Block> AMETHYST_BRIDGE;
     public static final DeferredBlock<Block> AMETHYST_BUTTON;
     public static final DeferredBlock<Block> AMETHYST_PRESSURE_PLATE;
     public static final DeferredBlock<Block> AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> AMETHYST_SLAB;
     public static final DeferredBlock<Block> AMETHYST_STAIRS;
     public static final DeferredBlock<Block> AMETHYST_WALL;
+    public static final DeferredBlock<Block> ANDESITE_BRIDGE;
+    public static final DeferredBlock<Block> BAMBOO_ARROW_SIGN;
     public static final DeferredBlock<Block> BAMBOO_BRIDGE;
     public static final DeferredBlock<Block> BAMBOO_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> BAMBOO_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> BAMBOO_PICKET_FENCE;
+    public static final DeferredBlock<Block> BAMBOO_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> BAMBOO_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> BIRCH_ARROW_SIGN;
+    public static final DeferredBlock<Block> BIRCH_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE;
     public static final DeferredBlock<Block> BIRCH_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> BIRCH_PICKET_FENCE;
+    public static final DeferredBlock<Block> BIRCH_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> BIRCH_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> BLACKSTONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> BLACKSTONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> BLACKSTONE_BRIDGE;
     public static final DeferredBlock<Block> BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> BLOCK_SPAWNER;
+    public static final DeferredBlock<Block> BLUE_BLOOMFLOWER;
     public static final DeferredBlock<Block> BLUE_DOTTED_LINE_BLOCK;
-    public static final DeferredBlock<Block> BLUE_MUSHROOM_TRAMPOLINE;
-    public static final DeferredBlock<Block> BLUE_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> BLUE_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> BLUE_ON_OFF_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> BLUE_ON_OFF_SUPER_MUSHROOM_STEM;
+    public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> BLUE_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> BRAIN_CORAL_TOWER;
+    public static final DeferredBlock<Block> BRICK_BRIDGE;
+    public static final DeferredBlock<Block> BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> BRICK_PEDESTAL;
     public static final DeferredBlock<Block> BUBBLE_CORAL_TOWER;
-    public static final DeferredBlock<Block> CALCITE_BUTTON;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILES;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_SLAB;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_STAIRS;
     public static final DeferredBlock<Block> CALCITE_CHECKERED_TILE_WALL;
-    public static final DeferredBlock<Block> CALCITE_PRESSURE_PLATE;
     public static final DeferredBlock<Block> CALCITE_QUESTION_BLOCK;
-    public static final DeferredBlock<Block> CALCITE_SLAB;
-    public static final DeferredBlock<Block> CALCITE_STAIRS;
-    public static final DeferredBlock<Block> CALCITE_WALL;
+    public static final DeferredBlock<Block> CHERRY_ARROW_SIGN;
+    public static final DeferredBlock<Block> CHERRY_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE;
     public static final DeferredBlock<Block> CHERRY_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> CHERRY_PICKET_FENCE;
+    public static final DeferredBlock<Block> CHERRY_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> CHERRY_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> CHISELED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CHISELED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CHISELED_FORTSTONE_BRICKS;
     public static final DeferredBlock<Block> CHISELED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_POLISHED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CHISELED_POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> CHISELED_POLISHED_FORTSTONE_TILES;
     public static final DeferredBlock<Block> CHISELED_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CHISELED_RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CHISELED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CLASSIC_CHECKPOINT_FLAG;
     public static final DeferredBlock<Block> CLASSIC_GOAL_POLE;
     public static final DeferredBlock<Block> CLEAR_WARP_PIPE;
+    public static final DeferredBlock<Block> COBBLED_FORTSTONE;
+    public static final DeferredBlock<Block> COBBLED_FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> COBBLED_FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> COBBLED_FORTSTONE_WALL;
     public static final DeferredBlock<Block> COIN;
+    public static final DeferredBlock<Block> COPPER_BRIDGE;
     public static final DeferredBlock<Block> COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> COPPER_SCREW;
     public static final DeferredBlock<Block> CRACKED_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> CRACKED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CRACKED_FORTSTONE_BRICKS;
     public static final DeferredBlock<Block> CRACKED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_POLISHED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> CRACKED_POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> CRACKED_POLISHED_FORTSTONE_TILES;
     public static final DeferredBlock<Block> CRACKED_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> CRACKED_RED_SANDSTONE_BRICKS;
     public static final DeferredBlock<Block> CRACKED_SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> CRIMSON_ARROW_SIGN;
+    public static final DeferredBlock<Block> CRIMSON_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> CRIMSON_PICKET_FENCE;
+    public static final DeferredBlock<Block> CRIMSON_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE;
     public static final DeferredBlock<Block> CRIMSON_STEM_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> CRIMSON_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> DAISY_ABILITY_BLOCK;
     public static final DeferredBlock<Block> DANGO_BLOSSOM;
+    public static final DeferredBlock<Block> DARK_OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> DARK_OAK_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> DARK_OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> DARK_OAK_PICKET_FENCE;
+    public static final DeferredBlock<Block> DARK_OAK_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> DARK_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> DARK_PRISMARINE_BRIDGE;
+    public static final DeferredBlock<Block> DARK_PRISMARINE_LOOPHOLE;
     public static final DeferredBlock<Block> DARK_PRISMARINE_PEDESTAL;
     public static final DeferredBlock<Block> DARK_PRISMARINE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> DARK_SPOOKROOT_LEAVES;
     public static final DeferredBlock<Block> DEAD_BRAIN_CORAL_TOWER;
     public static final DeferredBlock<Block> DEAD_BUBBLE_CORAL_TOWER;
     public static final DeferredBlock<Block> DEAD_FIRE_CORAL_TOWER;
     public static final DeferredBlock<Block> DEAD_HORN_CORAL_TOWER;
     public static final DeferredBlock<Block> DEAD_TUBE_CORAL_TOWER;
     public static final DeferredBlock<Block> DEATH_BLOCK;
+    public static final DeferredBlock<Block> DEEPSLATE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> DEEPSLATE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> DEEPSLATE_BRIDGE;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> DEEPSLATE_QUESTION_TILES;
+    public static final DeferredBlock<Block> DEEPSLATE_TILE_LOOPHOLE;
     public static final DeferredBlock<Block> DEEPSLATE_TILE_PEDESTAL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_BRICK_WALL;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_BRIDGE;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_SLAB;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_STAIRS;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_COBBLESTONE_WALL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> DEEP_FUNGAL_QUESTION_PANEL;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE;
@@ -195,16 +372,45 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> DEEP_WET_MUD;
+    public static final DeferredBlock<Block> DIAMOND_SCREW;
+    public static final DeferredBlock<Block> DIORITE_BRIDGE;
+    public static final DeferredBlock<Block> END_STONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> END_STONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> END_STONE_BRIDGE;
     public static final DeferredBlock<Block> END_STONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> EXPOSED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> EXPOSED_COPPER_SCREW;
+    public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> EXPOSED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> FIRE_CORAL_TOWER;
+    public static final DeferredBlock<Block> FORTSTONE;
+    public static final DeferredBlock<Block> FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> FORTSTONE_BRICK_LOOPHOLE;
+    public static final DeferredBlock<Block> FORTSTONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> FORTSTONE_BRICK_SLAB;
+    public static final DeferredBlock<Block> FORTSTONE_BRICK_STAIRS;
+    public static final DeferredBlock<Block> FORTSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> FORTSTONE_BRIDGE;
+    public static final DeferredBlock<Block> FORTSTONE_BUTTON;
+    public static final DeferredBlock<Block> FORTSTONE_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> FORTSTONE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> FORTSTONE_QUESTION_PANEL;
+    public static final DeferredBlock<Block> FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> FORTSTONE_WALL;
     public static final DeferredBlock<Block> FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> FUNGAL_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> FUNGAL_BRICK_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_BRICK_WALL;
+    public static final DeferredBlock<Block> FUNGAL_BRIDGE;
+    public static final DeferredBlock<Block> FUNGAL_COBBLESTONE;
+    public static final DeferredBlock<Block> FUNGAL_COBBLESTONE_SLAB;
+    public static final DeferredBlock<Block> FUNGAL_COBBLESTONE_STAIRS;
+    public static final DeferredBlock<Block> FUNGAL_COBBLESTONE_WALL;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> FUNGAL_QUESTION_PANEL;
     public static final DeferredBlock<Block> FUNGAL_STONE;
@@ -214,7 +420,93 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> GLOW_BLOCK;
+    public static final DeferredBlock<Block> GOLD_SCREW;
+    public static final DeferredBlock<Block> GRANITE_BRIDGE;
+    public static final DeferredBlock<Block> GRASSY_DEEP_FUNGAL_STONE;
+    public static final DeferredBlock<Block> GRASSY_FORTSTONE;
+    public static final DeferredBlock<Block> GRASSY_FUNGAL_STONE;
+    public static final DeferredBlock<Block> GREEN_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> GREEN_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> GREEN_SUPER_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> GREEN_SUPER_MUSHROOM_STEM;
+    public static final DeferredBlock<Block> HARD_ACACIA_BLOCK;
+    public static final DeferredBlock<Block> HARD_ACACIA_SLAB;
+    public static final DeferredBlock<Block> HARD_ACACIA_STAIRS;
+    public static final DeferredBlock<Block> HARD_ACACIA_WALL;
+    public static final DeferredBlock<Block> HARD_BAMBOO_BLOCK;
+    public static final DeferredBlock<Block> HARD_BAMBOO_SLAB;
+    public static final DeferredBlock<Block> HARD_BAMBOO_STAIRS;
+    public static final DeferredBlock<Block> HARD_BAMBOO_WALL;
+    public static final DeferredBlock<Block> HARD_BIRCH_BLOCK;
+    public static final DeferredBlock<Block> HARD_BIRCH_SLAB;
+    public static final DeferredBlock<Block> HARD_BIRCH_STAIRS;
+    public static final DeferredBlock<Block> HARD_BIRCH_WALL;
+    public static final DeferredBlock<Block> HARD_CHERRY_BLOCK;
+    public static final DeferredBlock<Block> HARD_CHERRY_SLAB;
+    public static final DeferredBlock<Block> HARD_CHERRY_STAIRS;
+    public static final DeferredBlock<Block> HARD_CHERRY_WALL;
+    public static final DeferredBlock<Block> HARD_CRIMSON_BLOCK;
+    public static final DeferredBlock<Block> HARD_CRIMSON_SLAB;
+    public static final DeferredBlock<Block> HARD_CRIMSON_STAIRS;
+    public static final DeferredBlock<Block> HARD_CRIMSON_WALL;
+    public static final DeferredBlock<Block> HARD_DARK_OAK_BLOCK;
+    public static final DeferredBlock<Block> HARD_DARK_OAK_SLAB;
+    public static final DeferredBlock<Block> HARD_DARK_OAK_STAIRS;
+    public static final DeferredBlock<Block> HARD_DARK_OAK_WALL;
+    public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_BLOCK;
+    public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_SLAB;
+    public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_STAIRS;
+    public static final DeferredBlock<Block> HARD_DEEP_FUNGAL_WALL;
+    public static final DeferredBlock<Block> HARD_FORTSTONE_BLOCK;
+    public static final DeferredBlock<Block> HARD_FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> HARD_FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> HARD_FORTSTONE_WALL;
+    public static final DeferredBlock<Block> HARD_FUNGAL_BLOCK;
+    public static final DeferredBlock<Block> HARD_FUNGAL_SLAB;
+    public static final DeferredBlock<Block> HARD_FUNGAL_STAIRS;
+    public static final DeferredBlock<Block> HARD_FUNGAL_WALL;
+    public static final DeferredBlock<Block> HARD_JUNGLE_BLOCK;
+    public static final DeferredBlock<Block> HARD_JUNGLE_SLAB;
+    public static final DeferredBlock<Block> HARD_JUNGLE_STAIRS;
+    public static final DeferredBlock<Block> HARD_JUNGLE_WALL;
+    public static final DeferredBlock<Block> HARD_MANGROVE_BLOCK;
+    public static final DeferredBlock<Block> HARD_MANGROVE_SLAB;
+    public static final DeferredBlock<Block> HARD_MANGROVE_STAIRS;
+    public static final DeferredBlock<Block> HARD_MANGROVE_WALL;
+    public static final DeferredBlock<Block> HARD_MUSHROOT_BLOCK;
+    public static final DeferredBlock<Block> HARD_MUSHROOT_SLAB;
+    public static final DeferredBlock<Block> HARD_MUSHROOT_STAIRS;
+    public static final DeferredBlock<Block> HARD_MUSHROOT_WALL;
+    public static final DeferredBlock<Block> HARD_OAK_BLOCK;
+    public static final DeferredBlock<Block> HARD_OAK_SLAB;
+    public static final DeferredBlock<Block> HARD_OAK_STAIRS;
+    public static final DeferredBlock<Block> HARD_OAK_WALL;
+    public static final DeferredBlock<Block> HARD_SPOOKROOT_BLOCK;
+    public static final DeferredBlock<Block> HARD_SPOOKROOT_SLAB;
+    public static final DeferredBlock<Block> HARD_SPOOKROOT_STAIRS;
+    public static final DeferredBlock<Block> HARD_SPOOKROOT_WALL;
+    public static final DeferredBlock<Block> HARD_SPRUCE_BLOCK;
+    public static final DeferredBlock<Block> HARD_SPRUCE_SLAB;
+    public static final DeferredBlock<Block> HARD_SPRUCE_STAIRS;
+    public static final DeferredBlock<Block> HARD_SPRUCE_WALL;
+    public static final DeferredBlock<Block> HARD_WARPED_BLOCK;
+    public static final DeferredBlock<Block> HARD_WARPED_SLAB;
+    public static final DeferredBlock<Block> HARD_WARPED_STAIRS;
+    public static final DeferredBlock<Block> HARD_WARPED_WALL;
+    public static final DeferredBlock<Block> HEDGE;
     public static final DeferredBlock<Block> HORN_CORAL_TOWER;
+    public static final DeferredBlock<Block> HUGE_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> HUGE_FORTSTONE_BRICK_SLAB;
+    public static final DeferredBlock<Block> HUGE_FORTSTONE_BRICK_STAIRS;
+    public static final DeferredBlock<Block> HUGE_FORTSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_BRICK_SLAB;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_BRICK_STAIRS;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_TILES;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_TILE_SLAB;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_TILE_STAIRS;
+    public static final DeferredBlock<Block> HUGE_POLISHED_FORTSTONE_TILE_WALL;
     public static final DeferredBlock<Block> INVISIBLE_AMETHYST_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_BLACKSTONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_CALCITE_QUESTION_BLOCK;
@@ -225,6 +517,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_END_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> INVISIBLE_FORTSTONE_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_FUNGAL_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_MOSSY_STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> INVISIBLE_MUD_QUESTION_BRICKS;
@@ -245,26 +538,133 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK;
     public static final DeferredBlock<Block> IRON_SPIKE;
+    public static final DeferredBlock<Block> IRON_SCREW;
+    public static final DeferredBlock<Block> JUNGLE_ARROW_SIGN;
+    public static final DeferredBlock<Block> JUNGLE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE;
     public static final DeferredBlock<Block> JUNGLE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> JUNGLE_PICKET_FENCE;
+    public static final DeferredBlock<Block> JUNGLE_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> JUNGLE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_ACACIA_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_ACACIA_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BAMBOO_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BAMBOO_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BIRCH_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_BIRCH_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CHERRY_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CHERRY_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CRIMSON_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_CRIMSON_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_DARK_OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_DARK_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_JUNGLE_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_JUNGLE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MANGROVE_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MANGROVE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MUSHROOT_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_MUSHROOT_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_OAK_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPOOKROOT_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPOOKROOT_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPRUCE_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_SPRUCE_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_WARPED_ARROW_SIGN;
+    public static final DeferredBlock<Block> LARGE_WARPED_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> LIME_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> LIME_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> LIME_SUPER_MUSHROOM_BLOCK;
     public static final DeferredBlock<Block> LUIGI_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> MANGROVE_ARROW_SIGN;
+    public static final DeferredBlock<Block> MANGROVE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> MANGROVE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> MANGROVE_PICKET_FENCE;
+    public static final DeferredBlock<Block> MANGROVE_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> MANGROVE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> MARIO_ABILITY_BLOCK;
     public static final DeferredBlock<Block> MONSTER_DEATH_BLOCK;
+    public static final DeferredBlock<Block> MOSSY_STONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> MOSSY_STONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> MOSSY_STONE_BRIDGE;
     public static final DeferredBlock<Block> MOSSY_STONE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> MUD_BRICK_BRIDGE;
+    public static final DeferredBlock<Block> MUD_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> MUD_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> MUD_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> MUSHROOT_ARROW_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_BOARDS;
+    public static final DeferredBlock<Block> MUSHROOT_BOARD_SLAB;
+    public static final DeferredBlock<Block> MUSHROOT_BOARD_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_BOARD_WALL;
+    public static final DeferredBlock<Block> MUSHROOT_BUTTON;
+    public static final DeferredBlock<Block> MUSHROOT_DOOR;
+    public static final DeferredBlock<Block> MUSHROOT_FENCE;
+    public static final DeferredBlock<Block> MUSHROOT_FENCE_GATE;
+    public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW;
+    public static final DeferredBlock<Block> MUSHROOT_FRAMED_WINDOW_PANE;
+    public static final DeferredBlock<Block> MUSHROOT_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_HANGING_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_LEAVES;
+    public static final DeferredBlock<Block> MUSHROOT_LOG;
+    public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE;
+    public static final DeferredBlock<Block> MUSHROOT_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_LOG_PLATFORM;
+    public static final DeferredBlock<Block> MUSHROOT_PANELS;
+    public static final DeferredBlock<Block> MUSHROOT_PANEL_SLAB;
+    public static final DeferredBlock<Block> MUSHROOT_PANEL_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_PANEL_WALL;
+    public static final DeferredBlock<Block> MUSHROOT_PICKET_FENCE;
+    public static final DeferredBlock<Block> MUSHROOT_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> MUSHROOT_PLANKS;
+    public static final DeferredBlock<Block> MUSHROOT_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> MUSHROOT_SAPLING;
+    public static final DeferredBlock<Block> MUSHROOT_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_SLAB;
+    public static final DeferredBlock<Block> MUSHROOT_STAIRS;
+    public static final DeferredBlock<Block> MUSHROOT_TRAPDOOR;
+    public static final DeferredBlock<Block> MUSHROOT_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_WALL_HANGING_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_WALL_SIGN;
+    public static final DeferredBlock<Block> MUSHROOT_WOOD;
+    public static final DeferredBlock<Block> NETHERITE_SCREW;
+    public static final DeferredBlock<Block> NETHER_BRICK_BRIDGE;
+    public static final DeferredBlock<Block> NETHER_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> OAK_ARROW_SIGN;
+    public static final DeferredBlock<Block> OAK_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> OAK_PICKET_FENCE;
+    public static final DeferredBlock<Block> OAK_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> OAK_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> ON_OFF_SWITCH;
+    public static final DeferredBlock<Block> ORANGE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> ORANGE_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> LIGHT_BLUE_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> ORANGE_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> ORANGE_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> ORANGE_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> ORANGE_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> ORANGE_SUPER_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> ORANGE_SUPER_MUSHROOM_STEM;
+    public static final DeferredBlock<Block> OXIDIZED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> OXIDIZED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> OXIDIZED_COPPER_SCREW;
+    public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> OXIDIZED_CUT_COPPER_PEDESTAL;
     public static final DeferredBlock<Block> PASSIVE_DEATH_BLOCK;
     public static final DeferredBlock<Block> PEACH_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> PINK_BLOOMFLOWER;
+    public static final DeferredBlock<Block> PINK_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> PINK_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> PINK_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> PINK_ROSE_HEDGE;
+    public static final DeferredBlock<Block> PINK_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> PIPE_BUBBLES;
     public static final DeferredBlock<Block> PLAYER_DEATH_BLOCK;
     public static final DeferredBlock<Block> POLISHED_AMETHYST;
@@ -272,6 +672,7 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_AMETHYST_STAIRS;
     public static final DeferredBlock<Block> POLISHED_AMETHYST_WALL;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_BRICK_STAIRS;
@@ -280,7 +681,23 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_DEEP_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_SLAB;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_LOOPHOLE;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILES;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_PEDESTAL;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_SLAB;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_STAIRS;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_TILE_WALL;
+    public static final DeferredBlock<Block> POLISHED_FORTSTONE_WALL;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_SLAB;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_BRICK_STAIRS;
@@ -289,40 +706,134 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_SLAB;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_STAIRS;
     public static final DeferredBlock<Block> POLISHED_FUNGAL_STONE_WALL;
-    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_SLAB;
-    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_STAIRS;
-    public static final DeferredBlock<Block> POLISHED_WHITE_CALCITE_WALL;
-    public static final DeferredBlock<Block> POTTED_BLUE_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> POTTED_BLUE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_BLUE_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> POTTED_BLUE_SUPER_MUSHROOM;
     public static final DeferredBlock<Block> POTTED_DANGO_BLOSSOM;
+    public static final DeferredBlock<Block> POTTED_GREEN_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_GREEN_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_HEDGE;
+    public static final DeferredBlock<Block> POTTED_LIME_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_LIME_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_MUSHROOT_SAPLING;
+    public static final DeferredBlock<Block> POTTED_ORANGE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_ORANGE_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_LIGHT_BLUE_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_ORANGE_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_ORANGE_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_ORANGE_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_PINK_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_PINK_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_PINK_ROSE_HEDGE;
     public static final DeferredBlock<Block> POTTED_PIRANHA_PLANT;
-    public static final DeferredBlock<Block> POTTED_RED_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> POTTED_PURPLE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_PURPLE_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_PURPLE_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_RED_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_RED_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> POTTED_RED_ROSE_HEDGE;
+    public static final DeferredBlock<Block> POTTED_RED_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_SCARLET_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_SCARLET_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> POTTED_SHORT_SHROOMGRASS;
+    public static final DeferredBlock<Block> POTTED_SHROOMGRASS;
+    public static final DeferredBlock<Block> POTTED_SHRUBROOM;
+    public static final DeferredBlock<Block> POTTED_SNOWY_HEDGE;
+    public static final DeferredBlock<Block> POTTED_SPOOKROOT_SAPLING;
+    public static final DeferredBlock<Block> POTTED_SPOOKY_SPOOKROOT_SAPLING;
+    public static final DeferredBlock<Block> POTTED_WHITE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_WHITE_ROSE_HEDGE;
+    public static final DeferredBlock<Block> POTTED_YELLOW_BLOOMFLOWER;
+    public static final DeferredBlock<Block> POTTED_YELLOW_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> POTTED_YELLOW_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> PRISMARINE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> PRISMARINE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> PRISMARINE_BRIDGE;
     public static final DeferredBlock<Block> PRISMARINE_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> PURPLE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> PURPLE_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> PURPLE_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> PURPLE_SUPER_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> PURPLE_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> PURPUR_BLOCK_PEDESTAL;
+    public static final DeferredBlock<Block> PURPUR_BRIDGE;
+    public static final DeferredBlock<Block> PURPUR_LOOPHOLE;
     public static final DeferredBlock<Block> PURPUR_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> QUARTZ_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> QUARTZ_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> QUARTZ_BRIDGE;
     public static final DeferredBlock<Block> QUARTZ_QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUESTION_BRICKS;
     public static final DeferredBlock<Block> QUICKSAND;
+    public static final DeferredBlock<Block> RED_BLOOMFLOWER;
     public static final DeferredBlock<Block> RED_DOTTED_LINE_BLOCK;
-    public static final DeferredBlock<Block> RED_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> RED_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> RED_NETHER_BRICK_BRIDGE;
+    public static final DeferredBlock<Block> RED_NETHER_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> RED_NETHER_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_NETHER_QUESTION_BRICKS;
+    public static final DeferredBlock<Block> RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> RED_ON_OFF_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> RED_ON_OFF_SUPER_MUSHROOM_STEM;
     public static final DeferredBlock<Block> RED_QUICKSAND;
+    public static final DeferredBlock<Block> RED_ROSE_HEDGE;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_SLAB;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> RED_SANDSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> RED_SANDSTONE_BRIDGE;
     public static final DeferredBlock<Block> RED_SANDSTONE_QUESTION_BLOCK;
-    public static final DeferredBlock<Block> RED_TRAMPOLINE_CAP;
+    public static final DeferredBlock<Block> RED_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> RED_SUPER_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> RED_SUPER_MUSHROOM_STEM;
+    public static final DeferredBlock<Block> DEEP_FUNGAL_STONE_FLOOR;
+    public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE;
+    public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_SLAB;
+    public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_STAIRS;
+    public static final DeferredBlock<Block> ROCKY_DEEP_FUNGAL_STONE_WALL;
+    public static final DeferredBlock<Block> FORTSTONE_FLOOR;
+    public static final DeferredBlock<Block> ROCKY_FORTSTONE;
+    public static final DeferredBlock<Block> ROCKY_FORTSTONE_SLAB;
+    public static final DeferredBlock<Block> ROCKY_FORTSTONE_STAIRS;
+    public static final DeferredBlock<Block> ROCKY_FORTSTONE_WALL;
+    public static final DeferredBlock<Block> FUNGAL_STONE_FLOOR;
+    public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE;
+    public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_SLAB;
+    public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_STAIRS;
+    public static final DeferredBlock<Block> ROCKY_FUNGAL_STONE_WALL;
     public static final DeferredBlock<Block> ROSALINA_ABILITY_BLOCK;
     public static final DeferredBlock<Block> SANDSTONE_BRICKS;
+    public static final DeferredBlock<Block> SANDSTONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_PEDESTAL;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_SLAB;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_STAIRS;
     public static final DeferredBlock<Block> SANDSTONE_BRICK_WALL;
+    public static final DeferredBlock<Block> SANDSTONE_BRIDGE;
     public static final DeferredBlock<Block> SANDSTONE_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> SCARLET_MEGA_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> SCARLET_MUSHROOM_TRAMPOLINE;
+    public static final DeferredBlock<Block> SCARLET_MUSHROOM_TRAMPOLINE_BLOCK;
+    public static final DeferredBlock<Block> SHORT_SHROOMGRASS;
+    public static final DeferredBlock<Block> SHROOMGRASS;
+    public static final DeferredBlock<Block> SHROOMGRASS_BLOCK;
+    public static final DeferredBlock<Block> SHROOMSOIL;
+    public static final DeferredBlock<Block> SHROOMSOIL_FARMLAND;
+    public static final DeferredBlock<Block> SHROOMSOIL_PATH;
+    public static final DeferredBlock<Block> COARSE_SHROOMSOIL;
+    public static final DeferredBlock<Block> ROCKY_SHROOMSOIL;
+    public static final DeferredBlock<Block> SHRUBROOM;
     public static final DeferredBlock<Block> SMASHABLE_BLACKSTONE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_BRICKS;
     public static final DeferredBlock<Block> SMASHABLE_CUT_COPPER;
@@ -346,14 +857,58 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> SMASHABLE_WAXED_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WAXED_WEATHERED_CUT_COPPER;
     public static final DeferredBlock<Block> SMASHABLE_WEATHERED_CUT_COPPER;
+    public static final DeferredBlock<Block> SNOWY_HEDGE;
     public static final DeferredBlock<Block> SPIKE_PANEL;
     public static final DeferredBlock<Block> SPLUNKIN_CARVED_PUMPKIN;
     public static final DeferredBlock<Block> SPLUNKIN_O_LANTERN;
+    public static final DeferredBlock<Block> SPOOKROOT_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_BOARDS;
+    public static final DeferredBlock<Block> SPOOKROOT_BOARD_SLAB;
+    public static final DeferredBlock<Block> SPOOKROOT_BOARD_STAIRS;
+    public static final DeferredBlock<Block> SPOOKROOT_BOARD_WALL;
+    public static final DeferredBlock<Block> SPOOKROOT_BUTTON;
+    public static final DeferredBlock<Block> SPOOKROOT_DOOR;
+    public static final DeferredBlock<Block> SPOOKROOT_FENCE;
+    public static final DeferredBlock<Block> SPOOKROOT_FENCE_GATE;
+    public static final DeferredBlock<Block> SPOOKROOT_FRAMED_WINDOW;
+    public static final DeferredBlock<Block> SPOOKROOT_FRAMED_WINDOW_PANE;
+    public static final DeferredBlock<Block> SPOOKROOT_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_HANGING_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_LEAVES;
+    public static final DeferredBlock<Block> SPOOKROOT_LOG;
+    public static final DeferredBlock<Block> SPOOKROOT_LOG_BRIDGE;
+    public static final DeferredBlock<Block> SPOOKROOT_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> SPOOKROOT_LOG_PLATFORM;
+    public static final DeferredBlock<Block> SPOOKROOT_PANELS;
+    public static final DeferredBlock<Block> SPOOKROOT_PANEL_SLAB;
+    public static final DeferredBlock<Block> SPOOKROOT_PANEL_STAIRS;
+    public static final DeferredBlock<Block> SPOOKROOT_PANEL_WALL;
+    public static final DeferredBlock<Block> SPOOKROOT_PICKET_FENCE;
+    public static final DeferredBlock<Block> SPOOKROOT_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> SPOOKROOT_PLANKS;
+    public static final DeferredBlock<Block> SPOOKROOT_PRESSURE_PLATE;
+    public static final DeferredBlock<Block> SPOOKROOT_SAPLING;
+    public static final DeferredBlock<Block> SPOOKROOT_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_SLAB;
+    public static final DeferredBlock<Block> SPOOKROOT_STAIRS;
+    public static final DeferredBlock<Block> SPOOKROOT_TRAPDOOR;
+    public static final DeferredBlock<Block> SPOOKROOT_WALL_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_WALL_HANGING_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_WALL_SIGN;
+    public static final DeferredBlock<Block> SPOOKROOT_WOOD;
+    public static final DeferredBlock<Block> SPOOKY_SPOOKROOT_SAPLING;
+    public static final DeferredBlock<Block> SPRUCE_ARROW_SIGN;
+    public static final DeferredBlock<Block> SPRUCE_HANGING_ARROW_SIGN;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> SPRUCE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> SPRUCE_PICKET_FENCE;
+    public static final DeferredBlock<Block> SPRUCE_PICKET_FENCE_GATE;
+    public static final DeferredBlock<Block> SPRUCE_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> STAR_COIN;
     public static final DeferredBlock<Block> STEVE_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> STONE_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> STONE_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> STONE_BRIDGE;
     public static final DeferredBlock<Block> STONE_QUESTION_BRICKS;
     public static final DeferredBlock<Block> STORAGE_AMETHYST_BRICKS;
     public static final DeferredBlock<Block> STORAGE_BLACKSTONE_BRICKS;
@@ -365,12 +920,15 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STORAGE_DEEP_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_END_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_EXPOSED_CUT_COPPER;
+    public static final DeferredBlock<Block> STORAGE_FORTSTONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_MOSSY_STONE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_MUD_BRICKS;
     public static final DeferredBlock<Block> STORAGE_NETHER_BRICKS;
     public static final DeferredBlock<Block> STORAGE_OXIDIZED_CUT_COPPER;
     public static final DeferredBlock<Block> STORAGE_POLISHED_DEEP_FUNGAL_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_POLISHED_FORTSTONE_BRICKS;
+    public static final DeferredBlock<Block> STORAGE_POLISHED_FORTSTONE_TILES;
     public static final DeferredBlock<Block> STORAGE_POLISHED_FUNGAL_BRICKS;
     public static final DeferredBlock<Block> STORAGE_PRISMARINE_BRICKS;
     public static final DeferredBlock<Block> STORAGE_PURPUR_BLOCK;
@@ -401,33 +959,73 @@ public class BlockRegistry {
     public static final DeferredBlock<Block> STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_LOG_PLATFORM;
+    public static final DeferredBlock<Block> STRIPPED_MUSHROOT_WOOD;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_OAK_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_LOG;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_LOG_BRIDGE;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_LOG_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_LOG_PLATFORM;
+    public static final DeferredBlock<Block> STRIPPED_SPOOKROOT_WOOD;
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS;
     public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> STRIPPED_WARPED_STEM_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> SUPER_MUSHROOM_STEM;
+    public static final DeferredBlock<Block> TALL_SHROOMGRASS;
     public static final DeferredBlock<Block> TUBE_CORAL_TOWER;
+    public static final DeferredBlock<Block> TUFF_BRICK_LOOPHOLE;
     public static final DeferredBlock<Block> TUFF_BRICK_PEDESTAL;
+    public static final DeferredBlock<Block> TUFF_BRIDGE;
     public static final DeferredBlock<Block> TUFF_QUESTION_BRICKS;
     public static final DeferredBlock<Block> WALUIGI_ABILITY_BLOCK;
     public static final DeferredBlock<Block> WARIO_ABILITY_BLOCK;
+    public static final DeferredBlock<Block> WARPED_ARROW_SIGN;
+    public static final DeferredBlock<Block> WARPED_HANGING_ARROW_SIGN;
+    public static final DeferredBlock<Block> WARPED_PICKET_FENCE;
+    public static final DeferredBlock<Block> WARPED_PICKET_FENCE_GATE;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE;
     public static final DeferredBlock<Block> WARPED_STEM_BRIDGE_STAIRS;
+    public static final DeferredBlock<Block> WARPED_WALL_ARROW_SIGN;
     public static final DeferredBlock<Block> WATER_SPOUT;
+    public static final DeferredBlock<Block> WAXED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_COPPER_SCREW;
+    public static final DeferredBlock<Block> WAXED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_EXPOSED_COPPER_SCREW;
+    public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_EXPOSED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_COPPER_SCREW;
+    public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_OXIDIZED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WAXED_WEATHERED_COPPER_SCREW;
+    public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WAXED_WEATHERED_CUT_COPPER_PEDESTAL;
+    public static final DeferredBlock<Block> WEATHERED_COPPER_BRIDGE;
     public static final DeferredBlock<Block> WEATHERED_COPPER_QUESTION_BLOCK;
+    public static final DeferredBlock<Block> WEATHERED_COPPER_SCREW;
+    public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_LOOPHOLE;
     public static final DeferredBlock<Block> WEATHERED_CUT_COPPER_PEDESTAL;
-    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_SLAB;
-    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_STAIRS;
-    public static final DeferredBlock<Block> WHITE_CALCITE_BRICK_WALL;
+    public static final DeferredBlock<Block> WET_MUD;
+    public static final DeferredBlock<Block> WET_MUD_FARMLAND;
+    public static final DeferredBlock<Block> WHITE_BLOOMFLOWER;
+    public static final DeferredBlock<Block> WHITE_ROSE_HEDGE;
+    public static final DeferredBlock<Block> YELLOW_BLOOMFLOWER;
+    public static final DeferredBlock<Block> YELLOW_MEGA_MUSHROOM;
+    public static final DeferredBlock<Block> YELLOW_SUPER_MUSHROOM;
+    public static final DeferredBlock<Block> YELLOW_SUPER_MUSHROOM_BLOCK;
+    public static final DeferredBlock<Block> YELLOW_SUPER_MUSHROOM_STEM;
 
     static {
         BLOCK_SPAWNER = registerBlock("block_spawner",
@@ -484,8 +1082,39 @@ public class BlockRegistry {
                         .instabreak().noCollission()));
 
 
+        IRON_SCREW = registerBlock("iron_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
+                        .sound(SoundType.NETHERITE_BLOCK).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        GOLD_SCREW = registerBlock("gold_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.METAL).strength(3.0F, 6.0F).requiresCorrectToolForDrops()));
+        DIAMOND_SCREW = registerBlock("diamond_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.DIAMOND)
+                        .sound(SoundType.METAL).strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
+        NETHERITE_SCREW = registerBlock("netherite_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                        .sound(SoundType.NETHERITE_BLOCK).strength(50.0F, 1200.0F).requiresCorrectToolForDrops()),
+                new Item.Properties().fireResistant());
+        COPPER_SCREW = registerBlock("copper_screw",
+                () -> new WeatheringCopperScrewBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)));
+        EXPOSED_COPPER_SCREW = registerBlock("exposed_copper_screw",
+                () -> new WeatheringCopperScrewBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
+        WEATHERED_COPPER_SCREW = registerBlock("weathered_copper_screw",
+                () -> new WeatheringCopperScrewBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
+        OXIDIZED_COPPER_SCREW = registerBlock("oxidized_copper_screw",
+                () -> new WeatheringCopperScrewBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
+        WAXED_COPPER_SCREW = registerBlock("waxed_copper_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_COPPER_BLOCK)));
+        WAXED_EXPOSED_COPPER_SCREW = registerBlock("waxed_exposed_copper_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+        WAXED_WEATHERED_COPPER_SCREW = registerBlock("waxed_weathered_copper_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
+        WAXED_OXIDIZED_COPPER_SCREW = registerBlock("waxed_oxidized_copper_screw",
+                () -> new ScrewBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+
         IRON_SPIKE = registerBlock("iron_spike",
-                () -> new IronSpikeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
+                () -> new SpikeBallBlock(BlockBehaviour.Properties.of().mapColor(MapColor.METAL)
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
                         .strength(25.0F, 1200.0F).requiresCorrectToolForDrops()));
@@ -508,41 +1137,310 @@ public class BlockRegistry {
 
         ON_OFF_SWITCH = registerBlock("on_off_switch",
                 () -> new OnOffSwitchBlock(BlockBehaviour.Properties.of()
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_BLUE)
+                        .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_BLUE)
                         .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                         .strength(5.0F, 6.0F).requiresCorrectToolForDrops()));
         RED_DOTTED_LINE_BLOCK = registerBlock("red_dotted_line_block",
                 () -> new RedDottedLineBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.NONE)
+                        .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.NONE)
                         .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
                         .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
                         .noOcclusion()));
         BLUE_DOTTED_LINE_BLOCK = registerBlock("blue_dotted_line_block",
                 () -> new BlueDottedLineBlock(BlockBehaviour.Properties.ofFullCopy(ON_OFF_SWITCH.get())
-                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)
+                        .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.NONE)
                         .isValidSpawn(BlockRegistry::isActive).isRedstoneConductor(BlockRegistry::isActive)
                         .isSuffocating(BlockRegistry::isActive).isViewBlocking(BlockRegistry::isActive)
                         .noOcclusion()));
-        RED_MUSHROOM_TRAMPOLINE = registerBlock("red_mushroom_trampoline",
-                () -> new RedMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
-        BLUE_MUSHROOM_TRAMPOLINE = registerBlock("blue_mushroom_trampoline",
-                () -> new BlueMushroomTrampolineBlock(BlockBehaviour.Properties.ofFullCopy(RED_MUSHROOM_TRAMPOLINE.get())
-                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
-        RED_TRAMPOLINE_CAP = registerBlock("red_trampoline_cap",
-                () -> new TrampolineCapBlock(TreeRegistry.HUGE_RED_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
-                        .mapColor(state -> state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
-                        .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
-        BLUE_TRAMPOLINE_CAP = registerBlock("blue_trampoline_cap",
-                () -> new TrampolineCapBlock(TreeRegistry.HUGE_BLUE_TRAMPOLINE_CAP.getKey(), BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
-                        .mapColor(state -> !state.getValue(OnBlock.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
-                        .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ)));
-        POTTED_RED_TRAMPOLINE_CAP = registerNoItemBlock("potted_red_trampoline_cap",
-                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.RED_TRAMPOLINE_CAP,
-                        BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
-        POTTED_BLUE_TRAMPOLINE_CAP = registerNoItemBlock("potted_blue_trampoline_cap",
-                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.BLUE_TRAMPOLINE_CAP,
-                        BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+
+        RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("red_on_off_mushroom_trampoline_block",
+                () -> new RedMushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                        .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE)
+                                ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)));
+        RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerBlock("red_on_off_mushroom_trampoline_cap",
+                () -> new TrampolineCapBlock(TreeRegistry.HUGE_RED_ON_OFF_MUSHROOM_TRAMPOLINE.getKey(),
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                                .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
+                                .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()));
+        RED_ON_OFF_MUSHROOM_TRAMPOLINE = registerBlock("red_on_off_mushroom_trampoline",
+                () -> new RedSuperMushroomTrampolineBlock(mushroomFeature("huge_red_on_off_super_mushroom_trampoline"),
+                        mushroomFeature("wide_red_on_off_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of()
+                                .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("red_on_off_mega_mushroom_trampoline",
+                () -> new RedMegaMushroomTrampolineBlock(mushroomFeature("huge_red_on_off_mega_mushroom_trampoline"),
+                        mushroomFeature("wide_red_on_off_mega_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of()
+                                .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.COLOR_LIGHT_GRAY)
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_red_on_off_mushroom_trampoline_cap",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_red_on_off_mega_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        RED_ON_OFF_SUPER_MUSHROOM_STEM = registerBlock("red_on_off_super_mushroom_stem",
+                () -> new RedSuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_RED : MapColor.WOOL)));
+
+        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("blue_on_off_mushroom_trampoline_block",
+                () -> new BlueMushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                        .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE)
+                                ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)));
+        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerBlock("blue_on_off_mushroom_trampoline_cap",
+                () -> new TrampolineCapBlock(TreeRegistry.HUGE_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.getKey(),
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BROWN_MUSHROOM)
+                                .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                                .lightLevel(state -> 0).offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()));
+        BLUE_ON_OFF_MUSHROOM_TRAMPOLINE = registerBlock("blue_on_off_mushroom_trampoline",
+                () -> new BlueSuperMushroomTrampolineBlock(mushroomFeature("huge_blue_on_off_super_mushroom_trampoline"),
+                        mushroomFeature("wide_blue_on_off_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of()
+                                .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("blue_on_off_mega_mushroom_trampoline",
+                () -> new BlueMegaMushroomTrampolineBlock(mushroomFeature("huge_blue_on_off_mega_mushroom_trampoline"),
+                        mushroomFeature("wide_blue_on_off_mega_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of()
+                                .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.COLOR_LIGHT_GRAY)
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP = registerNoItemBlock("potted_blue_on_off_mushroom_trampoline_cap",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_blue_on_off_mega_mushroom_trampoline",
+                () -> new PottedTrampolineCapBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT,
+                        BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_BROWN_MUSHROOM)));
+        BLUE_ON_OFF_SUPER_MUSHROOM_STEM = registerBlock("blue_on_off_super_mushroom_stem",
+                () -> new RedSuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> !state.getValue(BlockStatePropertyRegistry.ACTIVE) ? MapColor.COLOR_BLUE : MapColor.WOOL)));
+
+
+        SUPER_MUSHROOM_STEM = registerBlock("super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.WOOL)));
+        RED_SUPER_MUSHROOM_STEM = registerBlock("red_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_RED)));
+        ORANGE_SUPER_MUSHROOM_STEM = registerBlock("orange_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_ORANGE)));
+        YELLOW_SUPER_MUSHROOM_STEM = registerBlock("yellow_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_YELLOW)));
+        GREEN_SUPER_MUSHROOM_STEM = registerBlock("green_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_GREEN)));
+        BLUE_SUPER_MUSHROOM_STEM = registerBlock("blue_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_BLUE)));
+        PURPLE_SUPER_MUSHROOM_STEM = registerBlock("purple_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_PURPLE)));
+        PINK_SUPER_MUSHROOM_STEM = registerBlock("pink_super_mushroom_stem",
+                () -> new SuperMushroomStemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUSHROOM_STEM)
+                        .mapColor(state -> state.getValue(SuperMushroomStemBlock.FACING) == Direction.UP
+                                && state.getValue(SuperMushroomStemBlock.END)
+                                ? MapColor.TERRACOTTA_YELLOW : MapColor.COLOR_PINK)));
+
+        BLUE_SUPER_MUSHROOM_BLOCK = registerBlock("blue_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_BLUE));
+        BLUE_SUPER_MUSHROOM = registerBlock("blue_super_mushroom",
+                () -> superMushroom("blue", MapColor.COLOR_BLUE));
+        BLUE_MEGA_MUSHROOM = registerBlock("blue_mega_mushroom",
+                () -> megaMushroom("blue", MapColor.COLOR_BLUE));
+        POTTED_BLUE_SUPER_MUSHROOM = registerNoItemBlock("potted_blue_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.BLUE_SUPER_MUSHROOM));
+        POTTED_BLUE_MEGA_MUSHROOM = registerNoItemBlock("potted_blue_mega_mushroom",
+                () -> pottedMushroom(BlockRegistry.BLUE_MEGA_MUSHROOM));
+
+        GREEN_SUPER_MUSHROOM_BLOCK = registerBlock("green_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_GREEN));
+        GREEN_SUPER_MUSHROOM = registerBlock("green_super_mushroom",
+                () -> superMushroom("green", MapColor.COLOR_GREEN));
+        GREEN_MEGA_MUSHROOM = registerBlock("green_mega_mushroom",
+                () -> megaMushroom("green", MapColor.COLOR_GREEN));
+        POTTED_GREEN_SUPER_MUSHROOM = registerNoItemBlock("potted_green_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.GREEN_SUPER_MUSHROOM));
+        POTTED_GREEN_MEGA_MUSHROOM = registerNoItemBlock("potted_green_mega_mushroom",
+                () -> pottedMushroom(BlockRegistry.GREEN_MEGA_MUSHROOM));
+
+        LIME_SUPER_MUSHROOM_BLOCK = registerBlock("lime_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_LIGHT_GREEN));
+        LIME_SUPER_MUSHROOM = registerBlock("lime_super_mushroom",
+                () -> superMushroom("lime", MapColor.COLOR_LIGHT_GREEN));
+        LIME_MEGA_MUSHROOM = registerBlock("lime_mega_mushroom",
+                () -> megaMushroom("lime", MapColor.COLOR_LIGHT_GREEN));
+        POTTED_LIME_SUPER_MUSHROOM = registerNoItemBlock("potted_lime_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.LIME_SUPER_MUSHROOM));
+        POTTED_LIME_MEGA_MUSHROOM = registerNoItemBlock("potted_lime_mega_mushroom",
+                () -> pottedMushroom(BlockRegistry.LIME_MEGA_MUSHROOM));
+
+        ORANGE_SUPER_MUSHROOM_BLOCK = registerBlock("orange_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_ORANGE));
+        ORANGE_SUPER_MUSHROOM = registerBlock("orange_super_mushroom",
+                () -> superMushroom("orange", MapColor.COLOR_ORANGE));
+        ORANGE_MEGA_MUSHROOM = registerBlock("orange_mega_mushroom",
+                () -> megaMushroom("orange", MapColor.COLOR_ORANGE));
+        POTTED_ORANGE_SUPER_MUSHROOM = registerNoItemBlock("potted_orange_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.ORANGE_SUPER_MUSHROOM));
+        POTTED_ORANGE_MEGA_MUSHROOM = registerNoItemBlock("potted_orange_mega_mushroom",
+                () -> pottedMushroom(BlockRegistry.ORANGE_MEGA_MUSHROOM));
+
+        PURPLE_SUPER_MUSHROOM_BLOCK = registerBlock("purple_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_PURPLE));
+        PURPLE_SUPER_MUSHROOM = registerBlock("purple_super_mushroom",
+                () -> superMushroom("purple", MapColor.COLOR_PURPLE));
+        PURPLE_MEGA_MUSHROOM = registerBlock("purple_mega_mushroom",
+                () -> megaMushroom("purple", MapColor.COLOR_PURPLE));
+        POTTED_PURPLE_SUPER_MUSHROOM = registerNoItemBlock("potted_purple_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.PURPLE_SUPER_MUSHROOM));
+        POTTED_PURPLE_MEGA_MUSHROOM = registerNoItemBlock("potted_purple_mega_mushroom",
+                () -> pottedMushroom(BlockRegistry.PURPLE_MEGA_MUSHROOM));
+
+        RED_SUPER_MUSHROOM_BLOCK = registerBlock("red_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_RED));
+        RED_SUPER_MUSHROOM = registerBlock("red_super_mushroom",
+                () -> superMushroom("red", MapColor.COLOR_RED));
+        RED_MEGA_MUSHROOM = registerBlock("red_mega_mushroom",
+                () -> megaMushroom("red", MapColor.COLOR_RED));
+        POTTED_RED_SUPER_MUSHROOM = registerNoItemBlock("potted_red_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.RED_SUPER_MUSHROOM));
+        POTTED_RED_MEGA_MUSHROOM = registerNoItemBlock("potted_red_mega_mushroom",
+                () -> pottedMushroom(BlockRegistry.RED_MEGA_MUSHROOM));
+
+        YELLOW_SUPER_MUSHROOM_BLOCK = registerBlock("yellow_super_mushroom_block",
+                () -> superMushroomCap(MapColor.COLOR_YELLOW));
+        YELLOW_SUPER_MUSHROOM = registerBlock("yellow_super_mushroom",
+                () -> superMushroom("yellow", MapColor.COLOR_YELLOW));
+        YELLOW_MEGA_MUSHROOM = registerBlock("yellow_mega_mushroom",
+                () -> megaMushroom("yellow", MapColor.COLOR_YELLOW));
+        POTTED_YELLOW_SUPER_MUSHROOM = registerNoItemBlock("potted_yellow_super_mushroom",
+                () -> pottedMushroom(BlockRegistry.YELLOW_SUPER_MUSHROOM));
+        POTTED_YELLOW_MEGA_MUSHROOM = registerNoItemBlock("potted_yellow_mega_mushroom",
+                () -> pottedMushroom(BlockRegistry.YELLOW_MEGA_MUSHROOM));
+
+        SCARLET_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("scarlet_mushroom_trampoline_block",
+                () -> new MushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                        .mapColor(MapColor.COLOR_RED)));
+        SCARLET_MUSHROOM_TRAMPOLINE = registerBlock("scarlet_mushroom_trampoline",
+                () -> new SuperMushroomTrampolineBlock(mushroomFeature("huge_scarlet_super_mushroom_trampoline"),
+                        mushroomFeature("wide_scarlet_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        SCARLET_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("scarlet_mega_mushroom_trampoline",
+                () -> new MegaMushroomTrampolineBlock(mushroomFeature("huge_scarlet_mega_mushroom_trampoline"),
+                        mushroomFeature("wide_scarlet_mega_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        POTTED_SCARLET_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_scarlet_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE));
+        POTTED_SCARLET_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_scarlet_mega_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE));
+
+        ORANGE_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("orange_mushroom_trampoline_block",
+                () -> new MushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                        .mapColor(MapColor.COLOR_ORANGE)));
+        ORANGE_MUSHROOM_TRAMPOLINE = registerBlock("orange_mushroom_trampoline",
+                () -> new SuperMushroomTrampolineBlock(mushroomFeature("huge_orange_super_mushroom_trampoline"),
+                        mushroomFeature("wide_orange_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        ORANGE_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("orange_mega_mushroom_trampoline",
+                () -> new MegaMushroomTrampolineBlock(mushroomFeature("huge_orange_mega_mushroom_trampoline"),
+                        mushroomFeature("wide_orange_mega_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        POTTED_ORANGE_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_orange_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE));
+        POTTED_ORANGE_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_orange_mega_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE));
+
+        LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("light_blue_mushroom_trampoline_block",
+                () -> new MushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                        .mapColor(MapColor.COLOR_LIGHT_BLUE)));
+        LIGHT_BLUE_MUSHROOM_TRAMPOLINE = registerBlock("light_blue_mushroom_trampoline",
+                () -> new SuperMushroomTrampolineBlock(mushroomFeature("huge_light_blue_super_mushroom_trampoline"),
+                        mushroomFeature("wide_light_blue_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("light_blue_mega_mushroom_trampoline",
+                () -> new MegaMushroomTrampolineBlock(mushroomFeature("huge_light_blue_mega_mushroom_trampoline"),
+                        mushroomFeature("wide_light_blue_mega_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        POTTED_LIGHT_BLUE_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_light_blue_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE));
+        POTTED_LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_light_blue_mega_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE));
+
+        PINK_MUSHROOM_TRAMPOLINE_BLOCK = registerBlock("pink_mushroom_trampoline_block",
+                () -> new MushroomTrampolineCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                        .mapColor(MapColor.COLOR_PINK)));
+        PINK_MUSHROOM_TRAMPOLINE = registerBlock("pink_mushroom_trampoline",
+                () -> new SuperMushroomTrampolineBlock(mushroomFeature("huge_pink_super_mushroom_trampoline"),
+                        mushroomFeature("wide_pink_super_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                                .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        PINK_MEGA_MUSHROOM_TRAMPOLINE = registerBlock("pink_mega_mushroom_trampoline",
+                () -> new MegaMushroomTrampolineBlock(mushroomFeature("huge_pink_mega_mushroom_trampoline"),
+                        mushroomFeature("wide_pink_mega_mushroom_trampoline"),
+                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                                .hasPostProcess(BlockRegistry::always)
+                                .randomTicks().instabreak()));
+        POTTED_PINK_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_pink_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE));
+        POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE = registerNoItemBlock("potted_pink_mega_mushroom_trampoline",
+                () -> pottedMushroomTrampoline(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE));
 
 
         BRAIN_CORAL_TOWER = registerBlock("brain_coral_tower",
@@ -587,6 +1485,56 @@ public class BlockRegistry {
                         .requiresCorrectToolForDrops().strength(1.5F, 6.0F).mapColor(MapColor.COLOR_GRAY)
                         .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
+        WHITE_BLOOMFLOWER = registerBlock("white_bloomflower",
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+
+        POTTED_WHITE_BLOOMFLOWER = registerNoItemBlock("potted_white_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.WHITE_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        BLUE_BLOOMFLOWER = registerBlock("blue_bloomflower",
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_BLUE_BLOOMFLOWER = registerNoItemBlock("potted_blue_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.BLUE_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        ORANGE_BLOOMFLOWER = registerBlock("orange_bloomflower",
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_ORANGE_BLOOMFLOWER = registerNoItemBlock("potted_orange_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.ORANGE_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        PINK_BLOOMFLOWER = registerBlock("pink_bloomflower",
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_PINK_BLOOMFLOWER = registerNoItemBlock("potted_pink_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.PINK_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        PURPLE_BLOOMFLOWER = registerBlock("purple_bloomflower",
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_PURPLE_BLOOMFLOWER = registerNoItemBlock("potted_purple_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.PURPLE_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        RED_BLOOMFLOWER = registerBlock("red_bloomflower",
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_RED_BLOOMFLOWER = registerNoItemBlock("potted_red_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.RED_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        YELLOW_BLOOMFLOWER = registerBlock("yellow_bloomflower",
+                () -> new BloomflowerBlock(JUMP_EFFECT, 6.0F,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS)));
+        POTTED_YELLOW_BLOOMFLOWER = registerNoItemBlock("potted_yellow_bloomflower",
+                () -> new PottedBloomflowerBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.YELLOW_BLOOMFLOWER,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
         DANGO_BLOSSOM = registerBlock("dango_blossom",
                 () -> new DangoBlossomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPORE_BLOSSOM)));
 
@@ -599,154 +1547,993 @@ public class BlockRegistry {
                         BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
 
 
+        SHRUBROOM = registerBlock("shrubroom",
+                () -> new ShrubroomBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS)
+                        .mapColor(MapColor.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)));
+
+        SHROOMGRASS = registerBlock("shroomgrass",
+                () -> new ShroomgrassPlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS).mapColor(MapColor.GRASS)));
+
+        SHORT_SHROOMGRASS = registerBlock("short_shroomgrass",
+                () -> new ShortShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS).mapColor(MapColor.GRASS)));
+
+        TALL_SHROOMGRASS = registerBlock("tall_shroomgrass",
+                () -> new DoublePlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TALL_GRASS).mapColor(MapColor.GRASS)));
+
+        POTTED_SHRUBROOM = registerNoItemBlock("potted_shrubroom",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SHRUBROOM,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        POTTED_SHROOMGRASS = registerNoItemBlock("potted_shroomgrass",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SHROOMGRASS,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        POTTED_SHORT_SHROOMGRASS = registerNoItemBlock("potted_short_shroomgrass",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SHORT_SHROOMGRASS,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+
+        HEDGE = registerBlock("hedge",
+                () -> new HedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
+
+        PINK_ROSE_HEDGE = registerBlock("pink_rose_hedge",
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
+
+        RED_ROSE_HEDGE = registerBlock("red_rose_hedge",
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
+
+        SNOWY_HEDGE = registerNoItemBlock("snowy_hedge",
+                () -> new SnowyHedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
+
+        WHITE_ROSE_HEDGE = registerBlock("white_rose_hedge",
+                () -> new RoseHedgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)
+                        .mapColor(state -> state.getValue(BlockStateProperties.SNOWY)
+                                ? MapColor.SNOW : MapColor.PLANT)));
+
+        POTTED_HEDGE = registerNoItemBlock("potted_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        false, false));
+
+        POTTED_SNOWY_HEDGE = registerNoItemBlock("potted_snowy_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SNOWY_HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        true, false));
+
+        POTTED_PINK_ROSE_HEDGE = registerNoItemBlock("potted_pink_rose_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.PINK_ROSE_HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        false, true));
+
+        POTTED_RED_ROSE_HEDGE = registerNoItemBlock("potted_red_rose_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.RED_ROSE_HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        false, true));
+
+        POTTED_WHITE_ROSE_HEDGE = registerNoItemBlock("potted_white_rose_hedge",
+                () -> new PottedHedgeBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.WHITE_ROSE_HEDGE,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY),
+                        false, true));
+
+
+        SHROOMSOIL = registerBlock("shroomsoil",
+                () -> new ShroomsoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT).mapColor(MapColor.SAND)));
+
+        SHROOMSOIL_FARMLAND = registerBlock("shroomsoil_farmland",
+                () -> new ShroomsoilFarmlandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND).mapColor(MapColor.SAND)));
+
+        SHROOMSOIL_PATH = registerBlock("shroomsoil_path",
+                () -> new ShroomsoilPathBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH).mapColor(MapColor.SAND)));
+
+        COARSE_SHROOMSOIL = registerBlock("coarse_shroomsoil",
+                () -> new CoarseShroomsoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT).mapColor(MapColor.SAND)));
+
+        ROCKY_SHROOMSOIL = registerBlock("rocky_shroomsoil",
+                () -> new CoarseShroomsoilBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COARSE_DIRT).mapColor(MapColor.SAND)));
+
+        SHROOMGRASS_BLOCK = registerBlock("shroomgrass_block",
+                () -> new ShroomgrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK).mapColor(MapColor.GRASS)));
+
+        WET_MUD = registerBlock("wet_mud",
+                () -> new WetMudBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD).mapColor(MapColor.COLOR_BROWN)));
+
+        WET_MUD_FARMLAND = registerBlock("wet_mud_farmland",
+                () -> new WetMudFarmlandBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND)
+                        .mapColor(MapColor.COLOR_BROWN).sound(SoundType.MUD).friction(0.98F)));
+
+        DEEP_WET_MUD = registerBlock("deep_wet_mud",
+                () -> new DeepWetMudBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DIRT_PATH)
+                        .mapColor(MapColor.COLOR_BROWN).sound(MarioverseSoundTypes.DEEP_MUD).friction(0.95F)));
+
+        GRASSY_FUNGAL_STONE = registerBlock("grassy_fungal_stone",
+                () -> new GrassyStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)
+                        .mapColor(MapColor.GRASS).sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .requiresCorrectToolForDrops().randomTicks().strength(1.5F, 6.0F)));
+        GRASSY_DEEP_FUNGAL_STONE = registerBlock("grassy_deep_fungal_stone",
+                () -> new GrassyStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)
+                        .mapColor(MapColor.GRASS).sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .requiresCorrectToolForDrops().randomTicks().strength(3.0F, 6.5F)));
+        GRASSY_FORTSTONE = registerBlock("grassy_fortstone",
+                () -> new GrassyStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GRASS_BLOCK)
+                        .mapColor(MapColor.GRASS).sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .requiresCorrectToolForDrops().randomTicks().strength(1.5F, 6.0F)));
+
+
+        MUSHROOT_LOG = registerBlock("mushroot_log", () -> log(MapColor.WOOD, MapColor.TERRACOTTA_ORANGE));
+
+        STRIPPED_MUSHROOT_LOG = registerBlock("stripped_mushroot_log", () -> log(MapColor.WOOD, MapColor.WOOD));
+
+        MUSHROOT_WOOD = registerBlock("mushroot_wood", () -> log(MapColor.TERRACOTTA_ORANGE, MapColor.TERRACOTTA_ORANGE));
+
+        STRIPPED_MUSHROOT_WOOD = registerBlock("stripped_mushroot_wood", () -> log(MapColor.WOOD, MapColor.WOOD));
+
+        MUSHROOT_LEAVES = registerBlock("mushroot_leaves", () -> leaves(SoundType.GRASS));
+
+        MUSHROOT_PLANKS = registerBlock("mushroot_planks",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
+                        .instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD)
+                        .strength(2.0F, 3.0F).ignitedByLava()));
+
+        MUSHROOT_STAIRS = registerBlock("mushroot_stairs", () -> stair(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_SLAB = registerBlock("mushroot_slab", () -> slab(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_FENCE = registerBlock("mushroot_fence", () -> fence(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_FENCE_GATE = registerBlock("mushroot_fence_gate",
+                () -> fenceGate(WoodTypeRegistry.MUSHROOT, MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_DOOR = registerBlock("mushroot_door",
+                () -> new DoorBlock(BlockSetTypeRegistry.MUSHROOT, BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
+                        .pushReaction(PushReaction.DESTROY).strength(3.0F)
+                        .noOcclusion().ignitedByLava()));
+
+        MUSHROOT_TRAPDOOR = registerBlock("mushroot_trapdoor",
+                () -> new TrapDoorBlock(BlockSetTypeRegistry.MUSHROOT, BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
+                        .pushReaction(PushReaction.DESTROY).isValidSpawn(Blocks::never).strength(3.0F)
+                        .noOcclusion().ignitedByLava()));
+
+        MUSHROOT_BUTTON = registerBlock("mushroot_button", () -> button(MUSHROOT_PLANKS.get(),
+                BlockSetTypeRegistry.MUSHROOT, 10));
+
+        MUSHROOT_PRESSURE_PLATE = registerBlock("mushroot_pressure_plate", () -> pressurePlate(MUSHROOT_PLANKS.get(),
+                BlockSetTypeRegistry.MUSHROOT));
+
+        MUSHROOT_HANGING_SIGN = registerNoItemBlock("mushroot_hanging_sign",
+                () -> new CeilingHangingSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_WALL_HANGING_SIGN = registerNoItemBlock("mushroot_wall_hanging_sign",
+                () -> new WallHangingSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_SIGN = registerNoItemBlock("mushroot_sign",
+                () -> new StandingSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_WALL_SIGN = registerNoItemBlock("mushroot_wall_sign",
+                () -> new WallSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_ARROW_SIGN = registerNoItemBlock("mushroot_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_WALL_ARROW_SIGN = registerNoItemBlock("mushroot_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.WOOD)
+                                .lootFrom(MUSHROOT_ARROW_SIGN)));
+
+        MUSHROOT_HANGING_ARROW_SIGN = registerNoItemBlock("mushroot_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.WOOD)
+                                .lootFrom(MUSHROOT_ARROW_SIGN)));
+
+        LARGE_MUSHROOT_ARROW_SIGN = registerNoItemBlock("large_mushroot_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+
+        LARGE_MUSHROOT_WALL_ARROW_SIGN = registerNoItemBlock("large_mushroot_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(LARGE_MUSHROOT_ARROW_SIGN.get()).mapColor(MapColor.WOOD)
+                                .lootFrom(LARGE_MUSHROOT_ARROW_SIGN)));
+
+        MUSHROOT_LOG_BRIDGE = registerBlock("mushroot_log_bridge",
+                () -> new LogBridgeBlock(BlockRegistry.MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_MUSHROOT_LOG_BRIDGE = registerBlock("stripped_mushroot_log_bridge",
+                () -> new LogBridgeBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_LOG_BRIDGE_STAIRS = registerBlock("mushroot_log_bridge_stairs",
+                () -> new LogBridgeStairBlock(BlockRegistry.MUSHROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
+                        .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.PODZOL)));
+
+        STRIPPED_MUSHROOT_LOG_BRIDGE_STAIRS = registerBlock("stripped_mushroot_log_bridge_stairs",
+                () -> new LogBridgeStairBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)));
+
+        MUSHROOT_LOG_PLATFORM = registerBlock("mushroot_log_platform",
+                () -> new LogPlatformBlock(BlockRegistry.MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)
+                        .isSuffocating(BlockRegistry::never)));
+
+        STRIPPED_MUSHROOT_LOG_PLATFORM = registerBlock("stripped_mushroot_log_platform",
+                () -> new LogPlatformBlock(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_MUSHROOT_LOG.get()).mapColor(MapColor.WOOD)
+                        .isSuffocating(BlockRegistry::never)));
+
+        MUSHROOT_BOARDS = registerBlock("mushroot_boards",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())));
+
+        MUSHROOT_BOARD_STAIRS = registerBlock("mushroot_board_stairs", () -> stair(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_BOARD_SLAB = registerBlock("mushroot_board_slab", () -> slab(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_BOARD_WALL = registerBlock("mushroot_board_wall", () -> wall(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_PANELS = registerBlock("mushroot_panels",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())));
+
+        MUSHROOT_PANEL_STAIRS = registerBlock("mushroot_panel_stairs", () -> stair(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_PANEL_SLAB = registerBlock("mushroot_panel_slab", () -> slab(MUSHROOT_PLANKS.get()));
+
+        MUSHROOT_PANEL_WALL = registerBlock("mushroot_panel_wall", () -> wall(MUSHROOT_PLANKS.get()));
+
+        HARD_MUSHROOT_BLOCK = registerBlock("hard_mushroot_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(MUSHROOT_PLANKS.get())
+                        .strength(4.0F, 8.0F)));
+
+        HARD_MUSHROOT_STAIRS = registerBlock("hard_mushroot_stairs", () -> stair(HARD_MUSHROOT_BLOCK.get()));
+
+        HARD_MUSHROOT_SLAB = registerBlock("hard_mushroot_slab", () -> slab(HARD_MUSHROOT_BLOCK.get()));
+
+        HARD_MUSHROOT_WALL = registerBlock("hard_mushroot_wall", () -> wall(HARD_MUSHROOT_BLOCK.get()));
+
+        MUSHROOT_FRAMED_WINDOW = registerBlock("mushroot_framed_window",
+                () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS).ignitedByLava()));
+
+        MUSHROOT_FRAMED_WINDOW_PANE = registerBlock("mushroot_framed_window_pane",
+                () -> new IronBarsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS_PANE).ignitedByLava()));
+
+        MUSHROOT_SAPLING = registerBlock("mushroot_sapling",
+                () -> new SaplingBlock(SuperTreeGrower.MUSHROOT, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT)
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                        .noCollission().randomTicks().instabreak()));
+
+        POTTED_MUSHROOT_SAPLING = registerNoItemBlock("potted_mushroot_sapling",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.MUSHROOT_SAPLING,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        SPOOKROOT_LOG = registerBlock("spookroot_log", () -> log(MapColor.COLOR_LIGHT_GRAY, MapColor.TERRACOTTA_CYAN));
+
+        STRIPPED_SPOOKROOT_LOG = registerBlock("stripped_spookroot_log", () -> log(MapColor.METAL, MapColor.METAL));
+
+        SPOOKROOT_WOOD = registerBlock("spookroot_wood", () -> log(MapColor.TERRACOTTA_CYAN, MapColor.TERRACOTTA_CYAN));
+
+        STRIPPED_SPOOKROOT_WOOD = registerBlock("stripped_spookroot_wood", () -> log(MapColor.METAL, MapColor.METAL));
+
+        SPOOKROOT_LEAVES = registerBlock("spookroot_leaves", () -> leaves(SoundType.GRASS, MapColor.TERRACOTTA_GREEN));
+
+        DARK_SPOOKROOT_LEAVES = registerBlock("dark_spookroot_leaves", () -> leaves(SoundType.GRASS, MapColor.TERRACOTTA_GREEN));
+
+        SPOOKROOT_PLANKS = registerBlock("spookroot_planks",
+                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY)
+                        .instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD)
+                        .strength(2.0F, 3.0F).ignitedByLava()));
+
+        SPOOKROOT_STAIRS = registerBlock("spookroot_stairs", () -> stair(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_SLAB = registerBlock("spookroot_slab", () -> slab(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_FENCE = registerBlock("spookroot_fence", () -> fence(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_FENCE_GATE = registerBlock("spookroot_fence_gate",
+                () -> fenceGate(WoodTypeRegistry.SPOOKROOT, SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_DOOR = registerBlock("spookroot_door",
+                () -> new DoorBlock(BlockSetTypeRegistry.SPOOKROOT, BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())
+                        .pushReaction(PushReaction.DESTROY).strength(3.0F)
+                        .noOcclusion().ignitedByLava()));
+
+        SPOOKROOT_TRAPDOOR = registerBlock("spookroot_trapdoor",
+                () -> new TrapDoorBlock(BlockSetTypeRegistry.SPOOKROOT, BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())
+                        .pushReaction(PushReaction.DESTROY).isValidSpawn(Blocks::never).strength(3.0F)
+                        .noOcclusion().ignitedByLava()));
+
+        SPOOKROOT_BUTTON = registerBlock("spookroot_button", () -> button(SPOOKROOT_PLANKS.get(),
+                BlockSetTypeRegistry.SPOOKROOT, 10));
+
+        SPOOKROOT_PRESSURE_PLATE = registerBlock("spookroot_pressure_plate", () -> pressurePlate(SPOOKROOT_PLANKS.get(),
+                BlockSetTypeRegistry.SPOOKROOT));
+
+        SPOOKROOT_HANGING_SIGN = registerNoItemBlock("spookroot_hanging_sign",
+                () -> new CeilingHangingSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.COLOR_LIGHT_GRAY)));
+
+        SPOOKROOT_WALL_HANGING_SIGN = registerNoItemBlock("spookroot_wall_hanging_sign",
+                () -> new WallHangingSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN).mapColor(MapColor.COLOR_LIGHT_GRAY)));
+
+        SPOOKROOT_SIGN = registerNoItemBlock("spookroot_sign",
+                () -> new StandingSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.COLOR_LIGHT_GRAY)));
+
+        SPOOKROOT_WALL_SIGN = registerNoItemBlock("spookroot_wall_sign",
+                () -> new WallSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.COLOR_LIGHT_GRAY)));
+
+        SPOOKROOT_ARROW_SIGN = registerNoItemBlock("spookroot_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).mapColor(MapColor.COLOR_LIGHT_GRAY)));
+
+        SPOOKROOT_WALL_ARROW_SIGN = registerNoItemBlock("spookroot_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).mapColor(MapColor.COLOR_LIGHT_GRAY)
+                                .lootFrom(SPOOKROOT_ARROW_SIGN)));
+
+        SPOOKROOT_HANGING_ARROW_SIGN = registerNoItemBlock("spookroot_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).mapColor(MapColor.COLOR_LIGHT_GRAY)
+                                .lootFrom(SPOOKROOT_ARROW_SIGN)));
+
+        LARGE_SPOOKROOT_ARROW_SIGN = registerNoItemBlock("large_spookroot_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).mapColor(MapColor.COLOR_LIGHT_GRAY)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+
+        LARGE_SPOOKROOT_WALL_ARROW_SIGN = registerNoItemBlock("large_spookroot_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(LARGE_SPOOKROOT_ARROW_SIGN.get()).mapColor(MapColor.COLOR_LIGHT_GRAY)
+                                .lootFrom(LARGE_SPOOKROOT_ARROW_SIGN)));
+
+        SPOOKROOT_LOG_BRIDGE = registerBlock("spookroot_log_bridge",
+                () -> new LogBridgeBlock(BlockRegistry.SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(SPOOKROOT_LOG.get()).mapColor(MapColor.TERRACOTTA_CYAN)));
+
+        STRIPPED_SPOOKROOT_LOG_BRIDGE = registerBlock("stripped_spookroot_log_bridge",
+                () -> new LogBridgeBlock(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_SPOOKROOT_LOG.get()).mapColor(MapColor.METAL)));
+
+        SPOOKROOT_LOG_BRIDGE_STAIRS = registerBlock("spookroot_log_bridge_stairs",
+                () -> new LogBridgeStairBlock(BlockRegistry.SPOOKROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
+                        .ofFullCopy(SPOOKROOT_LOG.get()).mapColor(MapColor.TERRACOTTA_CYAN)));
+
+        STRIPPED_SPOOKROOT_LOG_BRIDGE_STAIRS = registerBlock("stripped_spookroot_log_bridge_stairs",
+                () -> new LogBridgeStairBlock(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get().defaultBlockState(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_SPOOKROOT_LOG.get()).mapColor(MapColor.METAL)));
+
+        SPOOKROOT_LOG_PLATFORM = registerBlock("spookroot_log_platform",
+                () -> new LogPlatformBlock(BlockRegistry.SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(SPOOKROOT_LOG.get()).mapColor(MapColor.COLOR_LIGHT_GRAY)
+                        .isSuffocating(BlockRegistry::never)));
+
+        STRIPPED_SPOOKROOT_LOG_PLATFORM = registerBlock("stripped_spookroot_log_platform",
+                () -> new LogPlatformBlock(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get(), BlockBehaviour.Properties
+                        .ofFullCopy(STRIPPED_SPOOKROOT_LOG.get()).mapColor(MapColor.METAL)
+                        .isSuffocating(BlockRegistry::never)));
+
+        SPOOKROOT_BOARDS = registerBlock("spookroot_boards",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())));
+
+        SPOOKROOT_BOARD_STAIRS = registerBlock("spookroot_board_stairs", () -> stair(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_BOARD_SLAB = registerBlock("spookroot_board_slab", () -> slab(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_BOARD_WALL = registerBlock("spookroot_board_wall", () -> wall(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_PANELS = registerBlock("spookroot_panels",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())));
+
+        SPOOKROOT_PANEL_STAIRS = registerBlock("spookroot_panel_stairs", () -> stair(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_PANEL_SLAB = registerBlock("spookroot_panel_slab", () -> slab(SPOOKROOT_PLANKS.get()));
+
+        SPOOKROOT_PANEL_WALL = registerBlock("spookroot_panel_wall", () -> wall(SPOOKROOT_PLANKS.get()));
+
+        HARD_SPOOKROOT_BLOCK = registerBlock("hard_spookroot_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(SPOOKROOT_PLANKS.get())
+                        .strength(4.0F, 8.0F)));
+
+        HARD_SPOOKROOT_STAIRS = registerBlock("hard_spookroot_stairs", () -> stair(HARD_SPOOKROOT_BLOCK.get()));
+
+        HARD_SPOOKROOT_SLAB = registerBlock("hard_spookroot_slab", () -> slab(HARD_SPOOKROOT_BLOCK.get()));
+
+        HARD_SPOOKROOT_WALL = registerBlock("hard_spookroot_wall", () -> wall(HARD_SPOOKROOT_BLOCK.get()));
+
+        SPOOKROOT_FRAMED_WINDOW = registerBlock("spookroot_framed_window",
+                () -> new TransparentBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
+                        .mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava()));
+
+        SPOOKROOT_FRAMED_WINDOW_PANE = registerBlock("spookroot_framed_window_pane",
+                () -> new IronBarsBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS_PANE)
+                        .mapColor(MapColor.COLOR_LIGHT_GRAY).ignitedByLava()));
+
+        SPOOKROOT_SAPLING = registerBlock("spookroot_sapling",
+                () -> new SaplingBlock(SuperTreeGrower.SPOOKROOT, BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GREEN)
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                        .noCollission().randomTicks().instabreak()));
+
+        POTTED_SPOOKROOT_SAPLING = registerNoItemBlock("potted_spookroot_sapling",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SPOOKROOT_SAPLING,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+        SPOOKY_SPOOKROOT_SAPLING = registerBlock("spooky_spookroot_sapling",
+                () -> new SaplingBlock(SuperTreeGrower.SPOOKY_SPOOKROOT, BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GREEN)
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                        .noCollission().randomTicks().instabreak()));
+
+        POTTED_SPOOKY_SPOOKROOT_SAPLING = registerNoItemBlock("potted_spooky_spookroot_sapling",
+                () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, BlockRegistry.SPOOKY_SPOOKROOT_SAPLING,
+                        BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+
+
+        HARD_OAK_BLOCK = registerBlock("hard_oak_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).strength(4.0F, 8.0F)));
+        HARD_OAK_STAIRS = registerBlock("hard_oak_stairs", () -> stair(HARD_OAK_BLOCK.get()));
+        HARD_OAK_SLAB = registerBlock("hard_oak_slab", () -> slab(HARD_OAK_BLOCK.get()));
+        HARD_OAK_WALL = registerBlock("hard_oak_wall", () -> wall(HARD_OAK_BLOCK.get()));
+
+        HARD_SPRUCE_BLOCK = registerBlock("hard_spruce_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS).strength(4.0F, 8.0F)));
+        HARD_SPRUCE_STAIRS = registerBlock("hard_spruce_stairs", () -> stair(HARD_SPRUCE_BLOCK.get()));
+        HARD_SPRUCE_SLAB = registerBlock("hard_spruce_slab", () -> slab(HARD_SPRUCE_BLOCK.get()));
+        HARD_SPRUCE_WALL = registerBlock("hard_spruce_wall", () -> wall(HARD_SPRUCE_BLOCK.get()));
+
+        HARD_BIRCH_BLOCK = registerBlock("hard_birch_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_PLANKS).strength(4.0F, 8.0F)));
+        HARD_BIRCH_STAIRS = registerBlock("hard_birch_stairs", () -> stair(HARD_BIRCH_BLOCK.get()));
+        HARD_BIRCH_SLAB = registerBlock("hard_birch_slab", () -> slab(HARD_BIRCH_BLOCK.get()));
+        HARD_BIRCH_WALL = registerBlock("hard_birch_wall", () -> wall(HARD_BIRCH_BLOCK.get()));
+
+        HARD_JUNGLE_BLOCK = registerBlock("hard_jungle_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_PLANKS).strength(4.0F, 8.0F)));
+        HARD_JUNGLE_STAIRS = registerBlock("hard_jungle_stairs", () -> stair(HARD_JUNGLE_BLOCK.get()));
+        HARD_JUNGLE_SLAB = registerBlock("hard_jungle_slab", () -> slab(HARD_JUNGLE_BLOCK.get()));
+        HARD_JUNGLE_WALL = registerBlock("hard_jungle_wall", () -> wall(HARD_JUNGLE_BLOCK.get()));
+
+        HARD_ACACIA_BLOCK = registerBlock("hard_acacia_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_PLANKS).strength(4.0F, 8.0F)));
+        HARD_ACACIA_STAIRS = registerBlock("hard_acacia_stairs", () -> stair(HARD_ACACIA_BLOCK.get()));
+        HARD_ACACIA_SLAB = registerBlock("hard_acacia_slab", () -> slab(HARD_ACACIA_BLOCK.get()));
+        HARD_ACACIA_WALL = registerBlock("hard_acacia_wall", () -> wall(HARD_ACACIA_BLOCK.get()));
+
+        HARD_DARK_OAK_BLOCK = registerBlock("hard_dark_oak_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_PLANKS).strength(4.0F, 8.0F)));
+        HARD_DARK_OAK_STAIRS = registerBlock("hard_dark_oak_stairs", () -> stair(HARD_DARK_OAK_BLOCK.get()));
+        HARD_DARK_OAK_SLAB = registerBlock("hard_dark_oak_slab", () -> slab(HARD_DARK_OAK_BLOCK.get()));
+        HARD_DARK_OAK_WALL = registerBlock("hard_dark_oak_wall", () -> wall(HARD_DARK_OAK_BLOCK.get()));
+
+        HARD_MANGROVE_BLOCK = registerBlock("hard_mangrove_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_PLANKS).strength(4.0F, 8.0F)));
+        HARD_MANGROVE_STAIRS = registerBlock("hard_mangrove_stairs", () -> stair(HARD_MANGROVE_BLOCK.get()));
+        HARD_MANGROVE_SLAB = registerBlock("hard_mangrove_slab", () -> slab(HARD_MANGROVE_BLOCK.get()));
+        HARD_MANGROVE_WALL = registerBlock("hard_mangrove_wall", () -> wall(HARD_MANGROVE_BLOCK.get()));
+
+        HARD_CHERRY_BLOCK = registerBlock("hard_cherry_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS).strength(4.0F, 8.0F)));
+        HARD_CHERRY_STAIRS = registerBlock("hard_cherry_stairs", () -> stair(HARD_CHERRY_BLOCK.get()));
+        HARD_CHERRY_SLAB = registerBlock("hard_cherry_slab", () -> slab(HARD_CHERRY_BLOCK.get()));
+        HARD_CHERRY_WALL = registerBlock("hard_cherry_wall", () -> wall(HARD_CHERRY_BLOCK.get()));
+
+        HARD_BAMBOO_BLOCK = registerBlock("hard_bamboo_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS).strength(4.0F, 8.0F)));
+        HARD_BAMBOO_STAIRS = registerBlock("hard_bamboo_stairs", () -> stair(HARD_BAMBOO_BLOCK.get()));
+        HARD_BAMBOO_SLAB = registerBlock("hard_bamboo_slab", () -> slab(HARD_BAMBOO_BLOCK.get()));
+        HARD_BAMBOO_WALL = registerBlock("hard_bamboo_wall", () -> wall(HARD_BAMBOO_BLOCK.get()));
+
+        HARD_CRIMSON_BLOCK = registerBlock("hard_crimson_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_PLANKS).strength(4.0F, 8.0F)));
+        HARD_CRIMSON_STAIRS = registerBlock("hard_crimson_stairs", () -> stair(HARD_CRIMSON_BLOCK.get()));
+        HARD_CRIMSON_SLAB = registerBlock("hard_crimson_slab", () -> slab(HARD_CRIMSON_BLOCK.get()));
+        HARD_CRIMSON_WALL = registerBlock("hard_crimson_wall", () -> wall(HARD_CRIMSON_BLOCK.get()));
+
+        HARD_WARPED_BLOCK = registerBlock("hard_warped_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_PLANKS).strength(4.0F, 8.0F)));
+        HARD_WARPED_STAIRS = registerBlock("hard_warped_stairs", () -> stair(HARD_WARPED_BLOCK.get()));
+        HARD_WARPED_SLAB = registerBlock("hard_warped_slab", () -> slab(HARD_WARPED_BLOCK.get()));
+        HARD_WARPED_WALL = registerBlock("hard_warped_wall", () -> wall(HARD_WARPED_BLOCK.get()));
+
+        OAK_PICKET_FENCE = registerBlock("oak_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+        SPRUCE_PICKET_FENCE = registerBlock("spruce_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_FENCE)));
+        BIRCH_PICKET_FENCE = registerBlock("birch_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_FENCE)));
+        ACACIA_PICKET_FENCE = registerBlock("acacia_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_FENCE)));
+        JUNGLE_PICKET_FENCE = registerBlock("jungle_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_FENCE)));
+        CHERRY_PICKET_FENCE = registerBlock("cherry_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_FENCE)));
+        DARK_OAK_PICKET_FENCE = registerBlock("dark_oak_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_FENCE)));
+        MANGROVE_PICKET_FENCE = registerBlock("mangrove_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_FENCE)));
+        BAMBOO_PICKET_FENCE = registerBlock("bamboo_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_FENCE)));
+        CRIMSON_PICKET_FENCE = registerBlock("crimson_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FENCE)));
+        WARPED_PICKET_FENCE = registerBlock("warped_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE)));
+        MUSHROOT_PICKET_FENCE = registerBlock("mushroot_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_FENCE.get())));
+        SPOOKROOT_PICKET_FENCE = registerBlock("spookroot_picket_fence",
+                () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.SPOOKROOT_FENCE.get())));
+
+        OAK_PICKET_FENCE_GATE = registerBlock("oak_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)));
+        SPRUCE_PICKET_FENCE_GATE = registerBlock("spruce_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_FENCE_GATE)));
+        BIRCH_PICKET_FENCE_GATE = registerBlock("birch_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_FENCE_GATE)));
+        ACACIA_PICKET_FENCE_GATE = registerBlock("acacia_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_FENCE_GATE)));
+        JUNGLE_PICKET_FENCE_GATE = registerBlock("jungle_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_FENCE_GATE)));
+        CHERRY_PICKET_FENCE_GATE = registerBlock("cherry_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_FENCE_GATE)));
+        DARK_OAK_PICKET_FENCE_GATE = registerBlock("dark_oak_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_FENCE_GATE)));
+        MANGROVE_PICKET_FENCE_GATE = registerBlock("mangrove_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_FENCE_GATE)));
+        BAMBOO_PICKET_FENCE_GATE = registerBlock("bamboo_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_FENCE_GATE)));
+        CRIMSON_PICKET_FENCE_GATE = registerBlock("crimson_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FENCE_GATE)));
+        WARPED_PICKET_FENCE_GATE = registerBlock("warped_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodType.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE_GATE)));
+        MUSHROOT_PICKET_FENCE_GATE = registerBlock("mushroot_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.MUSHROOT,
+                        BlockBehaviour.Properties.ofFullCopy(BlockRegistry.MUSHROOT_FENCE_GATE.get())));
+        SPOOKROOT_PICKET_FENCE_GATE = registerBlock("spookroot_picket_fence_gate",
+                () -> new PicketFenceGateBlock(WoodTypeRegistry.SPOOKROOT,
+                        BlockBehaviour.Properties.ofFullCopy(BlockRegistry.SPOOKROOT_FENCE_GATE.get())));
+
+
+        OAK_ARROW_SIGN = registerNoItemBlock("oak_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN)));
+        OAK_WALL_ARROW_SIGN = registerNoItemBlock("oak_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN)
+                                .lootFrom(OAK_ARROW_SIGN)));
+        OAK_HANGING_ARROW_SIGN = registerNoItemBlock("oak_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN)
+                                .lootFrom(OAK_ARROW_SIGN)));
+        LARGE_OAK_ARROW_SIGN = registerNoItemBlock("large_oak_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_OAK_WALL_ARROW_SIGN = registerNoItemBlock("large_oak_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_OAK_ARROW_SIGN)));
+
+        SPRUCE_ARROW_SIGN = registerNoItemBlock("spruce_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_SIGN)));
+        SPRUCE_WALL_ARROW_SIGN = registerNoItemBlock("spruce_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_WALL_SIGN)
+                                .lootFrom(SPRUCE_ARROW_SIGN)));
+        SPRUCE_HANGING_ARROW_SIGN = registerNoItemBlock("spruce_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_HANGING_SIGN)
+                                .lootFrom(SPRUCE_ARROW_SIGN)));
+        LARGE_SPRUCE_ARROW_SIGN = registerNoItemBlock("large_spruce_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_SPRUCE_WALL_ARROW_SIGN = registerNoItemBlock("large_spruce_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.SPRUCE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_SPRUCE_ARROW_SIGN)));
+
+        BIRCH_ARROW_SIGN = registerNoItemBlock("birch_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_SIGN)));
+        BIRCH_WALL_ARROW_SIGN = registerNoItemBlock("birch_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_WALL_SIGN)
+                                .lootFrom(BIRCH_ARROW_SIGN)));
+        BIRCH_HANGING_ARROW_SIGN = registerNoItemBlock("birch_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_HANGING_SIGN)
+                        .lootFrom(BIRCH_ARROW_SIGN)));
+        LARGE_BIRCH_ARROW_SIGN = registerNoItemBlock("large_birch_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_BIRCH_WALL_ARROW_SIGN = registerNoItemBlock("large_birch_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.BIRCH,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_BIRCH_ARROW_SIGN)));
+
+        JUNGLE_ARROW_SIGN = registerNoItemBlock("jungle_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_SIGN)));
+        JUNGLE_WALL_ARROW_SIGN = registerNoItemBlock("jungle_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_WALL_SIGN)
+                                .lootFrom(JUNGLE_ARROW_SIGN)));
+        JUNGLE_HANGING_ARROW_SIGN = registerNoItemBlock("jungle_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_HANGING_SIGN)
+                        .lootFrom(JUNGLE_ARROW_SIGN)));
+        LARGE_JUNGLE_ARROW_SIGN = registerNoItemBlock("large_jungle_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_JUNGLE_WALL_ARROW_SIGN = registerNoItemBlock("large_jungle_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.JUNGLE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_JUNGLE_ARROW_SIGN)));
+
+        ACACIA_ARROW_SIGN = registerNoItemBlock("acacia_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_SIGN)));
+        ACACIA_WALL_ARROW_SIGN = registerNoItemBlock("acacia_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_WALL_SIGN)
+                                .lootFrom(ACACIA_ARROW_SIGN)));
+        ACACIA_HANGING_ARROW_SIGN = registerNoItemBlock("acacia_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_HANGING_SIGN)
+                                .lootFrom(ACACIA_ARROW_SIGN)));
+        LARGE_ACACIA_ARROW_SIGN = registerNoItemBlock("large_acacia_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_ACACIA_WALL_ARROW_SIGN = registerNoItemBlock("large_acacia_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.ACACIA,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_ACACIA_ARROW_SIGN)));
+
+        DARK_OAK_ARROW_SIGN = registerNoItemBlock("dark_oak_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_SIGN)));
+        DARK_OAK_WALL_ARROW_SIGN = registerNoItemBlock("dark_oak_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_WALL_SIGN)
+                                .lootFrom(DARK_OAK_ARROW_SIGN)));
+        DARK_OAK_HANGING_ARROW_SIGN = registerNoItemBlock("dark_oak_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_HANGING_SIGN)
+                        .lootFrom(DARK_OAK_ARROW_SIGN)));
+        LARGE_DARK_OAK_ARROW_SIGN = registerNoItemBlock("large_dark_oak_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_DARK_OAK_WALL_ARROW_SIGN = registerNoItemBlock("large_dark_oak_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.DARK_OAK,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_DARK_OAK_ARROW_SIGN)));
+
+        MANGROVE_ARROW_SIGN = registerNoItemBlock("mangrove_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_SIGN)));
+        MANGROVE_WALL_ARROW_SIGN = registerNoItemBlock("mangrove_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_WALL_SIGN)
+                                .lootFrom(MANGROVE_ARROW_SIGN)));
+        MANGROVE_HANGING_ARROW_SIGN = registerNoItemBlock("mangrove_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_HANGING_SIGN)
+                                .lootFrom(MANGROVE_ARROW_SIGN)));
+        LARGE_MANGROVE_ARROW_SIGN = registerNoItemBlock("large_mangrove_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_MANGROVE_WALL_ARROW_SIGN = registerNoItemBlock("large_mangrove_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.MANGROVE,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_MANGROVE_ARROW_SIGN)));
+
+        CHERRY_ARROW_SIGN = registerNoItemBlock("cherry_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SIGN)));
+        CHERRY_WALL_ARROW_SIGN = registerNoItemBlock("cherry_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_WALL_SIGN)
+                                .lootFrom(CHERRY_ARROW_SIGN)));
+        CHERRY_HANGING_ARROW_SIGN = registerNoItemBlock("cherry_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_HANGING_SIGN)
+                                .lootFrom(CHERRY_ARROW_SIGN)));
+        LARGE_CHERRY_ARROW_SIGN = registerNoItemBlock("large_cherry_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_CHERRY_WALL_ARROW_SIGN = registerNoItemBlock("large_cherry_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.CHERRY,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_CHERRY_ARROW_SIGN)));
+
+        BAMBOO_ARROW_SIGN = registerNoItemBlock("bamboo_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_SIGN)));
+        BAMBOO_WALL_ARROW_SIGN = registerNoItemBlock("bamboo_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_WALL_SIGN)
+                                .lootFrom(BAMBOO_ARROW_SIGN)));
+        BAMBOO_HANGING_ARROW_SIGN = registerNoItemBlock("bamboo_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_HANGING_SIGN)
+                                .lootFrom(BAMBOO_ARROW_SIGN)));
+        LARGE_BAMBOO_ARROW_SIGN = registerNoItemBlock("large_bamboo_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_BAMBOO_WALL_ARROW_SIGN = registerNoItemBlock("large_bamboo_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.BAMBOO,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_BAMBOO_ARROW_SIGN)));
+
+        CRIMSON_ARROW_SIGN = registerNoItemBlock("crimson_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_SIGN)));
+        CRIMSON_WALL_ARROW_SIGN = registerNoItemBlock("crimson_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_WALL_SIGN)
+                                .lootFrom(CRIMSON_ARROW_SIGN)));
+        CRIMSON_HANGING_ARROW_SIGN = registerNoItemBlock("crimson_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_HANGING_SIGN)
+                                .lootFrom(CRIMSON_ARROW_SIGN)));
+        LARGE_CRIMSON_ARROW_SIGN = registerNoItemBlock("large_crimson_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_CRIMSON_WALL_ARROW_SIGN = registerNoItemBlock("large_crimson_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.CRIMSON,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_CRIMSON_ARROW_SIGN)));
+
+        WARPED_ARROW_SIGN = registerNoItemBlock("warped_arrow_sign",
+                () -> new StandingArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_SIGN)));
+        WARPED_WALL_ARROW_SIGN = registerNoItemBlock("warped_wall_arrow_sign",
+                () -> new WallArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_WALL_SIGN)
+                                .lootFrom(WARPED_ARROW_SIGN)));
+        WARPED_HANGING_ARROW_SIGN = registerNoItemBlock("warped_hanging_arrow_sign",
+                () -> new HangingArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_HANGING_SIGN)
+                                .lootFrom(WARPED_ARROW_SIGN)));
+        LARGE_WARPED_ARROW_SIGN = registerNoItemBlock("large_warped_arrow_sign",
+                () -> new LargeStandingArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn()));
+        LARGE_WARPED_WALL_ARROW_SIGN = registerNoItemBlock("large_warped_wall_arrow_sign",
+                () -> new LargeWallArrowSignBlock(WoodTypeRegistry.WARPED,
+                        BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_PLANKS)
+                                .instrument(NoteBlockInstrument.BASS).strength(1.0F)
+                                .forceSolidOn().lootFrom(LARGE_WARPED_ARROW_SIGN)));
+
+
         OAK_LOG_BRIDGE = registerBlock("oak_log_bridge",
-                () -> new BridgeBlock(Blocks.OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeBlock(Blocks.OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_OAK_LOG_BRIDGE = registerBlock("stripped_oak_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
 
         SPRUCE_LOG_BRIDGE = registerBlock("spruce_log_bridge",
-                () -> new BridgeBlock(Blocks.SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG).mapColor(MapColor.COLOR_BROWN)));
+                () -> new LogBridgeBlock(Blocks.SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG).mapColor(MapColor.COLOR_BROWN)));
 
         STRIPPED_SPRUCE_LOG_BRIDGE = registerBlock("stripped_spruce_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_SPRUCE_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_SPRUCE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_SPRUCE_LOG).mapColor(MapColor.PODZOL)));
 
         BIRCH_LOG_BRIDGE = registerBlock("birch_log_bridge",
-                () -> new BridgeBlock(Blocks.BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG).mapColor(MapColor.QUARTZ)));
+                () -> new LogBridgeBlock(Blocks.BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG).mapColor(MapColor.QUARTZ)));
 
         STRIPPED_BIRCH_LOG_BRIDGE = registerBlock("stripped_birch_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BIRCH_LOG).mapColor(MapColor.SAND)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_BIRCH_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BIRCH_LOG).mapColor(MapColor.SAND)));
 
         JUNGLE_LOG_BRIDGE = registerBlock("jungle_log_bridge",
-                () -> new BridgeBlock(Blocks.JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeBlock(Blocks.JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_JUNGLE_LOG_BRIDGE = registerBlock("stripped_jungle_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_JUNGLE_LOG).mapColor(MapColor.DIRT)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_JUNGLE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_JUNGLE_LOG).mapColor(MapColor.DIRT)));
 
         ACACIA_LOG_BRIDGE = registerBlock("acacia_log_bridge",
-                () -> new BridgeBlock(Blocks.ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_LOG).mapColor(MapColor.STONE)));
+                () -> new LogBridgeBlock(Blocks.ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_LOG).mapColor(MapColor.STONE)));
 
         STRIPPED_ACACIA_LOG_BRIDGE = registerBlock("stripped_acacia_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_ACACIA_LOG).mapColor(MapColor.COLOR_ORANGE)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_ACACIA_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_ACACIA_LOG).mapColor(MapColor.COLOR_ORANGE)));
 
         DARK_OAK_LOG_BRIDGE = registerBlock("dark_oak_log_bridge",
-                () -> new BridgeBlock(Blocks.DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+                () -> new LogBridgeBlock(Blocks.DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
 
         STRIPPED_DARK_OAK_LOG_BRIDGE = registerBlock("stripped_dark_oak_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_DARK_OAK_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
 
         MANGROVE_LOG_BRIDGE = registerBlock("mangrove_log_bridge",
-                () -> new BridgeBlock(Blocks.MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeBlock(Blocks.MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_MANGROVE_LOG_BRIDGE = registerBlock("stripped_mangrove_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_MANGROVE_LOG).mapColor(MapColor.COLOR_RED)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_MANGROVE_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_MANGROVE_LOG).mapColor(MapColor.COLOR_RED)));
 
         CHERRY_LOG_BRIDGE = registerBlock("cherry_log_bridge",
-                () -> new BridgeBlock(Blocks.CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
+                () -> new LogBridgeBlock(Blocks.CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
 
         STRIPPED_CHERRY_LOG_BRIDGE = registerBlock("stripped_cherry_log_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CHERRY_LOG).mapColor(MapColor.TERRACOTTA_PINK)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_CHERRY_LOG, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CHERRY_LOG).mapColor(MapColor.TERRACOTTA_PINK)));
 
         BAMBOO_BRIDGE = registerBlock("bamboo_bridge",
-                () -> new BridgeBlock(Blocks.BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK).mapColor(MapColor.PLANT)));
+                () -> new LogBridgeBlock(Blocks.BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK).mapColor(MapColor.PLANT)));
 
         STRIPPED_BAMBOO_BRIDGE = registerBlock("stripped_bamboo_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BAMBOO_BLOCK).mapColor(MapColor.COLOR_YELLOW)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_BAMBOO_BLOCK, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BAMBOO_BLOCK).mapColor(MapColor.COLOR_YELLOW)));
 
         CRIMSON_STEM_BRIDGE = registerBlock("crimson_stem_bridge",
-                () -> new BridgeBlock(Blocks.CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_STEM)));
+                () -> new LogBridgeBlock(Blocks.CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_STEM)));
 
         STRIPPED_CRIMSON_STEM_BRIDGE = registerBlock("stripped_crimson_stem_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CRIMSON_STEM)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_CRIMSON_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CRIMSON_STEM)));
 
         WARPED_STEM_BRIDGE = registerBlock("warped_stem_bridge",
-                () -> new BridgeBlock(Blocks.WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_STEM)));
+                () -> new LogBridgeBlock(Blocks.WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_STEM)));
 
         STRIPPED_WARPED_STEM_BRIDGE = registerBlock("stripped_warped_stem_bridge",
-                () -> new BridgeBlock(Blocks.STRIPPED_WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
+                () -> new LogBridgeBlock(Blocks.STRIPPED_WARPED_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
 
 
         OAK_LOG_BRIDGE_STAIRS = registerBlock("oak_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeStairBlock(Blocks.OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_OAK_LOG_BRIDGE_STAIRS = registerBlock("stripped_oak_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG).mapColor(MapColor.WOOD)));
 
         SPRUCE_LOG_BRIDGE_STAIRS = registerBlock("spruce_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.SPRUCE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG).mapColor(MapColor.COLOR_BROWN)));
+                () -> new LogBridgeStairBlock(Blocks.SPRUCE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG).mapColor(MapColor.COLOR_BROWN)));
 
         STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS = registerBlock("stripped_spruce_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_SPRUCE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_SPRUCE_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_SPRUCE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_SPRUCE_LOG).mapColor(MapColor.PODZOL)));
 
         BIRCH_LOG_BRIDGE_STAIRS = registerBlock("birch_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.BIRCH_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG).mapColor(MapColor.QUARTZ)));
+                () -> new LogBridgeStairBlock(Blocks.BIRCH_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG).mapColor(MapColor.QUARTZ)));
 
         STRIPPED_BIRCH_LOG_BRIDGE_STAIRS = registerBlock("stripped_birch_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_BIRCH_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BIRCH_LOG).mapColor(MapColor.SAND)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_BIRCH_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BIRCH_LOG).mapColor(MapColor.SAND)));
 
         JUNGLE_LOG_BRIDGE_STAIRS = registerBlock("jungle_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.JUNGLE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeStairBlock(Blocks.JUNGLE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_JUNGLE_LOG_BRIDGE_STAIRS = registerBlock("stripped_jungle_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_JUNGLE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_JUNGLE_LOG).mapColor(MapColor.DIRT)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_JUNGLE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_JUNGLE_LOG).mapColor(MapColor.DIRT)));
 
         ACACIA_LOG_BRIDGE_STAIRS = registerBlock("acacia_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.ACACIA_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_LOG).mapColor(MapColor.STONE)));
+                () -> new LogBridgeStairBlock(Blocks.ACACIA_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_LOG).mapColor(MapColor.STONE)));
 
         STRIPPED_ACACIA_LOG_BRIDGE_STAIRS = registerBlock("stripped_acacia_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_ACACIA_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_ACACIA_LOG).mapColor(MapColor.COLOR_ORANGE)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_ACACIA_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_ACACIA_LOG).mapColor(MapColor.COLOR_ORANGE)));
 
         DARK_OAK_LOG_BRIDGE_STAIRS = registerBlock("dark_oak_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.DARK_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+                () -> new LogBridgeStairBlock(Blocks.DARK_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
 
         STRIPPED_DARK_OAK_LOG_BRIDGE_STAIRS = registerBlock("stripped_dark_oak_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_DARK_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_DARK_OAK_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_DARK_OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
 
         MANGROVE_LOG_BRIDGE_STAIRS = registerBlock("mangrove_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.MANGROVE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_LOG).mapColor(MapColor.PODZOL)));
+                () -> new LogBridgeStairBlock(Blocks.MANGROVE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_LOG).mapColor(MapColor.PODZOL)));
 
         STRIPPED_MANGROVE_LOG_BRIDGE_STAIRS = registerBlock("stripped_mangrove_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_MANGROVE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_MANGROVE_LOG).mapColor(MapColor.COLOR_RED)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_MANGROVE_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_MANGROVE_LOG).mapColor(MapColor.COLOR_RED)));
 
         CHERRY_LOG_BRIDGE_STAIRS = registerBlock("cherry_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.CHERRY_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
+                () -> new LogBridgeStairBlock(Blocks.CHERRY_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG).mapColor(MapColor.TERRACOTTA_GRAY)));
 
         STRIPPED_CHERRY_LOG_BRIDGE_STAIRS = registerBlock("stripped_cherry_log_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_CHERRY_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CHERRY_LOG).mapColor(MapColor.TERRACOTTA_PINK)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_CHERRY_LOG.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CHERRY_LOG).mapColor(MapColor.TERRACOTTA_PINK)));
 
         BAMBOO_BRIDGE_STAIRS = registerBlock("bamboo_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.BAMBOO_BLOCK.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK).mapColor(MapColor.PLANT)));
+                () -> new LogBridgeStairBlock(Blocks.BAMBOO_BLOCK.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_BLOCK).mapColor(MapColor.PLANT)));
 
         STRIPPED_BAMBOO_BRIDGE_STAIRS = registerBlock("stripped_bamboo_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_BAMBOO_BLOCK.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BAMBOO_BLOCK).mapColor(MapColor.COLOR_YELLOW)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_BAMBOO_BLOCK.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_BAMBOO_BLOCK).mapColor(MapColor.COLOR_YELLOW)));
 
         CRIMSON_STEM_BRIDGE_STAIRS = registerBlock("crimson_stem_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.CRIMSON_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_STEM)));
+                () -> new LogBridgeStairBlock(Blocks.CRIMSON_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_STEM)));
 
         STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS = registerBlock("stripped_crimson_stem_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_CRIMSON_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CRIMSON_STEM)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_CRIMSON_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_CRIMSON_STEM)));
 
         WARPED_STEM_BRIDGE_STAIRS = registerBlock("warped_stem_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.WARPED_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_STEM)));
+                () -> new LogBridgeStairBlock(Blocks.WARPED_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_STEM)));
 
         STRIPPED_WARPED_STEM_BRIDGE_STAIRS = registerBlock("stripped_warped_stem_bridge_stairs",
-                () -> new BridgeStairBlock(Blocks.STRIPPED_WARPED_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
+                () -> new LogBridgeStairBlock(Blocks.STRIPPED_WARPED_STEM.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_WARPED_STEM)));
 
 
         FUNGAL_STONE = registerBlock("fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
+                () -> new FungalStone(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
-                        .strength(2.0F, 6.0F).requiresCorrectToolForDrops()));
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
 
-        FUNGAL_STONE_BUTTON = registerBlock("fungal_stone_button", () -> button(FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 25));
+        FUNGAL_STONE_BUTTON = registerBlock("fungal_stone_button",
+                () -> button(FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 25));
 
-        FUNGAL_STONE_PRESSURE_PLATE = registerBlock("fungal_stone_pressure_plate", () -> pressurePlate(FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
+        FUNGAL_STONE_PRESSURE_PLATE = registerBlock("fungal_stone_pressure_plate",
+                () -> pressurePlate(FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
 
         FUNGAL_STONE_SLAB = registerBlock("fungal_stone_slab", () -> slab(FUNGAL_STONE.get()));
 
         FUNGAL_STONE_STAIRS = registerBlock("fungal_stone_stairs", () -> stair(FUNGAL_STONE.get()));
 
         FUNGAL_STONE_WALL = registerBlock("fungal_stone_wall", () -> wall(FUNGAL_STONE.get()));
+
+
+        ROCKY_FUNGAL_STONE = registerBlock("rocky_fungal_stone",
+                () -> new RockyStoneBlock(BlockRegistry.FUNGAL_STONE_FLOOR, BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
+                        .strength(2.0F, 6.0F)));
+
+        ROCKY_FUNGAL_STONE_SLAB = registerBlock("rocky_fungal_stone_slab", () -> slab(ROCKY_FUNGAL_STONE.get()));
+
+        ROCKY_FUNGAL_STONE_STAIRS = registerBlock("rocky_fungal_stone_stairs", () -> stair(ROCKY_FUNGAL_STONE.get()));
+
+        ROCKY_FUNGAL_STONE_WALL = registerBlock("rocky_fungal_stone_wall", () -> wall(ROCKY_FUNGAL_STONE.get()));
+
+        FUNGAL_STONE_FLOOR = registerBlock("fungal_stone_floor",
+                () -> new StoneFloorBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
+                        .strength(2.0F, 6.0F)));
+
+
+        FUNGAL_COBBLESTONE = registerBlock("fungal_cobblestone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FUNGAL_STONE.get())
+                        .strength(2.0F, 6.0F)));
+
+        FUNGAL_COBBLESTONE_SLAB = registerBlock("fungal_cobblestone_slab", () -> slab(FUNGAL_COBBLESTONE.get()));
+
+        FUNGAL_COBBLESTONE_STAIRS = registerBlock("fungal_cobblestone_stairs", () -> stair(FUNGAL_COBBLESTONE.get()));
+
+        FUNGAL_COBBLESTONE_WALL = registerBlock("fungal_cobblestone_wall", () -> wall(FUNGAL_COBBLESTONE.get()));
 
 
         FUNGAL_BRICKS = registerBlock("fungal_bricks",
@@ -761,6 +2548,9 @@ public class BlockRegistry {
         FUNGAL_BRICK_PEDESTAL = registerBlock("fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
 
+        FUNGAL_BRICK_LOOPHOLE = registerBlock("fungal_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
+
         CHISELED_FUNGAL_BRICKS = registerBlock("chiseled_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
 
@@ -772,13 +2562,27 @@ public class BlockRegistry {
 
 
         POLISHED_FUNGAL_STONE = registerBlock("polished_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get()).strength(1.5F, 6.0F)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FUNGAL_STONE.get())));
 
-        POLISHED_FUNGAL_STONE_STAIRS = registerBlock("polished_fungal_stone_stairs", () -> stair(POLISHED_FUNGAL_STONE.get()));
+        POLISHED_FUNGAL_STONE_STAIRS = registerBlock("polished_fungal_stone_stairs",
+                () -> stair(POLISHED_FUNGAL_STONE.get()));
 
-        POLISHED_FUNGAL_STONE_SLAB = registerBlock("polished_fungal_stone_slab", () -> slab(POLISHED_FUNGAL_STONE.get()));
+        POLISHED_FUNGAL_STONE_SLAB = registerBlock("polished_fungal_stone_slab",
+                () -> slab(POLISHED_FUNGAL_STONE.get()));
 
-        POLISHED_FUNGAL_STONE_WALL = registerBlock("polished_fungal_stone_wall", () -> wall(POLISHED_FUNGAL_STONE.get()));
+        POLISHED_FUNGAL_STONE_WALL = registerBlock("polished_fungal_stone_wall",
+                () -> wall(POLISHED_FUNGAL_STONE.get()));
+
+
+        HARD_FUNGAL_BLOCK = registerBlock("hard_fungal_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())
+                        .strength(2.5F, 8.0F)));
+
+        HARD_FUNGAL_STAIRS = registerBlock("hard_fungal_stairs", () -> stair(HARD_FUNGAL_BLOCK.get()));
+
+        HARD_FUNGAL_SLAB = registerBlock("hard_fungal_slab", () -> slab(HARD_FUNGAL_BLOCK.get()));
+
+        HARD_FUNGAL_WALL = registerBlock("hard_fungal_wall", () -> wall(HARD_FUNGAL_BLOCK.get()));
 
 
         FUNGAL_QUESTION_BLOCK = registerBlock("fungal_question_block",
@@ -795,18 +2599,27 @@ public class BlockRegistry {
                         .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.TERRACOTTA_RED : MapColor.GOLD)
                         .noCollission().forceSolidOn().strength(0.5F)));
 
+        FUNGAL_BRIDGE = registerBlock("fungal_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(FUNGAL_BRICKS.get())));
+
 
         POLISHED_FUNGAL_BRICKS = registerBlock("polished_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_STONE.get())));
 
-        POLISHED_FUNGAL_BRICK_SLAB = registerBlock("polished_fungal_brick_slab", () -> slab(POLISHED_FUNGAL_BRICKS.get()));
+        POLISHED_FUNGAL_BRICK_SLAB = registerBlock("polished_fungal_brick_slab",
+                () -> slab(POLISHED_FUNGAL_BRICKS.get()));
 
-        POLISHED_FUNGAL_BRICK_STAIRS = registerBlock("polished_fungal_brick_stairs", () -> stair(POLISHED_FUNGAL_BRICKS.get()));
+        POLISHED_FUNGAL_BRICK_STAIRS = registerBlock("polished_fungal_brick_stairs",
+                () -> stair(POLISHED_FUNGAL_BRICKS.get()));
 
-        POLISHED_FUNGAL_BRICK_WALL = registerBlock("polished_fungal_brick_wall", () -> wall(POLISHED_FUNGAL_BRICKS.get()));
+        POLISHED_FUNGAL_BRICK_WALL = registerBlock("polished_fungal_brick_wall",
+                () -> wall(POLISHED_FUNGAL_BRICKS.get()));
 
         POLISHED_FUNGAL_BRICK_PEDESTAL = registerBlock("polished_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_BRICKS.get())));
+
+        POLISHED_FUNGAL_BRICK_LOOPHOLE = registerBlock("polished_fungal_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_BRICKS.get())));
 
         CHISELED_POLISHED_FUNGAL_BRICKS = registerBlock("chiseled_polished_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FUNGAL_BRICKS.get())));
@@ -820,19 +2633,47 @@ public class BlockRegistry {
 
 
         DEEP_FUNGAL_STONE = registerBlock("deep_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
+                () -> new FungalStone(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN)
                         .sound(SoundType.TUFF_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
                         .strength(3.0F, 6.5F).requiresCorrectToolForDrops()));
 
-        DEEP_FUNGAL_STONE_BUTTON = registerBlock("deep_fungal_stone_button", () -> button(DEEP_FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 35));
+        DEEP_FUNGAL_STONE_BUTTON = registerBlock("deep_fungal_stone_button",
+                () -> button(DEEP_FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 35));
 
-        DEEP_FUNGAL_STONE_PRESSURE_PLATE = registerBlock("deep_fungal_stone_pressure_plate", () -> pressurePlate(DEEP_FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
+        DEEP_FUNGAL_STONE_PRESSURE_PLATE = registerBlock("deep_fungal_stone_pressure_plate",
+                () -> pressurePlate(DEEP_FUNGAL_STONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
 
         DEEP_FUNGAL_STONE_SLAB = registerBlock("deep_fungal_stone_slab", () -> slab(DEEP_FUNGAL_STONE.get()));
 
         DEEP_FUNGAL_STONE_STAIRS = registerBlock("deep_fungal_stone_stairs", () -> stair(DEEP_FUNGAL_STONE.get()));
 
         DEEP_FUNGAL_STONE_WALL = registerBlock("deep_fungal_stone_wall", () -> wall(DEEP_FUNGAL_STONE.get()));
+
+
+        ROCKY_DEEP_FUNGAL_STONE = registerBlock("rocky_deep_fungal_stone",
+                () -> new RockyStoneBlock(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR, BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
+                        .strength(3.5F, 6.0F)));
+
+        ROCKY_DEEP_FUNGAL_STONE_SLAB = registerBlock("rocky_deep_fungal_stone_slab", () -> slab(ROCKY_DEEP_FUNGAL_STONE.get()));
+
+        ROCKY_DEEP_FUNGAL_STONE_STAIRS = registerBlock("rocky_deep_fungal_stone_stairs", () -> stair(ROCKY_DEEP_FUNGAL_STONE.get()));
+
+        ROCKY_DEEP_FUNGAL_STONE_WALL = registerBlock("rocky_deep_fungal_stone_wall", () -> wall(ROCKY_DEEP_FUNGAL_STONE.get()));
+
+        DEEP_FUNGAL_STONE_FLOOR = registerBlock("deep_fungal_stone_floor",
+                () -> new StoneFloorBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.DEEP_FUNGAL_STONE.get())
+                        .strength(3.5F, 6.0F)));
+
+
+        DEEP_FUNGAL_COBBLESTONE = registerBlock("deep_fungal_cobblestone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
+                        .strength(3.5F, 6.0F)));
+
+        DEEP_FUNGAL_COBBLESTONE_SLAB = registerBlock("deep_fungal_cobblestone_slab", () -> slab(DEEP_FUNGAL_COBBLESTONE.get()));
+
+        DEEP_FUNGAL_COBBLESTONE_STAIRS = registerBlock("deep_fungal_cobblestone_stairs", () -> stair(DEEP_FUNGAL_COBBLESTONE.get()));
+
+        DEEP_FUNGAL_COBBLESTONE_WALL = registerBlock("deep_fungal_cobblestone_wall", () -> wall(DEEP_FUNGAL_COBBLESTONE.get()));
 
 
         DEEP_FUNGAL_BRICKS = registerBlock("deep_fungal_bricks",
@@ -847,6 +2688,9 @@ public class BlockRegistry {
         DEEP_FUNGAL_BRICK_PEDESTAL = registerBlock("deep_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
+        DEEP_FUNGAL_BRICK_LOOPHOLE = registerBlock("deep_fungal_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
+
         CHISELED_DEEP_FUNGAL_BRICKS = registerBlock("chiseled_deep_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
 
@@ -858,13 +2702,25 @@ public class BlockRegistry {
 
 
         POLISHED_DEEP_FUNGAL_STONE = registerBlock("polished_deep_fungal_stone",
-                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get()).strength(2.5F, 6.0F)));
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_STONE.get())
+                        .strength(2.5F, 6.0F)));
 
         POLISHED_DEEP_FUNGAL_STONE_STAIRS = registerBlock("polished_deep_fungal_stone_stairs", () -> stair(POLISHED_DEEP_FUNGAL_STONE.get()));
 
         POLISHED_DEEP_FUNGAL_STONE_SLAB = registerBlock("polished_deep_fungal_stone_slab", () -> slab(POLISHED_DEEP_FUNGAL_STONE.get()));
 
         POLISHED_DEEP_FUNGAL_STONE_WALL = registerBlock("polished_deep_fungal_stone_wall", () -> wall(POLISHED_DEEP_FUNGAL_STONE.get()));
+
+
+        HARD_DEEP_FUNGAL_BLOCK = registerBlock("hard_deep_fungal_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())
+                        .strength(4.0F, 8.0F)));
+
+        HARD_DEEP_FUNGAL_STAIRS = registerBlock("hard_deep_fungal_stairs", () -> stair(HARD_DEEP_FUNGAL_BLOCK.get()));
+
+        HARD_DEEP_FUNGAL_SLAB = registerBlock("hard_deep_fungal_slab", () -> slab(HARD_DEEP_FUNGAL_BLOCK.get()));
+
+        HARD_DEEP_FUNGAL_WALL = registerBlock("hard_deep_fungal_wall", () -> wall(HARD_DEEP_FUNGAL_BLOCK.get()));
 
 
         DEEP_FUNGAL_QUESTION_BLOCK = registerBlock("deep_fungal_question_block",
@@ -881,6 +2737,9 @@ public class BlockRegistry {
                         .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.COLOR_CYAN : MapColor.COLOR_GREEN)
                         .noCollission().forceSolidOn().strength(0.5F)));
 
+        DEEP_FUNGAL_BRIDGE = registerBlock("deep_fungal_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(DEEP_FUNGAL_BRICKS.get())));
+
 
         POLISHED_DEEP_FUNGAL_BRICKS = registerBlock("polished_deep_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_STONE.get())));
@@ -894,6 +2753,9 @@ public class BlockRegistry {
         POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL = registerBlock("polished_deep_fungal_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_BRICKS.get())));
 
+        POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE = registerBlock("polished_deep_fungal_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_BRICKS.get())));
+
         CHISELED_POLISHED_DEEP_FUNGAL_BRICKS = registerBlock("chiseled_polished_deep_fungal_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_BRICKS.get())));
 
@@ -902,6 +2764,190 @@ public class BlockRegistry {
 
         STORAGE_POLISHED_DEEP_FUNGAL_BRICKS = registerBlock("storage_polished_deep_fungal_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_DEEP_FUNGAL_BRICKS.get())));
+
+
+        FORTSTONE = registerBlock("fortstone",
+                () -> new FungalStone(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE)
+                        .sound(SoundType.NETHER_BRICKS).instrument(NoteBlockInstrument.BASEDRUM)
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops()));
+
+        FORTSTONE_SLAB = registerBlock("fortstone_slab", () -> slab(FORTSTONE.get()));
+
+        FORTSTONE_STAIRS = registerBlock("fortstone_stairs", () -> stair(FORTSTONE.get()));
+
+        FORTSTONE_WALL = registerBlock("fortstone_wall", () -> wall(FORTSTONE.get()));
+
+        FORTSTONE_BUTTON = registerBlock("fortstone_button",
+                () -> button(FORTSTONE.get(), BlockSetTypeRegistry.FUNGAL_STONE, 45));
+
+        FORTSTONE_PRESSURE_PLATE = registerBlock("fortstone_pressure_plate",
+                () -> pressurePlate(FORTSTONE.get(), BlockSetTypeRegistry.FUNGAL_STONE));
+
+
+        ROCKY_FORTSTONE = registerBlock("rocky_fortstone",
+                () -> new RockyStoneBlock(BlockRegistry.FORTSTONE_FLOOR, BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
+                        .strength(2.0F, 6.0F)));
+
+        ROCKY_FORTSTONE_SLAB = registerBlock("rocky_fortstone_slab", () -> slab(ROCKY_FORTSTONE.get()));
+
+        ROCKY_FORTSTONE_STAIRS = registerBlock("rocky_fortstone_stairs", () -> stair(ROCKY_FORTSTONE.get()));
+
+        ROCKY_FORTSTONE_WALL = registerBlock("rocky_fortstone_wall", () -> wall(ROCKY_FORTSTONE.get()));
+
+        FORTSTONE_FLOOR = registerBlock("fortstone_floor",
+                () -> new StoneFloorBlock(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
+                        .strength(2.0F, 6.0F)));
+
+
+        COBBLED_FORTSTONE = registerBlock("cobbled_fortstone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(BlockRegistry.FORTSTONE.get())
+                        .mapColor(MapColor.COLOR_YELLOW).strength(2.0F, 6.0F)));
+
+        COBBLED_FORTSTONE_SLAB = registerBlock("cobbled_fortstone_slab", () -> slab(COBBLED_FORTSTONE.get()));
+
+        COBBLED_FORTSTONE_STAIRS = registerBlock("cobbled_fortstone_stairs", () -> stair(COBBLED_FORTSTONE.get()));
+
+        COBBLED_FORTSTONE_WALL = registerBlock("cobbled_fortstone_wall", () -> wall(COBBLED_FORTSTONE.get()));
+
+
+        FORTSTONE_BRICKS = registerBlock("fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE.get()).mapColor(MapColor.COLOR_YELLOW)));
+
+        FORTSTONE_BRICK_SLAB = registerBlock("fortstone_brick_slab", () -> slab(FORTSTONE_BRICKS.get()));
+
+        FORTSTONE_BRICK_STAIRS = registerBlock("fortstone_brick_stairs", () -> stair(FORTSTONE_BRICKS.get()));
+
+        FORTSTONE_BRICK_WALL = registerBlock("fortstone_brick_wall", () -> wall(FORTSTONE_BRICKS.get()));
+
+        FORTSTONE_BRICK_PEDESTAL = registerBlock("fortstone_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+        FORTSTONE_BRICK_LOOPHOLE = registerBlock("fortstone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+        CHISELED_FORTSTONE_BRICKS = registerBlock("chiseled_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+        CRACKED_FORTSTONE_BRICKS = registerBlock("cracked_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+        STORAGE_FORTSTONE_BRICKS = registerBlock("storage_fortstone_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+
+        HUGE_FORTSTONE_BRICKS = registerBlock("huge_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+        HUGE_FORTSTONE_BRICK_SLAB = registerBlock("huge_fortstone_brick_slab", () -> slab(HUGE_FORTSTONE_BRICKS.get()));
+
+        HUGE_FORTSTONE_BRICK_STAIRS = registerBlock("huge_fortstone_brick_stairs", () -> stair(HUGE_FORTSTONE_BRICKS.get()));
+
+        HUGE_FORTSTONE_BRICK_WALL = registerBlock("huge_fortstone_brick_wall", () -> wall(HUGE_FORTSTONE_BRICKS.get()));
+
+
+        POLISHED_FORTSTONE = registerBlock("polished_fortstone",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(FORTSTONE.get())));
+
+        POLISHED_FORTSTONE_STAIRS = registerBlock("polished_fortstone_stairs", () -> stair(POLISHED_FORTSTONE.get()));
+
+        POLISHED_FORTSTONE_SLAB = registerBlock("polished_fortstone_slab", () -> slab(POLISHED_FORTSTONE.get()));
+
+        POLISHED_FORTSTONE_WALL = registerBlock("polished_fortstone_wall", () -> wall(POLISHED_FORTSTONE.get()));
+
+
+        HARD_FORTSTONE_BLOCK = registerBlock("hard_fortstone_block",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get()).strength(2.5F, 8.0F)));
+
+        HARD_FORTSTONE_STAIRS = registerBlock("hard_fortstone_stairs", () -> stair(HARD_FORTSTONE_BLOCK.get()));
+
+        HARD_FORTSTONE_SLAB = registerBlock("hard_fortstone_slab", () -> slab(HARD_FORTSTONE_BLOCK.get()));
+
+        HARD_FORTSTONE_WALL = registerBlock("hard_fortstone_wall", () -> wall(HARD_FORTSTONE_BLOCK.get()));
+
+
+        FORTSTONE_QUESTION_BLOCK = registerBlock("fortstone_question_block",
+                () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get())
+                        .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.STONE : MapColor.GOLD)));
+
+        INVISIBLE_FORTSTONE_QUESTION_BLOCK = registerBlock("invisible_fortstone_question_block",
+                () -> new InvisibleQuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get())
+                        .mapColor(state -> state.getValue(QuestionBlock.EMPTY) ? MapColor.STONE
+                                : state.getValue(InvisibleQuestionBlock.INVISIBLE) ? MapColor.NONE : MapColor.GOLD)));
+
+        FORTSTONE_QUESTION_PANEL = registerBlock("fortstone_question_panel",
+                () -> new QuestionPanelBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get())
+                        .mapColor(state -> state.getValue(QuestionPanelBlock.POWERED) ? MapColor.STONE : MapColor.GOLD)
+                        .noCollission().forceSolidOn().strength(0.5F)));
+
+        FORTSTONE_BRIDGE = registerBlock("fortstone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(FORTSTONE_BRICKS.get())));
+
+
+        POLISHED_FORTSTONE_BRICKS = registerBlock("polished_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE.get())));
+
+        POLISHED_FORTSTONE_BRICK_SLAB = registerBlock("polished_fortstone_brick_slab", () -> slab(POLISHED_FORTSTONE_BRICKS.get()));
+
+        POLISHED_FORTSTONE_BRICK_STAIRS = registerBlock("polished_fortstone_brick_stairs", () -> stair(POLISHED_FORTSTONE_BRICKS.get()));
+
+        POLISHED_FORTSTONE_BRICK_WALL = registerBlock("polished_fortstone_brick_wall", () -> wall(POLISHED_FORTSTONE_BRICKS.get()));
+
+        POLISHED_FORTSTONE_BRICK_PEDESTAL = registerBlock("polished_fortstone_brick_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        POLISHED_FORTSTONE_LOOPHOLE = registerBlock("polished_fortstone_loophole",
+                () -> new PolishedLoopholeBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        CHISELED_POLISHED_FORTSTONE_BRICKS = registerBlock("chiseled_polished_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        CRACKED_POLISHED_FORTSTONE_BRICKS = registerBlock("cracked_polished_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        STORAGE_POLISHED_FORTSTONE_BRICKS = registerBlock("storage_polished_fortstone_bricks",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+
+        HUGE_POLISHED_FORTSTONE_BRICKS = registerBlock("huge_polished_fortstone_bricks",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        HUGE_POLISHED_FORTSTONE_BRICK_SLAB = registerBlock("huge_polished_fortstone_brick_slab", () -> slab(HUGE_POLISHED_FORTSTONE_BRICKS.get()));
+
+        HUGE_POLISHED_FORTSTONE_BRICK_STAIRS = registerBlock("huge_polished_fortstone_brick_stairs", () -> stair(HUGE_POLISHED_FORTSTONE_BRICKS.get()));
+
+        HUGE_POLISHED_FORTSTONE_BRICK_WALL = registerBlock("huge_polished_fortstone_brick_wall", () -> wall(HUGE_POLISHED_FORTSTONE_BRICKS.get()));
+
+
+        POLISHED_FORTSTONE_TILES = registerBlock("polished_fortstone_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_BRICKS.get())));
+
+        POLISHED_FORTSTONE_TILE_SLAB = registerBlock("polished_fortstone_tile_slab", () -> slab(POLISHED_FORTSTONE_TILES.get()));
+
+        POLISHED_FORTSTONE_TILE_STAIRS = registerBlock("polished_fortstone_tile_stairs", () -> stair(POLISHED_FORTSTONE_TILES.get()));
+
+        POLISHED_FORTSTONE_TILE_WALL = registerBlock("polished_fortstone_tile_wall", () -> wall(POLISHED_FORTSTONE_TILES.get()));
+
+        POLISHED_FORTSTONE_TILE_PEDESTAL = registerBlock("polished_fortstone_tile_pedestal",
+                () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
+
+        CHISELED_POLISHED_FORTSTONE_TILES = registerBlock("chiseled_polished_fortstone_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
+
+        CRACKED_POLISHED_FORTSTONE_TILES = registerBlock("cracked_polished_fortstone_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
+
+        STORAGE_POLISHED_FORTSTONE_TILES = registerBlock("storage_polished_fortstone_tiles",
+                () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
+
+
+        HUGE_POLISHED_FORTSTONE_TILES = registerBlock("huge_polished_fortstone_tiles",
+                () -> new Block(BlockBehaviour.Properties.ofFullCopy(POLISHED_FORTSTONE_TILES.get())));
+
+        HUGE_POLISHED_FORTSTONE_TILE_SLAB = registerBlock("huge_polished_fortstone_tile_slab", () -> slab(HUGE_POLISHED_FORTSTONE_TILES.get()));
+
+        HUGE_POLISHED_FORTSTONE_TILE_STAIRS = registerBlock("huge_polished_fortstone_tile_stairs", () -> stair(HUGE_POLISHED_FORTSTONE_TILES.get()));
+
+        HUGE_POLISHED_FORTSTONE_TILE_WALL = registerBlock("huge_polished_fortstone_tile_wall", () -> wall(HUGE_POLISHED_FORTSTONE_TILES.get()));
 
 
         AMETHYST_BUTTON = registerBlock("amethyst_button", () -> button(Blocks.AMETHYST_BLOCK, BlockSetTypeRegistry.AMETHYST, 40));
@@ -941,6 +2987,12 @@ public class BlockRegistry {
         AMETHYST_BRICK_PEDESTAL = registerBlock("amethyst_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
 
+        AMETHYST_BRICK_LOOPHOLE = registerBlock("amethyst_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
+
+        AMETHYST_BRIDGE = registerBlock("amethyst_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(AMETHYST_BRICKS.get())));
+
 
         AMETHYST_QUESTION_BLOCK = registerBlock("amethyst_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
@@ -951,29 +3003,6 @@ public class BlockRegistry {
 
         STORAGE_AMETHYST_BRICKS = registerBlock("storage_amethyst_bricks",
                 () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_AMETHYST.get())));
-
-
-        CALCITE_BUTTON = registerBlock("calcite_button", () -> button(Blocks.CALCITE, BlockSetType.STONE, 10));
-
-        CALCITE_PRESSURE_PLATE = registerBlock("calcite_pressure_plate", () -> pressurePlate(Blocks.CALCITE, BlockSetType.STONE));
-
-        CALCITE_SLAB = registerBlock("calcite_slab", () -> slab(Blocks.CALCITE));
-
-        CALCITE_STAIRS = registerBlock("calcite_stairs", () -> stair(Blocks.CALCITE));
-
-        CALCITE_WALL = registerBlock("calcite_wall", () -> wall(Blocks.CALCITE));
-
-        POLISHED_WHITE_CALCITE_SLAB = registerBlock("polished_white_calcite_slab", () -> slab(Blocks.CALCITE));
-
-        POLISHED_WHITE_CALCITE_STAIRS = registerBlock("polished_white_calcite_stairs", () -> stair(Blocks.CALCITE));
-
-        POLISHED_WHITE_CALCITE_WALL = registerBlock("polished_white_calcite_wall", () -> wall(Blocks.CALCITE));
-
-        WHITE_CALCITE_BRICK_SLAB = registerBlock("white_calcite_brick_slab", () -> slab(Blocks.CALCITE));
-
-        WHITE_CALCITE_BRICK_STAIRS = registerBlock("white_calcite_brick_stairs", () -> stair(Blocks.CALCITE));
-
-        WHITE_CALCITE_BRICK_WALL = registerBlock("white_calcite_brick_wall", () -> wall(Blocks.CALCITE));
 
 
         CALCITE_QUESTION_BLOCK = registerBlock("calcite_question_block",
@@ -998,6 +3027,12 @@ public class BlockRegistry {
 
         SANDSTONE_BRICK_PEDESTAL = registerBlock("sandstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
+
+        SANDSTONE_BRICK_LOOPHOLE = registerBlock("sandstone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
+
+        SANDSTONE_BRIDGE = registerBlock("sandstone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
 
         CHISELED_SANDSTONE_BRICKS = registerBlock("chiseled_sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(SANDSTONE_BRICKS.get())));
@@ -1033,6 +3068,12 @@ public class BlockRegistry {
         RED_SANDSTONE_BRICK_PEDESTAL = registerBlock("red_sandstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
 
+        RED_SANDSTONE_BRICK_LOOPHOLE = registerBlock("red_sandstone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
+
+        RED_SANDSTONE_BRIDGE = registerBlock("red_sandstone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
+
         CHISELED_RED_SANDSTONE_BRICKS = registerBlock("chiseled_red_sandstone_bricks",
                 () -> new Block(BlockBehaviour.Properties.ofFullCopy(RED_SANDSTONE_BRICKS.get())));
 
@@ -1067,6 +3108,21 @@ public class BlockRegistry {
         STONE_BRICK_PEDESTAL = registerBlock("stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
 
+        STONE_BRICK_LOOPHOLE = registerBlock("stone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+
+        STONE_BRIDGE = registerBlock("stone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+
+        GRANITE_BRIDGE = registerBlock("granite_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_GRANITE)));
+
+        DIORITE_BRIDGE = registerBlock("diorite_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_DIORITE)));
+
+        ANDESITE_BRIDGE = registerBlock("andesite_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+
 
         MOSSY_STONE_QUESTION_BRICKS = registerBlock("mossy_stone_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
@@ -1083,6 +3139,12 @@ public class BlockRegistry {
 
         MOSSY_STONE_BRICK_PEDESTAL = registerBlock("mossy_stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
+
+        MOSSY_STONE_BRICK_LOOPHOLE = registerBlock("mossy_stone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
+
+        MOSSY_STONE_BRIDGE = registerBlock("mossy_stone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
 
 
         TUFF_QUESTION_BRICKS = registerBlock("tuff_question_bricks",
@@ -1101,6 +3163,12 @@ public class BlockRegistry {
         TUFF_BRICK_PEDESTAL = registerBlock("tuff_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
 
+        TUFF_BRICK_LOOPHOLE = registerBlock("tuff_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
+
+        TUFF_BRIDGE = registerBlock("tuff_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TUFF_BRICKS)));
+
 
         DEEPSLATE_QUESTION_BRICKS = registerBlock("deepslate_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
@@ -1117,6 +3185,12 @@ public class BlockRegistry {
 
         DEEPSLATE_BRICK_PEDESTAL = registerBlock("deepslate_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
+
+        DEEPSLATE_BRICK_LOOPHOLE = registerBlock("deepslate_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
+
+        DEEPSLATE_BRIDGE = registerBlock("deepslate_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_BRICKS)));
 
 
         DEEPSLATE_QUESTION_TILES = registerBlock("deepslate_question_tiles",
@@ -1135,6 +3209,9 @@ public class BlockRegistry {
         DEEPSLATE_TILE_PEDESTAL = registerBlock("deepslate_tile_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
 
+        DEEPSLATE_TILE_LOOPHOLE = registerBlock("deepslate_tile_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DEEPSLATE_TILES)));
+
 
         QUESTION_BRICKS = registerBlock("question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
@@ -1151,6 +3228,12 @@ public class BlockRegistry {
 
         BRICK_PEDESTAL = registerBlock("brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
+
+        BRICK_LOOPHOLE = registerBlock("brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
+
+        BRICK_BRIDGE = registerBlock("brick_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS)));
 
 
         MUD_QUESTION_BRICKS = registerBlock("mud_question_bricks",
@@ -1169,6 +3252,12 @@ public class BlockRegistry {
         MUD_BRICK_PEDESTAL = registerBlock("mud_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
 
+        MUD_BRICK_LOOPHOLE = registerBlock("mud_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
+
+        MUD_BRICK_BRIDGE = registerBlock("mud_brick_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MUD_BRICKS)));
+
 
         PRISMARINE_QUESTION_BRICKS = registerBlock("prismarine_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
@@ -1185,6 +3274,12 @@ public class BlockRegistry {
 
         PRISMARINE_BRICK_PEDESTAL = registerBlock("prismarine_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
+
+        PRISMARINE_BRICK_LOOPHOLE = registerBlock("prismarine_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
+
+        PRISMARINE_BRIDGE = registerBlock("prismarine_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));
 
 
         DARK_PRISMARINE_QUESTION_BLOCK = registerBlock("dark_prismarine_question_block",
@@ -1203,6 +3298,12 @@ public class BlockRegistry {
         DARK_PRISMARINE_PEDESTAL = registerBlock("dark_prismarine_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
 
+        DARK_PRISMARINE_LOOPHOLE = registerBlock("dark_prismarine_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
+
+        DARK_PRISMARINE_BRIDGE = registerBlock("dark_prismarine_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_PRISMARINE)));
+
 
         NETHER_QUESTION_BRICKS = registerBlock("nether_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
@@ -1219,6 +3320,12 @@ public class BlockRegistry {
 
         NETHER_BRICK_PEDESTAL = registerBlock("nether_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
+
+        NETHER_BRICK_LOOPHOLE = registerBlock("nether_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
+
+        NETHER_BRICK_BRIDGE = registerBlock("nether_brick_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.NETHER_BRICKS)));
 
 
         RED_NETHER_QUESTION_BRICKS = registerBlock("red_nether_question_bricks",
@@ -1237,6 +3344,12 @@ public class BlockRegistry {
         RED_NETHER_BRICK_PEDESTAL = registerBlock("red_nether_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
 
+        RED_NETHER_BRICK_LOOPHOLE = registerBlock("red_nether_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
+
+        RED_NETHER_BRICK_BRIDGE = registerBlock("red_nether_brick_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_NETHER_BRICKS)));
+
 
         BLACKSTONE_QUESTION_BRICKS = registerBlock("blackstone_question_bricks",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
@@ -1253,6 +3366,12 @@ public class BlockRegistry {
 
         BLACKSTONE_BRICK_PEDESTAL = registerBlock("blackstone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
+
+        BLACKSTONE_BRICK_LOOPHOLE = registerBlock("blackstone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
+
+        BLACKSTONE_BRIDGE = registerBlock("blackstone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE_BRICKS)));
 
 
         END_STONE_QUESTION_BRICKS = registerBlock("end_stone_question_bricks",
@@ -1271,6 +3390,12 @@ public class BlockRegistry {
         END_STONE_BRICK_PEDESTAL = registerBlock("end_stone_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
 
+        END_STONE_BRICK_LOOPHOLE = registerBlock("end_stone_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
+
+        END_STONE_BRIDGE = registerBlock("end_stone_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.END_STONE_BRICKS)));
+
 
         PURPUR_QUESTION_BLOCK = registerBlock("purpur_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
@@ -1287,6 +3412,12 @@ public class BlockRegistry {
 
         PURPUR_BLOCK_PEDESTAL = registerBlock("purpur_block_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
+
+        PURPUR_LOOPHOLE = registerBlock("purpur_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
+
+        PURPUR_BRIDGE = registerBlock("purpur_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
 
         QUARTZ_QUESTION_BRICKS = registerBlock("quartz_question_bricks",
@@ -1305,6 +3436,12 @@ public class BlockRegistry {
         QUARTZ_BRICK_PEDESTAL = registerBlock("quartz_brick_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
 
+        QUARTZ_BRICK_LOOPHOLE = registerBlock("quartz_brick_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
+
+        QUARTZ_BRIDGE = registerBlock("quartz_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_BRICKS)));
+
 
         COPPER_QUESTION_BLOCK = registerBlock("copper_question_block",
                 () -> new WeatheringCopperQuestionBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)));
@@ -1321,6 +3458,12 @@ public class BlockRegistry {
 
         CUT_COPPER_PEDESTAL = registerBlock("cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+
+        CUT_COPPER_LOOPHOLE = registerBlock("cut_copper_loophole",
+                () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
+
+        COPPER_BRIDGE = registerBlock("copper_bridge",
+                () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.UNAFFECTED, BlockBehaviour.Properties.ofFullCopy(Blocks.CUT_COPPER)));
 
 
         EXPOSED_COPPER_QUESTION_BLOCK = registerBlock("exposed_copper_question_block",
@@ -1339,6 +3482,12 @@ public class BlockRegistry {
         EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("exposed_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
 
+        EXPOSED_CUT_COPPER_LOOPHOLE = registerBlock("exposed_cut_copper_loophole",
+                () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_COPPER)));
+
+        EXPOSED_COPPER_BRIDGE = registerBlock("exposed_copper_bridge",
+                () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.EXPOSED, BlockBehaviour.Properties.ofFullCopy(Blocks.EXPOSED_CUT_COPPER)));
+
 
         WEATHERED_COPPER_QUESTION_BLOCK = registerBlock("weathered_copper_question_block",
                 () -> new WeatheringCopperQuestionBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
@@ -1355,6 +3504,12 @@ public class BlockRegistry {
 
         WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("weathered_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
+
+        WEATHERED_CUT_COPPER_LOOPHOLE = registerBlock("weathered_cut_copper_loophole",
+                () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_COPPER)));
+
+        WEATHERED_COPPER_BRIDGE = registerBlock("weathered_copper_bridge",
+                () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.WEATHERED, BlockBehaviour.Properties.ofFullCopy(Blocks.WEATHERED_CUT_COPPER)));
 
 
         OXIDIZED_COPPER_QUESTION_BLOCK = registerBlock("oxidized_copper_question_block",
@@ -1373,6 +3528,12 @@ public class BlockRegistry {
         OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("oxidized_cut_copper_pedestal",
                 () -> new WeatheringCopperPedestalBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
 
+        OXIDIZED_CUT_COPPER_LOOPHOLE = registerBlock("oxidized_cut_copper_loophole",
+                () -> new WeatheringCopperLoopholeBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_COPPER)));
+
+        OXIDIZED_COPPER_BRIDGE = registerBlock("oxidized_copper_bridge",
+                () -> new WeatheringCopperBridgeBlock(WeatheringCopper.WeatherState.OXIDIZED, BlockBehaviour.Properties.ofFullCopy(Blocks.OXIDIZED_CUT_COPPER)));
+
 
         WAXED_COPPER_QUESTION_BLOCK = registerBlock("waxed_copper_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_COPPER_BLOCK)));
@@ -1389,6 +3550,12 @@ public class BlockRegistry {
 
         WAXED_CUT_COPPER_PEDESTAL = registerBlock("waxed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
+
+        WAXED_CUT_COPPER_LOOPHOLE = registerBlock("waxed_cut_copper_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
+
+        WAXED_COPPER_BRIDGE = registerBlock("waxed_copper_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_CUT_COPPER)));
 
 
         WAXED_EXPOSED_COPPER_QUESTION_BLOCK = registerBlock("waxed_exposed_copper_question_block",
@@ -1407,6 +3574,12 @@ public class BlockRegistry {
         WAXED_EXPOSED_CUT_COPPER_PEDESTAL = registerBlock("waxed_exposed_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
 
+        WAXED_EXPOSED_CUT_COPPER_LOOPHOLE = registerBlock("waxed_exposed_cut_copper_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_COPPER)));
+
+        WAXED_EXPOSED_COPPER_BRIDGE = registerBlock("waxed_exposed_copper_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_EXPOSED_CUT_COPPER)));
+
 
         WAXED_WEATHERED_COPPER_QUESTION_BLOCK = registerBlock("waxed_weathered_copper_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
@@ -1424,6 +3597,12 @@ public class BlockRegistry {
         WAXED_WEATHERED_CUT_COPPER_PEDESTAL = registerBlock("waxed_weathered_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
 
+        WAXED_WEATHERED_CUT_COPPER_LOOPHOLE = registerBlock("waxed_weathered_cut_copper_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_COPPER)));
+
+        WAXED_WEATHERED_COPPER_BRIDGE = registerBlock("waxed_weathered_copper_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_WEATHERED_CUT_COPPER)));
+
 
         WAXED_OXIDIZED_COPPER_QUESTION_BLOCK = registerBlock("waxed_oxidized_copper_question_block",
                 () -> new QuestionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
@@ -1440,6 +3619,12 @@ public class BlockRegistry {
 
         WAXED_OXIDIZED_CUT_COPPER_PEDESTAL = registerBlock("waxed_oxidized_cut_copper_pedestal",
                 () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+        WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE = registerBlock("waxed_oxidized_cut_copper_loophole",
+                () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_COPPER)));
+
+        WAXED_OXIDIZED_COPPER_BRIDGE = registerBlock("waxed_oxidized_copper_bridge",
+                () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WAXED_OXIDIZED_CUT_COPPER)));
 
 
         CALCITE_CHECKERED_TILES = registerBlock("calcite_checkered_tiles",
@@ -1473,7 +3658,7 @@ public class BlockRegistry {
                                 .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
-                CALCITE_BRICK_PEDESTAL.put(color, registerBlock(color.getName() + "_calcite_brick_pedestal",
+                CALCITE_BRICK_PEDESTALS.put(color, registerBlock(color.getName() + "_calcite_brick_pedestal",
                         () -> new BrickPedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
                                 .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
 
@@ -1481,6 +3666,58 @@ public class BlockRegistry {
                 STORAGE_CALCITE_BRICKS.put(color, registerBlock("storage_" + color.getName() + "_calcite_bricks",
                         () -> new StorageBrickBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
                                 .mapColor(color.getName().equals(DyeColor.WHITE.getName()) ? MapColor.TERRACOTTA_WHITE : color.getMapColor())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRIDGES.put(color, registerBlock(color.getName() + "_calcite_bridge",
+                        () -> new BridgeBlock(BlockBehaviour.Properties.ofFullCopy(CALCITE_BRICKS.get(color).get())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICK_LOOPHOLES.put(color, registerBlock(color.getName() + "_calcite_brick_loophole",
+                        () -> new LoopholeBlock(BlockBehaviour.Properties.ofFullCopy(CALCITE_BRICKS.get(color).get())))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BUTTONS.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_button",
+                        () -> button(BlockRegistry.dyedCalcite(color), BlockSetType.STONE, 10))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_PRESSURE_PLATES.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_pressure_plate",
+                        () -> pressurePlate(BlockRegistry.dyedCalcite(color), BlockSetType.STONE))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_SLABS.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_slab",
+                        () -> slab(BlockRegistry.dyedCalcite(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_STAIRS.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_stairs",
+                        () -> stair(BlockRegistry.dyedCalcite(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_WALLS.put(color, registerBlock((color == DyeColor.WHITE ? "" : color.getName() + "_") + "calcite_wall",
+                        () -> wall(BlockRegistry.dyedCalcite(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                POLISHED_CALCITE_SLABS.put(color, registerBlock("polished_" + color.getName() + "_calcite_slab",
+                        () -> slab(POLISHED_CALCITE.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                POLISHED_CALCITE_STAIRS.put(color, registerBlock("polished_" + color.getName() + "_calcite_stairs",
+                        () -> stair(POLISHED_CALCITE.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                POLISHED_CALCITE_WALLS.put(color, registerBlock("polished_" + color.getName() + "_calcite_wall",
+                        () -> wall(POLISHED_CALCITE.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICK_SLABS.put(color, registerBlock(color.getName() + "_calcite_brick_slab",
+                        () -> slab(CALCITE_BRICKS.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICK_STAIRS.put(color, registerBlock(color.getName() + "_calcite_brick_stairs",
+                        () -> stair(CALCITE_BRICKS.get(color).get()))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                CALCITE_BRICK_WALLS.put(color, registerBlock(color.getName() + "_calcite_brick_wall",
+                        () -> wall(CALCITE_BRICKS.get(color).get()))));
 
         CLASSIC_CHECKPOINT_FLAG = registerNoItemBlock("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlock(3, null, BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
@@ -1510,7 +3747,7 @@ public class BlockRegistry {
                 () -> new ClearWarpPipeBlock(null, BlockBehaviour.Properties.of().mapColor(MapColor.NONE)
                         .sound(MarioverseSoundTypes.CLEAR_PIPE).instrument(NoteBlockInstrument.CHIME)
                         .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
-                        .strength(3.0F, 500.0F).requiresCorrectToolForDrops().noOcclusion()));
+                        .strength(1.5F, 6.0F).requiresCorrectToolForDrops().noOcclusion()));
 
         // Keep below CLEAR_WARP_PIPE to prevent crash
         Arrays.stream(DyeColor.values()).forEach(color ->
@@ -1521,7 +3758,24 @@ public class BlockRegistry {
                                 .requiresCorrectToolForDrops()))));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
+                PICKET_FENCES.put(color, registerBlock(color.getName() + "_picket_fence",
+                        () -> new PicketFenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).mapColor(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                PICKET_FENCE_GATES.put(color, registerBlock(color.getName() + "_picket_fence_gate",
+                        () -> new PicketFenceGateBlock(WoodTypeRegistry.OAK,
+                                BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE).mapColor(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
                 PIPE_JUNCTION.put(color, registerBlock(color.getName() + "_pipe_junction",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                PARKOUR_BLOCKS.put(color, registerBlock(color.getName() + "_parkour_block",
+                        () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
+
+        Arrays.stream(DyeColor.values()).forEach(color ->
+                RHOMBUS_PARKOUR_BLOCKS.put(color, registerBlock(color.getName() + "_rhombus_parkour_block",
                         () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK).mapColor(color)))));
 
 
@@ -1537,8 +3791,12 @@ public class BlockRegistry {
     }
 
     public static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
+        return BlockRegistry.registerBlock(name, block, new Item.Properties());
+    }
+
+    public static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block, Item.Properties itemProperties) {
         DeferredBlock<T> blocks = Marioverse.BLOCKS.register(name, block);
-        Marioverse.ITEMS.register(name, () -> new BlockItem(blocks.get(), new Item.Properties()));
+        Marioverse.ITEMS.register(name, () -> new BlockItem(blocks.get(), itemProperties));
         return blocks;
     }
 
@@ -1548,13 +3806,92 @@ public class BlockRegistry {
 
     public static void registerFlowerPots() {
         FlowerPotBlock pot = (FlowerPotBlock) Blocks.FLOWER_POT;
-        pot.addPlant(BlockRegistry.BLUE_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP);
+        pot.addPlant(BlockRegistry.BLUE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_BLUE_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.BLUE_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_BLUE_MEGA_MUSHROOM);
+        pot.addPlant(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.BLUE_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_BLUE_SUPER_MUSHROOM);
+        pot.addPlant(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
         pot.addPlant(BlockRegistry.DANGO_BLOSSOM.getId(), BlockRegistry.POTTED_DANGO_BLOSSOM);
-        pot.addPlant(BlockRegistry.RED_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_TRAMPOLINE_CAP);
+        pot.addPlant(BlockRegistry.GREEN_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_GREEN_MEGA_MUSHROOM);
+        pot.addPlant(BlockRegistry.GREEN_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_GREEN_SUPER_MUSHROOM);
+        pot.addPlant(BlockRegistry.HEDGE.getId(), BlockRegistry.POTTED_HEDGE);
+        pot.addPlant(BlockRegistry.LIME_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_LIME_MEGA_MUSHROOM);
+        pot.addPlant(BlockRegistry.LIME_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_LIME_SUPER_MUSHROOM);
+        pot.addPlant(BlockRegistry.MUSHROOT_SAPLING.getId(), BlockRegistry.POTTED_MUSHROOT_SAPLING);
+        pot.addPlant(BlockRegistry.ORANGE_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_ORANGE_MEGA_MUSHROOM);
+        pot.addPlant(BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_SCARLET_MEGA_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_SCARLET_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_ORANGE_MEGA_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_ORANGE_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_LIGHT_BLUE_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.ORANGE_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_ORANGE_SUPER_MUSHROOM);
+        pot.addPlant(BlockRegistry.PURPLE_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_PURPLE_MEGA_MUSHROOM);
+        pot.addPlant(BlockRegistry.PURPLE_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_PURPLE_SUPER_MUSHROOM);
+        pot.addPlant(BlockRegistry.RED_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_RED_MEGA_MUSHROOM);
+        pot.addPlant(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.RED_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_RED_SUPER_MUSHROOM);
+        pot.addPlant(BlockRegistry.SPOOKROOT_SAPLING.getId(), BlockRegistry.POTTED_SPOOKROOT_SAPLING);
+        pot.addPlant(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.getId(), BlockRegistry.POTTED_SPOOKY_SPOOKROOT_SAPLING);
+        pot.addPlant(BlockRegistry.ORANGE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_ORANGE_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.PINK_BLOOMFLOWER.getId(), BlockRegistry.POTTED_PINK_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.getId(), BlockRegistry.POTTED_PINK_MUSHROOM_TRAMPOLINE);
+        pot.addPlant(BlockRegistry.PINK_ROSE_HEDGE.getId(), BlockRegistry.POTTED_PINK_ROSE_HEDGE);
+        pot.addPlant(BlockRegistry.PURPLE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_PURPLE_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.RED_BLOOMFLOWER.getId(), BlockRegistry.POTTED_RED_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.RED_ROSE_HEDGE.getId(), BlockRegistry.POTTED_RED_ROSE_HEDGE);
+        pot.addPlant(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.getId(), BlockRegistry.POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP);
+        pot.addPlant(BlockRegistry.SHORT_SHROOMGRASS.getId(), BlockRegistry.POTTED_SHORT_SHROOMGRASS);
+        pot.addPlant(BlockRegistry.SHROOMGRASS.getId(), BlockRegistry.POTTED_SHROOMGRASS);
+        pot.addPlant(BlockRegistry.SHRUBROOM.getId(), BlockRegistry.POTTED_SHRUBROOM);
+        pot.addPlant(BlockRegistry.SNOWY_HEDGE.getId(), BlockRegistry.POTTED_SNOWY_HEDGE);
+        pot.addPlant(BlockRegistry.WHITE_BLOOMFLOWER.getId(), BlockRegistry.POTTED_WHITE_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.WHITE_ROSE_HEDGE.getId(), BlockRegistry.POTTED_WHITE_ROSE_HEDGE);
+        pot.addPlant(BlockRegistry.YELLOW_BLOOMFLOWER.getId(), BlockRegistry.POTTED_YELLOW_BLOOMFLOWER);
+        pot.addPlant(BlockRegistry.YELLOW_MEGA_MUSHROOM.getId(), BlockRegistry.POTTED_YELLOW_MEGA_MUSHROOM);
+        pot.addPlant(BlockRegistry.YELLOW_SUPER_MUSHROOM.getId(), BlockRegistry.POTTED_YELLOW_SUPER_MUSHROOM);
+    }
+
+    private static Block log(MapColor colorTop, MapColor color) {
+        return new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                .mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? colorTop : color)
+                .instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD)
+                .strength(2.0F).ignitedByLava());
+    }
+
+    private static Block log(MapColor colorTop, MapColor color, SoundType soundType) {
+        return new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                .mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? colorTop : color)
+                .instrument(NoteBlockInstrument.BASS).sound(soundType)
+                .strength(2.0F).ignitedByLava());
+    }
+
+    private static Block leaves(SoundType soundType) {
+        return BlockRegistry.leaves(soundType, MapColor.PLANT);
+    }
+
+    private static Block leaves(SoundType soundType, MapColor mapColor) {
+        return new CulledLeavesBlock(BlockBehaviour.Properties.of().mapColor(mapColor)
+                .pushReaction(PushReaction.DESTROY).isValidSpawn(BlockRegistry::ocelotOrParrot)
+                .isSuffocating(BlockRegistry::never).isViewBlocking(BlockRegistry::never)
+                .isRedstoneConductor(BlockRegistry::never).strength(0.2F)
+                .sound(soundType).randomTicks().noOcclusion().ignitedByLava());
     }
 
     private static Block button(Block block, BlockSetType blockSetType, int ticksPressed) {
         return new ButtonBlock(blockSetType, ticksPressed, BlockBehaviour.Properties.ofFullCopy(block).noCollission());
+    }
+
+    private static Block fence(Block block) {
+        return new FenceBlock(BlockBehaviour.Properties.ofFullCopy(block).forceSolidOn());
+    }
+
+    private static Block fenceGate(WoodType woodType, Block block) {
+        return new FenceGateBlock(woodType, BlockBehaviour.Properties.ofFullCopy(block)
+                .strength(2.0F, 3.0F).forceSolidOn().ignitedByLava());
     }
 
     private static Block pressurePlate(Block block, BlockSetType blockSetType) {
@@ -1569,8 +3906,51 @@ public class BlockRegistry {
         return new StairBlock(block.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(block));
     }
 
+    private static Block dyedCalcite(DyeColor color) {
+        return color == DyeColor.WHITE ? Blocks.CALCITE : CALCITE.get(color).get();
+    }
+
     private static Block wall(Block block) {
         return new WallBlock(BlockBehaviour.Properties.ofFullCopy(block).forceSolidOn());
+    }
+
+    private static Block superMushroomCap(MapColor color) {
+        return new SuperMushroomCapBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                .mapColor(state -> state.getValue(SuperMushroomCapBlock.UP) ? color : MapColor.TERRACOTTA_YELLOW));
+    }
+
+    private static Block superMushroom(String colorName, MapColor color) {
+        return new SuperMushroomBlock(mushroomFeature("huge_" + colorName + "_super_mushroom"),
+                mushroomFeature("wide_" + colorName + "_super_mushroom"),
+                BlockBehaviour.Properties.of().mapColor(color)
+                        .offsetType(BlockBehaviour.OffsetType.XYZ).dynamicShape()
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                        .hasPostProcess(BlockRegistry::always)
+                        .randomTicks().instabreak());
+    }
+
+    private static Block megaMushroom(String colorName, MapColor color) {
+        return new MegaMushroomBlock(mushroomFeature("huge_" + colorName + "_mega_mushroom"),
+                mushroomFeature("wide_" + colorName + "_mega_mushroom"),
+                BlockBehaviour.Properties.of().mapColor(color)
+                        .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+                        .hasPostProcess(BlockRegistry::always)
+                        .randomTicks().instabreak());
+    }
+
+    private static ResourceKey<ConfiguredFeature<?, ?>> mushroomFeature(String name) {
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE,
+                ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, name));
+    }
+
+    private static Block pottedMushroom(Supplier<Block> mushroom) {
+        return new PottedSuperMushroomBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, mushroom,
+                BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+    }
+
+    private static Block pottedMushroomTrampoline(Supplier<Block> mushroom) {
+        return new PottedMushroomTrampolineBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, mushroom,
+                BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     }
 
     private static boolean always(BlockState state, BlockGetter block, BlockPos pos) {
@@ -1583,21 +3963,354 @@ public class BlockRegistry {
 
     public static Boolean isActive(BlockState state, BlockGetter blockGetter, BlockPos pos, EntityType<?> entity) {
         if (blockGetter instanceof BlueDottedLineBlock)
-            return !state.getValue(OnBlock.ACTIVE);
+            return !state.getValue(BlockStatePropertyRegistry.ACTIVE);
         if (blockGetter instanceof OnBlock)
-            return state.getValue(OnBlock.ACTIVE);
+            return state.getValue(BlockStatePropertyRegistry.ACTIVE);
         return false;
     }
 
     private static boolean isActive(BlockState state, BlockGetter blockGetter, BlockPos pos) {
         if (blockGetter instanceof BlueDottedLineBlock)
-            return !state.getValue(OnBlock.ACTIVE);
+            return !state.getValue(BlockStatePropertyRegistry.ACTIVE);
         if (blockGetter instanceof OnBlock)
-            return state.getValue(OnBlock.ACTIVE);
+            return state.getValue(BlockStatePropertyRegistry.ACTIVE);
         return false;
     }
 
-    public static void init() {
+    public static Boolean ocelotOrParrot(BlockState state, BlockGetter blockGetter, BlockPos pos, EntityType<?> type) {
+        return type == EntityType.OCELOT || type == EntityType.PARROT;
+    }
 
+    public static void init() {
+    }
+
+    public static void registerAliases() {
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "blue_mushroom_trampoline"), BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "blue_mushroom_trampoline"), BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "red_mushroom_trampoline"), RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "red_mushroom_trampoline"), RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "blue_trampoline_cap"), BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "blue_trampoline_cap"), BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "red_trampoline_cap"), RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "red_trampoline_cap"), RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "potted_blue_trampoline_cap"), POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .fromNamespaceAndPath(Marioverse.MOD_ID, "potted_red_trampoline_cap"), POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.getId());
+
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:airship_planks"), MUSHROOT_PANELS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:bigshroom_skirt"), SUPER_MUSHROOM_STEM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:bigshroom_skirt"), SUPER_MUSHROOM_STEM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:bigshroom_stem"), SUPER_MUSHROOM_STEM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:bigshroom_stem"), SUPER_MUSHROOM_STEM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:blue_bigshroom_block"), BLUE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:blue_bigshroom_block"), BLUE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:blue_bigshroom_cap"), BLUE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:blue_bigshroom_cap"), BLUE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:blue_mushbloom"), BLUE_BLOOMFLOWER.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:blue_mushbloom"), BLUE_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:blue_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.BLUE).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:blue_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.BLUE).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:bushroom"), HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:bushroom"), HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:cyan_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.CYAN).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:cyan_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.CYAN).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_bricks"), POLISHED_FORTSTONE_BRICKS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_bricks"), POLISHED_FORTSTONE_BRICKS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_slab"), POLISHED_FORTSTONE_BRICK_SLAB.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_slab"), POLISHED_FORTSTONE_BRICK_SLAB.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_stairs"), POLISHED_FORTSTONE_BRICK_STAIRS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_stairs"), POLISHED_FORTSTONE_BRICK_STAIRS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_wall"), POLISHED_FORTSTONE_BRICK_WALL.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_brick_wall"), POLISHED_FORTSTONE_BRICK_WALL.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_cube"), HARD_FORTSTONE_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_cube"), HARD_FORTSTONE_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tiles"), POLISHED_FORTSTONE_TILES.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tiles"), POLISHED_FORTSTONE_TILES.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_slab"), POLISHED_FORTSTONE_TILE_SLAB.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_slab"), POLISHED_FORTSTONE_TILE_SLAB.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_stairs"), POLISHED_FORTSTONE_TILE_STAIRS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_stairs"), POLISHED_FORTSTONE_TILE_STAIRS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_wall"), POLISHED_FORTSTONE_TILE_WALL.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:fortstone_tile_wall"), POLISHED_FORTSTONE_TILE_WALL.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:green_bigshroom_block"), GREEN_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:green_bigshroom_block"), GREEN_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:green_bigshroom_cap"), GREEN_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:green_bigshroom_cap"), GREEN_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:green_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.GREEN).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:green_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.GREEN).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:green_shroom"), LIME_SUPER_MUSHROOM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:green_shroom"), LIME_SUPER_MUSHROOM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:large_shroomgrass"), SHROOMGRASS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:large_shroomgrass"), SHROOMGRASS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:lime_bigshroom_block"), LIME_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:lime_bigshroom_block"), LIME_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:lime_bigshroom_cap"), LIME_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:lime_bigshroom_cap"), LIME_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_bridge"), MUSHROOT_LOG_PLATFORM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_bridge"), MUSHROOT_LOG_PLATFORM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushdirt"), SHROOMSOIL.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushdirt"), SHROOMSOIL.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushdirt_path"), SHROOMSOIL_PATH.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushdirt_path"), SHROOMSOIL_PATH.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushmud"), WET_MUD.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushmud"), WET_MUD.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_cube"), HARD_MUSHROOT_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_cube"), HARD_MUSHROOT_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_door"), MUSHROOT_DOOR.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_door"), MUSHROOT_DOOR.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_fence"), MUSHROOT_FENCE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_fence"), MUSHROOT_FENCE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_fence_gate"), MUSHROOT_FENCE_GATE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_fence_gate"), MUSHROOT_FENCE_GATE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_window"), MUSHROOT_FRAMED_WINDOW.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_leaves"), MUSHROOT_LEAVES.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_leaves"), MUSHROOT_LEAVES.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_log"), MUSHROOT_LOG.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_log"), MUSHROOT_LOG.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_wood"), MUSHROOT_WOOD.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_wood"), MUSHROOT_WOOD.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_picket_fence"), MUSHROOT_PICKET_FENCE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_picket_fence"), MUSHROOT_PICKET_FENCE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_planks"), MUSHROOT_BOARDS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_planks"), MUSHROOT_BOARDS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_slab"), MUSHROOT_BOARD_SLAB.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_slab"), MUSHROOT_BOARD_SLAB.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_stairs"), MUSHROOT_BOARD_STAIRS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:mushroot_stairs"), MUSHROOT_BOARD_STAIRS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:orange_bigshroom_block"), ORANGE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:orange_bigshroom_block"), ORANGE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:orange_bigshroom_cap"), ORANGE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:orange_bigshroom_cap"), ORANGE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:orange_mushbloom"), ORANGE_BLOOMFLOWER.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:orange_mushbloom"), ORANGE_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:pink_flowering_bushroom"), PINK_ROSE_HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:pink_flowering_bushroom"), PINK_ROSE_HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:pink_mushbloom"), PINK_BLOOMFLOWER.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:pink_mushbloom"), PINK_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:pink_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.PINK).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:pink_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.PINK).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone"), POLISHED_FORTSTONE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone"), POLISHED_FORTSTONE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone_slab"), POLISHED_FORTSTONE_SLAB.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone_slab"), POLISHED_FORTSTONE_SLAB.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone_stairs"), POLISHED_FORTSTONE_STAIRS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:polished_fortstone_stairs"), POLISHED_FORTSTONE_STAIRS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:purple_bigshroom_block"), PURPLE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:purple_bigshroom_block"), PURPLE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:purple_bigshroom_cap"), PURPLE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:purple_bigshroom_cap"), PURPLE_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:purple_mushbloom"), PURPLE_BLOOMFLOWER.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:purple_mushbloom"), PURPLE_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:purple_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.PURPLE).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:purple_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.PURPLE).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:red_bigshroom_block"), RED_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:red_bigshroom_block"), RED_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:red_bigshroom_cap"), RED_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:red_bigshroom_cap"), RED_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:red_flowering_bushroom"), RED_ROSE_HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:red_flowering_bushroom"), RED_ROSE_HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:red_mushbloom"), RED_BLOOMFLOWER.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:red_mushbloom"), RED_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:red_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.RED).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:red_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.RED).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:red_shroom"), ORANGE_SUPER_MUSHROOM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:red_shroom"), ORANGE_SUPER_MUSHROOM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:rocky_mushdirt"), ROCKY_SHROOMSOIL.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:rocky_mushdirt"), ROCKY_SHROOMSOIL.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:shroom"), RED_SUPER_MUSHROOM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:shroom"), RED_SUPER_MUSHROOM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:shroomgrass"), SHORT_SHROOMGRASS.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:shroomgrass"), SHORT_SHROOMGRASS.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:shroomgrass_block"), SHROOMGRASS_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:shroomgrass_block"), SHROOMGRASS_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:shrubroom"), SHRUBROOM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:shrubroom"), SHRUBROOM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:snowy_bushroom"), SNOWY_HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:snowy_bushroom"), SNOWY_HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:stripped_mushroot_log"), STRIPPED_MUSHROOT_LOG.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:stripped_mushroot_log"), STRIPPED_MUSHROOT_LOG.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:white_flowering_bushroom"), WHITE_ROSE_HEDGE.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:white_flowering_bushroom"), WHITE_ROSE_HEDGE.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:white_picket_fence"), PICKET_FENCES.get(DyeColor.WHITE).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:white_picket_fence"), PICKET_FENCES.get(DyeColor.WHITE).getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:white_mushbloom"), WHITE_BLOOMFLOWER.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:white_mushbloom"), WHITE_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:wide_green_shroom"), LIME_MEGA_MUSHROOM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:wide_green_shroom"), LIME_MEGA_MUSHROOM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:wide_red_shroom"), ORANGE_MEGA_MUSHROOM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:wide_red_shroom"), ORANGE_MEGA_MUSHROOM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:wide_shroom"), RED_MEGA_MUSHROOM.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:wide_shroom"), RED_MEGA_MUSHROOM.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:yellow_bigshroom_block"), YELLOW_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:yellow_bigshroom_block"), YELLOW_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:yellow_bigshroom_cap"), YELLOW_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:yellow_bigshroom_cap"), YELLOW_SUPER_MUSHROOM_BLOCK.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:yellow_mushbloom"), YELLOW_BLOOMFLOWER.getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:yellow_mushbloom"), YELLOW_BLOOMFLOWER.getId());
+        Marioverse.BLOCKS.addAlias(ResourceLocation
+                .parse("superbb:yellow_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.YELLOW).getId());
+        Marioverse.ITEMS.addAlias(ResourceLocation
+                .parse("superbb:yellow_parkour_cube"), RHOMBUS_PARKOUR_BLOCKS.get(DyeColor.YELLOW).getId());
     }
 }

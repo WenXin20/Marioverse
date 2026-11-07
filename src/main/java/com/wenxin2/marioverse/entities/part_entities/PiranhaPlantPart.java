@@ -106,7 +106,7 @@ public class PiranhaPlantPart extends PartEntity<PiranhaPlantEntity> implements 
 
     @Override
     public boolean canBeHitByProjectile() {
-        return this.isAlive();
+        return this.isAlive() && this.getParent().canBeHitByProjectile();
     }
 
     @Override

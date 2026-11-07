@@ -1,14 +1,180 @@
+## Update 1.12.0
+### Thanks to @Boenndal for many textures
+#### Most new blocks need to crafted or traded for with wandering traders. 
+#### This will be changed and prepares for a future update
+- Improved Fungal Stone sets
+  - Added new textures
+  - Added Fungal Cobblestone sets
+  - Added Hard Fungal Block sets
+  - Added Rocky Fungal Stone sets
+  - Added Fungal Stone Floor
+    - Right-click with a pickaxe on Fungal Stone or Rocky Fungal Stone
+- Improved Deep Fungal Stone sets
+  - Added new textures
+  - Added Deep Fungal Cobblestone sets
+  - Added Hard Deep Fungal Block sets
+  - Added Rocky Deep Fungal Stone sets
+  - Added Deep Fungal Stone Floor
+    - Right-click with a pickaxe on Deep Fungal Stone or Rocky Deep Fungal Stone
+- Added Fortstone block set
+  - Added Cobbled Fortstone sets
+  - Added Hard Fortstone Block sets
+  - Added Rocky Fortstone sets
+  - Added Fortstone brick sets
+  - Added Polished Fortstone brick sets
+  - Added Huge Fortstone brick sets
+  - Added Fortstone Floor
+    - Right-click with a pickaxe on Fortstone or Rocky Fortstone
+- Added Mushroot block set
+  - Mushroot tree & mega Mushroot tree
+  - Doors, Trapdoors, Signs & Hanging Signs
+  - Arrow Signs & Large Arrow Signs
+  - Framed Windows, Boards, Panels, & Hard Blocks
+  - Picket Fences, Log Platforms
+  - Boats & Chest Boats
+- Added Spookroot block set
+  - Spookroot tree & mega Spookroot tree
+  - Doors, Trapdoors, Signs & Hanging Signs
+  - Arrow Signs & Large Arrow Signs
+  - Framed Windows, Boards, Panels, & Hard Blocks
+  - Picket Fences, Log Platforms
+  - Boats & Chest Boats
+- Added Iron, Copper, Gold, Diamond, & Netherite Screws
+  - Placeable multiple blocks tall or on any block side
+  - Right-click to screw it into the ground
+  - Shift-right-click to unscrew it
+  - Shift-right-clicking will place more screws from your gui if unscrewed above a block
+  - The lower a screw is, the more redstone power it will emit
+- Added Picket Fences w/ all wood variants
+  - 16 dyed colors
+  - Gates for all variants
+  - Right-click to dye a column
+  - Shift-right-click to dye one block
+- Added Hedges
+  - Snowy Hedges, Pink, Red, & White Rose Hedges
+  - Shovels remove snow, snow layers make hedges snow
+  - Shears remove roses
+  - Bone Meal grows the hedge and regrows roses
+- Added Super Mushroom plants
+  - Comes in 7 different colors
+  - If dirt is below, bone meal grows it into a Huge Super Mushroom
+  - If no dirt, bone meal grows it taller
+- Added Mega Mushroom plants
+  - Comes in 7 different colors
+  - If dirt is below, bone meal grows it into a Huge Mega Mushroom
+  - If no dirt, bone meal grows it taller
+- Added Mushroom Trampoline blocks
+  - Always bouncy
+- New On/Off Trampoline Mushroom textures & models
+- Added On/Off Mega & Super mushroom plants
+  - Bone meal grows it into their respective huge mushroom w/ On/Off stems
+  - On/Off Switch toggles it
+  - Slightly bouncy
+- Added Arrow Signs for all wood types
+  - Every Compat support
+- Added Hard Wooden Blocks for all wood types
+  - Every Compat support
+- Added Parkour Blocks in all 16 colors
+- Added Rhombus Parkour Blocks in all 16 colors
+- Added Shroomsoil and Shroomgrass Block
+- Added Shroomsoil Farmland & Path
+- Added Coarse & Rocky Shroomsoil
+- Added Wet Mud, smelts into vanilla mud
+- Added Deep Wet Mud, super slippery
+- Added Wet Mud Farmland, always moist
+- Added Short Shroomgrass, Shroomgrass, & Tall Shroomgrass
+- Added Shrubrooms
+- Added bloomflowers of various colors
+- Added stone bridge variants, a new semi-solid platform
+- Added dyed calcite stairs, slabs, & walls, like vanilla
+- Added the ability for plastic buckets to pickup lava if enchanted with Fire Protection
+- Added the ability for plastic buckets to pickup modded fluids
+- Added the ability for plastic buckets to milk cows
+- Added tooltips to semi-solids
+- Added recipe to convert Dango Blossoms to dye
+- Added new Wandering trader trades
+  - Mushroot & Spookroot Saplings
+  - Shroomgrass Blocks
+- Added new creative tabs
+- Added an entity tag `cannot_be_stomped` to prevent stomping even when the config "Stomp All Mobs" is enabled
+- Removed the bubbles & water_spout blockstates from warp pipes
+  - Saves to the block entity now
+  - Reduces states from 192 to 48
+- Added a config option to charge xp for teleporting with warp pipes, doors, trapdoors, & paintings. 0 by default
+- Added the ability for warp pipes, doors, trapdoors, & paintings to teleport Aeronautics contraptions
+- Added new linking and warping particles
+- Added the ability to link warp pipes, doors, & trapdoors to warp paintings
+- Added an enchant glow to wrenches when bound to a block or painting
+- Added a warping shader to paintings
+- Improved warp cooldown, warp pipes emit smoke while on cooldown. Configurable
+- Added the ability for mobs that can open doors to use warp pipes, doors, etc.
+- Added the ability to increase stomp damage using armor boots, +0.5 damage for each armor point
+- Added a config to require stomping different mobs to get a 1-Up, default is false
+- Changed the 1-Up reward to a loot table
+- Changed mega mushroom to only break question blocks, storage bricks, & smashable blocks in adventure mode
+- Improved bouncing on bouncy blocks
+- Improved bounce sound
+- Improved log bridges and log bridge stairs
+- Improved the super star shader
+- Bees can collect pollen from power up flowers
+- Changed pipe junction recipe
+- Improved riding ice cubes, mobs & players can now move with it when it slides
+- Improved ice cube texture
+- Improved ice cube sliding to slide up stairs and slabs
+- Improved flag animation
+- Updated structures to use some of the new blocks
+- Fixed the super star shader not working with armor or curios
+- Fixed the super star mob not applying its effects to mobs that cannot be pushed
+- Fixed water spouts not pushing in the direction of the tilt on create aeronautics contraptions
+- Fixed bouncy blocks not bouncing in the direction of the tilt on contraptions
+- Fixed teleporting to unloaded contraptions via warp pipe
+- Fixed teleporting via warp paintings not working correctly on contraptions
+- Fixed warp pipes placed in structures during world gen sometimes teleporting to other structures
+- Fixed warp pipes still spawning items when the pipe is not an entrance
+- Fixed warp pipes not teleporting when standing on dirt paths
+- Fixed clear pipes not working correctly on sable contraptions
+- Fixed warp pipes not cullfacing
+- Fixed items and mobs exiting the same entrance on wider pipes
+- Fixed semi-solid blocks not working on sable contraptions
+- Fixed paintings not warping you to the center or facing away from it.
+- Fixed linking of paintings in unloaded chunks using a wrench
+- Fixed warp doors & trapdoors closing before the player can teleport
+- Fixed cooldown message displaying immediately after teleporting
+- Fixed power up mobs despawning when far away
+- Fixed power up mobs drowning
+- Fixed rotation of mobs frozen in the ice cube
+- Fixed ice cubes sometimes freezing client-only & disappearing
+- Fixed getting stuck on floating ice cubes
+- Fixed flammability of Log Stairs
+- Fixed Supplementaries soap not working with some dyed blocks
+- Fixed peaceful difficulty causing some blocks/enemies to not do damage
+- Fixed Question Blocks blockstate not updating correctly
+- Fixed checkpoint flags not applying power ups
+- Fixed checkpoint flags blocking your view after respawning
+- Fixed decorated pots being too rare in the Brick Lanes structure
+- Fixed wind charges toggling blocks twice, such as On/Off Switches
+- Fixed buttons not rendering with the Spatial GUI mod
+- Fixed wrench not taking damage when linking pipes
+- Fixed wrench to wrench recipe erasing damage
+- Fixed warp pipe data not saving with create contraptions
+- Fixed holding space to bounce higher being inconsistent
+- Fixed render hitbox of piranha plants
+- Fixed projectiles bouncing of piranha plants
+- Fixed piranha plants not attaching to the block face clicked on with spawn eggs
+- Fixed the plastic water bucket not rendering water
+- Fixed the plastic water bucket emptying itself when in creative
+- Fixed the quicksand overlay rendering over the hotbar and other gui elements
+
+Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
+
 ## Update 1.11.2
 - Added Caverns & Chasms calcite to Marioverse calcite tags to craft calcite blocks
 - Fixed crash with Caverns & Chasms also adding calcite to the creative tab
 - Fixed crash with Hefty & Mega Goombas when split count is 0
 - Fixed piranha plants spawning everywhere
 
-Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
-
 ## Update 1.11.1
-**Now requires Curios instead of Accessories**
-
+**Now requires Curios instead of Accessories** <br>
 **Remove equipped items before uninstalling Accessories**
 
 - Migrated compat to use Curios instead of Accessories

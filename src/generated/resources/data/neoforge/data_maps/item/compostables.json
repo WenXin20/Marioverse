@@ -1,21 +1,225 @@
 {
   "values": {
-    "marioverse:blue_mushroom_trampoline": {
+    "marioverse:blue_bloomflower": {
+      "chance": 0.3
+    },
+    "marioverse:blue_mega_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:blue_on_off_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:blue_on_off_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:blue_on_off_mushroom_trampoline_block": {
       "chance": 0.85
     },
-    "marioverse:blue_trampoline_cap": {
+    "marioverse:blue_on_off_mushroom_trampoline_cap": {
+      "chance": 0.65
+    },
+    "marioverse:blue_on_off_super_mushroom_stem": {
+      "chance": 0.65
+    },
+    "marioverse:blue_super_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:blue_super_mushroom_block": {
+      "chance": 0.85
+    },
+    "marioverse:blue_super_mushroom_stem": {
       "chance": 0.65
     },
     "marioverse:dango_blossom": {
       "chance": 0.65
     },
-    "marioverse:piranha_plant_pod": {
+    "marioverse:dark_spookroot_leaves": {
       "chance": 0.3
     },
-    "marioverse:red_mushroom_trampoline": {
+    "marioverse:green_mega_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:green_super_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:green_super_mushroom_block": {
       "chance": 0.85
     },
-    "marioverse:red_trampoline_cap": {
+    "marioverse:green_super_mushroom_stem": {
+      "chance": 0.65
+    },
+    "marioverse:hedge": {
+      "chance": 0.85
+    },
+    "marioverse:light_blue_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:light_blue_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:light_blue_mushroom_trampoline_block": {
+      "chance": 0.85
+    },
+    "marioverse:lime_mega_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:lime_super_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:lime_super_mushroom_block": {
+      "chance": 0.85
+    },
+    "marioverse:mushroot_leaves": {
+      "chance": 0.3
+    },
+    "marioverse:mushroot_sapling": {
+      "chance": 0.3
+    },
+    "marioverse:orange_bloomflower": {
+      "chance": 0.3
+    },
+    "marioverse:orange_mega_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:orange_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:orange_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:orange_mushroom_trampoline_block": {
+      "chance": 0.85
+    },
+    "marioverse:orange_super_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:orange_super_mushroom_block": {
+      "chance": 0.85
+    },
+    "marioverse:orange_super_mushroom_stem": {
+      "chance": 0.65
+    },
+    "marioverse:pink_bloomflower": {
+      "chance": 0.3
+    },
+    "marioverse:pink_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:pink_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:pink_mushroom_trampoline_block": {
+      "chance": 0.85
+    },
+    "marioverse:pink_rose_hedge": {
+      "chance": 0.85
+    },
+    "marioverse:pink_super_mushroom_stem": {
+      "chance": 0.65
+    },
+    "marioverse:piranha_plant_pod": {
+      "chance": 0.5
+    },
+    "marioverse:purple_bloomflower": {
+      "chance": 0.3
+    },
+    "marioverse:purple_mega_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:purple_super_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:purple_super_mushroom_block": {
+      "chance": 0.85
+    },
+    "marioverse:purple_super_mushroom_stem": {
+      "chance": 0.65
+    },
+    "marioverse:red_bloomflower": {
+      "chance": 0.3
+    },
+    "marioverse:red_mega_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:red_on_off_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:red_on_off_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:red_on_off_mushroom_trampoline_block": {
+      "chance": 0.85
+    },
+    "marioverse:red_on_off_mushroom_trampoline_cap": {
+      "chance": 0.65
+    },
+    "marioverse:red_on_off_super_mushroom_stem": {
+      "chance": 0.65
+    },
+    "marioverse:red_rose_hedge": {
+      "chance": 0.85
+    },
+    "marioverse:red_super_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:red_super_mushroom_block": {
+      "chance": 0.85
+    },
+    "marioverse:red_super_mushroom_stem": {
+      "chance": 0.65
+    },
+    "marioverse:scarlet_mega_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:scarlet_mushroom_trampoline": {
+      "chance": 0.65
+    },
+    "marioverse:scarlet_mushroom_trampoline_block": {
+      "chance": 0.85
+    },
+    "marioverse:short_shroomgrass": {
+      "chance": 0.3
+    },
+    "marioverse:shroomgrass": {
+      "chance": 0.3
+    },
+    "marioverse:snowy_hedge": {
+      "chance": 0.85
+    },
+    "marioverse:spookroot_leaves": {
+      "chance": 0.3
+    },
+    "marioverse:spookroot_sapling": {
+      "chance": 0.3
+    },
+    "marioverse:spooky_spookroot_sapling": {
+      "chance": 0.3
+    },
+    "marioverse:super_mushroom_stem": {
+      "chance": 0.65
+    },
+    "marioverse:tall_shroomgrass": {
+      "chance": 0.5
+    },
+    "marioverse:white_bloomflower": {
+      "chance": 0.3
+    },
+    "marioverse:white_rose_hedge": {
+      "chance": 0.85
+    },
+    "marioverse:yellow_bloomflower": {
+      "chance": 0.3
+    },
+    "marioverse:yellow_mega_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:yellow_super_mushroom": {
+      "chance": 0.65
+    },
+    "marioverse:yellow_super_mushroom_block": {
+      "chance": 0.85
+    },
+    "marioverse:yellow_super_mushroom_stem": {
       "chance": 0.65
     }
   }

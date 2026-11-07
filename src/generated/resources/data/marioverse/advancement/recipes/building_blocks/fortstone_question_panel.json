@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_polished_fortstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:polished_fortstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_redstone_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dusts/redstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:fortstone_question_panel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_redstone_dust",
+      "has_polished_fortstone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:fortstone_question_panel"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "marioverse:block/hard_crimson_slab"
+    },
+    "type=double": {
+      "model": "marioverse:block/hard_crimson_slab_double"
+    },
+    "type=top": {
+      "model": "marioverse:block/hard_crimson_slab_top"
+    }
+  }
+}

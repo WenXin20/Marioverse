@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "marioverse:block/rocky_fortstone_slab"
+    },
+    "type=double": {
+      "model": "marioverse:block/rocky_fortstone_slab_double"
+    },
+    "type=top": {
+      "model": "marioverse:block/rocky_fortstone_slab_top"
+    }
+  }
+}

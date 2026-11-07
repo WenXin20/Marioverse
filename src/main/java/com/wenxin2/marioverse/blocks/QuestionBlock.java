@@ -51,7 +51,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.windcharge.WindCharge;
+import net.minecraft.world.entity.projectile.windcharge.AbstractWindCharge;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
@@ -88,7 +88,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import org.jetbrains.annotations.NotNull;
@@ -199,7 +198,7 @@ public class QuestionBlock extends BaseEntityBlock {
         if (level.getBlockEntity(pos) instanceof QuestionBlockEntity questionBlockEntity
                 && projectile.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS)
                 && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
-                && !(projectile instanceof WindCharge))
+                && !(projectile instanceof AbstractWindCharge))
             QuestionBlock.hitQuestionBlock(level, pos, projectile, questionBlockEntity);
 
         projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);
@@ -349,14 +348,7 @@ public class QuestionBlock extends BaseEntityBlock {
     }
 
     public static void hitQuestionBlock(Level level, BlockPos pos, Entity entity, QuestionBlockEntity questionBE) {
-        BlockState state = level.getBlockState(pos);
-
-        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
-            SableProvider.SableContext context = SableProvider.getContext(level, entity);
-            state = context.accessor.getBlockState(pos);
-            if (level instanceof ServerLevel)
-                state = context.accessor.getServerBlockState(pos);
-        }
+        BlockState state = QuestionBlock.getHitState(level, pos, entity);
 
         if (state.getBlock() instanceof QuestionBlock) {
             ItemStack storedItem = questionBE.getTheItem();
@@ -391,15 +383,18 @@ public class QuestionBlock extends BaseEntityBlock {
                 questionBE.setChanged();
             }
 
-            if (storedItem.isEmpty() && !state.getValue(QuestionBlock.EMPTY)) {
-                if (state.getBlock() instanceof QuestionBlock)
-                    level.setBlock(pos, state.setValue(QuestionBlock.EMPTY, Boolean.TRUE), 3);
-                level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
-            }
+            BlockState currentState = QuestionBlock.getHitState(level, pos, entity);
+            if (!(currentState.getBlock() instanceof QuestionBlock))
+                return;
 
-            if (state.getBlock() instanceof InvisibleQuestionBlock
-                    && state.getValue(InvisibleQuestionBlock.INVISIBLE)) {
-                level.setBlock(pos, state.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE), 3);
+            BlockState newState = currentState;
+            if (storedItem.isEmpty() && !state.getValue(QuestionBlock.EMPTY))
+                newState = newState.setValue(QuestionBlock.EMPTY, Boolean.TRUE);
+            if (newState.getBlock() instanceof InvisibleQuestionBlock && newState.getValue(InvisibleQuestionBlock.INVISIBLE))
+                newState = newState.setValue(InvisibleQuestionBlock.INVISIBLE, Boolean.FALSE);
+
+            if (newState != currentState) {
+                level.setBlock(pos, newState, 3);
                 level.gameEvent(entity, GameEvent.BLOCK_CHANGE, pos);
             }
         }
@@ -785,5 +780,13 @@ public class QuestionBlock extends BaseEntityBlock {
             }
         }
         return false;
+    }
+
+    private static BlockState getHitState(Level level, BlockPos pos, Entity entity) {
+        if (SableProvider.isLoaded() && SableProvider.getContext(level, entity) != null) {
+            SableProvider.SableContext context = SableProvider.getContext(level, entity);
+            return level instanceof ServerLevel ? context.accessor.getServerBlockState(pos) : context.accessor.getBlockState(pos);
+        }
+        return level.getBlockState(pos);
     }
 }

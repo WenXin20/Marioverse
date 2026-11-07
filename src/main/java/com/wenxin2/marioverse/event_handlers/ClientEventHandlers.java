@@ -1,24 +1,32 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
+import com.wenxin2.marioverse.client.PipeTravelRotations;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.wenxin2.marioverse.Marioverse;
-import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineBlock;
+import com.wenxin2.marioverse.blocks.BlueMushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
-import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.HedgeBlock;
+import com.wenxin2.marioverse.blocks.MushroomTrampolineCapBlock;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
-import com.wenxin2.marioverse.blocks.RedMushroomTrampolineBlock;
-import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
+import com.wenxin2.marioverse.blocks.RedMushroomTrampolineCapBlock;
+import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
+import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
 import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
 import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
+import com.wenxin2.marioverse.client.models.loaders.SolidBucketModelLoader;
+import com.wenxin2.marioverse.client.renderers.SuperStarGlowRenderer;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
+import com.wenxin2.marioverse.items.ArrowSignItem;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
 import com.wenxin2.marioverse.network.server_bound.data.DoubleJumpPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
@@ -37,14 +45,15 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.FadeInAndOutSoundInstance;
 import com.wenxin2.marioverse.sounds.FadingSoundInstance;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
@@ -55,20 +64,25 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -77,14 +91,15 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -102,35 +117,42 @@ public class ClientEventHandlers {
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/red_quicksand_overlay.png");
     public static final ResourceLocation SPLUNKIN_OVERLAY = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/misc/splunkin_pumpkin_blur.png");
+    private static final List<CooldownSmoke> COOLDOWN_PIPE_ENTRANCES = new ArrayList<>();
+    private static BlockPos cooldownScanCenter;
+    private static long cooldownScanTime;
 
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
         event.registerShader(new ShaderInstance(event.getResourceProvider(),
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_shader"),
-                DefaultVertexFormat.POSITION_TEX_COLOR),
+                DefaultVertexFormat.NEW_ENTITY),
                 shader -> SuperStarRenderType.SUPER_STAR_SHADER = shader);
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),
+                ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_glow_shader"),
+                DefaultVertexFormat.NEW_ENTITY),
+                shader -> SuperStarRenderType.SUPER_STAR_GLOW_SHADER = shader);
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),
+                ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "super_star_particle_shader"),
+                DefaultVertexFormat.PARTICLE),
+                shader -> SuperStarRenderType.SUPER_STAR_PARTICLE_SHADER = shader);
+    }
+
+    @SubscribeEvent
+    public static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener((ResourceManagerReloadListener) resourceManager -> SuperStarGlowRenderer.close());
+    }
+
+    @SubscribeEvent
+    public static void onRenderLevelStage(RenderLevelStageEvent event) {
+        SuperStarGlowRenderer.onRenderLevelStage(event);
     }
 
     @SubscribeEvent
     public static void registerLoader(ModelEvent.RegisterGeometryLoaders event) {
         event.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "disguised_block"),
                 new DisguisedBlockModelLoader());
-    }
-
-    @SubscribeEvent
-    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
-        event.register((state, level, pos, tintIndex) -> {
-            if (level != null && pos != null
-                    && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
-                BlockState disguiseState = blockEntity.getDisguiseState();
-
-                if (disguiseState != null && !disguiseState.isAir() && !disguiseState.is(BlockRegistry.BLOCK_SPAWNER)) {
-                    BlockColors colors = Minecraft.getInstance().getBlockColors();
-                    return colors.getColor(disguiseState, level, pos, tintIndex);
-                }
-            }
-            return -1;
-        }, BlockRegistry.BLOCK_SPAWNER.get());
+        event.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "solid_bucket"),
+                new SolidBucketModelLoader());
     }
 
     @SubscribeEvent
@@ -212,14 +234,12 @@ public class ClientEventHandlers {
 
     @SubscribeEvent
     public static void onClientExtensions(RegisterClientExtensionsEvent event) {
-        event.registerItem(
-                new IClientItemExtensions() {
-                    @Override
-                    public void renderHelmetOverlay(ItemStack stack, Player player, GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-                        renderCustomOverlay(guiGraphics, SPLUNKIN_OVERLAY, 1.0F);
-                    }
-                }, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get().asItem()
-        );
+        event.registerItem(new IClientItemExtensions() {
+            @Override
+            public void renderHelmetOverlay(ItemStack stack, Player player, GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+                renderCustomOverlay(guiGraphics, SPLUNKIN_OVERLAY, 1.0F);
+            }
+        }, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get().asItem());
     }
 
     @SubscribeEvent
@@ -239,6 +259,17 @@ public class ClientEventHandlers {
 
                 for (RenderType layer : ItemBlockRenderTypes.getRenderLayers(source.defaultBlockState()))
                     ItemBlockRenderTypes.setRenderLayer(warp, layer);
+            }
+
+            for (Item item : BuiltInRegistries.ITEM) {
+                if (item instanceof ArrowSignItem arrowSignItem) {
+                    ItemProperties.register(arrowSignItem,
+                            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "arrow_direction"),
+                            (stack, level, entity, seed) -> arrowSignDirection(stack));
+                    ItemProperties.register(arrowSignItem,
+                            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "arrow_dye_color"),
+                            (stack, level, entity, seed) -> arrowSignDyeColor(stack));
+                }
             }
 
             ItemProperties.register(ItemRegistry.CHEEP_CHEEP_BUCKET.get(),
@@ -264,6 +295,10 @@ public class ClientEventHandlers {
             ItemProperties.register(ItemRegistry.PORCUPUFFER_SPAWN_EGG.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "custom_name"),
                     (stack, level, entity, seed) -> porcupufferVariant(stack));
+
+            ItemProperties.register(BlockRegistry.SNOWY_HEDGE.asItem(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "snowy"),
+                    (stack, level, entity, seed) -> snowyHedgeSnowless(stack));
 
             ItemProperties.register(ItemRegistry.HAT.get(),
                     ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "power_up_type"),
@@ -317,6 +352,38 @@ public class ClientEventHandlers {
                         (stack, level, entity, seed) -> wonderAmericaName(stack));
             }
         });
+    }
+
+    private static float arrowSignDirection(ItemStack stack) {
+        ArrowDirection direction = stack.get(DataComponentRegistry.ARROW_SIGN_DIRECTION.get());
+
+        if (direction == null)
+            return 0.0F;
+
+        return switch (direction) {
+            case UP -> 0.0F;
+            case TOP_RIGHT -> 1.0F;
+            case RIGHT -> 2.0F;
+            case BOTTOM_RIGHT -> 3.0F;
+            case DOWN -> 4.0F;
+            case BOTTOM_LEFT -> 5.0F;
+            case LEFT -> 6.0F;
+            case TOP_LEFT -> 7.0F;
+            case NONE -> 8.0F;
+        };
+    }
+
+    private static float arrowSignDyeColor(ItemStack stack) {
+        DyeColor dyeColor = stack.get(DataComponentRegistry.DYE_COLOR.get());
+        return (float) ((dyeColor != null ? dyeColor : DyeColor.RED).ordinal() + 1);
+    }
+
+    private static float snowyHedgeSnowless(ItemStack stack) {
+        BlockItemStateProperties properties = stack.get(DataComponents.BLOCK_STATE);
+
+        if (properties != null && Boolean.FALSE.equals(properties.get(HedgeBlock.SNOWY)))
+            return 1.0F;
+        return 0.0F;
     }
 
     private static float cheepCheepBucket(ItemStack stack) {
@@ -449,11 +516,13 @@ public class ClientEventHandlers {
                 BlockPos max = BlockPos.containing(belowBox.maxX, belowBox.maxY, belowBox.maxZ);
 
                 Object object = null;
-                if (ModList.get().isLoaded("sable"))
+                if (SableProvider.isLoaded())
                     object = SableProvider.getContext(level, player);
 
                 for (BlockPos posBelow : BlockPos.betweenClosed(min, max)) {
                     BlockState stateBelow = level.getBlockState(posBelow);
+                    BlockPos bouncePos = posBelow.immutable();
+                    AABB standBox = player.getBoundingBox();
 
                     if (object instanceof SableProvider.SableContext context) {
                         BlockPos posEmbedded = context.posEmbedded.below()
@@ -468,6 +537,11 @@ public class ClientEventHandlers {
 
                         if (level instanceof ServerLevel)
                             stateBelow = context.accessor.getServerBlockState(posWorld);
+
+                        double halfWidth = player.getBbWidth() * 0.5;
+                        bouncePos = posWorld.immutable();
+                        standBox = new AABB(context.posLocal.x - halfWidth, context.posLocal.y - 0.001, context.posLocal.z - halfWidth,
+                                context.posLocal.x + halfWidth, context.posLocal.y - 0.001 + player.getBbHeight(), context.posLocal.z + halfWidth);
                     }
 
                     Block blockBelow = stateBelow.getBlock();
@@ -476,19 +550,27 @@ public class ClientEventHandlers {
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying)
 
-                            || (blockBelow instanceof BlueMushroomTrampolineBlock
-                            && !stateBelow.getValue(OnBlock.ACTIVE)
+                            || (blockBelow instanceof MushroomTrampolineCapBlock
+                            && !(blockBelow instanceof RedMushroomTrampolineCapBlock)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying)
 
-                            || (blockBelow instanceof RedMushroomTrampolineBlock
-                            && !(blockBelow instanceof BlueMushroomTrampolineBlock)
-                            && stateBelow.getValue(OnBlock.ACTIVE)
+                            || (blockBelow instanceof BlueMushroomTrampolineCapBlock
+                            && !stateBelow.getValue(BlockStatePropertyRegistry.ACTIVE)
+                            && !player.isSuppressingBounce() && !player.isNoGravity()
+                            && !player.getAbilities().flying)
+
+                            || (blockBelow instanceof RedMushroomTrampolineCapBlock
+                            && !(blockBelow instanceof BlueMushroomTrampolineCapBlock)
+                            && stateBelow.getValue(BlockStatePropertyRegistry.ACTIVE)
                             && !player.isSuppressingBounce() && !player.isNoGravity()
                             && !player.getAbilities().flying);
 
                     if (canBounce) {
-                        PacketDistributor.sendToServer(new BouncePayload(posBelow, Minecraft.getInstance().options.keyJump.isDown(), motion.y));
+                        if (standBox.minY >= bouncePos.getY() + 0.9 && standBox.deflate(0.05, 0.0, 0.05)
+                                .move(0.0, -0.2, 0.0).intersects(new AABB(bouncePos)))
+                            player.setOnGround(false);
+                        PacketDistributor.sendToServer(new BouncePayload(bouncePos, Minecraft.getInstance().options.keyJump.isDown(), motion.y));
                         break;
                     }
                 }
@@ -516,11 +598,18 @@ public class ClientEventHandlers {
                     else PacketDistributor.sendToServer(new SquashEntityPayload(false, motion.y, minY));
                 }
             }
+
+            if (!ConfigRegistry.DISABLE_WARP_COOLDOWN_PARTICLES.get() && player.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0
+                    && level.getGameTime() % 4 == 0)
+                ClientEventHandlers.spawnWarpCooldownParticles(level, player);
         }
     }
 
     @SubscribeEvent
-    public static void onRenderOverlay(RenderGuiLayerEvent.Pre event) {
+    public static void onRenderOverlay(RenderGuiLayerEvent.Post event) {
+        if (!event.getName().equals(VanillaGuiLayers.CAMERA_OVERLAYS))
+            return;
+
         GuiGraphics gui = event.getGuiGraphics();
         int w = gui.guiWidth();
         int h = gui.guiHeight();
@@ -599,14 +688,17 @@ public class ClientEventHandlers {
         Entity entity = event.getEntity();
         UUID uuid = entity.getUUID();
         Level level = entity.level();
-        BlockPos pos = entity.blockPosition();
-        BlockState state = level.getBlockState(pos);
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
-        boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
-        boolean isEntrance = state.hasProperty(ClearWarpPipeBlock.ENTRANCE) && state.getValue(ClearWarpPipeBlock.ENTRANCE);
 
         if (!(entity.level() instanceof ClientLevel))
             return;
+
+        BlockState state = PipeTravelRotations.getClearPipeState(entity);
+        boolean inClearPipe = state.getBlock() instanceof ClearWarpPipeBlock;
+        boolean isEntrance = state.hasProperty(ClearWarpPipeBlock.ENTRANCE) && state.getValue(ClearWarpPipeBlock.ENTRANCE);
+
+        if (entity instanceof LivingEntity livingEntity)
+            PipeTravelRotations.tick(livingEntity, inClearPipe);
 
         if (entity instanceof LivingEntity livingEntity && entity.getData(DataAttachmentRegistry.HAS_MEGA_MUSHROOM)
                 && !entity.getData(DataAttachmentRegistry.PLAYED_MEGA_MUSHROOM_THEME)) {
@@ -674,5 +766,33 @@ public class ClientEventHandlers {
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    private record CooldownSmoke(Vec3 pos, Vec3 speed) {}
+
+    private static void spawnWarpCooldownParticles(Level level, Player player) {
+        BlockPos playerPos = player.blockPosition();
+
+        if (!playerPos.equals(cooldownScanCenter) || level.getGameTime() - cooldownScanTime >= 20) {
+            cooldownScanCenter = playerPos;
+            cooldownScanTime = level.getGameTime();
+            COOLDOWN_PIPE_ENTRANCES.clear();
+
+            for (BlockPos pos : BlockPos.betweenClosed(playerPos.offset(-3, -3, -3), playerPos.offset(3, 3, 3))) {
+                BlockState state = level.getBlockState(pos);
+
+                if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE) && !state.getValue(WarpPipeBlock.CLOSED)
+                        && level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE && warpBE.hasDestinationPos()) {
+                    Direction facing = state.getValue(WarpPipeBlock.FACING);
+                    COOLDOWN_PIPE_ENTRANCES.add(new CooldownSmoke(
+                            Vec3.atCenterOf(pos).add(facing.getStepX() * 0.5, facing.getStepY() * 0.5, facing.getStepZ() * 0.5),
+                            new Vec3(facing.getStepX() * 0.02, facing.getStepY() * 0.02 + 0.01, facing.getStepZ() * 0.02)));
+                }
+            }
+        }
+
+        for (CooldownSmoke smoke : COOLDOWN_PIPE_ENTRANCES)
+            level.addParticle(ParticleTypes.SMOKE, smoke.pos().x, smoke.pos().y, smoke.pos().z,
+                    smoke.speed().x, smoke.speed().y, smoke.speed().z);
     }
 }

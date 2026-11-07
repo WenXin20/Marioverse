@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "marioverse:block/red_calcite_pressure_plate"
+    },
+    "powered=true": {
+      "model": "marioverse:block/red_calcite_pressure_plate_down"
+    }
+  }
+}

@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.entities.power_ups.MiniMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperMushroomEntity;
 import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
+import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -19,9 +20,12 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.items.DashMushroomItem;
+import com.wenxin2.marioverse.items.PowerUpItem;
 import com.wenxin2.marioverse.items.PowerUpSpawnEggItem;
 import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
+import com.wenxin2.marioverse.power_up.PowerUpSource;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -34,6 +38,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -706,6 +712,11 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
             return;
         }
 
+        if (applyPowerUps && stack.getItem() instanceof PowerUpItem) {
+            CheckpointFlagBlock.applyPowerUpItem(level, pos, stack, livingEntity);
+            return;
+        }
+
         if (applyPowerUps && stack.getItem() instanceof PowerUpSpawnEggItem powerUpItem) {
             CheckpointFlagBlock.applyPowerUps(level, pos, stack, livingEntity, powerUpItem);
             return;
@@ -769,36 +780,92 @@ public class CheckpointFlagBlock extends BaseEntityBlock implements SimpleWaterl
         if (level instanceof ServerLevel serverLevel) {
             if (!entityType.is(TagRegistry.CHECKPOINT_FLAG_CANNOT_SPAWN)) {
                 Entity spawnedEntity = entityType.create(serverLevel);
-                if (spawnedEntity != null && entity instanceof AbilitiesHandler handler) {
-                    if (stack.getItem() == ItemRegistry.SUPER_MUSHROOM.get()
-                            && spawnedEntity instanceof SuperMushroomEntity powerUp) {
-                        handler.applySuperMushroomPowerUp(level, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
-                    } else if (stack.getItem() == ItemRegistry.MEGA_MUSHROOM.get()
-                            && spawnedEntity instanceof MegaMushroomEntity powerUp) {
-                        handler.applyMegaMushroomPowerUp(level, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.MINI_MUSHROOM.get()
-                            && spawnedEntity instanceof MiniMushroomEntity powerUp) {
-                        handler.applyMiniMushroomPowerUp(level, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.ONE_UP_MUSHROOM.get()
-                            && spawnedEntity instanceof OneUpMushroomEntity powerUp) {
-                        handler.applyOneUpMushroomPowerUp(level, stack, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.FIRE_FLOWER.get()
-                            && spawnedEntity instanceof FireFlowerEntity powerUp) {
-                        handler.applyFireFlowerPowerUp(level, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.ICE_FLOWER.get()
-                            && spawnedEntity instanceof IceFlowerEntity powerUp) {
-                        handler.applyIceFlowerPowerUp(level, entity, powerUp);
-                    } else if (stack.getItem() == ItemRegistry.SUPER_STAR.get()
-                            && spawnedEntity instanceof SuperStarEntity powerUp) {
-                        handler.applySuperStarPowerUp(level, entity, powerUp);
-                    } else {
-                        entityType.spawn(serverLevel, stack, null,
-                                BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
-                                MobSpawnType.SPAWN_EGG, true, false);
-                    }
-                }
-                stack.copyWithCount(1);
+                AbilitiesHandler handler = entity instanceof AbilitiesHandler abilitiesHandler ? abilitiesHandler : null;
+
+                if (handler != null && spawnedEntity instanceof SuperMushroomEntity powerUp)
+                    handler.applySuperMushroomPowerUp(level, entity, powerUp, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+                else if (handler != null && spawnedEntity instanceof MegaMushroomEntity powerUp)
+                    handler.applyMegaMushroomPowerUp(level, entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof MiniMushroomEntity powerUp)
+                    handler.applyMiniMushroomPowerUp(level, entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof OneUpMushroomEntity powerUp)
+                    handler.applyOneUpMushroomPowerUp(level, new ItemStack(ItemRegistry.ONE_UP_MUSHROOM.get()), entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof FireFlowerEntity powerUp)
+                    handler.applyFireFlowerPowerUp(level, entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof IceFlowerEntity powerUp)
+                    handler.applyIceFlowerPowerUp(level, entity, powerUp);
+                else if (handler != null && spawnedEntity instanceof SuperStarEntity powerUp)
+                    handler.applySuperStarPowerUp(level, entity, powerUp);
+                else entityType.spawn(serverLevel, stack, null,
+                            BlockPos.containing(pos.getX(), pos.getY(), pos.getZ()),
+                            MobSpawnType.SPAWN_EGG, true, false);
             } else QuestionBlock.spawnItem(level, pos, stack, true);
         }
+    }
+
+    public static void applyPowerUpItem(Level level, BlockPos pos, ItemStack stack, LivingEntity entity) {
+        if (!(entity instanceof AbilitiesHandler handler)) {
+            QuestionBlock.spawnItem(level, pos, stack, true);
+            return;
+        }
+
+        if (stack.is(ItemRegistry.SUPER_MUSHROOM))
+            handler.applySuperMushroomPowerUp(level, entity, null, ConfigRegistry.SUPER_MUSHROOM_HEALTH_HEALED.get().floatValue());
+        else if (stack.is(ItemRegistry.MEGA_MUSHROOM))
+            handler.applyMegaMushroomPowerUp(level, entity, null);
+        else if (stack.is(ItemRegistry.MINI_MUSHROOM))
+            handler.applyMiniMushroomPowerUp(level, entity, null);
+        else if (stack.is(ItemRegistry.ONE_UP_MUSHROOM))
+            handler.applyOneUpMushroomPowerUp(level, stack, entity, null);
+        else if (stack.is(ItemRegistry.FIRE_FLOWER) && stack.getItem() instanceof PowerUpSource source)
+            handler.applyFireFlowerPowerUp(level, entity, source);
+        else if (stack.is(ItemRegistry.ICE_FLOWER) && stack.getItem() instanceof PowerUpSource source)
+            handler.applyIceFlowerPowerUp(level, entity, source);
+        else if (stack.is(ItemRegistry.SUPER_STAR))
+            handler.applySuperStarPowerUp(level, entity, null);
+        else if (stack.is(ItemRegistry.DASH_MUSHROOM))
+            DashMushroomItem.mushroomAbilities(null, level, entity, ConfigRegistry.DASH_MUSHROOM_BOOST_STRENGTH.get(), true, false);
+        else QuestionBlock.spawnItem(level, pos, stack, true);
+    }
+
+    public static boolean canWash(BlockState state) {
+        return state.getBlock() instanceof CheckpointFlagBlock flag && flag.getColor() != null && flag.getColor() != DyeColor.WHITE;
+    }
+
+    public static void washFlag(Level level, BlockPos pos, BlockState state, Player player, ItemStack soap) {
+        BlockPos bottomPos = switch (state.getValue(PART)) {
+            case TOP -> pos.below(2);
+            case MIDDLE -> pos.below();
+            default -> pos;
+        };
+        Block whiteFlag = BlockRegistry.CHECKPOINT_FLAGS.get(DyeColor.WHITE).get();
+
+        for (int i = 0; i < 3; i++) {
+            BlockPos partPos = bottomPos.above(i);
+            BlockState partState = level.getBlockState(partPos);
+            if (!CheckpointFlagBlock.canWash(partState))
+                continue;
+
+            CompoundTag data = level.getBlockEntity(partPos) instanceof CheckpointFlagBlockEntity partBE
+                    ? partBE.saveCustomOnly(level.registryAccess()) : null;
+            level.setBlock(partPos, whiteFlag.withPropertiesOf(partState), Block.UPDATE_ALL | Block.UPDATE_KNOWN_SHAPE);
+
+            if (data != null && level.getBlockEntity(partPos) instanceof CheckpointFlagBlockEntity newPartBE) {
+                newPartBE.loadCustomOnly(data, level.registryAccess());
+                newPartBE.markUpdated();
+            }
+
+            if (level instanceof ServerLevel serverLevel)
+                ServerParticleUtils.spawnParticlesOnBlockFaces((ParticleOptions) CompatRegistry.SUDS_PARTICLE.get(),
+                        serverLevel, partPos, UniformInt.of(3, 5));
+        }
+
+        level.playSound(null, pos, CompatRegistry.SOAP_WASH_SOUND.get(), SoundSource.BLOCKS, 1.0F,
+                0.9F + level.random.nextFloat() * 0.2F);
+        player.awardStat(Stats.ITEM_USED.get(soap.getItem()));
+        if (soap.isDamageableItem())
+            soap.hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+        else soap.consume(1, player);
+        level.gameEvent(player, GameEvent.BLOCK_CHANGE, bottomPos);
     }
 }

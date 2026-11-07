@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "marioverse:block/rocky_fortstone_top",
+    "side": "marioverse:block/rocky_fortstone",
+    "top": "marioverse:block/rocky_fortstone_top"
+  }
+}

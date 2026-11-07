@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_mega_mushroom_stem",
+  "textures": {
+    "particle": "marioverse:block/mega_mushroom_stem",
+    "stem": "marioverse:block/mega_mushroom_stem"
+  }
+}

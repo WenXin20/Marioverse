@@ -182,6 +182,15 @@ public class FemaleCostumeRenderer extends DyeableGeoArmorRenderer<FemaleCostume
     }
 
     @Override
+    public void applyBoneVisibilityByPart(EquipmentSlot currentSlot, ModelPart currentPart, HumanoidModel<?> model) {
+        super.applyBoneVisibilityByPart(currentSlot, currentPart, model);
+        this.getGeoModel().getBone("armorDress").ifPresent(geoBone -> this.setBoneVisible(geoBone, false));
+        this.getGeoModel().getBone("armorDressBack").ifPresent(geoBone -> this.setBoneVisible(geoBone, false));
+        this.getGeoModel().getBone("armorDressOverlay").ifPresent(geoBone -> this.setBoneVisible(geoBone, false));
+        this.getGeoModel().getBone("armorWaist").ifPresent(geoBone -> this.setBoneVisible(geoBone, false));
+    }
+
+    @Override
     protected void applyBaseTransformations(HumanoidModel<?> baseModel) {
         super.applyBaseTransformations(baseModel);
         Optional<GeoBone> dressBone = this.getGeoModel().getBone("armorDress");

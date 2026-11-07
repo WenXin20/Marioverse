@@ -1,9 +1,11 @@
 package com.wenxin2.marioverse.world.feature;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.mojang.serialization.Codec;
-import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -49,15 +51,31 @@ public class HugeSwitchMushroomFeature extends AbstractHugeMushroomFeature {
                                     .setValue(HugeMushroomBlock.SOUTH, flag9);
                         }
 
-                        if (blockstate.hasProperty(OnBlock.ACTIVE) && levelAccessor instanceof ServerLevelAccessor serverLevelAccessor) {
-                            GlobalSwitchSavedData data = GlobalSwitchSavedData.get(serverLevelAccessor.getLevel());
-                            blockstate = blockstate.setValue(OnBlock.ACTIVE, data.isActive());
+                        if (blockstate.hasProperty(BlockStatePropertyRegistry.ACTIVE) && levelAccessor instanceof ServerLevelAccessor serverLevelAccessor) {
+                            boolean isActive = GlobalSwitchSavedData.isActiveCached(serverLevelAccessor.getLevel());
+                            blockstate = blockstate.setValue(BlockStatePropertyRegistry.ACTIVE, isActive);
                         }
 
                         this.setBlock(levelAccessor, posMutable, blockstate);
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    protected void placeTrunk(LevelAccessor levelAccessor, RandomSource random, BlockPos pos,
+                              HugeMushroomFeatureConfiguration config, int maxHeight, BlockPos.MutableBlockPos posMutable) {
+        for (int y = 0; y < maxHeight; y++) {
+            posMutable.set(pos).move(Direction.UP, y);
+            if (levelAccessor.getBlockState(posMutable).isSolidRender(levelAccessor, posMutable))
+                continue;
+
+            BlockState state = config.stemProvider.getState(random, pos);
+            if (state.getBlock() instanceof SuperMushroomStemBlock)
+                state = state.setValue(SuperMushroomStemBlock.END, y == maxHeight - 1)
+                        .setValue(SuperMushroomStemBlock.UP, y == maxHeight - 1);
+            this.setBlock(levelAccessor, posMutable, state);
         }
     }
 

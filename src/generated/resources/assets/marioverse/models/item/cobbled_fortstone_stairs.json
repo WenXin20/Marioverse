@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "marioverse:block/cobbled_fortstone",
+    "side": "marioverse:block/cobbled_fortstone",
+    "top": "marioverse:block/cobbled_fortstone"
+  }
+}

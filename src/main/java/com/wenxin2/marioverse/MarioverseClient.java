@@ -1,9 +1,12 @@
 package com.wenxin2.marioverse;
 
-import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.wenxin2.marioverse.blocks.HedgeBlock;
 import com.wenxin2.marioverse.blocks.client.BlockSpawnerScreen;
 import com.wenxin2.marioverse.blocks.client.QuestionBlockScreen;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
+import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
+import com.wenxin2.marioverse.client.ArrowAtlas;
 import com.wenxin2.marioverse.client.particles.GlowingSuspendedTownParticle;
 import com.wenxin2.marioverse.client.particles.GravityParticle;
 import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
@@ -11,6 +14,11 @@ import com.wenxin2.marioverse.client.particles.MediumRewardParticle;
 import com.wenxin2.marioverse.client.particles.NoMovementItemParticle;
 import com.wenxin2.marioverse.client.particles.PollenParticle;
 import com.wenxin2.marioverse.client.particles.RewardParticle;
+import com.wenxin2.marioverse.client.particles.SuperStarGlintParticle;
+import com.wenxin2.marioverse.client.particles.WarpLinkParticle;
+import com.wenxin2.marioverse.client.particles.WarpStarParticle;
+import com.wenxin2.marioverse.client.renderers.PaintingRippleRenderTypes;
+import com.wenxin2.marioverse.client.renderers.blocks.ArrowSignBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.curios.OneUpRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.BlockSpawnerBlockEntityRenderer;
 import com.wenxin2.marioverse.client.renderers.blocks.CheckpointFlagBlockEntityRenderer;
@@ -40,8 +48,7 @@ import com.wenxin2.marioverse.client.renderers.entities.PokeyRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.PorcupufferRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SpinyCheepCheepRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.SplunkinRenderer;
-import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarGeoLayer;
-import com.wenxin2.marioverse.client.renderers.entities.layers.SuperStarLayer;
+import com.wenxin2.marioverse.client.renderers.entities.WoodTypeBoatRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.DashMushroomRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.FireFlowerRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.power_ups.IceFlowerRenderer;
@@ -54,20 +61,25 @@ import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingFireb
 import com.wenxin2.marioverse.client.renderers.entities.projectile.BouncingIceBallRenderer;
 import com.wenxin2.marioverse.client.renderers.entities.projectile.LargeSnowballRenderer;
 import com.wenxin2.marioverse.dynamic_pack.DynamicClientResources;
+import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.ChestBoatModel;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackLocationInfo;
@@ -77,13 +89,16 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.level.FoliageColor;
+import net.minecraft.world.level.GrassColor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -91,18 +106,21 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
-import software.bernie.geckolib.animatable.GeoAnimatable;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = Marioverse.MOD_ID, value = Dist.CLIENT)
 public class MarioverseClient {
-
     public static void clientSetup(final FMLClientSetupEvent event) {
         CuriosRendererRegistry.register(ItemRegistry.ONE_UP_MUSHROOM.get(), OneUpRenderer::new);
 
@@ -126,72 +144,208 @@ public class MarioverseClient {
     }
 
     @SubscribeEvent
+    public static void onClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerBlock(new IClientBlockExtensions() {
+            @Override
+            public boolean areBreakingParticlesTinted(BlockState state, ClientLevel level, BlockPos pos) {
+                return false;
+            }
+        }, BlockRegistry.BLUE_BLOOMFLOWER.get(),
+                BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.GRASSY_FORTSTONE.get(),
+                BlockRegistry.GRASSY_FUNGAL_STONE.get(),
+                BlockRegistry.ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.PINK_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_BLUE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_HEDGE.get(),
+                BlockRegistry.POTTED_ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_PINK_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_PINK_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_RED_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_RED_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(),
+                BlockRegistry.POTTED_SHROOMGRASS.get(),
+                BlockRegistry.POTTED_SHRUBROOM.get(),
+                BlockRegistry.POTTED_SNOWY_HEDGE.get(),
+                BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_YELLOW_BLOOMFLOWER.get(),
+                BlockRegistry.PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.RED_BLOOMFLOWER.get(),
+                BlockRegistry.SHROOMGRASS_BLOCK.get(),
+                BlockRegistry.WHITE_BLOOMFLOWER.get(),
+                BlockRegistry.YELLOW_BLOOMFLOWER.get());
+    }
+
+    @SubscribeEvent
     private static void registerBlockColors(final RegisterColorHandlersEvent.Block event) {
-        event.register((state, world, pos, tintIndex) -> {
-            return world != null && pos != null
-                    ? BiomeColors.getAverageWaterColor(world, pos) | 0x0000cc : 0xFFFFFFFF;
-        }, BlockRegistry.WATER_SPOUT.get());
+        event.register((state, level, pos, tintIndex) -> level != null && pos != null
+                        ? BiomeColors.getAverageGrassColor(level, pos) : GrassColor.getDefaultColor(),
+                BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.GRASSY_FORTSTONE.get(),
+                BlockRegistry.GRASSY_FUNGAL_STONE.get(),
+                BlockRegistry.POTTED_SHORT_SHROOMGRASS.get(),
+                BlockRegistry.POTTED_SHROOMGRASS.get(),
+                BlockRegistry.POTTED_SHRUBROOM.get(),
+                BlockRegistry.SHORT_SHROOMGRASS.get(),
+                BlockRegistry.SHROOMGRASS.get(),
+                BlockRegistry.SHROOMGRASS_BLOCK.get(),
+                BlockRegistry.SHRUBROOM.get(),
+                BlockRegistry.TALL_SHROOMGRASS.get());
+
+        event.register((state, level, pos, tintIndex) -> level != null && pos != null
+                        ? BiomeColors.getAverageFoliageColor(level, pos) : FoliageColor.getDefaultColor(),
+                BlockRegistry.BLUE_BLOOMFLOWER.get(),
+                BlockRegistry.HEDGE.get(),
+                BlockRegistry.MUSHROOT_LEAVES.get(),
+                BlockRegistry.ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.PINK_BLOOMFLOWER.get(),
+                BlockRegistry.PINK_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_BLUE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_HEDGE.get(),
+                BlockRegistry.POTTED_ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_PINK_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_PINK_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_RED_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_RED_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_SNOWY_HEDGE.get(),
+                BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get(),
+                BlockRegistry.POTTED_WHITE_ROSE_HEDGE.get(),
+                BlockRegistry.POTTED_YELLOW_BLOOMFLOWER.get(),
+                BlockRegistry.PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.RED_BLOOMFLOWER.get(),
+                BlockRegistry.RED_ROSE_HEDGE.get(),
+                BlockRegistry.SNOWY_HEDGE.get(),
+                BlockRegistry.WHITE_BLOOMFLOWER.get(),
+                BlockRegistry.WHITE_ROSE_HEDGE.get(),
+                BlockRegistry.YELLOW_BLOOMFLOWER.get());
+
+        event.register((state, level, pos, tintIndex) -> level != null && pos != null
+                        ? BiomeColors.getAverageWaterColor(level, pos) | 0x0000cc : 0xFFFFFFFF,
+                BlockRegistry.WATER_SPOUT.get());
+
+        event.register((state, level, pos, tintIndex) -> {
+            if (level != null && pos != null
+                    && level.getBlockEntity(pos) instanceof DisguisedBlockEntity blockEntity) {
+                BlockState disguiseState = blockEntity.getDisguiseState();
+
+                if (disguiseState != null && !disguiseState.isAir() && !disguiseState.is(BlockRegistry.BLOCK_SPAWNER)) {
+                    BlockColors colors = Minecraft.getInstance().getBlockColors();
+                    return colors.getColor(disguiseState, level, pos, tintIndex);
+                }
+            }
+            return -1;
+        }, BlockRegistry.BLOCK_SPAWNER.get());
     }
 
     @SubscribeEvent
     private static void registerItemColors(final RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tintIndex) -> tintIndex == 0 ? GrassColor.getDefaultColor() : -1,
+                BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get(),
+                BlockRegistry.GRASSY_FORTSTONE.get(),
+                BlockRegistry.GRASSY_FUNGAL_STONE.get(),
+                BlockRegistry.SHROOMGRASS_BLOCK.get(),
+                BlockRegistry.SHORT_SHROOMGRASS.get(),
+                BlockRegistry.SHROOMGRASS.get(),
+                BlockRegistry.SHRUBROOM.get(),
+                BlockRegistry.TALL_SHROOMGRASS.get());
+
+        event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
+                BlockRegistry.MUSHROOT_LEAVES.get());
+
+        event.register((stack, tintIndex) -> tintIndex == 0 ? FoliageColor.getDefaultColor() : -1,
+                BlockRegistry.HEDGE.get(),
+                BlockRegistry.PINK_ROSE_HEDGE.get(),
+                BlockRegistry.RED_ROSE_HEDGE.get(),
+                BlockRegistry.WHITE_ROSE_HEDGE.get());
+
+        event.register((stack, tintIndex) -> tintIndex == 1 ? FoliageColor.getDefaultColor() : -1,
+                BlockRegistry.BLUE_BLOOMFLOWER.get(),
+                BlockRegistry.ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.PINK_BLOOMFLOWER.get(),
+                BlockRegistry.PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.RED_BLOOMFLOWER.get(),
+                BlockRegistry.WHITE_BLOOMFLOWER.get(),
+                BlockRegistry.YELLOW_BLOOMFLOWER.get());
+
         event.register((stack, tintIndex) -> {
-                    if (tintIndex == 1)
-                        return 0x3F76E4;
-                    return -1;
-                }, ItemRegistry.PLASTIC_WATER_BUCKET.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xED0011);
-                    return -1;
-                },
-                ItemRegistry.CHRISTMAS_HAT.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xF6343A);
-                    return -1;
-                },
-                ItemRegistry.HAT.get(),
-                ItemRegistry.SHIRT.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0x325EFF);
-                    return -1;
-                },
-                ItemRegistry.PANTS.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xA94535);
-                    return -1;
-                },
-                ItemRegistry.SHOES.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
-                    if (tintIndex == 0)
-                        return DyedItemColor.getOrDefault(stack, 0xFF647D);
-                    return -1;
-                },
-                ItemRegistry.CROWN.get()
-        );
-        event.register(
-                (stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return FoliageColor.getDefaultColor();
+            if (tintIndex == 1) {
+                BlockItemStateProperties properties = stack.get(DataComponents.BLOCK_STATE);
+                if (properties != null && Boolean.FALSE.equals(properties.get(HedgeBlock.SNOWY)))
+                    return FoliageColor.getDefaultColor();
+            }
+            return -1;
+        }, BlockRegistry.SNOWY_HEDGE.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 1)
+                return 0xFF3F76E4;
+            return -1;
+        }, ItemRegistry.PLASTIC_WATER_BUCKET.get());
+
+        event.register(new DynamicFluidContainerModel.Colors(),
+                RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.values().toArray(Item[]::new));
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0xED0011);
+            return -1;
+        }, ItemRegistry.CHRISTMAS_HAT.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0xF6343A);
+            return -1;
+        }, ItemRegistry.HAT.get(),
+        ItemRegistry.SHIRT.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0x325EFF);
+            return -1;
+        }, ItemRegistry.PANTS.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0xA94535);
+            return -1;
+        }, ItemRegistry.SHOES.get());
+
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 0)
+                return DyedItemColor.getOrDefault(stack, 0xFF647D);
+            return -1;
+        }, ItemRegistry.CROWN.get());
+
+        event.register((stack, tintIndex) -> {
                     if (tintIndex == 0)
                         return DyedItemColor.getOrDefault(stack, 0xFFC1D7);
                     return -1;
-                },
-                ItemRegistry.BODICE.get(),
+                }, ItemRegistry.BODICE.get(),
                 ItemRegistry.DRESS.get(),
-                ItemRegistry.HEELS.get()
-        );
+                ItemRegistry.HEELS.get());
+    }
+
+    @SubscribeEvent
+    private static void registerReloadListeners(final RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(ArrowAtlas.get());
+    }
+
+    @SubscribeEvent
+    private static void registerShaders(final RegisterShadersEvent event) {
+        PaintingRippleRenderTypes.ripplingPaintingShader = null;
+
+        try {
+            event.registerShader(new ShaderInstance(event.getResourceProvider(),
+                    ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "rendertype_rippling_painting"), DefaultVertexFormat.NEW_ENTITY),
+                    shader -> PaintingRippleRenderTypes.ripplingPaintingShader = shader);
+        } catch (Exception exception) {
+            Marioverse.LOGGER.error("Failed to load the rippling painting shader", exception);
+        }
     }
 
     @SubscribeEvent
@@ -203,6 +357,7 @@ public class MarioverseClient {
 
     @SubscribeEvent
     private static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(BlockEntityRegistry.ARROW_SIGN.get(), ArrowSignBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.BLOCK_SPAWNER_BLOCK_ENTITY.get(), BlockSpawnerBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.CHECKPOINT_FLAG_BLOCK_ENTITY.get(), CheckpointFlagBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityRegistry.COIN_BLOCK_ENTITY.get(), CoinBlockEntityRenderer::new);
@@ -213,7 +368,28 @@ public class MarioverseClient {
     }
 
     @SubscribeEvent
+    private static void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(WoodTypeBoatRenderer.MUSHROOT_BOAT_LAYER, BoatModel::createBodyModel);
+        event.registerLayerDefinition(WoodTypeBoatRenderer.MUSHROOT_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel);
+        event.registerLayerDefinition(WoodTypeBoatRenderer.SPOOKROOT_BOAT_LAYER, BoatModel::createBodyModel);
+        event.registerLayerDefinition(WoodTypeBoatRenderer.SPOOKROOT_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel);
+    }
+
+    @SubscribeEvent
     private static void registerEntityRenderers(final EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(EntityRegistry.MUSHROOT_BOAT.get(),
+                context -> new WoodTypeBoatRenderer(context, false,
+                        WoodTypeBoatRenderer.MUSHROOT_BOAT_LAYER, Marioverse.id("textures/entity/boat/mushroot.png")));
+        event.registerEntityRenderer(EntityRegistry.MUSHROOT_CHEST_BOAT.get(),
+                context -> new WoodTypeBoatRenderer(context, true,
+                        WoodTypeBoatRenderer.MUSHROOT_CHEST_BOAT_LAYER, Marioverse.id("textures/entity/chest_boat/mushroot.png")));
+        event.registerEntityRenderer(EntityRegistry.SPOOKROOT_BOAT.get(),
+                context -> new WoodTypeBoatRenderer(context, false,
+                        WoodTypeBoatRenderer.SPOOKROOT_BOAT_LAYER, Marioverse.id("textures/entity/boat/spookroot.png")));
+        event.registerEntityRenderer(EntityRegistry.SPOOKROOT_CHEST_BOAT.get(),
+                context -> new WoodTypeBoatRenderer(context, true,
+                        WoodTypeBoatRenderer.SPOOKROOT_CHEST_BOAT_LAYER, Marioverse.id("textures/entity/chest_boat/spookroot.png")));
+
         event.registerEntityRenderer(EntityRegistry.BOUNCING_FIREBALL.get(), BouncingFireballRenderer::new);
         event.registerEntityRenderer(EntityRegistry.BOUNCING_ICE_BALL.get(), BouncingIceBallRenderer::new);
         event.registerEntityRenderer(EntityRegistry.LARGE_SNOWBALL.get(), LargeSnowballRenderer::new);
@@ -282,59 +458,14 @@ public class MarioverseClient {
         event.registerSpriteSet(ParticleRegistry.INCREDIBLE.get(), LargeRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.ONE_UP.get(), RewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.POWERED_UP.get(), GlowingSuspendedTownParticle.FireProvider::new);
-        event.registerSpriteSet(ParticleRegistry.RAINBOW_GLINT.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
+        event.registerSpriteSet(ParticleRegistry.RAINBOW_GLINT.get(), SuperStarGlintParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.RED_KOOPA_SHELL_SHATTER.get(), GravityParticle.BreakEntityProvider::new);
         event.registerSpriteSet(ParticleRegistry.RED_STAR.get(), GlowingSuspendedTownParticle.CoinGlintProvider::new);
         event.registerSpriteSet(ParticleRegistry.SUPER.get(), MediumRewardParticle::new);
         event.registerSpriteSet(ParticleRegistry.SUSPENDED_FIRE.get(), GlowingSuspendedTownParticle.FireProvider::new);
+        event.registerSpriteSet(ParticleRegistry.WARP_LINK.get(), WarpLinkParticle.Provider::new);
+        event.registerSpriteSet(ParticleRegistry.RAINBOW_STAR.get(), WarpStarParticle.Provider::new);
         event.registerSpriteSet(ParticleRegistry.WONDERFUL.get(), LargeRewardParticle::new);
-    }
-
-    @SubscribeEvent
-    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
-        List<EntityType<? extends LivingEntity>> entityTypes = ImmutableList.copyOf(
-                BuiltInRegistries.ENTITY_TYPE.stream()
-                        .filter(DefaultAttributes::hasSupplier)
-                        .map(entityType -> (EntityType<LivingEntity>) entityType)
-                        .collect(Collectors.toList()));
-        entityTypes.forEach((entityType -> {
-//            addLayerIfApplicable(entityType, event);
-            EntityRenderer<?> renderer = event.getRenderer(entityType);
-            if (renderer instanceof LivingEntityRenderer<?, ?> entityRenderer) {
-                entityRenderer.addLayer(new SuperStarLayer(entityRenderer));
-            } else if (renderer instanceof GeoEntityRenderer<?> geoRendererRaw) {
-                addGeoSuperStarLayer(geoRendererRaw);
-            } else if (entityType != EntityType.PLAYER) {
-                Marioverse.LOGGER.warn("Could not apply super star layer to {}, " +
-                                "has custom renderer that is not LivingEntityRenderer nor GeoEntityRenderer.",
-                        BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
-            }
-        }));
-
-        for (PlayerSkin.Model skinType : event.getSkins()){
-            var skinRenderer = event.getSkin(skinType);
-            if (skinRenderer instanceof LivingEntityRenderer<?, ?> entityRenderer)
-                entityRenderer.addLayer(new SuperStarLayer(entityRenderer));
-        }
-    }
-
-    private static void addLayerIfApplicable(EntityType<? extends LivingEntity> entityType, EntityRenderersEvent.AddLayers event) {
-        EntityRenderer<?> renderer = event.getRenderer(entityType);
-        if (renderer instanceof LivingEntityRenderer<?, ?> entityRenderer) {
-            entityRenderer.addLayer(new SuperStarLayer(entityRenderer));
-        } else if (renderer instanceof GeoEntityRenderer<?> geoRendererRaw) {
-            addGeoSuperStarLayer(geoRendererRaw);
-        } else if (entityType != EntityType.PLAYER) {
-            Marioverse.LOGGER.warn("Could not apply super star layer to {}, " +
-                            "has custom renderer that is not LivingEntityRenderer nor GeoEntityRenderer.",
-                    BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T extends LivingEntity & GeoAnimatable> void addGeoSuperStarLayer(GeoEntityRenderer<?> geoRendererRaw) {
-        GeoEntityRenderer<T> geoRenderer = (GeoEntityRenderer<T>) geoRendererRaw;
-        geoRenderer.addRenderLayer(new SuperStarGeoLayer<>(geoRenderer));
     }
 
     public static void addPackFinder(final AddPackFindersEvent event) {

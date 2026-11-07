@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnBlock extends Block implements ToggleableBlock {
     public static final MapCodec<OnBlock> CODEC = simpleCodec(OnBlock::new);
-    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+    public static final BooleanProperty ACTIVE = BlockStatePropertyRegistry.ACTIVE;
 
     @NotNull
     @Override

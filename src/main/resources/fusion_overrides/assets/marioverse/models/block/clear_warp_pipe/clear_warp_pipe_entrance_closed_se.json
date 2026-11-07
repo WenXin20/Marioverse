@@ -8,8 +8,8 @@
 		"top": {
 			"type": "match_state",
 			"block": "marioverse:clear_warp_pipe",
-			"properties": { "closed": ["true"], "bubbles": ["true", "false"], "entrance": ["true"],
-				"water_spout": ["true", "false"], "waterlogged": ["true", "false"],
+			"properties": { "closed": ["true"], "entrance": ["true"],
+				"waterlogged": ["true", "false"],
 				"north": ["true", "false"], "south": ["true", "false"],
 				"east": ["true", "false"], "west": ["true", "false"],
 				"up": ["true", "false"], "down": ["true", "false"] }

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
+import com.wenxin2.marioverse.integration.stone_zone_compat.StoneTypeCompat;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -31,6 +32,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.material.Fluid;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -38,11 +42,39 @@ import org.slf4j.Logger;
 public final class DynamicServerResources implements PackResources {
     private static final Logger LOGGER = LogUtils.getLogger();
     private final Map<ResourceLocation, byte[]> lootTables = new HashMap<>();
+    private final Map<ResourceLocation, byte[]> colorSets = new HashMap<>();
+    private final Map<ResourceLocation, byte[]> bucketTags = new HashMap<>();
     private final PackLocationInfo location;
 
     public DynamicServerResources(PackLocationInfo location) {
         this.location = location;
         this.generateLootTables();
+        this.generateColorSets();
+        this.generateBucketTags();
+    }
+
+    private void generateBucketTags() {
+        Map<ResourceLocation, JsonArray> values = new HashMap<>();
+
+        for (Map.Entry<Fluid, Item> entry : RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.entrySet())
+            values.computeIfAbsent(DynamicServerResources.bucketTagID(BuiltInRegistries.FLUID.getKey(entry.getKey())),
+                    id -> new JsonArray()).add(BuiltInRegistries.ITEM.getKey(entry.getValue()).toString());
+
+        for (Map.Entry<Block, Item> entry : RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.entrySet())
+            values.computeIfAbsent(DynamicServerResources.bucketTagID(BuiltInRegistries.BLOCK.getKey(entry.getKey())),
+                    id -> new JsonArray()).add(BuiltInRegistries.ITEM.getKey(entry.getValue()).toString());
+
+        for (Map.Entry<ResourceLocation, JsonArray> entry : values.entrySet()) {
+            JsonObject json = new JsonObject();
+            json.addProperty("replace", false);
+            json.add("values", entry.getValue());
+            bucketTags.put(entry.getKey(), json.toString().getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
+    private void generateColorSets() {
+        if (ModList.get().isLoaded("stonezone"))
+            colorSets.putAll(StoneTypeCompat.createCalciteColorSets());
     }
 
     private static final Set<TagKey<Block>> DOOR_BLOCK_TAGS = Set.of(
@@ -69,6 +101,15 @@ public final class DynamicServerResources implements PackResources {
             TagRegistry.WARP_TRAPDOOR_ITEMS,
             ItemTags.TRAPDOORS,
             ItemTags.WOODEN_TRAPDOORS
+    );
+
+    private static final Set<TagKey<Item>> PLASTIC_BUCKET_ITEM_TAGS = Set.of(
+            ItemTags.ARMOR_ENCHANTABLE,
+            ItemTags.DURABILITY_ENCHANTABLE,
+            ItemTags.EQUIPPABLE_ENCHANTABLE,
+            ItemTags.TRIMMABLE_ARMOR,
+            ItemTags.VANISHING_ENCHANTABLE,
+            Tags.Items.BUCKETS
     );
 
     private void generateLootTables() {
@@ -139,9 +180,23 @@ public final class DynamicServerResources implements PackResources {
             }
         }
 
+        for (TagKey<Item> tag : PLASTIC_BUCKET_ITEM_TAGS) {
+            if (location.equals(tag.location().withPrefix("tags/item/").withSuffix(".json"))) {
+                return buildPlasticBucketItemTag();
+            }
+        }
+
         byte[] data = lootTables.get(location);
         if (data != null)
             return () -> new ByteArrayInputStream(data);
+
+        byte[] bucketTag = bucketTags.get(location);
+        if (bucketTag != null)
+            return () -> new ByteArrayInputStream(bucketTag);
+
+        byte[] colorSet = colorSets.get(location);
+        if (colorSet != null)
+            return () -> new ByteArrayInputStream(colorSet);
 
         return null;
     }
@@ -201,6 +256,33 @@ public final class DynamicServerResources implements PackResources {
             }
         }
 
+        if (path.equals("tags/item")) {
+            for (TagKey<Item> tag : PLASTIC_BUCKET_ITEM_TAGS) {
+                ResourceLocation id = tag.location();
+                if (!id.getNamespace().equals(namespace))
+                    continue;
+
+                ResourceLocation out = ResourceLocation
+                        .fromNamespaceAndPath(namespace, "tags/item/" + id.getPath() + ".json");
+
+                output.accept(out, () -> buildPlasticBucketItemTag().get());
+            }
+        }
+
+        if (path.equals("tags/item")) {
+            for (Map.Entry<ResourceLocation, byte[]> entry : bucketTags.entrySet()) {
+                if (entry.getKey().getNamespace().equals(namespace))
+                    output.accept(entry.getKey(), () -> new ByteArrayInputStream(entry.getValue()));
+            }
+        }
+
+        if (path.equals("color_sets")) {
+            for (Map.Entry<ResourceLocation, byte[]> entry : colorSets.entrySet()) {
+                if (entry.getKey().getNamespace().equals(namespace))
+                    output.accept(entry.getKey(), () -> new ByteArrayInputStream(entry.getValue()));
+            }
+        }
+
         if (path.equals("loot_table")) {
             for (Map.Entry<ResourceLocation, byte[]> entry : lootTables.entrySet()) {
                 ResourceLocation blockID = entry.getKey();
@@ -218,7 +300,7 @@ public final class DynamicServerResources implements PackResources {
     @NotNull
     @Override
     public Set<String> getNamespaces(PackType type) {
-        return type == PackType.SERVER_DATA ? Set.of("minecraft", Marioverse.MOD_ID) : Set.of();
+        return type == PackType.SERVER_DATA ? Set.of("c", "minecraft", Marioverse.MOD_ID) : Set.of();
     }
 
     @Nullable
@@ -451,5 +533,25 @@ public final class DynamicServerResources implements PackResources {
         root.addProperty("random_sequence", "marioverse:blocks/" + blockId.getPath());
 
         return root;
+    }
+
+    private IoSupplier<InputStream> buildPlasticBucketItemTag() {
+        JsonObject json = new JsonObject();
+        JsonArray values = new JsonArray();
+
+        for (Item bucket : RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.values())
+            values.add(BuiltInRegistries.ITEM.getKey(bucket).toString());
+        for (Item bucket : RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.values())
+            values.add(BuiltInRegistries.ITEM.getKey(bucket).toString());
+
+        json.addProperty("replace", false);
+        json.add("values", values);
+
+        byte[] data = json.toString().getBytes(StandardCharsets.UTF_8);
+        return () -> new ByteArrayInputStream(data);
+    }
+
+    private static ResourceLocation bucketTagID(ResourceLocation sourceID) {
+        return ResourceLocation.fromNamespaceAndPath("c", "tags/item/buckets/" + sourceID.getPath() + ".json");
     }
 }

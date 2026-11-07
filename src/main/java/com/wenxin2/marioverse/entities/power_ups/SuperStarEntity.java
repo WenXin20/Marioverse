@@ -20,6 +20,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.util.RandomSource;
+import net.neoforged.neoforge.entity.PartEntity;
 import net.neoforged.neoforge.fluids.FluidType;
 import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -29,7 +30,6 @@ import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.AnimationState;
 import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, PowerUpSource {
@@ -55,7 +55,7 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, Pow
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "Walk", 0, this::walkAnimation));
-        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, this.getSpawnDuration()));
+        controllers.add(BasePowerUpEntity.createSpawnController(this));
     }
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
@@ -84,6 +84,9 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, Pow
                 ServerParticleUtils.spawnSingleParticleOnEntityRandomly(ParticleRegistry.COIN_GLINT.get(), serverWorld, this);
             ServerParticleUtils.spawnClientParticleTrail(ParticleRegistry.COIN_GLINT.get(), this, true, 5, rand.nextDouble() * this.getBbHeight(), 0.1);
         }
+
+        if (!this.level().isClientSide && !this.isInvulnerable())
+            this.collideWithUnpushableEntities();
     }
 
     @Override
@@ -120,6 +123,17 @@ public class SuperStarEntity extends BasePowerUpEntity implements GeoEntity, Pow
     @Override
     protected int getSpawnDuration() {
         return 20;
+    }
+
+    private void collideWithUnpushableEntities() {
+        for (Entity entity : this.level().getEntities(this, this.getBoundingBox(), entity -> !entity.isSpectator() && !entity.isPushable())) {
+            if (this.isRemoved())
+                return;
+
+            Entity target = entity instanceof PartEntity<?> part ? part.getParent() : entity;
+            if (target != this)
+                this.collideWithEntity(target);
+        }
     }
 
     private void applyToRiders(Level world, Entity firstEntity) {

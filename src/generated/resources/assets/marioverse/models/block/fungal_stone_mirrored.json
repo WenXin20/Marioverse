@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_mirrored",
+  "textures": {
+    "end": "marioverse:block/fungal_stone_top",
+    "side": "marioverse:block/fungal_stone"
+  }
+}

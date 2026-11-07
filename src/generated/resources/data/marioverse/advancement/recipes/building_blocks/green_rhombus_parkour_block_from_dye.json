@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dyes/green": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/green"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_parkour_blocks/rhombus": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#marioverse:parkour_blocks/rhombus"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:green_rhombus_parkour_block_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dyes/green",
+      "has_parkour_blocks/rhombus"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:green_rhombus_parkour_block_from_dye"
+    ]
+  }
+}

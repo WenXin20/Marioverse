@@ -6,11 +6,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class SoundRegistry {
+    public static final DeferredHolder<SoundEvent, SoundEvent> ABILITY_APPLIED;
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_BUTTON_CLICK_OFF;
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_BUTTON_CLICK_ON;
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_PRESSURE_PLATE_CLICK_OFF;
     public static final DeferredHolder<SoundEvent, SoundEvent> AMETHYST_PRESSURE_PLATE_CLICK_ON;
-    public static final DeferredHolder<SoundEvent, SoundEvent> ABILITY_APPLIED;
+    public static final DeferredHolder<SoundEvent, SoundEvent> ARROW_ROTATES;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BONK;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_BOUNCE;
     public static final DeferredHolder<SoundEvent, SoundEvent> BLOCK_SMASH;
@@ -44,6 +45,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> GLASS_FALL;
     public static final DeferredHolder<SoundEvent, SoundEvent> GLASS_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOAL_POLE_FINISH;
+    public static final DeferredHolder<SoundEvent, SoundEvent> GOAL_POLE_RESET;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_AMBIENT;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_BUMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> GOOMBA_DEATH;
@@ -89,6 +91,7 @@ public class SoundRegistry {
     public static final DeferredHolder<SoundEvent, SoundEvent> MINI_GOOMBA_STOMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_JUMP;
     public static final DeferredHolder<SoundEvent, SoundEvent> MOB_SPAWNS;
+    public static final DeferredHolder<SoundEvent, SoundEvent> MUD_STEP;
     public static final DeferredHolder<SoundEvent, SoundEvent> ONE_UP_COLLECTED;
     public static final DeferredHolder<SoundEvent, SoundEvent> PAINTING_WARPS;
     public static final DeferredHolder<SoundEvent, SoundEvent> PARROT_IMITATES_BOO;
@@ -166,6 +169,8 @@ public class SoundRegistry {
 
         ABILITY_APPLIED = Marioverse.SOUNDS.register("block.ability_applied",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.ability_applied")));
+        ARROW_ROTATES = Marioverse.SOUNDS.register("block.arrow_rotates",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.arrow_rotates")));
         BLOCK_BONK = Marioverse.SOUNDS.register("block.block_bonk",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.block_bonk")));
         BLOCK_BOUNCE = Marioverse.SOUNDS.register("block.block_bounce",
@@ -201,11 +206,16 @@ public class SoundRegistry {
 
         GOAL_POLE_FINISH = Marioverse.SOUNDS.register("block.goal_pole_finish",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.goal_pole_finish")));
+        GOAL_POLE_RESET = Marioverse.SOUNDS.register("block.goal_pole_reset",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.goal_pole_reset")));
 
         ITEM_SPAWNS = Marioverse.SOUNDS.register("block.item_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.item_spawns")));
         MOB_SPAWNS = Marioverse.SOUNDS.register("block.mob_spawns",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.mob_spawns")));
+
+        MUD_STEP = Marioverse.SOUNDS.register("block.mud_step",
+                () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.mud_step")));
 
         PIPE_CLOSES = Marioverse.SOUNDS.register("block.pipe_closes",
                 () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "block.pipe_closes")));

@@ -19,6 +19,9 @@ public interface EntityWarpPlayerHandler extends EntityWarpEntityHandler {
     }
 
     private void displayNoTeleportMessage(Player player, Entity warpEntity) {
+        if (BlockWarpEntityHandler.isStillEnteringAfterWarp(player))
+            return;
+
         if (warpEntity instanceof Painting) {
             if (!this.mv$getEntityWarpTeleportConfig() || player.getType().is(TagRegistry.CANNOT_WARP))
                 player.displayClientMessage(Component.translatable("display.marioverse.paintings_cannot_teleport_players"), true);

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:invisible_question_blocks",
+  "key": {
+    "#": {
+      "item": "minecraft:copper_block"
+    },
+    "I": {
+      "tag": "marioverse:invisible_question_blocks"
+    }
+  },
+  "pattern": [
+    "###",
+    "#I#",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:invisible_copper_question_block"
+  }
+}

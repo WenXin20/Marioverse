@@ -1,0 +1,62 @@
+{
+  "variants": {
+    "axis=x": [
+      {
+        "model": "marioverse:block/coarse_shroomsoil",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/coarse_shroomsoil_mirrored",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/coarse_shroomsoil",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/coarse_shroomsoil_mirrored",
+        "x": 90,
+        "y": 90
+      }
+    ],
+    "axis=y": [
+      {
+        "model": "marioverse:block/coarse_shroomsoil"
+      },
+      {
+        "model": "marioverse:block/coarse_shroomsoil_mirrored"
+      },
+      {
+        "model": "marioverse:block/coarse_shroomsoil",
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/coarse_shroomsoil_mirrored",
+        "y": 180
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "marioverse:block/coarse_shroomsoil",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/coarse_shroomsoil_mirrored",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/coarse_shroomsoil",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/coarse_shroomsoil_mirrored",
+        "x": 90,
+        "y": 180
+      }
+    ]
+  }
+}

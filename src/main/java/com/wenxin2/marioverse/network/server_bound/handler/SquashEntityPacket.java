@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.AbilitiesHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import net.minecraft.core.particles.ParticleTypes;
@@ -59,6 +60,7 @@ public class SquashEntityPacket {
                             || stompingEntity.level().getGameRules().getBoolean(Marioverse.ALL_MOBS_CAN_STOMP))
 
                         && !damagedEntity.getType().is(TagRegistry.POWER_UP_ENTITIES)
+                        && !damagedEntity.getType().is(TagRegistry.CANNOT_BE_STOMPED)
 
                         && (damagedEntity.getType().is(TagRegistry.CAN_BE_STOMPED)
                             || damagedEntity.getType().is(TagRegistry.CAN_BE_INSTAKILL_STOMPED)
@@ -128,7 +130,7 @@ public class SquashEntityPacket {
                                         || damagedEntity instanceof KoopaTroopaEntity
                                         || damagedEntity instanceof KoopaShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
-                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), ConfigRegistry.STOMP_DAMAGE.get().floatValue());
+                                else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), AbilitiesHandler.getStompDamage(stompingEntity));
                             }
 
                             if (!ConfigRegistry.DISABLE_CONSECUTIVE_BOUNCING.get()

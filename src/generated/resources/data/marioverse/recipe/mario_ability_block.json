@@ -1,5 +1,5 @@
 {
-  "type": "marioverse:hex_color_shaped",
+  "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "group": "marioverse:ability_blocks",
   "key": {
@@ -21,5 +21,8 @@
     "DTD",
     "WDW"
   ],
-  "result": "marioverse:mario_ability_block"
+  "result": {
+    "count": 1,
+    "id": "marioverse:mario_ability_block"
+  }
 }

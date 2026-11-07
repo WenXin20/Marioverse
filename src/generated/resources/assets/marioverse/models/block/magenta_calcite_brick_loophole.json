@@ -1,0 +1,10 @@
+{
+  "parent": "marioverse:block/template_loophole",
+  "textures": {
+    "bottom": "marioverse:block/magenta_calcite_bricks",
+    "front": "marioverse:block/magenta_calcite_bricks",
+    "particle": "marioverse:block/magenta_calcite_bricks",
+    "side": "marioverse:block/magenta_calcite_bricks",
+    "top": "marioverse:block/magenta_calcite_bricks"
+  }
+}

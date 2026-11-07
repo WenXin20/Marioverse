@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import org.jetbrains.annotations.Nullable;
+import net.minecraft.util.RandomSource;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.curios.PlasticBucketCurio;
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
@@ -7,10 +9,12 @@ import com.wenxin2.marioverse.blocks.WarpTrapDoorBlock;
 import com.wenxin2.marioverse.blocks.behaviors.DispenserBehaviors;
 import com.wenxin2.marioverse.commands.PowerUpCommand;
 import com.wenxin2.marioverse.datagen.AdvancementDataGen;
+import com.wenxin2.marioverse.datagen.ArrowAtlasGen;
+import com.wenxin2.marioverse.datagen.ArrowItemSpriteSourceGen;
 import com.wenxin2.marioverse.datagen.DataMapGen;
 import com.wenxin2.marioverse.datagen.BannerPatternTagsGen;
 import com.wenxin2.marioverse.datagen.BiomeTagsGen;
-import com.wenxin2.marioverse.datagen.BlockLootTableGen;
+import com.wenxin2.marioverse.datagen.LootTableGen;
 import com.wenxin2.marioverse.datagen.EnchantmentTagsGen;
 import com.wenxin2.marioverse.datagen.RecipeGen;
 import com.wenxin2.marioverse.datagen.BlockStateGen;
@@ -22,6 +26,8 @@ import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
 import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.items.DynamicPlasticBucketItem;
+import com.wenxin2.marioverse.items.DynamicSolidPlasticBucketItem;
 import com.wenxin2.marioverse.items.WarpDoorBlockItem;
 import com.wenxin2.marioverse.items.WarpTrapDoorBlockItem;
 import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
@@ -29,6 +35,7 @@ import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import com.wenxin2.marioverse.world.feature.SuperTreeFeatures;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -42,6 +49,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -59,21 +67,30 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.DispensibleContainerItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
@@ -87,6 +104,7 @@ import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
@@ -100,6 +118,8 @@ import top.theillusivec4.curios.api.CuriosApi;
 public class RegistryEventHandlers {
     public static final Map<Block, Block> WARP_DOORS = new IdentityHashMap<>();
     public static final Map<Block, Block> WARP_TRAPDOORS = new IdentityHashMap<>();
+    public static final Map<Fluid, Item> PLASTIC_FLUID_BUCKETS = new IdentityHashMap<>();
+    public static final Map<Block, Item> PLASTIC_SOLID_BUCKETS = new IdentityHashMap<>();
     private static final Set<String> DOOR_STATES = Set.of("facing", "half", "hinge", "open", "powered");
     private static final Set<String> TRAPDOOR_STATES = Set.of("facing", "half", "open", "powered");
     private static final String WATERLOGGED = "waterlogged";
@@ -108,6 +128,20 @@ public class RegistryEventHandlers {
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         PowerUpCommand.register(event.getDispatcher());
+    }
+
+    public static void addBlockEntityValidBlocks(final BlockEntityTypeAddBlocksEvent event) {
+        event.modify(BlockEntityType.HANGING_SIGN,
+                BlockRegistry.MUSHROOT_HANGING_SIGN.get(), BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get());
+
+        event.modify(BlockEntityType.SIGN,
+                BlockRegistry.MUSHROOT_SIGN.get(), BlockRegistry.MUSHROOT_WALL_SIGN.get());
+
+        event.modify(BlockEntityType.HANGING_SIGN,
+                BlockRegistry.SPOOKROOT_HANGING_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_HANGING_SIGN.get());
+
+        event.modify(BlockEntityType.SIGN,
+                BlockRegistry.SPOOKROOT_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_SIGN.get());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -132,6 +166,9 @@ public class RegistryEventHandlers {
                 ResourceLocation sourceID = BuiltInRegistries.BLOCK.getKey(source);
                 ResourceLocation warpID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, sourceID.getNamespace() + "_warp_" + sourceID.getPath());
                 WarpDoorBlock warpDoor = new WarpDoorBlock(source);
+
+                if (sourceID.getNamespace().equals(Marioverse.MOD_ID))
+                    warpID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_" + sourceID.getPath());
 
                 helper.register(warpID, warpDoor);
                 WARP_DOORS.put(source, warpDoor);
@@ -163,6 +200,9 @@ public class RegistryEventHandlers {
                 ResourceLocation warpID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, sourceID.getNamespace() + "_warp_" + sourceID.getPath());
                 WarpTrapDoorBlock warpTrapDoor = new WarpTrapDoorBlock(source);
 
+                if (sourceID.getNamespace().equals(Marioverse.MOD_ID))
+                    warpID = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_" + sourceID.getPath());
+
                 helper.register(warpID, warpTrapDoor);
                 WARP_TRAPDOORS.put(source, warpTrapDoor);
             }
@@ -187,12 +227,168 @@ public class RegistryEventHandlers {
                 helper.register(warpID, new WarpTrapDoorBlockItem(warp, source, new Item.Properties()));
             }
         });
+
+        if (event.getRegistryKey().equals(Registries.BLOCK_ENTITY_TYPE)) {
+            List<Item> ironBuckets = new ArrayList<>();
+            BuiltInRegistries.ITEM.forEach(ironBuckets::add);
+
+            for (Item item : ironBuckets) {
+                if (BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(Marioverse.MOD_ID))
+                    continue;
+
+                if (item instanceof BucketItem bucketItem && !(item instanceof MobBucketItem)) {
+                    Fluid fluid = bucketItem.content;
+                    ResourceLocation fluidID = BuiltInRegistries.FLUID.getKey(fluid);
+
+                    if (fluid == Fluids.EMPTY || PLASTIC_FLUID_BUCKETS.containsKey(fluid))
+                        continue;
+                    if (fluidID.getNamespace().equals("minecraft") || fluidID.getNamespace().equals(Marioverse.MOD_ID))
+                        continue;
+                    if (BuiltInRegistries.ITEM.containsKey(RegistryEventHandlers.plasticBucketID(fluidID)))
+                        continue;
+
+                    Item bucket = new DynamicPlasticBucketItem(2, fluid, new Item.Properties().stacksTo(1)
+                            .durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get()));
+
+                    Registry.register(BuiltInRegistries.ITEM, RegistryEventHandlers.plasticBucketID(fluidID), bucket);
+                    PLASTIC_FLUID_BUCKETS.put(fluid, bucket);
+                } else if (item instanceof BlockItem blockItem && item instanceof DispensibleContainerItem) {
+                    Block block = blockItem.getBlock();
+                    ResourceLocation blockID = BuiltInRegistries.BLOCK.getKey(block);
+
+                    if (PLASTIC_SOLID_BUCKETS.containsKey(block))
+                        continue;
+                    if (blockID.getNamespace().equals("minecraft") || blockID.getNamespace().equals(Marioverse.MOD_ID))
+                        continue;
+                    if (BuiltInRegistries.ITEM.containsKey(RegistryEventHandlers.plasticBucketID(blockID)))
+                        continue;
+
+                    Item bucket = new DynamicSolidPlasticBucketItem(2, block, block.defaultBlockState().getSoundType().getPlaceSound(),
+                            new Item.Properties().stacksTo(1).durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get()));
+
+                    Registry.register(BuiltInRegistries.ITEM, RegistryEventHandlers.plasticBucketID(blockID), bucket);
+                    PLASTIC_SOLID_BUCKETS.put(block, bucket);
+                }
+            }
+        }
     }
 
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(DispenserBehaviors::register);
         event.enqueueWork(() -> CuriosApi.registerCurio(ItemRegistry.PLASTIC_BUCKET.get(), new PlasticBucketCurio()));
+
+        event.enqueueWork(() -> {
+            FireBlock fireBlock = (FireBlock) Blocks.FIRE;
+
+            fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MUSHROOT_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPOOKROOT_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPOOKROOT_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPOOKROOT_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPOOKROOT_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_OAK_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_OAK_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_OAK_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_OAK_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPRUCE_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPRUCE_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPRUCE_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_SPRUCE_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_BIRCH_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_BIRCH_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_BIRCH_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_BIRCH_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_JUNGLE_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_JUNGLE_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_JUNGLE_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_JUNGLE_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_ACACIA_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_ACACIA_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_ACACIA_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_ACACIA_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_DARK_OAK_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_DARK_OAK_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_DARK_OAK_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_DARK_OAK_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MANGROVE_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MANGROVE_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MANGROVE_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_MANGROVE_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_CHERRY_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_CHERRY_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_CHERRY_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_CHERRY_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_BAMBOO_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_BAMBOO_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_BAMBOO_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_BAMBOO_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_CRIMSON_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_CRIMSON_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_CRIMSON_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_CRIMSON_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_WARPED_BLOCK.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_WARPED_SLAB.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_WARPED_STAIRS.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.HARD_WARPED_WALL.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_LOG.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_WOOD.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.STRIPPED_MUSHROOT_LOG.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_LOG.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_WOOD.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get(), 5, 5);
+            fireBlock.setFlammable(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get(), 5, 5);
+
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARDS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARD_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARD_STAIRS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_BOARD_WALL.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_FENCE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_FENCE_GATE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PANELS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PANEL_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PANEL_STAIRS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PANEL_WALL.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_PLANKS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_STAIRS.get(), 5, 20);
+
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_BOARDS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_BOARD_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_BOARD_STAIRS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_BOARD_WALL.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FENCE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FENCE_GATE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PANELS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PANEL_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PANEL_STAIRS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PANEL_WALL.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_PLANKS.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_SLAB.get(), 5, 20);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_STAIRS.get(), 5, 20);
+
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_LEAVES.get(), 30, 60);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_LEAVES.get(), 30, 60);
+            fireBlock.setFlammable(BlockRegistry.DARK_SPOOKROOT_LEAVES.get(), 30, 60);
+
+            fireBlock.setFlammable(BlockRegistry.DANGO_BLOSSOM.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.MUSHROOT_SAPLING.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SPOOKROOT_SAPLING.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SHORT_SHROOMGRASS.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SHROOMGRASS.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.SHRUBROOM.get(), 60, 100);
+            fireBlock.setFlammable(BlockRegistry.TALL_SHROOMGRASS.get(), 60, 100);
+        });
     }
 
     public static void gatherData(GatherDataEvent event) {
@@ -202,20 +398,22 @@ public class RegistryEventHandlers {
         CompletableFuture<HolderLookup.Provider> provider = event.getLookupProvider();
         BlockTagsGen blockTags = new BlockTagsGen(output, provider, existingFileHelper);
 
+        generator.addProvider(event.includeClient(), new ArrowAtlasGen(output));
+        generator.addProvider(event.includeClient(), new ArrowItemSpriteSourceGen(output, provider, existingFileHelper));
         generator.addProvider(event.includeClient(), new BlockStateGen(output, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModelGen(output, existingFileHelper));
 
         generator.addProvider(event.includeServer(), new AdvancementDataGen(output, provider, existingFileHelper));
         generator.addProvider(event.includeServer(), new DataMapGen(output, provider));
-        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, provider,
-                new RegistrySetBuilder()
+        generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, provider, new RegistrySetBuilder()
                 .add(Registries.BANNER_PATTERN, BannerPatternRegistry::bootstrap)
-                .add(Registries.DAMAGE_TYPE, DamageTypeRegistry::bootstrap), Set.of(Marioverse.MOD_ID)));
+                .add(Registries.DAMAGE_TYPE, DamageTypeRegistry::bootstrap)
+                .add(Registries.CONFIGURED_FEATURE, SuperTreeFeatures::bootstrap), Set.of(Marioverse.MOD_ID)));
 
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new BannerPatternTagsGen(output, provider, existingFileHelper));
         generator.addProvider(event.includeServer(), new BiomeTagsGen(output, provider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new BlockLootTableGen(output, provider));
+        generator.addProvider(event.includeServer(), new LootTableGen(output, provider));
         generator.addProvider(event.includeServer(), new DamageTypeTagsGen(output, provider, existingFileHelper));
         generator.addProvider(event.includeServer(), new EnchantmentTagsGen(output, provider, existingFileHelper));
         generator.addProvider(event.includeServer(), new EntityTypeTagsGen(output, provider, existingFileHelper));
@@ -256,6 +454,12 @@ public class RegistryEventHandlers {
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_BUCKET);
         event.registerItem(Capabilities.FluidHandler.ITEM,
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_WATER_BUCKET);
+        event.registerItem(Capabilities.FluidHandler.ITEM,
+                (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_LAVA_BUCKET);
+        event.registerItem(Capabilities.FluidHandler.ITEM,
+                (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_MILK_BUCKET);
+        event.registerItem(Capabilities.FluidHandler.ITEM,
+                (stack, contex) -> new PlasticBucketWrapper(stack), PLASTIC_FLUID_BUCKETS.values().toArray(Item[]::new));
     }
 
     @SubscribeEvent
@@ -306,8 +510,9 @@ public class RegistryEventHandlers {
             int[] colorCrown = { 0xFFFF647D, 0xFFA4FDF0, 0xFFFF647E };
 
             trades.get(3).add((entity, random) -> {
-                crownStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorCrown[random.nextInt(colorCrown.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), crownStack,
+                ItemStack stack = crownStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorCrown[randomIndex(colorCrown.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), stack,
                         5, 25, 0.2F);
             });
         }
@@ -374,44 +579,51 @@ public class RegistryEventHandlers {
             ItemStack heelsStack = new ItemStack(ItemRegistry.HEELS.get());
 
             trades.get(3).add((entity, random) -> {
-                hatStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[random.nextInt(colors.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), hatStack,
+                ItemStack stack = hatStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[randomIndex(colors.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                shirtStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[random.nextInt(colors.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), shirtStack,
+                ItemStack stack = shirtStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[randomIndex(colors.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                pantsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[random.nextInt(colors.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), pantsStack,
+                ItemStack stack = pantsStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colors[randomIndex(colors.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                shoesStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[random.nextInt(colorShoes.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), shoesStack,
+                ItemStack stack = shoesStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[randomIndex(colorShoes.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), stack,
                         5, 4, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                bodiceStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[random.nextInt(colorDress.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), bodiceStack,
+                ItemStack stack = bodiceStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[randomIndex(colorDress.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 8), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                dressStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[random.nextInt(colorDress.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), dressStack,
+                ItemStack stack = dressStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorDress[randomIndex(colorDress.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 7), stack,
                         5, 25, 0.2F);
             });
 
             trades.get(3).add((entity, random) -> {
-                heelsStack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[random.nextInt(colorShoes.length)], true));
-                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), heelsStack,
+                ItemStack stack = heelsStack.copy();
+                stack.set(DataComponents.DYED_COLOR, new DyedItemColor(colorShoes[randomIndex(colorShoes.length, random)], true));
+                return new MerchantOffer(new ItemCost(Items.EMERALD, 5), stack,
                         5, 4, 0.2F);
             });
         }
@@ -439,20 +651,110 @@ public class RegistryEventHandlers {
                     3, 30, 0.25F));
         }
     }
+    
+    /** (ItemCost cost, ItemCost secondCost, ItemStack result, int maxUses, int xp, float priceMultiplier) **/
 
     @SubscribeEvent
     public static void addWandererTrades(WandererTradesEvent event) {
         List<VillagerTrades.ItemListing> genericTrades = event.getGenericTrades();
         List<VillagerTrades.ItemListing> rareTrades = event.getRareTrades();
+        Block[] bloomflowers = {
+                BlockRegistry.BLUE_BLOOMFLOWER.get(), BlockRegistry.ORANGE_BLOOMFLOWER.get(),
+                BlockRegistry.PINK_BLOOMFLOWER.get(), BlockRegistry.PURPLE_BLOOMFLOWER.get(),
+                BlockRegistry.RED_BLOOMFLOWER.get(), BlockRegistry.WHITE_BLOOMFLOWER.get(),
+                BlockRegistry.YELLOW_BLOOMFLOWER.get()
+        };
+
+        Block[] hedges = {
+                BlockRegistry.HEDGE.get(), BlockRegistry.SNOWY_HEDGE.get(),
+                BlockRegistry.PINK_ROSE_HEDGE.get(), BlockRegistry.RED_ROSE_HEDGE.get(),
+                BlockRegistry.WHITE_ROSE_HEDGE.get()
+        };
+
+        Block[] saplings = {
+                BlockRegistry.MUSHROOT_SAPLING.get(), BlockRegistry.SPOOKROOT_SAPLING.get(),
+                BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get()
+        };
+
+        Block[] superMushrooms = {
+                BlockRegistry.RED_SUPER_MUSHROOM.get(), BlockRegistry.YELLOW_SUPER_MUSHROOM.get(),
+                BlockRegistry.GREEN_SUPER_MUSHROOM.get(), BlockRegistry.BLUE_SUPER_MUSHROOM.get(),
+                BlockRegistry.PURPLE_SUPER_MUSHROOM.get(), BlockRegistry.ORANGE_SUPER_MUSHROOM.get(),
+                BlockRegistry.LIME_SUPER_MUSHROOM.get(), BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get()
+        };
+
+        Block[] megaMushrooms = {
+                BlockRegistry.RED_MEGA_MUSHROOM.get(), BlockRegistry.YELLOW_MEGA_MUSHROOM.get(),
+                BlockRegistry.GREEN_MEGA_MUSHROOM.get(), BlockRegistry.BLUE_MEGA_MUSHROOM.get(),
+                BlockRegistry.PURPLE_MEGA_MUSHROOM.get(), BlockRegistry.ORANGE_MEGA_MUSHROOM.get(),
+                BlockRegistry.LIME_MEGA_MUSHROOM.get(), BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get(),
+                BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.get(), BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get()
+        };
+
+        Block[] soils = {
+                BlockRegistry.SHROOMGRASS_BLOCK.get(), BlockRegistry.SHROOMSOIL.get(),
+                BlockRegistry.COARSE_SHROOMSOIL.get(), BlockRegistry.ROCKY_SHROOMSOIL.get(),
+                BlockRegistry.WET_MUD.get()
+        };
+
+        Block[] stones = {
+                BlockRegistry.DEEP_FUNGAL_STONE.get(), BlockRegistry.FORTSTONE.get(),
+                BlockRegistry.FUNGAL_STONE.get()
+        };
 
         genericTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 2),
-                new ItemStack(BlockRegistry.RED_TRAMPOLINE_CAP, 1),
+                new ItemCost(Items.EMERALD, 3),
+                new ItemStack(saplings[randomIndex(saplings.length, random)], 5),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 2),
-                new ItemStack(BlockRegistry.BLUE_TRAMPOLINE_CAP, 1),
+                new ItemStack(superMushrooms[randomIndex(superMushrooms.length, random)], 5),
+                16, 5, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 3),
+                new ItemStack(megaMushrooms[randomIndex(megaMushrooms.length, random)], 5),
+                16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.SHRUBROOM, 5),
+                16, 5, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(hedges[randomIndex(hedges.length, random)], 5),
+                16, 5, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(bloomflowers[randomIndex(bloomflowers.length, random)], 5),
+                16, 5, 0.1F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 3),
+                new ItemStack(soils[randomIndex(soils.length, random)], 16),
+                16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 3),
+                new ItemStack(stones[randomIndex(stones.length, random)], 16),
+                16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, 1),
+                16, 10, 0.2F));
+
+        genericTrades.add((entity, random) -> new MerchantOffer(
+                new ItemCost(Items.EMERALD, 2),
+                new ItemStack(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP, 1),
                 16, 10, 0.2F));
 
         genericTrades.add((entity, random) -> new MerchantOffer(
@@ -506,13 +808,22 @@ public class RegistryEventHandlers {
                 1, 30, 0.1F));
 
         rareTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 32),
+                new ItemCost(Items.EMERALD, 48),
                 new ItemStack(ItemRegistry.MEGA_MUSHROOM.get(), 1),
                 1, 30, 0.2F));
 
         rareTrades.add((entity, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 32),
+                new ItemCost(Items.EMERALD, 64),
                 new ItemStack(ItemRegistry.SUPER_STAR.get(), 1),
                 1, 30, 0.2F));
+    }
+
+    private static ResourceLocation plasticBucketID(ResourceLocation sourceID) {
+        return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                "plastic_" + sourceID.getNamespace() + "_" + sourceID.getPath().replace('/', '_') + "_bucket");
+    }
+
+    private static int randomIndex(int length, @Nullable RandomSource random) {
+        return (random != null ? random : RandomSource.create()).nextInt(length);
     }
 }

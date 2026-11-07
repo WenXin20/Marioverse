@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_spookroot_planks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:spookroot_planks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:spookroot_trapdoor"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_spookroot_planks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:spookroot_trapdoor"
+    ]
+  }
+}

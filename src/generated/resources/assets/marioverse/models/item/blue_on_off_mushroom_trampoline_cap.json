@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "marioverse:item/blue_on_off_mushroom_trampoline_cap"
+  }
+}

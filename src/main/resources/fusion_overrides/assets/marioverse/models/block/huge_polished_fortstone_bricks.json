@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "all": "marioverse:block/huge_polished_fortstone_bricks"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" },
+    "all": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_brick_slab" },
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_brick_stairs" },
+        { "type": "match_block", "block": "marioverse:huge_polished_fortstone_brick_wall" }
+      ]
+    }
+  }
+}

@@ -11,10 +11,14 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
-import javax.annotation.Nullable;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -38,6 +42,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -51,6 +56,7 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Spawner;
@@ -74,26 +80,26 @@ import net.minecraft.world.level.material.WaterFluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 public class WarpPipeBlock extends BaseEntityDirectionalBlock {
+    public static final int MAX_ENTRANCE_GROUP_SIZE = 64;
     public static final MapCodec<WarpPipeBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(DyeColor.CODEC.optionalFieldOf("color")
                             .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
                     .apply(instance, (dyeColor, properties) -> new WarpPipeBlock(dyeColor.orElse(null), properties))
     );
-    public static final BooleanProperty BUBBLES = BooleanProperty.create("bubbles");
     public static final BooleanProperty CLOSED = BooleanProperty.create("closed");
     public static final BooleanProperty ENTRANCE = BooleanProperty.create("entrance");
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
-    public static final BooleanProperty WATER_SPOUT = BooleanProperty.create("water_spout");
     @Nullable private final DyeColor color;
 
     public WarpPipeBlock(@Nullable DyeColor color, BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(BUBBLES, Boolean.TRUE)
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP)
                 .setValue(CLOSED, Boolean.FALSE).setValue(ENTRANCE, Boolean.TRUE)
-                .setValue(POWERED, Boolean.FALSE).setValue(WATER_SPOUT, Boolean.FALSE));
+                .setValue(POWERED, Boolean.FALSE));
         this.color = color;
     }
 
@@ -104,7 +110,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(BUBBLES, CLOSED, ENTRANCE, FACING, POWERED, WATER_SPOUT);
+        stateBuilder.add(CLOSED, ENTRANCE, FACING, POWERED);
     }
 
     @Override
@@ -122,6 +128,12 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     @Override
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
+    }
+
+    @Nullable
+    @Override
+    protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+        return null;
     }
 
     @Override
@@ -160,9 +172,9 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE) {
-            if (state.getValue(WATER_SPOUT))
+            if (warpPipeBE.hasWaterSpout())
                 return Math.min(warpPipeBE.getSpoutHeight(), 15);
-            else if (state.getValue(BUBBLES))
+            else if (warpPipeBE.hasBubbles())
                 return Math.min(warpPipeBE.getBubblesDistance(), 15);
         }
         return 0;
@@ -200,9 +212,9 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         Item item = stack.getItem();
 
         if (state.getValue(ENTRANCE) && player.getItemInHand(hand).is(TagRegistry.WRENCHES)) {
-            if (blockEntity instanceof WarpPipeBlockEntity) {
+            if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new WarpPipeMenu(id,
-                        playerInventory, ContainerLevelAccess.create(level, pos), pos), ((WarpPipeBlockEntity) blockEntity).getDisplayName()));
+                        playerInventory, pipeBlockEntity.getDataAccess(), ContainerLevelAccess.create(level, pos)), pipeBlockEntity.getDisplayName()));
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
@@ -425,6 +437,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
         if (oldState.getBlock() == state.getBlock())
             return;
+        if (level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE)
+            pipeBE.setWaterSpout(false);
         if (level instanceof ServerLevel serverLevel)
             this.checkAndFlip(state, serverLevel, pos);
 
@@ -457,30 +471,30 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                 UUID uuid = UUID.randomUUID();
                 pipeBE.setUUID(uuid);
                 pipeBE.setChanged();
-                BaseWarpBlockEntity.WARP_LOCATIONS.put(uuid, pos);
+                BaseWarpBlockEntity.registerWarpLocation(uuid, serverWorld, pos);
             }
 
-            if (state.getValue(WATER_SPOUT) && state.getValue(FACING) == Direction.UP && serverWorld.dimension() != Level.NETHER) {
+            if (pipeBE.hasWaterSpout() && state.getValue(FACING) == Direction.UP && serverWorld.dimension() != Level.NETHER) {
                 WaterSpoutBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBE.spoutHeight);
                 serverWorld.scheduleTick(pos, this, 3);
             }
 
-            if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.UP) {
+            if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.UP) {
                 PipeBubblesBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.DOWN) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.DOWN) {
                 PipeBubblesBlock.repeatColumnDown(serverWorld, pos.below(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.NORTH) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.NORTH) {
                 PipeBubblesBlock.repeatColumnNorth(serverWorld, pos.north(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.SOUTH) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.SOUTH) {
                 PipeBubblesBlock.repeatColumnSouth(serverWorld, pos.south(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.EAST) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.EAST) {
                 PipeBubblesBlock.repeatColumnEast(serverWorld, pos.east(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
-            } else if (state.getValue(BUBBLES) && state.getValue(FACING) == Direction.WEST) {
+            } else if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.WEST) {
                 PipeBubblesBlock.repeatColumnWest(serverWorld, pos.west(), state, pipeBE.bubblesDistance);
                 serverWorld.scheduleTick(pos, this, 3);
             }
@@ -509,8 +523,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         Block blockEast = world.getBlockState(pos.east()).getBlock();
         Block blockWest = world.getBlockState(pos.west()).getBlock();
 
-        if (!state.getValue(CLOSED) && (state.getValue(BUBBLES) || state.getValue(WATER_SPOUT)) && state.getValue(ENTRANCE)
-                && blockEntity instanceof WarpPipeBlockEntity warpPipeBE) {
+        if (!state.getValue(CLOSED) && state.getValue(ENTRANCE) && blockEntity instanceof WarpPipeBlockEntity warpPipeBE
+                && (warpPipeBE.hasBubbles() || warpPipeBE.hasWaterSpout())) {
 
             if (warpPipeBE.getPersistentData().isEmpty()) {
 
@@ -647,5 +661,55 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         for(Direction direction : Direction.values()) {
             ParticleUtils.spawnParticlesOnBlockFace(world, pos, particles, amountRange, direction, () -> speedRange, 0.55D);
         }
+    }
+
+    public static boolean hasBubbles(BlockGetter blockGetter, BlockPos pos) {
+        return blockGetter.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && pipeBE.hasBubbles();
+    }
+
+    public static boolean hasWaterSpout(BlockGetter blockGetter, BlockPos pos) {
+        return blockGetter.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && pipeBE.hasWaterSpout();
+    }
+
+    public static List<BlockPos> getEntranceGroup(Level level, BlockPos start, BlockState startState) {
+        List<BlockPos> group = new ArrayList<>();
+        if (!(startState.getBlock() instanceof WarpPipeBlock) || startState.getBlock() instanceof ClearWarpPipeBlock)
+            return group;
+
+        Direction facing = startState.getValue(WarpPipeBlock.FACING);
+        Set<BlockPos> visited = new HashSet<>(Set.of(start));
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>(List.of(start));
+
+        while (!queue.isEmpty() && group.size() < MAX_ENTRANCE_GROUP_SIZE) {
+            BlockPos pos = queue.poll();
+            BlockState state = level.getBlockState(pos);
+
+            if (state.getBlock() != startState.getBlock() || state.getValue(WarpPipeBlock.FACING) != facing || !state.getValue(WarpPipeBlock.ENTRANCE)
+                    || !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity))
+                continue;
+
+            group.add(pos);
+            for (Direction direction : Direction.values()) {
+                BlockPos next = pos.relative(direction);
+                if (direction.getAxis() != facing.getAxis() && visited.add(next))
+                    queue.add(next);
+            }
+        }
+        return group;
+    }
+
+    public static Vec3 getEntranceGroupCorner(BlockPos warpPos, List<BlockPos> group) {
+        if (group.size() <= 1)
+            return Vec3.atLowerCornerOf(warpPos);
+
+        double x = group.stream().mapToInt(BlockPos::getX).average().orElse(warpPos.getX());
+        double z = group.stream().mapToInt(BlockPos::getZ).average().orElse(warpPos.getZ());
+        Vec3 center = new Vec3(x + 0.5, warpPos.getY() + 0.5, z + 0.5);
+
+        if (group.contains(BlockPos.containing(center)))
+            return new Vec3(x, warpPos.getY(), z);
+
+        BlockPos nearest = group.stream().min(Comparator.comparingDouble(pos -> Vec3.atCenterOf(pos).distanceToSqr(center))).orElse(warpPos);
+        return new Vec3(nearest.getX(), warpPos.getY(), nearest.getZ());
     }
 }

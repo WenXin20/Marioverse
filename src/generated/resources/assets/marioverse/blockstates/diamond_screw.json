@@ -1,0 +1,940 @@
+{
+  "variants": {
+    "facing=down,height=0,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=0,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=0,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 180
+    },
+    "facing=down,height=0,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 180
+    },
+    "facing=down,height=1,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=1,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=1,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 180
+    },
+    "facing=down,height=1,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 180
+    },
+    "facing=down,height=2,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=2,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=2,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 180
+    },
+    "facing=down,height=2,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 180
+    },
+    "facing=down,height=3,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=3,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=3,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 180
+    },
+    "facing=down,height=3,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 180
+    },
+    "facing=down,height=4,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=4,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=4,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 180
+    },
+    "facing=down,height=4,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 180
+    },
+    "facing=down,height=5,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=5,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=5,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 180
+    },
+    "facing=down,height=5,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 180
+    },
+    "facing=down,height=6,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=6,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=6,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 180
+    },
+    "facing=down,height=6,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 180
+    },
+    "facing=down,height=7,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=7,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=7,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 180
+    },
+    "facing=down,height=7,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 180
+    },
+    "facing=down,height=8,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=8,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 180
+    },
+    "facing=down,height=8,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 180
+    },
+    "facing=down,height=8,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 180
+    },
+    "facing=east,height=0,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=0,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=0,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=0,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=1,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=1,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=1,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=1,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=2,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=2,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=2,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=2,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=3,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=3,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=3,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=3,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=4,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=4,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=4,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=4,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=5,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=5,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=5,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=5,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=6,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=6,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=6,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=6,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=7,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=7,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=7,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=7,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=8,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=8,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=8,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 90,
+      "y": 90
+    },
+    "facing=east,height=8,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,height=0,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=0,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=0,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 90
+    },
+    "facing=north,height=0,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 90
+    },
+    "facing=north,height=1,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=1,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=1,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 90
+    },
+    "facing=north,height=1,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 90
+    },
+    "facing=north,height=2,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=2,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=2,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 90
+    },
+    "facing=north,height=2,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 90
+    },
+    "facing=north,height=3,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=3,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=3,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 90
+    },
+    "facing=north,height=3,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 90
+    },
+    "facing=north,height=4,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=4,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=4,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 90
+    },
+    "facing=north,height=4,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 90
+    },
+    "facing=north,height=5,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=5,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=5,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 90
+    },
+    "facing=north,height=5,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 90
+    },
+    "facing=north,height=6,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=6,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=6,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 90
+    },
+    "facing=north,height=6,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 90
+    },
+    "facing=north,height=7,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=7,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=7,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 90
+    },
+    "facing=north,height=7,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 90
+    },
+    "facing=north,height=8,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=8,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90
+    },
+    "facing=north,height=8,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 90
+    },
+    "facing=north,height=8,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 90
+    },
+    "facing=south,height=0,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=0,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=0,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=0,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=1,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=1,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=1,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=1,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=2,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=2,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=2,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=2,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=3,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=3,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=3,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=3,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=4,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=4,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=4,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=4,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=5,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=5,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=5,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=5,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=6,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=6,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=6,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=6,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=7,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=7,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=7,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=7,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=8,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=8,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=8,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 90,
+      "y": 180
+    },
+    "facing=south,height=8,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,height=0,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=0,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=0,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_0"
+    },
+    "facing=up,height=0,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_0"
+    },
+    "facing=up,height=1,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=1,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=1,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_2"
+    },
+    "facing=up,height=1,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_2"
+    },
+    "facing=up,height=2,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=2,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=2,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_4"
+    },
+    "facing=up,height=2,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_4"
+    },
+    "facing=up,height=3,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=3,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=3,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_6"
+    },
+    "facing=up,height=3,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_6"
+    },
+    "facing=up,height=4,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=4,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=4,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_8"
+    },
+    "facing=up,height=4,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_8"
+    },
+    "facing=up,height=5,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=5,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=5,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_10"
+    },
+    "facing=up,height=5,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_10"
+    },
+    "facing=up,height=6,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=6,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=6,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_12"
+    },
+    "facing=up,height=6,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_12"
+    },
+    "facing=up,height=7,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=7,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=7,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_14"
+    },
+    "facing=up,height=7,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_14"
+    },
+    "facing=up,height=8,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=8,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw"
+    },
+    "facing=up,height=8,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top"
+    },
+    "facing=up,height=8,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top"
+    },
+    "facing=west,height=0,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=0,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=0,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=0,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_0",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=1,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=1,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=1,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=1,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_2",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=2,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=2,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=2,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=2,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_4",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=3,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=3,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=3,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=3,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_6",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=4,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=4,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=4,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=4,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_8",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=5,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=5,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=5,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=5,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_10",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=6,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=6,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=6,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=6,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_12",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=7,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=7,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=7,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=7,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top_14",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=8,top=false,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=8,top=false,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=8,top=true,waterlogged=false": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 90,
+      "y": 270
+    },
+    "facing=west,height=8,top=true,waterlogged=true": {
+      "model": "marioverse:block/diamond_screw_top",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

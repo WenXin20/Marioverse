@@ -84,12 +84,12 @@
 			}
 		},
 		{
-			"from": [0, 2, 0],
-			"to": [16, 2, 16],
+			"from": [0, 2, 1],
+			"to": [16, 2, 15],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2, 8]},
 			"faces": {
-				"up": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#rope"},
-				"down": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#rope"}
+				"up": {"uv": [1, 0, 15, 16], "rotation": 90, "texture": "#rope"},
+				"down": {"uv": [1, 0, 15, 16], "rotation": 90, "texture": "#rope"}
 			}
 		}
 	],

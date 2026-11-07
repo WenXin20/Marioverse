@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "marioverse:fungal_stone"
+    "item": "marioverse:fungal_cobblestone"
   },
   "result": {
     "count": 1,

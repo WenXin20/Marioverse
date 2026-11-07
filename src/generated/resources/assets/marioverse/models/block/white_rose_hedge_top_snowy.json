@@ -1,0 +1,14 @@
+{
+  "parent": "marioverse:block/template_hedge_top_rose_snowy",
+  "textures": {
+    "bottom": "marioverse:block/white_rose_hedge_bottom",
+    "leaves": "marioverse:block/hedge_leaves",
+    "leaves_snow": "marioverse:block/hedge_leaves_snow",
+    "side": "marioverse:block/white_rose_hedge_side_top",
+    "side_rose": "marioverse:block/white_rose_hedge_side_top_rose",
+    "side_snow": "marioverse:block/hedge_side_top_snow",
+    "top": "marioverse:block/white_rose_hedge_top",
+    "top_rose": "marioverse:block/white_rose_hedge_top_rose",
+    "top_snow": "marioverse:block/hedge_top_snow"
+  }
+}

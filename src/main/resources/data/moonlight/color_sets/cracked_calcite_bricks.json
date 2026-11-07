@@ -1,0 +1,23 @@
+{
+  "id": "marioverse:cracked_calcite_bricks",
+  "colors": {
+    "default": "marioverse:cracked_white_calcite_bricks",
+    "white": "marioverse:cracked_white_calcite_bricks",
+    "orange": "marioverse:cracked_orange_calcite_bricks",
+    "magenta": "marioverse:cracked_magenta_calcite_bricks",
+    "light_blue": "marioverse:cracked_light_blue_calcite_bricks",
+    "yellow": "marioverse:cracked_yellow_calcite_bricks",
+    "lime": "marioverse:cracked_lime_calcite_bricks",
+    "pink": "marioverse:cracked_pink_calcite_bricks",
+    "gray": "marioverse:cracked_gray_calcite_bricks",
+    "light_gray": "marioverse:cracked_light_gray_calcite_bricks",
+    "cyan": "marioverse:cracked_cyan_calcite_bricks",
+    "purple": "marioverse:cracked_purple_calcite_bricks",
+    "blue": "marioverse:cracked_blue_calcite_bricks",
+    "brown": "marioverse:cracked_brown_calcite_bricks",
+    "green": "marioverse:cracked_green_calcite_bricks",
+    "red": "marioverse:cracked_red_calcite_bricks",
+    "black": "marioverse:cracked_black_calcite_bricks"
+  },
+  "replace": true
+}

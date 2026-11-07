@@ -45,26 +45,84 @@ public class BlockTagsGen extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider lookupProvider) {
         BlockRegistry.CALCITE.values().forEach(block -> tag(TagRegistry.CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_BLOCKS).add(block.get()));
-        BlockRegistry.CALCITE_BRICK_PEDESTAL.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_PEDESTALS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_LOOPHOLES.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_SLABS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_SLAB_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_STAIRS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_STAIR_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_WALLS.values().forEach(block -> tag(TagRegistry.CALCITE_BRICK_WALL_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_SLABS.values().forEach(block -> tag(BlockTags.SLABS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_SLABS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_STAIRS.values().forEach(block -> tag(BlockTags.STAIRS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_STAIRS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_WALLS.values().forEach(block -> tag(BlockTags.WALLS).add(block.get()));
+        BlockRegistry.CALCITE_BRICK_WALLS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_BRIDGES.values().forEach(block -> tag(TagRegistry.STONE_BRIDGES).add(block.get()));
+        BlockRegistry.CALCITE_BRIDGES.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_BRIDGES.values().forEach(block -> tag(TagRegistry.CALCITE_BRIDGE_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BUTTONS.values().forEach(block -> tag(TagRegistry.CALCITE_BUTTON_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_PRESSURE_PLATES.values().forEach(block -> tag(TagRegistry.CALCITE_PRESSURE_PLATE_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_SLABS.values().forEach(block -> tag(TagRegistry.CALCITE_SLAB_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_STAIRS.values().forEach(block -> tag(TagRegistry.CALCITE_STAIR_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_WALLS.values().forEach(block -> tag(TagRegistry.CALCITE_WALL_BLOCKS).add(block.get()));
+        BlockRegistry.CALCITE_BUTTONS.values().forEach(block -> tag(BlockTags.STONE_BUTTONS).add(block.get()));
+        BlockRegistry.CALCITE_BUTTONS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_PRESSURE_PLATES.values().forEach(block -> tag(BlockTags.STONE_PRESSURE_PLATES).add(block.get()));
+        BlockRegistry.CALCITE_PRESSURE_PLATES.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_SLABS.values().forEach(block -> tag(BlockTags.SLABS).add(block.get()));
+        BlockRegistry.CALCITE_SLABS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_STAIRS.values().forEach(block -> tag(BlockTags.STAIRS).add(block.get()));
+        BlockRegistry.CALCITE_STAIRS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.CALCITE_WALLS.values().forEach(block -> tag(BlockTags.WALLS).add(block.get()));
+        BlockRegistry.CALCITE_WALLS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
         BlockRegistry.CHECKPOINT_FLAGS.values().forEach(block -> tag(TagRegistry.DYEABLE_CHECKPOINT_FLAG_BLOCKS).add(block.get()));
         BlockRegistry.CHISELED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.CRACKED_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.GOAL_POLES.values().forEach(block -> tag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS).add(block.get()));
+        BlockRegistry.PARKOUR_BLOCKS.values().forEach(block -> tag(TagRegistry.NORMAL_PARKOUR_BLOCKS).add(block.get()));
+        BlockRegistry.PICKET_FENCES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCES).add(block.get()));
+        BlockRegistry.PICKET_FENCE_GATES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCE_GATES).add(block.get()));
         BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_SLABS.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_SLAB_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_STAIRS.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_STAIR_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_WALLS.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_WALL_BLOCKS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_SLABS.values().forEach(block -> tag(BlockTags.SLABS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_SLABS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_STAIRS.values().forEach(block -> tag(BlockTags.STAIRS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_STAIRS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_WALLS.values().forEach(block -> tag(BlockTags.WALLS).add(block.get()));
+        BlockRegistry.POLISHED_CALCITE_WALLS.values().forEach(block -> tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block.get()));
+        BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.values().forEach(block -> tag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS).add(block.get()));
         BlockRegistry.STORAGE_CALCITE_BRICKS.values().forEach(block -> tag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS).add(block.get()));
         BlockRegistry.WARP_PIPES.values().forEach(block -> tag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS).add(block.get()));
 
         for (DyeColor color : DyeColor.values()) {
             tag(TagRegistry.blockTags("c", "dyed/" + color))
                     .add(BlockRegistry.CALCITE_BRICKS.get(color).get())
-                    .add(BlockRegistry.CALCITE_BRICK_PEDESTAL.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_PEDESTALS.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRIDGES.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_LOOPHOLES.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_SLABS.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_STAIRS.get(color).get())
+                    .add(BlockRegistry.CALCITE_BRICK_WALLS.get(color).get())
+                    .add(BlockRegistry.CALCITE_BUTTONS.get(color).get())
+                    .add(BlockRegistry.CALCITE_PRESSURE_PLATES.get(color).get())
+                    .add(BlockRegistry.CALCITE_SLABS.get(color).get())
+                    .add(BlockRegistry.CALCITE_STAIRS.get(color).get())
+                    .add(BlockRegistry.CALCITE_WALLS.get(color).get())
                     .add(BlockRegistry.CHECKPOINT_FLAGS.get(color).get())
                     .add(BlockRegistry.CHISELED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.CRACKED_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.GOAL_POLES.get(color).get())
+                    .add(BlockRegistry.PARKOUR_BLOCKS.get(color).get())
+                    .add(BlockRegistry.PICKET_FENCES.get(color).get())
+                    .add(BlockRegistry.PICKET_FENCE_GATES.get(color).get())
                     .add(BlockRegistry.PIPE_JUNCTION.get(color).get())
                     .add(BlockRegistry.POLISHED_CALCITE.get(color).get())
+                    .add(BlockRegistry.POLISHED_CALCITE_SLABS.get(color).get())
+                    .add(BlockRegistry.POLISHED_CALCITE_STAIRS.get(color).get())
+                    .add(BlockRegistry.POLISHED_CALCITE_WALLS.get(color).get())
+                    .add(BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.get(color).get())
                     .add(BlockRegistry.STORAGE_CALCITE_BRICKS.get(color).get())
                     .add(BlockRegistry.WARP_PIPES.get(color).get());
 
@@ -82,13 +140,37 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(CompatRegistry.CREATE_BRITTLE)
                 .addTag(TagRegistry.CORAL_TOWER_BLOCKS)
                 .addTag(TagRegistry.DEAD_CORAL_TOWER_BLOCKS)
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
-                .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_SCARLET_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_SCARLET_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_ORANGE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_LIGHT_BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_PINK_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
-                .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
+                .add(BlockRegistry.POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get());
 
         tag(CompatRegistry.CREATE_COPYCAT_ALLOW)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
@@ -105,13 +187,25 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get())
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get())
                 .add(BlockRegistry.COIN.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPIKE_PANEL.get())
                 .add(BlockRegistry.STAR_COIN.get())
                 .add(BlockRegistry.WATER_SPOUT.get());
@@ -140,19 +234,41 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptional(AUTOMOBILITY_STEEP_SLOPE);
 
         tag(TagRegistry.BONKABLE_BLOCKS)
+                .addTag(TagRegistry.HARD_BLOCKS)
+                .addTag(TagRegistry.HARD_SLABS)
+                .addTag(TagRegistry.HARD_STAIRS)
+                .addTag(TagRegistry.HARD_WALLS)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
+                .add(BlockRegistry.CHISELED_FORTSTONE_BRICKS.get())
                 .add(BlockRegistry.CHISELED_POLISHED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CHISELED_POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.CHISELED_POLISHED_FORTSTONE_TILES.get())
                 .add(BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CRACKED_POLISHED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CRACKED_POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.CRACKED_POLISHED_FORTSTONE_TILES.get())
                 .add(BlockRegistry.CRACKED_POLISHED_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILES.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_SLAB.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_STAIRS.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_WALL.get())
                 .add(BlockRegistry.POLISHED_AMETHYST.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL.get())
@@ -160,8 +276,24 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_SLAB.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILES.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_PEDESTAL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_SLAB.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_WALL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_WALL.get())
@@ -180,18 +312,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WALUIGI_ABILITY_BLOCK.get())
                 .add(BlockRegistry.WARIO_ABILITY_BLOCK.get());
 
+        tag(TagRegistry.ARROW_SIGNS)
+                .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS)
+                .addTag(TagRegistry.WOODEN_ARROW_SIGNS);
+
         tag(TagRegistry.BOUNCY_BLOCKS)
-                .add(Blocks.BROWN_MUSHROOM_BLOCK)
-                .add(Blocks.RED_MUSHROOM_BLOCK)
-                .addOptionalTag(CHIPPED_BROWN_MUSHROOMS)
-                .addOptionalTag(CHIPPED_RED_MUSHROOMS)
-                .addOptional(BB_BLUE_BIGSHROOM)
-                .addOptional(BB_GREEN_BIGSHROOM)
-                .addOptional(BB_LIME_BIGSHROOM)
-                .addOptional(BB_ORANGE_BIGSHROOM)
-                .addOptional(BB_PURPLE_BIGSHROOM)
-                .addOptional(BB_RED_BIGSHROOM)
-                .addOptional(BB_YELLOW_BIGSHROOM);
+                .add(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK.get());
 
         tag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
@@ -205,12 +334,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.END_STONE_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.FUNGAL_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.MUD_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.NETHER_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_PEDESTAL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.PRISMARINE_BRICK_PEDESTAL.get())
                 .add(BlockRegistry.PURPUR_BLOCK_PEDESTAL.get())
@@ -226,10 +358,48 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get())
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get());
 
+        tag(TagRegistry.LOOPHOLE_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS)
+                .add(BlockRegistry.AMETHYST_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.BLACKSTONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.CUT_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.DARK_PRISMARINE_LOOPHOLE.get())
+                .add(BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.DEEPSLATE_TILE_LOOPHOLE.get())
+                .add(BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.END_STONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.FUNGAL_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.MUD_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.NETHER_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.OXIDIZED_CUT_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_LOOPHOLE.get())
+                .add(BlockRegistry.POLISHED_FUNGAL_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.PRISMARINE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.PURPUR_LOOPHOLE.get())
+                .add(BlockRegistry.QUARTZ_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.RED_NETHER_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.RED_SANDSTONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.SANDSTONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.STONE_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.TUFF_BRICK_LOOPHOLE.get())
+                .add(BlockRegistry.WAXED_CUT_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_LOOPHOLE.get())
+                .add(BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE.get());
+
         tag(TagRegistry.BRIDGE_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
+                .addTag(TagRegistry.STONE_BRIDGES)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS);
 
         tag(TagRegistry.BRIDGE_STAIR_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS);
 
         tag(TagRegistry.CALCITE_BLOCKS)
@@ -240,9 +410,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptional(CREATE_CALCITE_BRICKS);
 
         tag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS);
+        tag(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS);
 
         tag(TagRegistry.CAVE_PIRANHA_PLANTS_SPAWNABLE_ON)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .addTag(BlockTags.BASE_STONE_OVERWORLD);
 
         tag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS);
@@ -287,6 +459,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.CALCITE_BRICK_LOOPHOLE_BLOCKS)
                 .addTag(TagRegistry.CHISELED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS);
@@ -305,7 +478,42 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptionalTag(CompatRegistry.SUPP_SCONCES)
                 .addOptional(SUPP_FIRE_PIT);
 
-        tag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS)
+        tag(TagRegistry.FLAMMABLE_ARROW_SIGNS)
+                .add(BlockRegistry.ACACIA_ARROW_SIGN.get())
+                .add(BlockRegistry.ACACIA_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.ACACIA_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.BAMBOO_ARROW_SIGN.get())
+                .add(BlockRegistry.BAMBOO_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.BAMBOO_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.BIRCH_ARROW_SIGN.get())
+                .add(BlockRegistry.BIRCH_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.BIRCH_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.CHERRY_ARROW_SIGN.get())
+                .add(BlockRegistry.CHERRY_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.CHERRY_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.DARK_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.DARK_OAK_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.DARK_OAK_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.JUNGLE_ARROW_SIGN.get())
+                .add(BlockRegistry.JUNGLE_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.JUNGLE_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.MANGROVE_ARROW_SIGN.get())
+                .add(BlockRegistry.MANGROVE_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.MANGROVE_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.OAK_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.OAK_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.SPRUCE_ARROW_SIGN.get())
+                .add(BlockRegistry.SPRUCE_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.SPRUCE_WALL_ARROW_SIGN.get());
+
+        tag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .add(BlockRegistry.ACACIA_LOG_BRIDGE.get())
                 .add(BlockRegistry.BAMBOO_BRIDGE.get())
                 .add(BlockRegistry.BIRCH_LOG_BRIDGE.get())
@@ -325,7 +533,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE.get())
                 .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE.get());
 
-        tag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS)
+        tag(TagRegistry.FLAMMABLE_BRIDGE_STAIR_BLOCKS)
                 .add(BlockRegistry.ACACIA_LOG_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.BAMBOO_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.BIRCH_LOG_BRIDGE_STAIRS.get())
@@ -345,6 +553,141 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.STRIPPED_SPRUCE_LOG_BRIDGE_STAIRS.get());
 
+        tag(TagRegistry.FLAMMABLE_HARD_BLOCKS)
+                .add(BlockRegistry.HARD_ACACIA_BLOCK.get())
+                .add(BlockRegistry.HARD_BAMBOO_BLOCK.get())
+                .add(BlockRegistry.HARD_BIRCH_BLOCK.get())
+                .add(BlockRegistry.HARD_CHERRY_BLOCK.get())
+                .add(BlockRegistry.HARD_DARK_OAK_BLOCK.get())
+                .add(BlockRegistry.HARD_JUNGLE_BLOCK.get())
+                .add(BlockRegistry.HARD_MANGROVE_BLOCK.get())
+                .add(BlockRegistry.HARD_MUSHROOT_BLOCK.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_BLOCK.get())
+                .add(BlockRegistry.HARD_OAK_BLOCK.get())
+                .add(BlockRegistry.HARD_SPRUCE_BLOCK.get());
+
+        tag(TagRegistry.FLAMMABLE_HARD_SLABS)
+                .add(BlockRegistry.HARD_ACACIA_SLAB.get())
+                .add(BlockRegistry.HARD_BAMBOO_SLAB.get())
+                .add(BlockRegistry.HARD_BIRCH_SLAB.get())
+                .add(BlockRegistry.HARD_CHERRY_SLAB.get())
+                .add(BlockRegistry.HARD_DARK_OAK_SLAB.get())
+                .add(BlockRegistry.HARD_JUNGLE_SLAB.get())
+                .add(BlockRegistry.HARD_MANGROVE_SLAB.get())
+                .add(BlockRegistry.HARD_MUSHROOT_SLAB.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_SLAB.get())
+                .add(BlockRegistry.HARD_OAK_SLAB.get())
+                .add(BlockRegistry.HARD_SPRUCE_SLAB.get());
+
+        tag(TagRegistry.FLAMMABLE_HARD_STAIRS)
+                .add(BlockRegistry.HARD_ACACIA_STAIRS.get())
+                .add(BlockRegistry.HARD_BAMBOO_STAIRS.get())
+                .add(BlockRegistry.HARD_BIRCH_STAIRS.get())
+                .add(BlockRegistry.HARD_CHERRY_STAIRS.get())
+                .add(BlockRegistry.HARD_DARK_OAK_STAIRS.get())
+                .add(BlockRegistry.HARD_JUNGLE_STAIRS.get())
+                .add(BlockRegistry.HARD_MANGROVE_STAIRS.get())
+                .add(BlockRegistry.HARD_MUSHROOT_STAIRS.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_STAIRS.get())
+                .add(BlockRegistry.HARD_OAK_STAIRS.get())
+                .add(BlockRegistry.HARD_SPRUCE_STAIRS.get());
+
+        tag(TagRegistry.FLAMMABLE_HARD_WALLS)
+                .add(BlockRegistry.HARD_ACACIA_WALL.get())
+                .add(BlockRegistry.HARD_BAMBOO_WALL.get())
+                .add(BlockRegistry.HARD_BIRCH_WALL.get())
+                .add(BlockRegistry.HARD_CHERRY_WALL.get())
+                .add(BlockRegistry.HARD_DARK_OAK_WALL.get())
+                .add(BlockRegistry.HARD_JUNGLE_WALL.get())
+                .add(BlockRegistry.HARD_MANGROVE_WALL.get())
+                .add(BlockRegistry.HARD_MUSHROOT_WALL.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_WALL.get())
+                .add(BlockRegistry.HARD_OAK_WALL.get())
+                .add(BlockRegistry.HARD_SPRUCE_WALL.get());
+
+        tag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS)
+                .add(BlockRegistry.LARGE_ACACIA_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_ACACIA_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BAMBOO_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BAMBOO_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BIRCH_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BIRCH_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CHERRY_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CHERRY_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_DARK_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_DARK_OAK_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_JUNGLE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_JUNGLE_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MANGROVE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MANGROVE_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPOOKROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPOOKROOT_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_OAK_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPRUCE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPRUCE_WALL_ARROW_SIGN.get());
+
+        tag(TagRegistry.FLAMMABLE_PICKET_FENCES)
+                .addTag(TagRegistry.DYED_PICKET_FENCES)
+                .add(BlockRegistry.ACACIA_PICKET_FENCE.get())
+                .add(BlockRegistry.BAMBOO_PICKET_FENCE.get())
+                .add(BlockRegistry.BIRCH_PICKET_FENCE.get())
+                .add(BlockRegistry.CHERRY_PICKET_FENCE.get())
+                .add(BlockRegistry.DARK_OAK_PICKET_FENCE.get())
+                .add(BlockRegistry.JUNGLE_PICKET_FENCE.get())
+                .add(BlockRegistry.MANGROVE_PICKET_FENCE.get())
+                .add(BlockRegistry.MUSHROOT_PICKET_FENCE.get())
+                .add(BlockRegistry.SPOOKROOT_PICKET_FENCE.get())
+                .add(BlockRegistry.OAK_PICKET_FENCE.get())
+                .add(BlockRegistry.SPRUCE_PICKET_FENCE.get());
+
+        tag(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES)
+                .addTag(TagRegistry.DYED_PICKET_FENCE_GATES)
+                .add(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.ACACIA_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CHERRY_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
+
+        tag(TagRegistry.FLAMMABLE_PLATFORMS)
+                .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.SPOOKROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_LOG_PLATFORM.get());
+
+        tag(TagRegistry.FLAMMABLE_WALLS)
+                .add(BlockRegistry.HARD_ACACIA_WALL.get())
+                .add(BlockRegistry.HARD_BAMBOO_WALL.get())
+                .add(BlockRegistry.HARD_BIRCH_WALL.get())
+                .add(BlockRegistry.HARD_CHERRY_WALL.get())
+                .add(BlockRegistry.HARD_DARK_OAK_WALL.get())
+                .add(BlockRegistry.HARD_JUNGLE_WALL.get())
+                .add(BlockRegistry.HARD_MANGROVE_WALL.get())
+                .add(BlockRegistry.HARD_MUSHROOT_WALL.get())
+                .add(BlockRegistry.HARD_SPOOKROOT_WALL.get())
+                .add(BlockRegistry.HARD_OAK_WALL.get())
+                .add(BlockRegistry.HARD_SPRUCE_WALL.get())
+                .add(BlockRegistry.MUSHROOT_BOARD_WALL.get())
+                .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
+                .add(BlockRegistry.SPOOKROOT_BOARD_WALL.get())
+                .add(BlockRegistry.SPOOKROOT_PANEL_WALL.get());
+
+        tag(TagRegistry.FLAMMABLE_WINDOWS)
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get())
+                .add(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get());
+
+        tag(TagRegistry.FLAMMABLE_WINDOW_PANES)
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get())
+                .add(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.get());
+
         tag(TagRegistry.FLOATY)
                 .addTag(TagRegistry.DOTTED_LINE_BLOCKS)
                 .add(BlockRegistry.COIN.get())
@@ -357,6 +700,54 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
                 .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
+
+        tag(TagRegistry.GRASSY_BLOCKS)
+                .addTag(TagRegistry.GRASSY_DIRTS)
+                .addTag(TagRegistry.GRASSY_STONES);
+
+        tag(TagRegistry.GRASSY_DIRTS)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+
+        tag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.GRASSY_DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.GRASSY_FORTSTONE.get())
+                .add(BlockRegistry.GRASSY_FUNGAL_STONE.get());
+
+        tag(TagRegistry.HARD_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_BLOCKS)
+                .addTag(TagRegistry.STONE_HARD_BLOCKS)
+                .addTag(TagRegistry.WOODEN_HARD_BLOCKS);
+
+        tag(TagRegistry.HARD_SLABS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_SLABS)
+                .addTag(TagRegistry.STONE_HARD_SLABS)
+                .addTag(TagRegistry.WOODEN_HARD_SLABS);
+
+        tag(TagRegistry.HARD_STAIRS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_STAIRS)
+                .addTag(TagRegistry.STONE_HARD_STAIRS)
+                .addTag(TagRegistry.WOODEN_HARD_STAIRS);
+
+        tag(TagRegistry.HARD_WALLS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_WALLS)
+                .addTag(TagRegistry.STONE_HARD_WALLS)
+                .addTag(TagRegistry.WOODEN_HARD_WALLS);
+
+        tag(TagRegistry.HEDGE_BLOCKS)
+                .addTag(TagRegistry.HEDGE_NORMAL_BLOCKS)
+                .addTag(TagRegistry.HEDGE_ROSE_BLOCKS)
+                .addTag(TagRegistry.HEDGE_SNOWY_BLOCKS);
+
+        tag(TagRegistry.HEDGE_NORMAL_BLOCKS)
+                .add(BlockRegistry.HEDGE.get());
+
+        tag(TagRegistry.HEDGE_ROSE_BLOCKS)
+                .add(BlockRegistry.PINK_ROSE_HEDGE.get())
+                .add(BlockRegistry.RED_ROSE_HEDGE.get())
+                .add(BlockRegistry.WHITE_ROSE_HEDGE.get());
+
+        tag(TagRegistry.HEDGE_SNOWY_BLOCKS)
+                .add(BlockRegistry.SNOWY_HEDGE.get());
 
         tag(TagRegistry.ICE_BALL_EXTINGUISHES)
                 .addTag(BlockTags.FIRE)
@@ -389,6 +780,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.INVISIBLE_DEEP_FUNGAL_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get())
+                .add(BlockRegistry.INVISIBLE_FORTSTONE_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_FUNGAL_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.INVISIBLE_MUD_QUESTION_BRICKS.get())
@@ -408,6 +800,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get())
                 .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get());
+
+        tag(TagRegistry.LARGE_ARROW_SIGNS)
+                .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS)
+                .addTag(TagRegistry.WOODEN_LARGE_ARROW_SIGNS);
 
         tag(TagRegistry.MEGA_MUSHROOM_CAN_BREAK)
                 .addTag(Tags.Blocks.GLASS_BLOCKS)
@@ -438,23 +834,11 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(Blocks.WALL_TORCH);
 
         tag(TagRegistry.MEGA_MUSHROOM_CAN_BREAK_IN_ADVENTURE_MODE)
-                .addTag(TagRegistry.GOAL_POLE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS)
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
-                .addTag(TagRegistry.WARP_PIPE_BLOCKS)
-                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
-                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
-                .addTag(BlockTags.CANDLES)
-                .addTag(BlockTags.CAVE_VINES)
-                .addTag(BlockTags.CROPS)
-                .addTag(BlockTags.FLOWERS)
                 .add(Blocks.FROSTED_ICE)
-                .add(Blocks.ICE)
-                .add(Blocks.SHORT_GRASS)
-                .add(Blocks.TALL_GRASS)
-                .add(Blocks.TORCH)
-                .add(Blocks.WALL_TORCH);
+                .add(Blocks.ICE);
 
         tag(TagRegistry.MEGA_MUSHROOM_CAN_BREAK_WHEN_FALLING)
                 .addTag(Tags.Blocks.GLASS_BLOCKS)
@@ -505,8 +889,44 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addOptional(SUPP_FIRE_PIT);
 
         tag(TagRegistry.MUSHROOM_TRAMPOLINE_BLOCKS)
-                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
-                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get());
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get());
+
+        tag(TagRegistry.MUSHROOT_LOGS)
+                .add(BlockRegistry.MUSHROOT_LOG.get())
+                .add(BlockRegistry.MUSHROOT_WOOD.get())
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG.get())
+                .add(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get());
+
+        tag(TagRegistry.MUSHROOT_PLANKS)
+                .add(BlockRegistry.MUSHROOT_BOARDS.get())
+                .add(BlockRegistry.MUSHROOT_PANELS.get())
+                .add(BlockRegistry.MUSHROOT_PLANKS.get());
+
+        tag(TagRegistry.SPOOKROOT_LOGS)
+                .add(BlockRegistry.SPOOKROOT_LOG.get())
+                .add(BlockRegistry.SPOOKROOT_WOOD.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get());
+
+        tag(TagRegistry.SPOOKROOT_PLANKS)
+                .add(BlockRegistry.SPOOKROOT_BOARDS.get())
+                .add(BlockRegistry.SPOOKROOT_PANELS.get())
+                .add(BlockRegistry.SPOOKROOT_PLANKS.get());
+
+        tag(TagRegistry.PARKOUR_BLOCKS)
+                .addTag(TagRegistry.NORMAL_PARKOUR_BLOCKS)
+                .addTag(TagRegistry.RHOMBUS_PARKOUR_BLOCKS);
+
+        tag(TagRegistry.PICKET_FENCES)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCES);
+
+        tag(TagRegistry.PICKET_FENCE_GATES)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCE_GATES);
 
         tag(TagRegistry.PIRANHA_PLANTS_CAN_HIDE)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS)
@@ -519,6 +939,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .addTag(BlockTags.DIRT);
 
+        tag(TagRegistry.PLATFORMS)
+                .addTag(TagRegistry.FLAMMABLE_PLATFORMS)
+                .addTag(TagRegistry.WOODEN_PLATFORMS);
+
         tag(TagRegistry.QUESTION_BLOCKS)
                 .add(BlockRegistry.AMETHYST_QUESTION_BLOCK.get())
                 .add(BlockRegistry.BLACKSTONE_QUESTION_BRICKS.get())
@@ -530,6 +954,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.DEEP_FUNGAL_QUESTION_BLOCK.get())
                 .add(BlockRegistry.END_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK.get())
+                .add(BlockRegistry.FORTSTONE_QUESTION_BLOCK.get())
                 .add(BlockRegistry.FUNGAL_QUESTION_BLOCK.get())
                 .add(BlockRegistry.MOSSY_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.MUD_QUESTION_BRICKS.get())
@@ -556,12 +981,28 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.QUESTION_PANEL_BLOCKS)
                 .add(BlockRegistry.DEEP_FUNGAL_QUESTION_PANEL.get())
+                .add(BlockRegistry.FORTSTONE_QUESTION_PANEL.get())
                 .add(BlockRegistry.FUNGAL_QUESTION_PANEL.get());
+
+        tag(TagRegistry.SCREWS)
+                .add(BlockRegistry.COPPER_SCREW.get())
+                .add(BlockRegistry.DIAMOND_SCREW.get())
+                .add(BlockRegistry.EXPOSED_COPPER_SCREW.get())
+                .add(BlockRegistry.GOLD_SCREW.get())
+                .add(BlockRegistry.IRON_SCREW.get())
+                .add(BlockRegistry.NETHERITE_SCREW.get())
+                .add(BlockRegistry.OXIDIZED_COPPER_SCREW.get())
+                .add(BlockRegistry.WAXED_COPPER_SCREW.get())
+                .add(BlockRegistry.WAXED_EXPOSED_COPPER_SCREW.get())
+                .add(BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW.get())
+                .add(BlockRegistry.WAXED_WEATHERED_COPPER_SCREW.get())
+                .add(BlockRegistry.WEATHERED_COPPER_SCREW.get());
 
         tag(TagRegistry.SMASHABLE_BLOCKS)
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .add(BlockRegistry.AMETHYST_BRICKS.get())
                 .add(BlockRegistry.AMETHYST_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.AMETHYST_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
                 .add(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_BRICK_WALL.get())
@@ -570,19 +1011,28 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.CHISELED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CRACKED_AMETHYST_BRICKS.get())
                 .add(BlockRegistry.CRACKED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CRACKED_FORTSTONE_BRICKS.get())
                 .add(BlockRegistry.CRACKED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CRACKED_RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.CRACKED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.DEEP_FUNGAL_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.FUNGAL_BRICKS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.FUNGAL_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICK_WALL.get())
                 .add(BlockRegistry.SMASHABLE_BLACKSTONE_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_CUT_COPPER.get())
@@ -608,6 +1058,59 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get())
                 .add(Blocks.DECORATED_POT);
 
+        tag(TagRegistry.STONE_BRIDGES)
+                .add(BlockRegistry.AMETHYST_BRIDGE.get())
+                .add(BlockRegistry.ANDESITE_BRIDGE.get())
+                .add(BlockRegistry.BLACKSTONE_BRIDGE.get())
+                .add(BlockRegistry.BRICK_BRIDGE.get())
+                .add(BlockRegistry.COPPER_BRIDGE.get())
+                .add(BlockRegistry.DARK_PRISMARINE_BRIDGE.get())
+                .add(BlockRegistry.DEEPSLATE_BRIDGE.get())
+                .add(BlockRegistry.DEEP_FUNGAL_BRIDGE.get())
+                .add(BlockRegistry.DIORITE_BRIDGE.get())
+                .add(BlockRegistry.END_STONE_BRIDGE.get())
+                .add(BlockRegistry.EXPOSED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.FORTSTONE_BRIDGE.get())
+                .add(BlockRegistry.FUNGAL_BRIDGE.get())
+                .add(BlockRegistry.GRANITE_BRIDGE.get())
+                .add(BlockRegistry.MOSSY_STONE_BRIDGE.get())
+                .add(BlockRegistry.MUD_BRICK_BRIDGE.get())
+                .add(BlockRegistry.NETHER_BRICK_BRIDGE.get())
+                .add(BlockRegistry.OXIDIZED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.PRISMARINE_BRIDGE.get())
+                .add(BlockRegistry.PURPUR_BRIDGE.get())
+                .add(BlockRegistry.QUARTZ_BRIDGE.get())
+                .add(BlockRegistry.RED_NETHER_BRICK_BRIDGE.get())
+                .add(BlockRegistry.RED_SANDSTONE_BRIDGE.get())
+                .add(BlockRegistry.SANDSTONE_BRIDGE.get())
+                .add(BlockRegistry.STONE_BRIDGE.get())
+                .add(BlockRegistry.TUFF_BRIDGE.get())
+                .add(BlockRegistry.WAXED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.WEATHERED_COPPER_BRIDGE.get());
+
+        tag(TagRegistry.STONE_HARD_BLOCKS)
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_BLOCK.get())
+                .add(BlockRegistry.HARD_FORTSTONE_BLOCK.get())
+                .add(BlockRegistry.HARD_FUNGAL_BLOCK.get());
+
+        tag(TagRegistry.STONE_HARD_SLABS)
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_SLAB.get())
+                .add(BlockRegistry.HARD_FORTSTONE_SLAB.get())
+                .add(BlockRegistry.HARD_FUNGAL_SLAB.get());
+
+        tag(TagRegistry.STONE_HARD_STAIRS)
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_STAIRS.get())
+                .add(BlockRegistry.HARD_FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.HARD_FUNGAL_STAIRS.get());
+
+        tag(TagRegistry.STONE_HARD_WALLS)
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_WALL.get())
+                .add(BlockRegistry.HARD_FORTSTONE_WALL.get())
+                .add(BlockRegistry.HARD_FUNGAL_WALL.get());
+
         tag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .addTag(TagRegistry.STORAGE_CALCITE_BRICK_BLOCKS)
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get())
@@ -620,12 +1123,15 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.STORAGE_DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.STORAGE_END_STONE_BRICKS.get())
                 .add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get())
+                .add(BlockRegistry.STORAGE_FORTSTONE_BRICKS.get())
                 .add(BlockRegistry.STORAGE_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.STORAGE_MOSSY_STONE_BRICKS.get())
                 .add(BlockRegistry.STORAGE_MUD_BRICKS.get())
                 .add(BlockRegistry.STORAGE_NETHER_BRICKS.get())
                 .add(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get())
                 .add(BlockRegistry.STORAGE_POLISHED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.STORAGE_POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.STORAGE_POLISHED_FORTSTONE_TILES.get())
                 .add(BlockRegistry.STORAGE_POLISHED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.STORAGE_PRISMARINE_BRICKS.get())
                 .add(BlockRegistry.STORAGE_PURPUR_BLOCK.get())
@@ -650,22 +1156,129 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .add(BlockRegistry.CLEAR_WARP_PIPE.get());
 
+        tag(TagRegistry.WINDOWS)
+                .addTag(TagRegistry.FLAMMABLE_WINDOWS)
+                .addTag(TagRegistry.WOODEN_WINDOWS);
+
+        tag(TagRegistry.WINDOW_PANES)
+                .addTag(TagRegistry.FLAMMABLE_WINDOW_PANES)
+                .addTag(TagRegistry.WOODEN_WINDOW_PANES);
+
+        tag(TagRegistry.WOODEN_ARROW_SIGNS)
+                .addTag(TagRegistry.FLAMMABLE_ARROW_SIGNS)
+                .add(BlockRegistry.CRIMSON_ARROW_SIGN.get())
+                .add(BlockRegistry.CRIMSON_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.CRIMSON_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.WARPED_ARROW_SIGN.get())
+                .add(BlockRegistry.WARPED_HANGING_ARROW_SIGN.get())
+                .add(BlockRegistry.WARPED_WALL_ARROW_SIGN.get());
+
         tag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
-                .addTag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_BRIDGE_BLOCKS)
                 .add(BlockRegistry.CRIMSON_STEM_BRIDGE.get())
                 .add(BlockRegistry.WARPED_STEM_BRIDGE.get())
                 .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE.get())
                 .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE.get());
 
         tag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
-                .addTag(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_BRIDGE_STAIR_BLOCKS)
                 .add(BlockRegistry.CRIMSON_STEM_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.WARPED_STEM_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.STRIPPED_CRIMSON_STEM_BRIDGE_STAIRS.get())
                 .add(BlockRegistry.STRIPPED_WARPED_STEM_BRIDGE_STAIRS.get());
 
+        tag(TagRegistry.WOODEN_HARD_BLOCKS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_BLOCKS)
+                .add(BlockRegistry.HARD_CRIMSON_BLOCK.get())
+                .add(BlockRegistry.HARD_WARPED_BLOCK.get());
+
+        tag(TagRegistry.WOODEN_HARD_SLABS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_SLABS)
+                .add(BlockRegistry.HARD_CRIMSON_SLAB.get())
+                .add(BlockRegistry.HARD_WARPED_SLAB.get());
+
+        tag(TagRegistry.WOODEN_HARD_STAIRS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_STAIRS)
+                .add(BlockRegistry.HARD_CRIMSON_STAIRS.get())
+                .add(BlockRegistry.HARD_WARPED_STAIRS.get());
+
+        tag(TagRegistry.WOODEN_HARD_WALLS)
+                .addTag(TagRegistry.FLAMMABLE_HARD_WALLS)
+                .add(BlockRegistry.HARD_CRIMSON_WALL.get())
+                .add(BlockRegistry.HARD_WARPED_WALL.get());
+
+        tag(TagRegistry.WOODEN_LARGE_ARROW_SIGNS)
+                .addTag(TagRegistry.FLAMMABLE_LARGE_ARROW_SIGNS)
+                .add(BlockRegistry.LARGE_CRIMSON_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CRIMSON_WALL_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_WARPED_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_WARPED_WALL_ARROW_SIGN.get());
+
+        tag(TagRegistry.WOODEN_PICKET_FENCES)
+                .addTag(TagRegistry.FLAMMABLE_PICKET_FENCES)
+                .add(BlockRegistry.CRIMSON_PICKET_FENCE.get())
+                .add(BlockRegistry.WARPED_PICKET_FENCE.get());
+
+        tag(TagRegistry.WOODEN_PICKET_FENCE_GATES)
+                .addTag(TagRegistry.FLAMMABLE_PICKET_FENCE_GATES)
+                .add(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.WARPED_PICKET_FENCE_GATE.get());
+
+        tag(TagRegistry.WOODEN_PLATFORMS)
+                .add(BlockRegistry.MUSHROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.SPOOKROOT_LOG_PLATFORM.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_LOG_PLATFORM.get());
+
+        tag(TagRegistry.WOODEN_WALLS)
+                .addTag(TagRegistry.FLAMMABLE_WALLS)
+                .add(BlockRegistry.HARD_CRIMSON_WALL.get())
+                .add(BlockRegistry.HARD_WARPED_WALL.get());
+
+        tag(TagRegistry.WOODEN_WINDOWS)
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW.get())
+                .add(BlockRegistry.SPOOKROOT_FRAMED_WINDOW.get());
+
+        tag(TagRegistry.WOODEN_WINDOW_PANES)
+                .add(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.get())
+                .add(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.get());
+
         tag(TagRegistry.WRENCH_EFFICIENT)
                 .addTag(TagRegistry.WARP_PIPE_BLOCKS);
+
+
+        tag(Tags.Blocks.COBBLESTONES)
+                .add(BlockRegistry.COBBLED_FORTSTONE.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE.get());
+
+        tag(Tags.Blocks.FENCES_WOODEN)
+                .add(BlockRegistry.MUSHROOT_FENCE.get())
+                .add(BlockRegistry.SPOOKROOT_FENCE.get());
+
+        tag(Tags.Blocks.FENCE_GATES_WOODEN)
+                .addTag(TagRegistry.DYED_PICKET_FENCE_GATES)
+                .add(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.ACACIA_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CHERRY_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.WARPED_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.MUSHROOT_FENCE_GATE.get())
+                .add(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
+
+        tag(Tags.Blocks.GLASS_BLOCKS_COLORLESS)
+                .addTag(TagRegistry.WOODEN_WINDOWS);
+
+        tag(Tags.Blocks.GLASS_PANES_COLORLESS)
+                .addTag(TagRegistry.WOODEN_WINDOW_PANES);
 
         tag(Tags.Blocks.PUMPKINS_CARVED)
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
@@ -680,18 +1293,55 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
         tag(Tags.Blocks.STONES)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
-                .add(BlockRegistry.FUNGAL_STONE.get());
+                .add(BlockRegistry.FORTSTONE.get())
+                .add(BlockRegistry.FUNGAL_STONE.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.ROCKY_FORTSTONE.get())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE.get());
+
+        tag(Tags.Blocks.VILLAGER_FARMLANDS)
+                .add(BlockRegistry.SHROOMSOIL_FARMLAND.get())
+                .add(BlockRegistry.WET_MUD_FARMLAND.get());
 
         tag(BlockTags.ANCIENT_CITY_REPLACEABLE)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.DEEPSLATE_TILE_PEDESTAL.get())
+                .add(BlockRegistry.DEEPSLATE_TILE_LOOPHOLE.get())
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_TILES.get());
 
+        tag(BlockTags.ANIMALS_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+
         tag(BlockTags.BASE_STONE_OVERWORLD)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
-                .add(BlockRegistry.FUNGAL_STONE.get());
+                .add(BlockRegistry.FORTSTONE.get())
+                .add(BlockRegistry.FUNGAL_STONE.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.ROCKY_FORTSTONE.get())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE.get());
+
+        tag(BlockTags.BIG_DRIPLEAF_PLACEABLE)
+                .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.SHROOMSOIL.get())
+                .add(BlockRegistry.WET_MUD.get());
+
+        tag(BlockTags.CEILING_HANGING_SIGNS)
+                .add(BlockRegistry.MUSHROOT_HANGING_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_HANGING_SIGN.get());
+
+        tag(BlockTags.CONVERTABLE_TO_MUD)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
+                .add(BlockRegistry.SHROOMSOIL.get());
 
         tag(BlockTags.CORALS);
 
@@ -715,15 +1365,77 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.STORAGE_AMETHYST_BRICKS.get());
 
+        tag(BlockTags.DIRT)
+                .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.SHROOMSOIL.get())
+                .add(BlockRegistry.WET_MUD.get());
+
         tag(BlockTags.DRAGON_IMMUNE)
                 .addTag(TagRegistry.DEATH_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
         tag(BlockTags.ENDERMAN_HOLDABLE)
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
+                .addTag(TagRegistry.HEDGE_BLOCKS)
+                .addTag(TagRegistry.MEGA_MUSHROOMS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.GLOW_BLOCK.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get());
+
+        tag(TagRegistry.MEGA_MUSHROOMS)
+                .add(BlockRegistry.BLUE_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.GREEN_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.LIME_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.ORANGE_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.PURPLE_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.RED_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.YELLOW_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get());
+
+        tag(TagRegistry.SUPER_MUSHROOMS)
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.GREEN_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.LIME_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.RED_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get());
+
+        tag(TagRegistry.SUPER_MUSHROOM_STEMS)
+                .add(BlockRegistry.SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.RED_SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.GREEN_SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.PINK_SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.RED_ON_OFF_SUPER_MUSHROOM_STEM.get())
+                .add(BlockRegistry.BLUE_ON_OFF_SUPER_MUSHROOM_STEM.get());
+
+        tag(TagRegistry.SUPER_MUSHROOM_CAPS)
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.GREEN_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.RED_SUPER_MUSHROOM_BLOCK.get())
+                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK.get());
 
         tag(BlockTags.FEATURES_CANNOT_REPLACE)
                 .addTag(TagRegistry.DEATH_BLOCKS)
@@ -732,14 +1444,87 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.STORAGE_BRICK_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
 
+        tag(BlockTags.FENCE_GATES)
+                .addTag(TagRegistry.DYED_PICKET_FENCE_GATES)
+                .add(BlockRegistry.OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPRUCE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BIRCH_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.ACACIA_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.JUNGLE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CHERRY_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.DARK_OAK_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.MANGROVE_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.BAMBOO_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.WARPED_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.MUSHROOT_FENCE_GATE.get())
+                .add(BlockRegistry.MUSHROOT_PICKET_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_FENCE_GATE.get())
+                .add(BlockRegistry.SPOOKROOT_PICKET_FENCE_GATE.get());
+
+        tag(TagRegistry.BLOOMFLOWERS)
+                .add(BlockRegistry.BLUE_BLOOMFLOWER.get())
+                .add(BlockRegistry.ORANGE_BLOOMFLOWER.get())
+                .add(BlockRegistry.PINK_BLOOMFLOWER.get())
+                .add(BlockRegistry.PURPLE_BLOOMFLOWER.get())
+                .add(BlockRegistry.RED_BLOOMFLOWER.get())
+                .add(BlockRegistry.WHITE_BLOOMFLOWER.get())
+                .add(BlockRegistry.YELLOW_BLOOMFLOWER.get());
+
         tag(BlockTags.FLOWER_POTS)
-                .add(BlockRegistry.POTTED_BLUE_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.POTTED_BLUE_BLOOMFLOWER.get())
+                .add(BlockRegistry.POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_SCARLET_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_ORANGE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_LIGHT_BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_PINK_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_SCARLET_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.POTTED_PINK_MEGA_MUSHROOM_TRAMPOLINE.get())
                 .add(BlockRegistry.POTTED_DANGO_BLOSSOM.get())
+                .add(BlockRegistry.POTTED_MUSHROOT_SAPLING.get())
+                .add(BlockRegistry.POTTED_SPOOKROOT_SAPLING.get())
+                .add(BlockRegistry.POTTED_SPOOKY_SPOOKROOT_SAPLING.get())
+                .add(BlockRegistry.POTTED_ORANGE_BLOOMFLOWER.get())
+                .add(BlockRegistry.POTTED_PINK_BLOOMFLOWER.get())
                 .add(BlockRegistry.POTTED_PIRANHA_PLANT.get())
-                .add(BlockRegistry.POTTED_RED_TRAMPOLINE_CAP.get());
+                .add(BlockRegistry.POTTED_PURPLE_BLOOMFLOWER.get())
+                .add(BlockRegistry.POTTED_RED_BLOOMFLOWER.get())
+                .add(BlockRegistry.POTTED_RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.POTTED_WHITE_BLOOMFLOWER.get())
+                .add(BlockRegistry.POTTED_YELLOW_BLOOMFLOWER.get())
+                .add(BlockRegistry.POTTED_BLUE_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_BLUE_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_GREEN_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_GREEN_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_LIME_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_LIME_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_ORANGE_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_ORANGE_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_PURPLE_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_PURPLE_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_RED_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_RED_SUPER_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_YELLOW_MEGA_MUSHROOM.get())
+                .add(BlockRegistry.POTTED_YELLOW_SUPER_MUSHROOM.get());
 
         tag(BlockTags.FLOWERS)
+                .addTag(TagRegistry.HEDGE_ROSE_BLOCKS)
                 .add(BlockRegistry.DANGO_BLOSSOM.get());
+
+        tag(BlockTags.FOXES_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+
+        tag(BlockTags.FROGS_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.WET_MUD.get());
 
         tag(BlockTags.GEODE_INVALID_BLOCKS)
                 .addTag(TagRegistry.DEATH_BLOCKS)
@@ -759,20 +1544,74 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
+        tag(BlockTags.LEAVES)
+                .add(BlockRegistry.MUSHROOT_LEAVES.get())
+                .add(BlockRegistry.SPOOKROOT_LEAVES.get())
+                .add(BlockRegistry.DARK_SPOOKROOT_LEAVES.get());
+
+        tag(BlockTags.LOGS);
+
+        tag(BlockTags.LOGS_THAT_BURN)
+                .addTag(TagRegistry.MUSHROOT_LOGS)
+                .addTag(TagRegistry.SPOOKROOT_LOGS);
+
+        tag(BlockTags.MANGROVE_LOGS_CAN_GROW_THROUGH)
+                .add(BlockRegistry.WET_MUD.get());
+
+        tag(BlockTags.MANGROVE_ROOTS_CAN_GROW_THROUGH)
+                .add(BlockRegistry.WET_MUD.get());
+
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .addTag(TagRegistry.ABILITY_BLOCKS);
 
         tag(BlockTags.NEEDS_STONE_TOOL)
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
+                .addTag(TagRegistry.HARD_BLOCKS)
+                .addTag(TagRegistry.PARKOUR_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
+
+        tag(BlockTags.PARROTS_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+
+        tag(BlockTags.PLANKS)
+                .add(BlockRegistry.MUSHROOT_BOARDS.get())
+                .add(BlockRegistry.MUSHROOT_PANELS.get())
+                .add(BlockRegistry.MUSHROOT_PLANKS.get())
+                .add(BlockRegistry.SPOOKROOT_BOARDS.get())
+                .add(BlockRegistry.SPOOKROOT_PANELS.get())
+                .add(BlockRegistry.SPOOKROOT_PLANKS.get());
+
+        tag(BlockTags.RABBITS_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+
+        tag(BlockTags.REPLACEABLE)
+                .add(BlockRegistry.SHORT_SHROOMGRASS.get())
+                .add(BlockRegistry.SHROOMGRASS.get())
+                .add(BlockRegistry.TALL_SHROOMGRASS.get())
+                .add(BlockRegistry.SHRUBROOM.get());
+
+        tag(BlockTags.REPLACEABLE_BY_TREES)
+                .add(BlockRegistry.SHORT_SHROOMGRASS.get())
+                .add(BlockRegistry.SHROOMGRASS.get())
+                .add(BlockRegistry.TALL_SHROOMGRASS.get())
+                .add(BlockRegistry.SHRUBROOM.get());
 
         tag(BlockTags.SAND)
                 .add(BlockRegistry.QUICKSAND.get())
                 .add(BlockRegistry.RED_QUICKSAND.get());
 
+        tag(BlockTags.SAPLINGS)
+                .add(BlockRegistry.MUSHROOT_SAPLING.get())
+                .add(BlockRegistry.SPOOKROOT_SAPLING.get())
+                .add(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.get());
+
         tag(BlockTags.SCULK_REPLACEABLE_WORLD_GEN)
                 .add(BlockRegistry.DEEPSLATE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.DEEPSLATE_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.DEEPSLATE_TILE_PEDESTAL.get())
+                .add(BlockRegistry.DEEPSLATE_TILE_LOOPHOLE.get())
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_DEEPSLATE_TILES.get());
 
@@ -780,20 +1619,47 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
                 .add(BlockRegistry.AMETHYST_SLAB.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
-                .add(BlockRegistry.CALCITE_SLAB.get())
+                .add(BlockRegistry.COBBLED_FORTSTONE_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.FORTSTONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_BRICK_SLAB.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_SLAB.get())
+                .add(BlockRegistry.HARD_FORTSTONE_SLAB.get())
+                .add(BlockRegistry.HARD_FUNGAL_SLAB.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_SLAB.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_SLAB.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get());
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.ROCKY_FORTSTONE_SLAB.get())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get());
+
+        tag(BlockTags.SMALL_FLOWERS)
+                .addTag(TagRegistry.BLOOMFLOWERS);
+
+        tag(BlockTags.SNIFFER_DIGGABLE_BLOCK)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.SHROOMSOIL.get())
+                .add(BlockRegistry.WET_MUD.get());
+
+        tag(BlockTags.SNOW_LAYER_CAN_SURVIVE_ON)
+                .add(BlockRegistry.WET_MUD.get());
 
         tag(TagRegistry.SNOWBALL_EXTINGUISHES)
                 .addTag(BlockTags.FIRE)
@@ -809,66 +1675,185 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS.get())
-                .add(BlockRegistry.CALCITE_STAIRS.get())
+                .add(BlockRegistry.COBBLED_FORTSTONE_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.FORTSTONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_STAIRS.get())
+                .add(BlockRegistry.HARD_FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.HARD_FUNGAL_STAIRS.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get());
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.ROCKY_FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get());
+
+        tag(BlockTags.STANDING_SIGNS)
+                .add(BlockRegistry.MUSHROOT_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_SIGN.get());
 
         tag(BlockTags.STONE_BUTTONS)
                 .add(BlockRegistry.AMETHYST_BUTTON.get())
-                .add(BlockRegistry.CALCITE_BUTTON.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get())
+                .add(BlockRegistry.FORTSTONE_BUTTON.get())
                 .add(BlockRegistry.FUNGAL_STONE_BUTTON.get());
 
         tag(BlockTags.STONE_PRESSURE_PLATES)
                 .add(BlockRegistry.AMETHYST_PRESSURE_PLATE.get())
-                .add(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
+                .add(BlockRegistry.FORTSTONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get());
+
+        tag(BlockTags.VALID_SPAWN)
+                .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
 
         tag(BlockTags.WALL_POST_OVERRIDE)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
+                .add(BlockRegistry.ACACIA_ARROW_SIGN.get())
+                .add(BlockRegistry.BAMBOO_ARROW_SIGN.get())
+                .add(BlockRegistry.BIRCH_ARROW_SIGN.get())
+                .add(BlockRegistry.CHERRY_ARROW_SIGN.get())
+                .add(BlockRegistry.CRIMSON_ARROW_SIGN.get())
+                .add(BlockRegistry.DARK_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.JUNGLE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_ACACIA_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BAMBOO_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_BIRCH_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CHERRY_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_CRIMSON_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_DARK_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_JUNGLE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MANGROVE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPOOKROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_SPRUCE_ARROW_SIGN.get())
+                .add(BlockRegistry.LARGE_WARPED_ARROW_SIGN.get())
+                .add(BlockRegistry.MANGROVE_ARROW_SIGN.get())
+                .add(BlockRegistry.MUSHROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_ARROW_SIGN.get())
+                .add(BlockRegistry.OAK_ARROW_SIGN.get())
+                .add(BlockRegistry.SPRUCE_ARROW_SIGN.get())
+                .add(BlockRegistry.WARPED_ARROW_SIGN.get())
                 .add(BlockRegistry.SPIKE_PANEL.get());
 
+        tag(BlockTags.WALL_HANGING_SIGNS)
+                .add(BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_WALL_HANGING_SIGN.get());
+
+        tag(BlockTags.WALL_SIGNS)
+                .add(BlockRegistry.MUSHROOT_WALL_SIGN.get())
+                .add(BlockRegistry.SPOOKROOT_WALL_SIGN.get());
+
         tag(BlockTags.WALLS)
+                .addTag(TagRegistry.HARD_WALLS)
                 .add(BlockRegistry.AMETHYST_BRICK_WALL.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_WALL.get())
-                .add(BlockRegistry.CALCITE_WALL.get())
+                .add(BlockRegistry.COBBLED_FORTSTONE_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.FORTSTONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_WALL.get())
+                .add(BlockRegistry.HARD_FORTSTONE_WALL.get())
+                .add(BlockRegistry.HARD_FUNGAL_WALL.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_WALL.get())
+                .add(BlockRegistry.MUSHROOT_BOARD_WALL.get())
+                .add(BlockRegistry.MUSHROOT_PANEL_WALL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_WALL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_WALL.get())
+                .add(BlockRegistry.ROCKY_FORTSTONE_WALL.get())
+                .add(BlockRegistry.SPOOKROOT_BOARD_WALL.get())
+                .add(BlockRegistry.SPOOKROOT_PANEL_WALL.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
-                .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.SANDSTONE_BRICK_WALL.get());
+
+        tag(BlockTags.WOLVES_SPAWNABLE_ON)
+                .addTag(TagRegistry.GRASSY_STONES)
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get());
+
+        tag(BlockTags.WOODEN_FENCES)
+                .add(BlockRegistry.MUSHROOT_FENCE.get())
+                .add(BlockRegistry.SPOOKROOT_FENCE.get());
+
+        tag(BlockTags.WOODEN_SLABS)
+                .addTag(TagRegistry.WOODEN_HARD_SLABS)
+                .add(BlockRegistry.MUSHROOT_BOARD_SLAB.get())
+                .add(BlockRegistry.MUSHROOT_PANEL_SLAB.get())
+                .add(BlockRegistry.MUSHROOT_SLAB.get())
+                .add(BlockRegistry.SPOOKROOT_BOARD_SLAB.get())
+                .add(BlockRegistry.SPOOKROOT_PANEL_SLAB.get())
+                .add(BlockRegistry.SPOOKROOT_SLAB.get());
 
         tag(BlockTags.WOODEN_STAIRS)
-                .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS);
+                .addTag(TagRegistry.WOODEN_HARD_STAIRS)
+                .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
+                .add(BlockRegistry.MUSHROOT_BOARD_STAIRS.get())
+                .add(BlockRegistry.MUSHROOT_PANEL_STAIRS.get())
+                .add(BlockRegistry.MUSHROOT_STAIRS.get())
+                .add(BlockRegistry.SPOOKROOT_BOARD_STAIRS.get())
+                .add(BlockRegistry.SPOOKROOT_PANEL_STAIRS.get())
+                .add(BlockRegistry.SPOOKROOT_STAIRS.get());
 
         tag(BlockTags.MINEABLE_WITH_AXE)
+                .addTag(TagRegistry.HEDGE_BLOCKS)
+                .addTag(TagRegistry.MEGA_MUSHROOMS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
+                .addTag(TagRegistry.WOODEN_ARROW_SIGNS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_BLOCKS)
                 .addTag(TagRegistry.WOODEN_BRIDGE_STAIR_BLOCKS)
-                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.get())
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
+                .addTag(TagRegistry.WOODEN_HARD_BLOCKS)
+                .addTag(TagRegistry.WOODEN_HARD_WALLS)
+                .addTag(TagRegistry.WOODEN_LARGE_ARROW_SIGNS)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCES)
+                .addTag(TagRegistry.WOODEN_PICKET_FENCE_GATES)
+                .addTag(TagRegistry.WOODEN_PLATFORMS)
+                .addTag(TagRegistry.WOODEN_WALLS)
+                .addTag(TagRegistry.WOODEN_WINDOWS)
+                .addTag(TagRegistry.WOODEN_WINDOW_PANES)
+                .addTag(TagRegistry.SUPER_MUSHROOM_CAPS)
+                .addTag(TagRegistry.SUPER_MUSHROOM_STEMS)
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 
@@ -878,6 +1863,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .addTag(TagRegistry.ABILITY_BLOCKS)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS)
+                .addTag(TagRegistry.LOOPHOLE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.CALCITE_BRICK_PEDESTAL_BLOCKS)
@@ -887,7 +1873,9 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.CRACKED_CALCITE_BRICK_BLOCKS)
                 .addTag(TagRegistry.DEAD_CORAL_TOWER_BLOCKS)
                 .addTag(TagRegistry.GOAL_POLE_BLOCKS)
+                .addTag(TagRegistry.GRASSY_STONES)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
+                .addTag(TagRegistry.PARKOUR_BLOCKS)
                 .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
@@ -898,60 +1886,129 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.AMETHYST_BRICK_SLAB.get())
                 .add(BlockRegistry.AMETHYST_BRICK_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_BRICK_WALL.get())
+                .add(BlockRegistry.AMETHYST_BRIDGE.get())
                 .add(BlockRegistry.AMETHYST_BUTTON.get())
                 .add(BlockRegistry.AMETHYST_PRESSURE_PLATE.get())
                 .add(BlockRegistry.AMETHYST_SLAB.get())
                 .add(BlockRegistry.AMETHYST_STAIRS.get())
                 .add(BlockRegistry.AMETHYST_WALL.get())
+                .add(BlockRegistry.ANDESITE_BRIDGE.get())
+                .add(BlockRegistry.BLACKSTONE_BRIDGE.get())
                 .add(BlockRegistry.BLOCK_SPAWNER.get())
                 .add(BlockRegistry.BLUE_DOTTED_LINE_BLOCK.get())
-                .add(BlockRegistry.CALCITE_BUTTON.get())
+                .add(BlockRegistry.BRICK_BRIDGE.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILES.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_SLAB.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_STAIRS.get())
                 .add(BlockRegistry.CALCITE_CHECKERED_TILE_WALL.get())
-                .add(BlockRegistry.CALCITE_PRESSURE_PLATE.get())
-                .add(BlockRegistry.CALCITE_SLAB.get())
-                .add(BlockRegistry.CALCITE_STAIRS.get())
-                .add(BlockRegistry.CALCITE_WALL.get())
                 .add(BlockRegistry.CHISELED_AMETHYST_BRICKS.get())
                 .add(BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CHISELED_FORTSTONE_BRICKS.get())
                 .add(BlockRegistry.CHISELED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CHISELED_POLISHED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CHISELED_POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.CHISELED_POLISHED_FORTSTONE_TILES.get())
                 .add(BlockRegistry.CHISELED_POLISHED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CHISELED_RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.CHISELED_SANDSTONE_BRICKS.get())
+                .add(BlockRegistry.COBBLED_FORTSTONE.get())
+                .add(BlockRegistry.COBBLED_FORTSTONE_SLAB.get())
+                .add(BlockRegistry.COBBLED_FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.COBBLED_FORTSTONE_WALL.get())
                 .add(BlockRegistry.COIN.get())
+                .add(BlockRegistry.COPPER_BRIDGE.get())
                 .add(BlockRegistry.CRACKED_AMETHYST_BRICKS.get())
                 .add(BlockRegistry.CRACKED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CRACKED_FORTSTONE_BRICKS.get())
                 .add(BlockRegistry.CRACKED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CRACKED_POLISHED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CRACKED_POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.CRACKED_POLISHED_FORTSTONE_TILES.get())
                 .add(BlockRegistry.CRACKED_POLISHED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CRACKED_RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.CRACKED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
+                .add(BlockRegistry.DARK_PRISMARINE_BRIDGE.get())
+                .add(BlockRegistry.DEEPSLATE_BRIDGE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.DEEP_FUNGAL_BRIDGE.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_SLAB.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_STAIRS.get())
+                .add(BlockRegistry.DEEP_FUNGAL_COBBLESTONE_WALL.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_BUTTON.get())
+                .add(BlockRegistry.DEEP_FUNGAL_STONE_FLOOR.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.DEEP_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.DIORITE_BRIDGE.get())
+                .add(BlockRegistry.END_STONE_BRIDGE.get())
+                .add(BlockRegistry.EXPOSED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.FORTSTONE.get())
+                .add(BlockRegistry.FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.FORTSTONE_BRIDGE.get())
+                .add(BlockRegistry.FORTSTONE_BUTTON.get())
+                .add(BlockRegistry.FORTSTONE_FLOOR.get())
+                .add(BlockRegistry.FORTSTONE_PRESSURE_PLATE.get())
+                .add(BlockRegistry.FORTSTONE_SLAB.get())
+                .add(BlockRegistry.FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.FORTSTONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_BRICKS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.FUNGAL_BRICK_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_BRICK_WALL.get())
+                .add(BlockRegistry.FUNGAL_BRIDGE.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_SLAB.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_STAIRS.get())
+                .add(BlockRegistry.FUNGAL_COBBLESTONE_WALL.get())
                 .add(BlockRegistry.FUNGAL_STONE.get())
                 .add(BlockRegistry.FUNGAL_STONE_BUTTON.get())
+                .add(BlockRegistry.FUNGAL_STONE_FLOOR.get())
                 .add(BlockRegistry.FUNGAL_STONE_PRESSURE_PLATE.get())
                 .add(BlockRegistry.FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.GRANITE_BRIDGE.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_BLOCK.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_SLAB.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_STAIRS.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_WALL.get())
+                .add(BlockRegistry.HARD_FORTSTONE_BLOCK.get())
+                .add(BlockRegistry.HARD_FORTSTONE_SLAB.get())
+                .add(BlockRegistry.HARD_FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.HARD_FORTSTONE_WALL.get())
+                .add(BlockRegistry.HARD_FUNGAL_BLOCK.get())
+                .add(BlockRegistry.HARD_FUNGAL_SLAB.get())
+                .add(BlockRegistry.HARD_FUNGAL_STAIRS.get())
+                .add(BlockRegistry.HARD_FUNGAL_WALL.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.HUGE_FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILES.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_SLAB.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_STAIRS.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILE_WALL.get())
+                .addTag(TagRegistry.SCREWS)
                 .add(BlockRegistry.IRON_SPIKE.get())
+                .add(BlockRegistry.MOSSY_STONE_BRIDGE.get())
+                .add(BlockRegistry.MUD_BRICK_BRIDGE.get())
+                .add(BlockRegistry.NETHER_BRICK_BRIDGE.get())
                 .add(BlockRegistry.ON_OFF_SWITCH.get())
+                .add(BlockRegistry.OXIDIZED_COPPER_BRIDGE.get())
                 .add(BlockRegistry.POLISHED_AMETHYST.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_SLAB.get())
                 .add(BlockRegistry.POLISHED_AMETHYST_STAIRS.get())
@@ -964,6 +2021,18 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_SLAB.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_SLAB.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILES.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_SLAB.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_STAIRS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILE_WALL.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_WALL.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICK_STAIRS.get())
@@ -972,32 +2041,62 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_SLAB.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_STAIRS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE_WALL.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_SLAB.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_STAIRS.get())
-                .add(BlockRegistry.POLISHED_WHITE_CALCITE_WALL.get())
+                .add(BlockRegistry.PRISMARINE_BRIDGE.get())
+                .add(BlockRegistry.PURPUR_BRIDGE.get())
+                .add(BlockRegistry.QUARTZ_BRIDGE.get())
                 .add(BlockRegistry.RED_DOTTED_LINE_BLOCK.get())
+                .add(BlockRegistry.RED_NETHER_BRICK_BRIDGE.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.RED_SANDSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.RED_SANDSTONE_BRIDGE.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.ROCKY_DEEP_FUNGAL_STONE_WALL.get())
+                .add(BlockRegistry.ROCKY_FORTSTONE.get())
+                .add(BlockRegistry.ROCKY_FORTSTONE_SLAB.get())
+                .add(BlockRegistry.ROCKY_FORTSTONE_STAIRS.get())
+                .add(BlockRegistry.ROCKY_FORTSTONE_WALL.get())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE.get())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE_SLAB.get())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE_STAIRS.get())
+                .add(BlockRegistry.ROCKY_FUNGAL_STONE_WALL.get())
                 .add(BlockRegistry.SANDSTONE_BRICKS.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_SLAB.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_STAIRS.get())
                 .add(BlockRegistry.SANDSTONE_BRICK_WALL.get())
+                .add(BlockRegistry.SANDSTONE_BRIDGE.get())
                 .add(BlockRegistry.SPIKE_PANEL.get())
                 .add(BlockRegistry.STAR_COIN.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_SLAB.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_STAIRS.get())
-                .add(BlockRegistry.WHITE_CALCITE_BRICK_WALL.get());
+                .add(BlockRegistry.STONE_BRIDGE.get())
+                .add(BlockRegistry.TUFF_BRIDGE.get())
+                .add(BlockRegistry.WAXED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE.get())
+                .add(BlockRegistry.WEATHERED_COPPER_BRIDGE.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .add(BlockRegistry.COARSE_SHROOMSOIL.get())
+                .add(BlockRegistry.DEEP_WET_MUD.get())
                 .add(BlockRegistry.QUICKSAND.get())
-                .add(BlockRegistry.RED_QUICKSAND.get());
+                .add(BlockRegistry.RED_QUICKSAND.get())
+                .add(BlockRegistry.ROCKY_SHROOMSOIL.get())
+                .add(BlockRegistry.SHROOMGRASS_BLOCK.get())
+                .add(BlockRegistry.SHROOMSOIL.get())
+                .add(BlockRegistry.SHROOMSOIL_FARMLAND.get())
+                .add(BlockRegistry.SHROOMSOIL_PATH.get())
+                .add(BlockRegistry.WET_MUD.get())
+                .add(BlockRegistry.WET_MUD_FARMLAND.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
+                .addTag(TagRegistry.MEGA_MUSHROOMS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.DANGO_BLOSSOM.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
                 .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
                 .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
 
@@ -1007,6 +2106,20 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(BlockTags.WITHER_IMMUNE)
                 .addTag(TagRegistry.DEATH_BLOCKS)
                 .add(BlockRegistry.BLOCK_SPAWNER.get());
+
+        tag(Tags.Blocks.STRIPPED_LOGS)
+                .add(BlockRegistry.STRIPPED_MUSHROOT_LOG.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get());
+
+        tag(Tags.Blocks.STRIPPED_WOODS)
+                .add(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get())
+                .add(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get());
+
+        tag(TagRegistry.blockTags("c", "glass_blocks/wooden"))
+                .addTag(TagRegistry.WOODEN_WINDOWS);
+
+        tag(TagRegistry.blockTags("c", "glass_panes/wooden"))
+                .addTag(TagRegistry.WOODEN_WINDOW_PANES);
 
         tag(TagRegistry.blockTags("create", "corals"))
                 .addTag(TagRegistry.CORAL_TOWER_BLOCKS)
@@ -1023,6 +2136,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.blockTags("sable", "end_stones"))
                 .add(BlockRegistry.END_STONE_BRICK_PEDESTAL.get())
+                .add(BlockRegistry.END_STONE_BRICK_LOOPHOLE.get())
                 .add(BlockRegistry.END_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.INVISIBLE_END_STONE_QUESTION_BRICKS.get())
                 .add(BlockRegistry.SMASHABLE_END_STONE_BRICKS.get())
@@ -1038,11 +2152,22 @@ public class BlockTagsGen extends BlockTagsProvider {
 
         tag(TagRegistry.blockTags("sable", "heavy"))
                 .add(BlockRegistry.CHISELED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CHISELED_FORTSTONE_BRICKS.get())
                 .add(BlockRegistry.CHISELED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.CRACKED_POLISHED_DEEP_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.CRACKED_POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.CRACKED_POLISHED_FORTSTONE_TILES.get())
                 .add(BlockRegistry.CRACKED_POLISHED_FUNGAL_BRICKS.get())
+                .add(BlockRegistry.HARD_DEEP_FUNGAL_BLOCK.get())
+                .add(BlockRegistry.HARD_FORTSTONE_BLOCK.get())
+                .add(BlockRegistry.HARD_FUNGAL_BLOCK.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.HUGE_POLISHED_FORTSTONE_TILES.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.POLISHED_DEEP_FUNGAL_STONE.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_BRICKS.get())
+                .add(BlockRegistry.POLISHED_FORTSTONE_TILES.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_BRICKS.get())
                 .add(BlockRegistry.POLISHED_FUNGAL_STONE.get());
 
@@ -1056,12 +2181,37 @@ public class BlockTagsGen extends BlockTagsProvider {
         tag(TagRegistry.blockTags("sable", "super_light"));
 
         tag(TagRegistry.blockTags("twilightforest", "portal/decoration"))
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
+                .addTag(TagRegistry.HEDGE_BLOCKS)
+                .addTag(TagRegistry.MEGA_MUSHROOMS)
+                .addTag(TagRegistry.SUPER_MUSHROOMS)
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.get())
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.get())
+                .add(BlockRegistry.SHORT_SHROOMGRASS.get())
+                .add(BlockRegistry.SHROOMGRASS.get())
+                .add(BlockRegistry.SHRUBROOM.get())
+                .add(BlockRegistry.TALL_SHROOMGRASS.get());
 
-        tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"))
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.get())
-                .add(BlockRegistry.DANGO_BLOSSOM.get())
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.get());
+        tag(TagRegistry.blockTags("the_bumblezone", "hanging_garden/allowed_flowers"))
+                .addTag(TagRegistry.HEDGE_ROSE_BLOCKS);
+
+        tag(TagRegistry.blockTags("twilightforest", "portal/edge"))
+                .add(BlockRegistry.DEEP_WET_MUD.get())
+                .add(BlockRegistry.SHROOMSOIL_FARMLAND.get())
+                .add(BlockRegistry.SHROOMSOIL_PATH.get())
+                .add(BlockRegistry.WET_MUD_FARMLAND.get());
+
+        tag(TagRegistry.blockTags("twilightforest", "portal/generated_decoration"));
     }
 }

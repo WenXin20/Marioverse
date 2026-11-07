@@ -106,13 +106,13 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
             .scale(0.75F).withEyeHeight(0.9F);
 
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> ATTACHED_SIDE = SynchedEntityData.defineId(PiranhaPlantEntity.class, EntityDataSerializers.INT);
     public static final int BABY_START_AGE = -24000;
     private static final int FORCED_AGE_PARTICLE_TICKS = 40;
 
     @Nullable private UUID ownerUUID;
     @Nullable private Entity cachedOwner;
     private BlockPos attachedBlockPos;
-    private Direction attachedSide;
     private PiranhaPlantPart[] subEntities;
     public PiranhaPlantPart head;
     private boolean isEmerging;
@@ -172,7 +172,8 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         controllers.add(new AnimationController<>(this, "Idle", 20, this::biteAnimation));
         controllers.add(new AnimationController<>(this, "Squash", 5, this::deathAnimation));
         controllers.add(DefaultAnimations.genericAttackAnimation(this, DefaultAnimations.ATTACK_BITE).transitionLength(1));
-        controllers.add(DefaultAnimations.getSpawnController(this, state -> this, 20));
+        controllers.add(new AnimationController<>(this, "Spawn", 0, state -> this.isAddedToLevel() && this.tickCount <= 20
+                ? state.setAndContinue(DefaultAnimations.SPAWN) : PlayState.STOP));
         controllers.add(new AnimationController<>(this, "eat_controller", 5, state -> PlayState.STOP)
                 .triggerableAnim("eat", DefaultAnimations.ATTACK_BITE));
         controllers.add(new AnimationController<>(this, "emerge_controller", 5, state -> PlayState.CONTINUE)
@@ -250,6 +251,11 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         tag.putInt("ForcedAge", this.forcedAge);
         tag.putString("Variant", this.getVariant());
 
+        if (this.getAttachedSide() != null)
+            tag.putInt("AttachedSide", this.getAttachedSide().get3DDataValue());
+        if (this.attachedBlockPos != null)
+            tag.putLong("AttachedPos", this.attachedBlockPos.asLong());
+
         if (this.ownerUUID != null)
             tag.putUUID("Owner", this.ownerUUID);
         if (this.leftOwner)
@@ -268,6 +274,11 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         if (tag.contains("Variant"))
             this.setVariant(tag.getString("Variant"));
 
+        if (tag.contains("AttachedSide"))
+            this.setAttachedSide(Direction.from3DDataValue(tag.getInt("AttachedSide")));
+        if (tag.contains("AttachedPos"))
+            this.setAttachedBlockPos(BlockPos.of(tag.getLong("AttachedPos")));
+
         if (tag.hasUUID("Owner")) {
             this.ownerUUID = tag.getUUID("Owner");
             this.cachedOwner = null;
@@ -279,12 +290,15 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         super.defineSynchedData(builder);
         builder.define(DATA_BABY_ID, false);
         builder.define(VARIANT, CheepCheepVariants.NORMAL);
+        builder.define(ATTACHED_SIDE, -1);
     }
 
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
         if (DATA_BABY_ID.equals(accessor))
             this.refreshDimensions();
+        if (ATTACHED_SIDE.equals(accessor))
+            this.setBoundingBox(this.makeBoundingBox());
         super.onSyncedDataUpdated(accessor);
     }
 
@@ -314,29 +328,27 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         super.tick();
         this.head.tick();
 
-        if (attachedBlockPos != null) {
-            BlockPos newPos = this.findValidBlockPos();
-            if (this.level().isEmptyBlock(attachedBlockPos)) {
-                this.detachFromBlock();
-            } else if (newPos == null && !this.isHiding()) {
-                this.detachFromBlock();
-            } else if (newPos != null && this.determineAttachmentSide(newPos) != Direction.UP) {
-                this.setNoGravity(true);
-                this.setDeltaMovement(Vec3.ZERO);
+        if (!this.level().isClientSide) {
+            if (attachedBlockPos != null) {
+                BlockPos newPos = this.findValidBlockPos();
+                if (this.level().isEmptyBlock(attachedBlockPos)) {
+                    this.detachFromBlock();
+                } else if (newPos == null && !this.isHiding()) {
+                    this.detachFromBlock();
+                } else if (this.getAttachedSide() != Direction.UP) {
+                    this.setNoGravity(true);
+                    this.setDeltaMovement(Vec3.ZERO);
+                }
+            }
+
+            if (attachedBlockPos == null) {
+                BlockPos newPos = this.findValidBlockPos();
+                if (newPos != null && this.onGround() && this.getAttachedSide() == Direction.UP)
+                    this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
+                else if (newPos != null)
+                    this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
             }
         }
-
-        if (attachedBlockPos == null) {
-            BlockPos newPos = this.findValidBlockPos();
-            if (newPos != null && this.onGround() && this.getAttachedSide() == Direction.UP)
-                this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
-            else if (newPos != null)
-                this.attachToBlock(newPos, this.determineAttachmentSide(newPos));
-        }
-
-        BlockPos newPos = this.findValidBlockPos();
-        if (newPos != null && !newPos.equals(attachedBlockPos))
-            this.setAttachedBlockPos(newPos);
 
         if (!this.leftOwner)
             this.leftOwner = this.checkLeftOwner();
@@ -579,7 +591,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
 
     @Override
     public boolean isPushable() {
-        return true;
+        return this.getAttachedSide() == null;
     }
 
     @Override
@@ -755,17 +767,17 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     }
 
     private void tickPart(PiranhaPlantPart part, double offsetX, double offsetY, double offsetZ) {
-        double height = part.getBbHeight();
-        double width = part.getBbWidth() / 2.0;
-        double heightScale = this.getHeightAttribute();
-        double widthScale = this.getWidthAttribute();
         double scale = this.getScaleAttribute();
+        double halfWidth = 0.5 * this.getWidthAttribute() * scale;
+        double height = this.getHeightAttribute() * scale;
+        double x = this.getX() + offsetX;
+        double y = this.getY() + offsetY;
+        double z = this.getZ() + offsetZ;
 
         if (!this.isBaby()) {
-            part.setPos(this.getX() + offsetX + 0.5, this.getY() + offsetY, this.getZ() + offsetZ + 0.5);
-            part.setBoundingBox(new AABB(this.getX() + offsetX - width, this.getY() + offsetY, this.getZ() + offsetZ - width,
-                    this.getX() + (offsetX + width * widthScale * (scale / 2)), this.getY() + (offsetY + height * heightScale * scale),
-                    this.getZ() + (offsetZ + width * widthScale * (scale / 2))));
+            part.setOldPosAndRot();
+            part.setPos(x, y, z);
+            part.setBoundingBox(new AABB(x - halfWidth, y, z - halfWidth, x + halfWidth, y + height, z + halfWidth));
         }
     }
 
@@ -811,7 +823,8 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     }
 
     public Direction getAttachedSide() {
-        return attachedSide;
+        int side = this.entityData.get(ATTACHED_SIDE);
+        return side < 0 ? null : Direction.from3DDataValue(side);
     }
 
     public BlockState getBlockAttachedTo(Level world) {
@@ -819,7 +832,7 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
     }
 
     public void setAttachedSide(Direction side) {
-        this.attachedSide = side;
+        this.entityData.set(ATTACHED_SIDE, side == null ? -1 : side.get3DDataValue());
     }
 
     public void setAttachedBlockPos(BlockPos pos) {
@@ -1010,5 +1023,35 @@ public class PiranhaPlantEntity extends AgeableMob implements GeoEntity, Traceab
         this.isHiding = isHiding;
         if (this.level().isClientSide)
             PacketDistributor.sendToServer(new PiranhaPlantHidePayload(isHiding, this.getId()));
+    }
+
+    public void attachToClickedFace(BlockPos clickedPos, Direction clickedFace) {
+        if (this.canAttachTo(this.level().getBlockState(clickedPos)))
+            this.attachToBlock(clickedPos, clickedFace);
+        else this.attachToNearestBlock();
+    }
+
+    public void refreshAttachment() {
+        Direction side = this.getAttachedSide();
+        BlockPos supportPos = side == null ? null : this.blockPosition().relative(side.getOpposite());
+
+        if (supportPos != null && this.canAttachTo(this.level().getBlockState(supportPos)))
+            this.attachToBlock(supportPos, side);
+        else {
+            this.detachFromBlock();
+            this.attachToNearestBlock();
+        }
+    }
+
+    private void attachToNearestBlock() {
+        BlockPos validPos = this.findValidBlockPos();
+        if (validPos != null)
+            this.attachToBlock(validPos, this.determineAttachmentSide(validPos));
+    }
+
+    private boolean canAttachTo(BlockState state) {
+        return !state.isAir() && !state.is(TagRegistry.PIRANHA_PLANTS_CANNOT_ATTACH)
+                && (state.is(TagRegistry.WARP_PIPE_BLOCKS) || state.isSolid()
+                        || state.getBlock() instanceof LeavesBlock || state.getBlock() instanceof DirtPathBlock);
     }
 }

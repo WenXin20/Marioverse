@@ -15,6 +15,7 @@ import net.neoforged.neoforge.registries.datamaps.builtin.FurnaceFuel;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 import net.neoforged.neoforge.registries.datamaps.builtin.Oxidizable;
 import net.neoforged.neoforge.registries.datamaps.builtin.ParrotImitation;
+import net.neoforged.neoforge.registries.datamaps.builtin.Strippable;
 import net.neoforged.neoforge.registries.datamaps.builtin.VibrationFrequency;
 import net.neoforged.neoforge.registries.datamaps.builtin.Waxable;
 
@@ -26,37 +27,127 @@ public class DataMapGen extends DataMapProvider {
     @Override
     protected void gather(HolderLookup.Provider provider) {
         builder(NeoForgeDataMaps.COMPOSTABLES)
-                .add(ItemRegistry.PIRANHA_PLANT_POD, new Compostable(0.3F), false)
-                .add(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.BLUE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.DARK_SPOOKROOT_LEAVES.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.MUSHROOT_LEAVES.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.MUSHROOT_SAPLING.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.ORANGE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.PINK_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.PURPLE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.RED_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.SHORT_SHROOMGRASS.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.SHROOMGRASS.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.SPOOKROOT_LEAVES.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.SPOOKROOT_SAPLING.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.WHITE_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+                .add(BlockRegistry.YELLOW_BLOOMFLOWER.asItem().builtInRegistryHolder(), new Compostable(0.3F), false)
+
+                .add(BlockRegistry.TALL_SHROOMGRASS.asItem().builtInRegistryHolder(), new Compostable(0.5F), false)
+                .add(ItemRegistry.PIRANHA_PLANT_POD, new Compostable(0.5F), false)
+
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
                 .add(BlockRegistry.DANGO_BLOSSOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
-                .add(BlockRegistry.RED_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
-                .add(BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
-                .add(BlockRegistry.RED_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false);
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.BLUE_MEGA_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.GREEN_MEGA_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.GREEN_SUPER_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.LIME_MEGA_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.LIME_SUPER_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.ORANGE_MEGA_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.PURPLE_MEGA_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.RED_MEGA_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.RED_SUPER_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.RED_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.GREEN_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.PINK_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.RED_ON_OFF_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.BLUE_ON_OFF_SUPER_MUSHROOM_STEM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.YELLOW_MEGA_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+                .add(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.asItem().builtInRegistryHolder(), new Compostable(0.65F), false)
+
+                .add(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.HEDGE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.PINK_ROSE_HEDGE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.RED_ROSE_HEDGE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.SNOWY_HEDGE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.WHITE_ROSE_HEDGE.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.BLUE_SUPER_MUSHROOM_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.GREEN_SUPER_MUSHROOM_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.LIME_SUPER_MUSHROOM_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.ORANGE_SUPER_MUSHROOM_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.PURPLE_SUPER_MUSHROOM_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.RED_SUPER_MUSHROOM_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false)
+                .add(BlockRegistry.YELLOW_SUPER_MUSHROOM_BLOCK.asItem().builtInRegistryHolder(), new Compostable(0.85F), false);
 
         builder(NeoForgeDataMaps.FURNACE_FUELS)
-                .add(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_ITEMS, new FurnaceFuel(100), false)
-                .add(TagRegistry.FLAMMABLE_WOODEN_BRIDGE_STAIR_ITEMS, new FurnaceFuel(100), false);
+                .add(ItemRegistry.PLASTIC_LAVA_BUCKET, new FurnaceFuel(20000), false)
+                .add(TagRegistry.FLAMMABLE_BRIDGE_ITEMS, new FurnaceFuel(100), false)
+                .add(TagRegistry.FLAMMABLE_BRIDGE_STAIR_ITEMS, new FurnaceFuel(100), false)
+                .add(TagRegistry.FLAMMABLE_HARD_BLOCK_ITEMS, new FurnaceFuel(300), false)
+                .add(TagRegistry.FLAMMABLE_WALL_ITEMS, new FurnaceFuel(300), false)
+                .add(TagRegistry.FLAMMABLE_WINDOW_ITEMS, new FurnaceFuel(150), false)
+                .add(TagRegistry.FLAMMABLE_WINDOW_PANE_ITEMS, new FurnaceFuel(60), false)
+                .remove(BlockRegistry.CRIMSON_PICKET_FENCE_GATE.asItem().builtInRegistryHolder())
+                .remove(BlockRegistry.WARPED_PICKET_FENCE_GATE.asItem().builtInRegistryHolder());
 
         builder(NeoForgeDataMaps.VIBRATION_FREQUENCIES)
                 .add(GameEventRegistry.CHECKPOINT_ACTIVATED, new VibrationFrequency(11), false);
 
         builder(NeoForgeDataMaps.OXIDIZABLES)
+                .add(BlockRegistry.COPPER_SCREW, new Oxidizable(BlockRegistry.EXPOSED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.EXPOSED_COPPER_SCREW, new Oxidizable(BlockRegistry.WEATHERED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.WEATHERED_COPPER_SCREW, new Oxidizable(BlockRegistry.OXIDIZED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.COPPER_BRIDGE, new Oxidizable(BlockRegistry.EXPOSED_COPPER_BRIDGE.get()), false)
+                .add(BlockRegistry.EXPOSED_COPPER_BRIDGE, new Oxidizable(BlockRegistry.WEATHERED_COPPER_BRIDGE.get()), false)
+                .add(BlockRegistry.WEATHERED_COPPER_BRIDGE, new Oxidizable(BlockRegistry.OXIDIZED_COPPER_BRIDGE.get()), false)
+
                 .add(BlockRegistry.CUT_COPPER_PEDESTAL, new Oxidizable(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.SMASHABLE_CUT_COPPER, new Oxidizable(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get()), false)
-                .add(BlockRegistry.STORAGE_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get()), false)
-
+                .add(BlockRegistry.CUT_COPPER_LOOPHOLE, new Oxidizable(BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, new Oxidizable(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, new Oxidizable(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get()), false)
-                .add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get()), false)
-
+                .add(BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE, new Oxidizable(BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, new Oxidizable(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL.get()), false)
+                .add(BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE, new Oxidizable(BlockRegistry.OXIDIZED_CUT_COPPER_LOOPHOLE.get()), false)
+
+                .add(BlockRegistry.COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
+
+                .add(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK, new Oxidizable(BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
+
+                .add(BlockRegistry.SMASHABLE_CUT_COPPER, new Oxidizable(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, new Oxidizable(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER.get()), false)
                 .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, new Oxidizable(BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER.get()), false)
+
+                .add(BlockRegistry.STORAGE_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER.get()), false)
                 .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, new Oxidizable(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER.get()), false);
 
         builder(NeoForgeDataMaps.PARROT_IMITATIONS)
@@ -74,29 +165,49 @@ public class DataMapGen extends DataMapProvider {
                 .add(EntityRegistry.SPLUNKIN, new ParrotImitation(SoundRegistry.PARROT_IMITATES_SPLUNKIN.get()), false)
                 .add(EntityRegistry.SUPER_STAR, new ParrotImitation(SoundRegistry.PARROT_IMITATES_SUPER_STAR.get()), false);
 
+        builder(NeoForgeDataMaps.STRIPPABLES)
+                .add(BlockRegistry.MUSHROOT_LOG, new Strippable(BlockRegistry.STRIPPED_MUSHROOT_LOG.get()), false)
+                .add(BlockRegistry.MUSHROOT_WOOD, new Strippable(BlockRegistry.STRIPPED_MUSHROOT_WOOD.get()), false)
+                .add(BlockRegistry.SPOOKROOT_LOG, new Strippable(BlockRegistry.STRIPPED_SPOOKROOT_LOG.get()), false)
+                .add(BlockRegistry.SPOOKROOT_WOOD, new Strippable(BlockRegistry.STRIPPED_SPOOKROOT_WOOD.get()), false);
+
         builder(NeoForgeDataMaps.WAXABLES)
+                .add(BlockRegistry.COPPER_SCREW, new Waxable(BlockRegistry.WAXED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.EXPOSED_COPPER_SCREW, new Waxable(BlockRegistry.WAXED_EXPOSED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.WEATHERED_COPPER_SCREW, new Waxable(BlockRegistry.WAXED_WEATHERED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.OXIDIZED_COPPER_SCREW, new Waxable(BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW.get()), false)
+                .add(BlockRegistry.COPPER_BRIDGE, new Waxable(BlockRegistry.WAXED_COPPER_BRIDGE.get()), false)
+                .add(BlockRegistry.EXPOSED_COPPER_BRIDGE, new Waxable(BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE.get()), false)
+                .add(BlockRegistry.WEATHERED_COPPER_BRIDGE, new Waxable(BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE.get()), false)
+                .add(BlockRegistry.OXIDIZED_COPPER_BRIDGE, new Waxable(BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE.get()), false)
+
                 .add(BlockRegistry.CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.SMASHABLE_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_CUT_COPPER.get()), false)
-                .add(BlockRegistry.STORAGE_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_CUT_COPPER.get()), false)
-
+                .add(BlockRegistry.CUT_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get()), false)
-                .add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get()), false)
-
+                .add(BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_EXPOSED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL.get()), false)
-                .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
-                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get()), false)
-                .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get()), false)
-
+                .add(BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_WEATHERED_CUT_COPPER_LOOPHOLE.get()), false)
                 .add(BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, new Waxable(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL.get()), false)
+                .add(BlockRegistry.OXIDIZED_CUT_COPPER_LOOPHOLE, new Waxable(BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE.get()), false)
+
+                .add(BlockRegistry.COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.OXIDIZED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
+
+                .add(BlockRegistry.INVISIBLE_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.INVISIBLE_EXPOSED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_EXPOSED_COPPER_QUESTION_BLOCK.get()), false)
+                .add(BlockRegistry.INVISIBLE_WEATHERED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_WEATHERED_COPPER_QUESTION_BLOCK.get()), false)
                 .add(BlockRegistry.INVISIBLE_OXIDIZED_COPPER_QUESTION_BLOCK, new Waxable(BlockRegistry.INVISIBLE_WAXED_OXIDIZED_COPPER_QUESTION_BLOCK.get()), false)
+
+                .add(BlockRegistry.SMASHABLE_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_EXPOSED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.SMASHABLE_WEATHERED_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_WEATHERED_CUT_COPPER.get()), false)
                 .add(BlockRegistry.SMASHABLE_OXIDIZED_CUT_COPPER, new Waxable(BlockRegistry.SMASHABLE_WAXED_OXIDIZED_CUT_COPPER.get()), false)
+
+                .add(BlockRegistry.STORAGE_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER.get()), false)
+                .add(BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER.get()), false)
                 .add(BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER, new Waxable(BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER.get()), false);
     }
 }

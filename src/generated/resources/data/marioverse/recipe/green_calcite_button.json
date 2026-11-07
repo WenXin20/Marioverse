@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "marioverse:green_calcite"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:green_calcite_button"
+  }
+}

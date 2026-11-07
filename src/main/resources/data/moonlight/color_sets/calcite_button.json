@@ -1,0 +1,23 @@
+{
+  "id": "marioverse:calcite_button",
+  "colors": {
+    "default": "marioverse:calcite_button",
+    "white": "marioverse:calcite_button",
+    "orange": "marioverse:orange_calcite_button",
+    "magenta": "marioverse:magenta_calcite_button",
+    "light_blue": "marioverse:light_blue_calcite_button",
+    "yellow": "marioverse:yellow_calcite_button",
+    "lime": "marioverse:lime_calcite_button",
+    "pink": "marioverse:pink_calcite_button",
+    "gray": "marioverse:gray_calcite_button",
+    "light_gray": "marioverse:light_gray_calcite_button",
+    "cyan": "marioverse:cyan_calcite_button",
+    "purple": "marioverse:purple_calcite_button",
+    "blue": "marioverse:blue_calcite_button",
+    "brown": "marioverse:brown_calcite_button",
+    "green": "marioverse:green_calcite_button",
+    "red": "marioverse:red_calcite_button",
+    "black": "marioverse:black_calcite_button"
+  },
+  "replace": true
+}

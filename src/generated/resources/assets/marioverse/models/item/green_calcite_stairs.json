@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "marioverse:block/green_calcite",
+    "side": "marioverse:block/green_calcite",
+    "top": "marioverse:block/green_calcite"
+  }
+}

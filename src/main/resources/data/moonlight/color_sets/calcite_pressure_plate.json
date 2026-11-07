@@ -1,0 +1,23 @@
+{
+  "id": "marioverse:calcite_pressure_plate",
+  "colors": {
+    "default": "marioverse:calcite_pressure_plate",
+    "white": "marioverse:calcite_pressure_plate",
+    "orange": "marioverse:orange_calcite_pressure_plate",
+    "magenta": "marioverse:magenta_calcite_pressure_plate",
+    "light_blue": "marioverse:light_blue_calcite_pressure_plate",
+    "yellow": "marioverse:yellow_calcite_pressure_plate",
+    "lime": "marioverse:lime_calcite_pressure_plate",
+    "pink": "marioverse:pink_calcite_pressure_plate",
+    "gray": "marioverse:gray_calcite_pressure_plate",
+    "light_gray": "marioverse:light_gray_calcite_pressure_plate",
+    "cyan": "marioverse:cyan_calcite_pressure_plate",
+    "purple": "marioverse:purple_calcite_pressure_plate",
+    "blue": "marioverse:blue_calcite_pressure_plate",
+    "brown": "marioverse:brown_calcite_pressure_plate",
+    "green": "marioverse:green_calcite_pressure_plate",
+    "red": "marioverse:red_calcite_pressure_plate",
+    "black": "marioverse:black_calcite_pressure_plate"
+  },
+  "replace": true
+}

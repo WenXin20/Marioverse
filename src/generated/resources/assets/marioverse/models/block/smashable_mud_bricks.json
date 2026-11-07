@@ -1,5 +1,5 @@
 {
-  "parent": "marioverse:block/cube_all_overlay",
+  "parent": "marioverse:block/cube_all_overlay_north_west_mirrored",
   "render_type": "minecraft:cutout_mipped",
   "textures": {
     "all": "minecraft:block/mud_bricks",

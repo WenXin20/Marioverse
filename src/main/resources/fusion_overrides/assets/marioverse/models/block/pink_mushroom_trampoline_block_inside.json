@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/mushroom_block_inside",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "particle": "marioverse:block/pink_mushroom_trampoline_block",
+    "texture": "marioverse:block/pink_mushroom_trampoline_block_inside"
+  },
+  "connections": {
+    "type": "is_same_block"
+  }
+}

@@ -1,5 +1,7 @@
 {
   "values": [
-    "#marioverse:wooden_bridges"
+    "#marioverse:bridges/flammable",
+    "#marioverse:bridges/stone",
+    "#marioverse:bridges/wooden"
   ]
 }

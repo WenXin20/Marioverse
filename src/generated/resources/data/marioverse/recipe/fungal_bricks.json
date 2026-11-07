@@ -1,9 +1,10 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
+  "group": "marioverse:bricks",
   "key": {
     "#": {
-      "item": "marioverse:fungal_stone"
+      "item": "marioverse:fungal_cobblestone"
     }
   },
   "pattern": [

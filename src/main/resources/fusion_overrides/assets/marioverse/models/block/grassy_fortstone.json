@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:block/grass_block",
+  "render_type": "minecraft:cutout_mipped",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/fortstone_top",
+    "side": "marioverse:block/grassy_fortstone",
+    "top": "marioverse:block/grassy_fortstone_top",
+    "overlay": "marioverse:block/grassy_fortstone_overlay",
+    "particle": "#bottom"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" }
+  }
+}

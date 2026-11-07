@@ -1,0 +1,17 @@
+{
+  "textures": {
+    "side": "marioverse:block/shroomgrass_block_side_overlay"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "north": { "texture": "#side", "cullface": "north" },
+        "south": { "texture": "#side", "cullface": "south" },
+        "east": { "texture": "#side", "cullface": "east" },
+        "west": { "texture": "#side", "cullface": "west" }
+      }
+    }
+  ]
+}

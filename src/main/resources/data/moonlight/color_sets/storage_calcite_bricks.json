@@ -1,0 +1,23 @@
+{
+  "id": "marioverse:storage_calcite_bricks",
+  "colors": {
+    "default": "marioverse:storage_white_calcite_bricks",
+    "white": "marioverse:storage_white_calcite_bricks",
+    "orange": "marioverse:storage_orange_calcite_bricks",
+    "magenta": "marioverse:storage_magenta_calcite_bricks",
+    "light_blue": "marioverse:storage_light_blue_calcite_bricks",
+    "yellow": "marioverse:storage_yellow_calcite_bricks",
+    "lime": "marioverse:storage_lime_calcite_bricks",
+    "pink": "marioverse:storage_pink_calcite_bricks",
+    "gray": "marioverse:storage_gray_calcite_bricks",
+    "light_gray": "marioverse:storage_light_gray_calcite_bricks",
+    "cyan": "marioverse:storage_cyan_calcite_bricks",
+    "purple": "marioverse:storage_purple_calcite_bricks",
+    "blue": "marioverse:storage_blue_calcite_bricks",
+    "brown": "marioverse:storage_brown_calcite_bricks",
+    "green": "marioverse:storage_green_calcite_bricks",
+    "red": "marioverse:storage_red_calcite_bricks",
+    "black": "marioverse:storage_black_calcite_bricks"
+  },
+  "replace": true
+}

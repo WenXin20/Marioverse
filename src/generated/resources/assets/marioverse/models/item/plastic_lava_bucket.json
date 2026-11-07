@@ -1,0 +1,11 @@
+{
+  "parent": "neoforge:item/default",
+  "apply_tint": false,
+  "cover_is_mask": false,
+  "fluid": "minecraft:lava",
+  "loader": "neoforge:fluid_container",
+  "textures": {
+    "base": "marioverse:item/plastic_lava_bucket",
+    "fluid": "marioverse:item/mask/plastic_bucket_lava_fluid"
+  }
+}

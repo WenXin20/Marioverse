@@ -37,11 +37,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -177,7 +179,12 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     @Override
     public void tick() {
+        List<Entity> entitiesOnTop = this.getEntitiesOnTop();
+        Vec3 previousPosition = this.position();
+        Vec3 previousVelocity = this.getDeltaMovement();
         super.tick();
+        Vec3 movement = this.position().subtract(previousPosition);
+        this.carryEntitiesOnTop(entitiesOnTop, movement);
         Level world = this.level();
 
         if (!this.leftOwner)
@@ -194,7 +201,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         if (!this.onGround() && this.getTicksInAir() > 0)
             this.setTicksInAir(this.getTicksInAir() - 1);
 
-        if (this.getDeltaMovement().horizontalDistance() > 0.1)
+        if (this.getDeltaMovement().horizontalDistance() > 0.1 || movement.horizontalDistance() > 0.1)
             this.spawnSnowParticles();
 
         if (this.getFrozenEntityData() != null && !this.dimensionsInitialized) {
@@ -228,7 +235,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
         this.collideWithFire(world);
         this.collideWithEntity();
 
-        if (this.horizontalCollision)
+        if (this.horizontalCollision && previousVelocity.horizontalDistance() > 0.1)
             this.shatterIceCube(this, false, true, false);
     }
 
@@ -255,6 +262,12 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             }
         }
         return super.getPickedResult(target);
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.CRAMMING) || source.is(DamageTypes.DROWN)
+                || super.isInvulnerableTo(source);
     }
 
     @Override
@@ -328,8 +341,14 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
     }
 
     @Override
+    protected void doPush(Entity entity) {
+        if (!this.isEntityAbove(entity))
+            super.doPush(entity);
+    }
+
+    @Override
     public void push(Entity entity) {
-        if (!(entity instanceof IceCubeEntity)) {
+        if (!(entity instanceof IceCubeEntity) && !this.isEntityAbove(entity)) {
             if (!entity.noPhysics && !this.noPhysics) {
                 double d0 = entity.getX() - this.getX();
                 double d1 = entity.getZ() - this.getZ();
@@ -353,6 +372,30 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                         entity.push(d0, 0.0, d1);
                 }
             }
+        }
+    }
+
+    @Override
+    public float maxUpStep() {
+        return 0.6F;
+    }
+
+    @Override
+    public void move(MoverType type, Vec3 movement) {
+        int steps = Mth.ceil(movement.horizontalDistance() / 0.25);
+        if (type != MoverType.SELF || steps <= 1) {
+            super.move(type, movement);
+            return;
+        }
+
+        Vec3 velocity = this.getDeltaMovement();
+        Vec3 stepMovement = movement.scale(1.0 / steps);
+
+        for (int i = 0; i < steps; i++) {
+            this.setDeltaMovement(velocity);
+            super.move(type, stepMovement);
+            if (this.horizontalCollision || this.isRemoved())
+                break;
         }
     }
 
@@ -523,6 +566,10 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             float eyeHeightScale = 1.0F;
             float heightScale = 1.0F;
             float widthScale = 1.0F;
+            AABB frozenBox = entity.getBoundingBox();
+            Vec3 frozenBoxCenter = frozenBox.getCenter();
+            float frozenWidth = (float) Math.max(frozenBox.getXsize(), frozenBox.getZsize());
+            float frozenHeight = (float) frozenBox.getYsize();
             this.frozenEntityData = new CompoundTag();
             entity.saveWithoutId(this.frozenEntityData);
             this.frozenEntityData.putUUID("UUID", entity.getUUID());
@@ -558,8 +605,11 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 this.getFrozenEntityData().putFloat("HeadRotation", entity.getYHeadRot());
                 this.getFrozenEntityData().putFloat("Pitch", entity.getXRot());
                 this.getFrozenEntityData().putFloat("EyeHeight", entity.getEyeHeight());
-                this.getFrozenEntityData().putFloat("Height", entity.getBbHeight());
-                this.getFrozenEntityData().putFloat("Width", entity.getBbWidth());
+                this.getFrozenEntityData().putFloat("Height", frozenHeight);
+                this.getFrozenEntityData().putFloat("Width", frozenWidth);
+                this.getFrozenEntityData().putDouble("OffsetX", entity.getX() - frozenBoxCenter.x);
+                this.getFrozenEntityData().putDouble("OffsetY", entity.getY() - frozenBox.minY);
+                this.getFrozenEntityData().putDouble("OffsetZ", entity.getZ() - frozenBoxCenter.z);
                 this.getFrozenEntityData().putFloat("Scale", scale);
                 this.getFrozenEntityData().putFloat("EyeHeightScale", eyeHeightScale);
                 this.getFrozenEntityData().putFloat("HeightScale", heightScale);
@@ -567,8 +617,8 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                 this.entityData.set(FROZEN_DATA, frozenEntityData);
             }
 
-            this.setHeight(entity.getBbHeight());
-            this.setWidth(entity.getBbWidth());
+            this.setHeight(frozenHeight);
+            this.setWidth(frozenWidth);
             this.setEyeHeightScale(eyeHeightScale);
             this.setHeightScale(heightScale);
             this.setWidthScale(widthScale);
@@ -577,7 +627,7 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             if (entity instanceof KoopaTroopaEntity koopa)
                 koopa.hide(koopa.isHiding());
 
-            this.setSize(entity.getBbWidth() * scale * widthScale * 1.55F, entity.getBbHeight() * scale * heightScale * 1.55F);
+            this.setSize(frozenWidth * scale * widthScale * 1.55F, frozenHeight * scale * heightScale * 1.55F);
             if (!(entity instanceof Player))
                 entity.discard();
 
@@ -644,15 +694,22 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
 
     public void shatterIceCube(@Nullable Entity attackingEntity, boolean applyFallDamage, boolean applyCollisionDamage,
                                boolean useWaterParticles) {
+        if (this.level().isClientSide)
+            return;
+
         float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
 
         if (this.getFrozenEntityData() != null && this.level() instanceof ServerLevel serverWorld) {
+            Vec3 frozenOffset = this.getFrozenOffset();
             Entity entity = EntityType.loadEntityRecursive(this.getFrozenEntityData(), serverWorld, (e) -> {
-                e.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
+                e.moveTo(this.getX() + frozenOffset.x, this.getY() + frozenOffset.y, this.getZ() + frozenOffset.z,
+                        this.getYRot(), this.getXRot());
                 return e;
             });
 
             if (entity != null) {
+                if (entity instanceof PiranhaPlantEntity piranhaPlant)
+                    piranhaPlant.refreshAttachment();
                 if (attackingEntity != null)
                     serverWorld.addFreshEntity(entity);
                 if (entity instanceof LivingEntity livingEntity) {
@@ -805,6 +862,54 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
                     entity.setTicksFrozen(ConfigRegistry.ICE_CUBE_FREEZE_DURATION.get());
             }
         }
+    }
+
+    private List<Entity> getEntitiesOnTop() {
+        AABB box = this.getBoundingBox();
+        AABB topBox = new AABB(box.minX, box.maxY - 0.1, box.minZ, box.maxX, box.maxY + 0.1, box.maxZ);
+        return this.level().getEntities(this, topBox, this::isEntityOnTop);
+    }
+
+    private void carryEntitiesOnTop(List<Entity> entities, Vec3 movement) {
+        if (movement.lengthSqr() < 1.0E-7)
+            return;
+
+        for (Entity entity : entities) {
+            boolean controlledLocally = entity instanceof Player player ? player.isLocalPlayer() : !this.level().isClientSide;
+            if (controlledLocally && !entity.isRemoved()) {
+                boolean wasOnGround = entity.onGround();
+                entity.move(MoverType.SHULKER, movement);
+                entity.setOnGround(wasOnGround || entity.onGround());
+            }
+        }
+    }
+
+    public boolean isEntityOnTop(Entity entity) {
+        AABB box = entity.getBoundingBox();
+        AABB iceCubeBox = this.getBoundingBox();
+        double overlapTolerance = 0.1 + Math.abs(this.getY() - this.yo);
+        return entity != this && !entity.isPassenger() && !entity.noPhysics && !entity.isSpectator()
+                && box.minY >= iceCubeBox.maxY - overlapTolerance && box.minY <= iceCubeBox.maxY + 0.1
+                && box.maxX > iceCubeBox.minX && box.minX < iceCubeBox.maxX
+                && box.maxZ > iceCubeBox.minZ && box.minZ < iceCubeBox.maxZ;
+    }
+
+    public boolean isEntityAbove(Entity entity) {
+        return entity.getBoundingBox().minY >= this.getBoundingBox().getCenter().y;
+    }
+
+    public boolean isStill() {
+        return Mth.lengthSquared(this.getX() - this.xo, this.getZ() - this.zo) < 1.0E-6;
+    }
+
+    public static boolean isStandingOnStillIceCube(Entity entity) {
+        if (!entity.onGround())
+            return false;
+
+        AABB box = entity.getBoundingBox();
+        AABB feetBox = new AABB(box.minX, box.minY - 0.1, box.minZ, box.maxX, box.minY + 0.1, box.maxZ);
+        return !entity.level().getEntitiesOfClass(IceCubeEntity.class, feetBox,
+                iceCube -> iceCube.isEntityOnTop(entity) && iceCube.isStill()).isEmpty();
     }
 
     private boolean isOnSolidGround() {
@@ -980,6 +1085,52 @@ public class IceCubeEntity extends Mob implements GeoEntity, TraceableEntity {
             toAttr.setBaseValue(fromAttr.getBaseValue());
             for (AttributeModifier modifier : fromAttr.getModifiers())
                 toAttr.addPermanentModifier(modifier);
+        }
+    }
+
+    public void moveToFrozenEntity(Entity entity) {
+        AABB frozenBox = entity.getBoundingBox();
+        Vec3 frozenBoxCenter = frozenBox.getCenter();
+        this.moveTo(frozenBoxCenter.x, frozenBox.minY, frozenBoxCenter.z, entity.getYRot(), entity.getXRot());
+    }
+
+    public Vec3 getFrozenOffset() {
+        CompoundTag tag = this.getFrozenEntityData();
+        if (tag == null)
+            return Vec3.ZERO;
+        return new Vec3(tag.getDouble("OffsetX"), tag.getDouble("OffsetY"), tag.getDouble("OffsetZ"));
+    }
+
+    public float getFrozenWidth(Entity frozenEntity) {
+        CompoundTag tag = this.getFrozenEntityData();
+        return tag != null && tag.contains("Width") ? tag.getFloat("Width") : frozenEntity.getBbWidth();
+    }
+
+    public float getFrozenHeight(Entity frozenEntity) {
+        CompoundTag tag = this.getFrozenEntityData();
+        return tag != null && tag.contains("Height") ? tag.getFloat("Height") : frozenEntity.getBbHeight();
+    }
+
+    public void applyFrozenRotation(Entity frozenEntity) {
+        CompoundTag tag = this.getFrozenEntityData();
+        if (tag == null)
+            return;
+
+        float yRot = tag.getFloat("BodyRotation");
+        float xRot = tag.getFloat("Pitch");
+        float bodyRot = tag.contains("YBodyRot") ? tag.getFloat("YBodyRot") : yRot;
+        float headRot = tag.contains("HeadRotation") ? tag.getFloat("HeadRotation") : bodyRot;
+
+        frozenEntity.setYRot(yRot);
+        frozenEntity.yRotO = yRot;
+        frozenEntity.setXRot(xRot);
+        frozenEntity.xRotO = xRot;
+
+        if (frozenEntity instanceof LivingEntity livingEntity) {
+            livingEntity.yBodyRot = bodyRot;
+            livingEntity.yBodyRotO = bodyRot;
+            livingEntity.yHeadRot = headRot;
+            livingEntity.yHeadRotO = headRot;
         }
     }
 }

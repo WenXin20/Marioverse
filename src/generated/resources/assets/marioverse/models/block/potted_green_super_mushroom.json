@@ -1,0 +1,7 @@
+{
+  "parent": "marioverse:block/template_potted_super_mushroom",
+  "textures": {
+    "bottom": "marioverse:block/green_super_mushroom_bottom",
+    "main": "marioverse:block/green_super_mushroom"
+  }
+}

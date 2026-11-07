@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:bridges",
+  "key": {
+    "#": {
+      "item": "marioverse:red_sandstone_bricks"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:red_sandstone_bridge"
+  }
+}

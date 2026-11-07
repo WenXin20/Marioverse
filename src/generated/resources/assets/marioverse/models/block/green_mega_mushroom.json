@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_mega_mushroom",
+  "textures": {
+    "bottom": "marioverse:block/green_mega_mushroom_bottom",
+    "main": "marioverse:block/green_mega_mushroom",
+    "particle": "marioverse:block/green_mega_mushroom",
+    "top": "marioverse:block/green_mega_mushroom_top"
+  }
+}

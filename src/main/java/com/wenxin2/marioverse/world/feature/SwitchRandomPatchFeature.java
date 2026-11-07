@@ -1,7 +1,7 @@
 package com.wenxin2.marioverse.world.feature;
 
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.mojang.serialization.Codec;
-import com.wenxin2.marioverse.blocks.OnBlock;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -22,7 +22,7 @@ public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> 
         RandomSource random = context.random();
         BlockPos pos = context.origin();
         WorldGenLevel worldGenLevel = context.level();
-        GlobalSwitchSavedData data = GlobalSwitchSavedData.get(worldGenLevel.getLevel());
+        boolean isActive = GlobalSwitchSavedData.isActiveCached(worldGenLevel.getLevel());
         int placedAmt = 0;
         BlockPos.MutableBlockPos posMutable = new BlockPos.MutableBlockPos();
         int j = patchConfig.xzSpread() + 1;
@@ -36,8 +36,8 @@ public class SwitchRandomPatchFeature extends Feature<RandomPatchConfiguration> 
             if (patchConfig.feature().value().place(worldGenLevel, context.chunkGenerator(), random, posMutable)) {
                 BlockState placedState = worldGenLevel.getBlockState(posMutable);
 
-                if (placedState.hasProperty(OnBlock.ACTIVE))
-                    worldGenLevel.setBlock(posMutable, placedState.setValue(OnBlock.ACTIVE, data.isActive()), 2);
+                if (placedState.hasProperty(BlockStatePropertyRegistry.ACTIVE))
+                    worldGenLevel.setBlock(posMutable, placedState.setValue(BlockStatePropertyRegistry.ACTIVE, isActive), 2);
 
                 placedAmt++;
             }

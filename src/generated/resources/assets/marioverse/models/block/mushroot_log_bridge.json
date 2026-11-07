@@ -1,0 +1,9 @@
+{
+  "parent": "marioverse:block/template_log_bridge",
+  "textures": {
+    "rope": "marioverse:block/bridge_rope",
+    "rope_side": "marioverse:block/bridge_rope_side",
+    "side": "marioverse:block/mushroot_log",
+    "top": "marioverse:block/mushroot_log_top"
+  }
+}

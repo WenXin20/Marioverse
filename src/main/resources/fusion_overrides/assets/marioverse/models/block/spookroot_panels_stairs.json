@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:block/stairs",
+  "loader": "fusion:model",
+  "type": "connecting",
+  "textures": {
+    "bottom": "marioverse:block/spookroot_panels",
+    "side": "marioverse:block/spookroot_panels",
+    "top": "marioverse:block/spookroot_panels"
+  },
+  "connections": {
+    "default": { "type": "is_same_block" },
+    "bottom": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:spookroot_panels" },
+        { "type": "match_block", "block": "marioverse:spookroot_panel_slab" },
+        { "type": "match_block", "block": "marioverse:spookroot_panel_wall" }
+      ]
+    },
+    "side": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:spookroot_panels" },
+        { "type": "match_block", "block": "marioverse:spookroot_panel_slab" },
+        { "type": "match_block", "block": "marioverse:spookroot_panel_wall" }
+      ]
+    },
+    "top": {
+      "type": "or",
+      "predicates": [
+        { "type": "match_block", "block": "marioverse:spookroot_panels" },
+        { "type": "match_block", "block": "marioverse:spookroot_panel_slab" },
+        { "type": "match_block", "block": "marioverse:spookroot_panel_wall" }
+      ]
+    }
+  }
+}

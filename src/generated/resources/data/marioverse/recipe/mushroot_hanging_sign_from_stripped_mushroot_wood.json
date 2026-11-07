@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "marioverse:hanging_signs",
+  "key": {
+    "#": {
+      "item": "marioverse:stripped_mushroot_wood"
+    },
+    "C": {
+      "tag": "c:chains"
+    }
+  },
+  "pattern": [
+    "C C",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "marioverse:mushroot_hanging_sign"
+  }
+}

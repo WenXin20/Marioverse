@@ -1,17 +1,38 @@
 package com.wenxin2.marioverse.integration;
 
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
+import com.wenxin2.marioverse.integration.sable_compat.SubLevelLocationSavedData;
+import com.wenxin2.marioverse.integration.sable_compat.SubLevelWarpHandler;
+import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
 import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
 import dev.ryanhcode.sable.api.sublevel.SubLevelContainer;
+import dev.ryanhcode.sable.api.sublevel.SubLevelObserver;
 import dev.ryanhcode.sable.companion.SableCompanion;
 import dev.ryanhcode.sable.companion.SubLevelAccess;
+import dev.ryanhcode.sable.companion.math.BoundingBox3d;
 import dev.ryanhcode.sable.companion.math.BoundingBox3dc;
 import dev.ryanhcode.sable.companion.math.Pose3dc;
+import dev.ryanhcode.sable.neoforge.event.ForgeSableSubLevelContainerReadyEvent;
 import dev.ryanhcode.sable.sublevel.SubLevel;
+import dev.ryanhcode.sable.sublevel.plot.LevelPlot;
+import dev.ryanhcode.sable.sublevel.storage.SubLevelRemovalReason;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.WeakHashMap;
+import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.TicketType;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -20,15 +41,67 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForge;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 public class SableCompat {
-    private static final Map<SubLevel, SableProvider.SafeAccessor> ACCESSOR_CACHE = new WeakHashMap<>();
+    private static final Map<SubLevel, SableProvider.SafeAccessor> ACCESSOR_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
+    private static final TicketType<ChunkPos> WARP_TICKET = TicketType.create("marioverse_warp", Comparator.comparingLong(ChunkPos::toLong), 400);
+    private static final Map<Integer, PendingWarp> PENDING_WARPS = new HashMap<>();
+    private static final int PENDING_WARP_TIMEOUT = 300;
+    private static final int MAX_TICKETED_CHUNKS = 256;
+    private static final int LOCATION_UPDATE_INTERVAL = 100;
+
+    private record PendingWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Predicate<BlockPos> isReady,
+                               Runnable onLoaded, long deadline) {}
+
+    private static final SubLevelObserver LOCATION_OBSERVER = new SubLevelObserver() {
+        @Override
+        public void onSubLevelAdded(SubLevel sub) {
+            if (sub.getLevel() instanceof ServerLevel level)
+                SubLevelLocationSavedData.get(level).setLocation(sub.getUniqueId(), SableCompat.getChunkBounds(sub));
+        }
+
+        @Override
+        public void onSubLevelRemoved(SubLevel sub, SubLevelRemovalReason reason) {
+            if (sub.getLevel() instanceof ServerLevel level) {
+                SubLevelLocationSavedData data = SubLevelLocationSavedData.get(level);
+
+                if (reason == SubLevelRemovalReason.UNLOADED)
+                    data.setLocation(sub.getUniqueId(), SableCompat.getChunkBounds(sub));
+                else data.removeLocation(sub.getUniqueId());
+            }
+        }
+
+        @Override
+        public void tick(SubLevelContainer container) {
+            if (container instanceof ServerSubLevelContainer serverContainer) {
+                ServerLevel level = serverContainer.getLevel();
+
+                if (level.getGameTime() % LOCATION_UPDATE_INTERVAL == 0) {
+                    SubLevelLocationSavedData data = SubLevelLocationSavedData.get(level);
+                    for (SubLevel sub : serverContainer.getAllSubLevels())
+                        data.setLocation(sub.getUniqueId(), SableCompat.getChunkBounds(sub));
+                }
+
+                SableCompat.processPendingWarps(level);
+                SubLevelWarpHandler.tick(serverContainer);
+            }
+        }
+    };
 
     public static void init() {
+        NeoForge.EVENT_BUS.addListener(SableCompat::onContainerReady);
+
         SableProvider.set((level, entity) -> {
             if (entity == null)
                 return null;
+
+            SubLevelContainer container = SubLevelContainer.getContainer(level);
+            if (container == null || container.getLoadedCount() == 0)
+                return null;
+
             SubLevelAccess access = SableCompanion.INSTANCE.getContaining(entity);
             if (!(access instanceof SubLevel))
                 access = SableCompanion.INSTANCE.getLastTrackingSubLevel(entity);
@@ -40,25 +113,152 @@ public class SableCompat {
                     return buildContext(entity, sub);
             }
 
-            SubLevelContainer container = SubLevelContainer.getContainer(level);
-
             if (!level.isClientSide && container instanceof ServerSubLevelContainer) {
-                AABB entityBox = entity.getBoundingBox();
-
-                for (SubLevel sub : container.getAllSubLevels()) {
-                    BoundingBox3dc bb = sub.boundingBox();
-
-                    if (entityBox.maxX > bb.minX() && entityBox.minX < bb.maxX()
-                            && entityBox.maxY > bb.minY() && entityBox.minY < bb.maxY()
-                            && entityBox.maxZ > bb.minZ() && entityBox.minZ < bb.maxZ()) {
-
+                for (SubLevel sub : container.queryIntersecting(new BoundingBox3d(entity.getBoundingBox()))) {
+                    if (isInsideSublevel(entity, sub))
                         return buildContext(entity, sub);
-                    }
                 }
             }
 
             return null;
         });
+
+        SableProvider.setWarpResolver(new SableProvider.WarpResolver() {
+            @Override
+            public SableProvider.SubLevelAnchor getAnchor(Level level, BlockPos pos) {
+                SubLevelContainer container = SubLevelContainer.getContainer(level);
+
+                if (container == null || !container.inBounds(pos))
+                    return null;
+
+                LevelPlot plot = container.getPlot(new ChunkPos(pos));
+                if (plot == null || plot.getSubLevel() == null)
+                    return null;
+                return new SableProvider.SubLevelAnchor(plot.getSubLevel().getUniqueId(), pos.subtract(plot.getCenterBlock()));
+            }
+
+            @Override
+            public boolean isPlotPos(Level level, BlockPos pos) {
+                SubLevelContainer container = SubLevelContainer.getContainer(level);
+                return container != null && container.inBounds(pos);
+            }
+
+            @Override
+            public BlockPos resolve(Level level, UUID subLevel, BlockPos localPos) {
+                return SableCompat.resolveSubLevelPos(level, subLevel, localPos);
+            }
+
+            @Override
+            public boolean queueWarp(ServerLevel level, UUID subLevel, BlockPos localPos, Entity entity, Predicate<BlockPos> isReady, Runnable onLoaded) {
+                if (PENDING_WARPS.containsKey(entity.getId()))
+                    return true;
+
+                if (!this.requestSubLevelLoad(level, subLevel))
+                    return false;
+
+                PENDING_WARPS.put(entity.getId(), new PendingWarp(level, subLevel, localPos, entity, isReady, onLoaded,
+                        level.getGameTime() + PENDING_WARP_TIMEOUT));
+                return true;
+            }
+
+            @Override
+            public boolean requestSubLevelLoad(ServerLevel level, UUID subLevel) {
+                SubLevelLocationSavedData.ChunkBounds bounds = SubLevelLocationSavedData.get(level).getLocation(subLevel);
+                if (bounds == null)
+                    return false;
+
+                int ticketedChunks = 0;
+                for (int chunkX = bounds.minX(); chunkX <= bounds.maxX(); chunkX++) {
+                    for (int chunkZ = bounds.minZ(); chunkZ <= bounds.maxZ() && ticketedChunks < MAX_TICKETED_CHUNKS; chunkZ++) {
+                        ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
+                        level.getChunkSource().addRegionTicket(WARP_TICKET, chunkPos, 2, chunkPos);
+                        ticketedChunks++;
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            public BlockPos toWorldPos(Level level, BlockPos pos) {
+                SubLevelContainer container = SubLevelContainer.getContainer(level);
+
+                if (container == null || !container.inBounds(pos))
+                    return pos;
+
+                LevelPlot plot = container.getPlot(new ChunkPos(pos));
+                if (plot == null || plot.getSubLevel() == null)
+                    return null;
+
+                Vector3d worldPos = plot.getSubLevel().logicalPose().transformPosition(new Vector3d(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+                return BlockPos.containing(worldPos.x, worldPos.y, worldPos.z);
+            }
+
+            @Override
+            public void recordEntityAnchor(Entity entity) {
+                if (entity.level() instanceof ServerLevel level) {
+                    SableProvider.SubLevelAnchor anchor = this.getAnchor(level, entity.blockPosition());
+
+                    if (anchor != null || !this.isPlotPos(level, entity.blockPosition()))
+                        SubLevelLocationSavedData.get(level).setEntityAnchor(entity.getUUID(), anchor);
+                }
+            }
+
+            @Override
+            public SableProvider.SubLevelAnchor getEntityAnchor(Level level, UUID entity) {
+                return level instanceof ServerLevel serverLevel ? SubLevelLocationSavedData.get(serverLevel).getEntityAnchor(entity) : null;
+            }
+
+            @Override
+            public Vec3 toWorldVec(Level level, Vec3 pos) {
+                SubLevelContainer container = SubLevelContainer.getContainer(level);
+                BlockPos blockPos = BlockPos.containing(pos);
+
+                if (container == null || !container.inBounds(blockPos))
+                    return pos;
+
+                LevelPlot plot = container.getPlot(new ChunkPos(blockPos));
+                if (plot == null || plot.getSubLevel() == null)
+                    return null;
+
+                Vector3d worldPos = plot.getSubLevel().logicalPose().transformPosition(new Vector3d(pos.x, pos.y, pos.z));
+                return new Vec3(worldPos.x, worldPos.y, worldPos.z);
+            }
+
+            @Override
+            public Vec3 toLocalVec(Level level, BlockPos plotPos, Vec3 worldPos) {
+                SubLevel sub = SableCompat.getPlotSubLevel(level, plotPos);
+                if (sub == null)
+                    return SableCompat.isOutsidePlots(level, plotPos) ? worldPos : null;
+
+                Vector3d localPos = sub.logicalPose().transformPositionInverse(new Vector3d(worldPos.x, worldPos.y, worldPos.z));
+                return new Vec3(localPos.x, localPos.y, localPos.z);
+            }
+
+            @Override
+            public Vec3 toWorldDirection(Level level, BlockPos plotPos, Vec3 localDirection) {
+                SubLevel sub = SableCompat.getPlotSubLevel(level, plotPos);
+                if (sub == null)
+                    return localDirection;
+
+                Vector3d direction = sub.logicalPose().orientation().transform(new Vector3d(localDirection.x, localDirection.y, localDirection.z));
+                return new Vec3(direction.x, direction.y, direction.z);
+            }
+
+            @Override
+            public Vec3 toLocalDirection(Level level, BlockPos plotPos, Vec3 worldDirection) {
+                SubLevel sub = SableCompat.getPlotSubLevel(level, plotPos);
+                if (sub == null)
+                    return worldDirection;
+
+                Vector3d direction = sub.logicalPose().orientation().transformInverse(new Vector3d(worldDirection.x, worldDirection.y, worldDirection.z));
+                return new Vec3(direction.x, direction.y, direction.z);
+            }
+        });
+    }
+
+    private static void onContainerReady(ForgeSableSubLevelContainerReadyEvent event) {
+        if (event.getContainer() instanceof ServerSubLevelContainer container)
+            container.addObserver(LOCATION_OBSERVER);
     }
 
     private static SableProvider.SableContext buildContext(Entity entity, SubLevel sub) {
@@ -141,5 +341,71 @@ public class SableCompat {
         return entityBox.maxX > bb.minX() && entityBox.minX < bb.maxX()
                 && entityBox.maxY > bb.minY() && entityBox.minY < bb.maxY()
                 && entityBox.maxZ > bb.minZ() && entityBox.minZ < bb.maxZ();
+    }
+
+    @Nullable
+    private static SubLevel getPlotSubLevel(Level level, BlockPos plotPos) {
+        SubLevelContainer container = SubLevelContainer.getContainer(level);
+        if (container == null || !container.inBounds(plotPos))
+            return null;
+
+        LevelPlot plot = container.getPlot(new ChunkPos(plotPos));
+        return plot == null ? null : plot.getSubLevel();
+    }
+
+    private static boolean isOutsidePlots(Level level, BlockPos pos) {
+        SubLevelContainer container = SubLevelContainer.getContainer(level);
+        return container == null || !container.inBounds(pos);
+    }
+
+    private static SubLevelLocationSavedData.ChunkBounds getChunkBounds(SubLevel sub) {
+        BoundingBox3dc bb = sub.boundingBox();
+        return new SubLevelLocationSavedData.ChunkBounds(Mth.floor(bb.minX() - 1.0) >> 4, Mth.floor(bb.minZ() - 1.0) >> 4,
+                Mth.floor(bb.maxX() + 1.0) >> 4, Mth.floor(bb.maxZ() + 1.0) >> 4);
+    }
+
+    private static BlockPos resolveSubLevelPos(Level level, UUID subLevel, BlockPos localPos) {
+        SubLevelContainer container = SubLevelContainer.getContainer(level);
+        if (container == null)
+            return null;
+
+        SubLevel sub = container.getSubLevel(subLevel);
+        if (sub == null || sub.isRemoved())
+            return null;
+        return sub.getPlot().getCenterBlock().offset(localPos);
+    }
+
+    private static void processPendingWarps(ServerLevel level) {
+        if (PENDING_WARPS.isEmpty())
+            return;
+
+        List<PendingWarp> readyWarps = new ArrayList<>();
+        Iterator<PendingWarp> iterator = PENDING_WARPS.values().iterator();
+
+        while (iterator.hasNext()) {
+            PendingWarp warp = iterator.next();
+
+            if (warp.level() != level)
+                continue;
+
+            if (warp.entity().isRemoved() || warp.entity().level() != level) {
+                iterator.remove();
+                continue;
+            }
+
+            BlockPos resolvedPos = SableCompat.resolveSubLevelPos(level, warp.subLevel(), warp.localPos());
+
+            if (resolvedPos != null && warp.isReady().test(resolvedPos)) {
+                iterator.remove();
+                readyWarps.add(warp);
+            } else if (level.getGameTime() > warp.deadline()) {
+                iterator.remove();
+                if (warp.entity() instanceof Player player)
+                    BlockWarpEntityHandler.displayDestinationMissingMessage(player);
+            }
+        }
+
+        for (PendingWarp warp : readyWarps)
+            warp.onLoaded().run();
     }
 }

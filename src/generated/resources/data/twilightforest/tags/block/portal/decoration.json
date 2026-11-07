@@ -1,6 +1,25 @@
 {
   "values": [
-    "marioverse:blue_trampoline_cap",
-    "marioverse:red_trampoline_cap"
+    "#marioverse:hedges",
+    "#marioverse:mega_mushrooms",
+    "#marioverse:super_mushrooms",
+    "marioverse:blue_on_off_mushroom_trampoline_cap",
+    "marioverse:blue_on_off_mega_mushroom_trampoline",
+    "marioverse:blue_on_off_mushroom_trampoline",
+    "marioverse:scarlet_mega_mushroom_trampoline",
+    "marioverse:orange_mega_mushroom_trampoline",
+    "marioverse:light_blue_mega_mushroom_trampoline",
+    "marioverse:pink_mega_mushroom_trampoline",
+    "marioverse:scarlet_mushroom_trampoline",
+    "marioverse:orange_mushroom_trampoline",
+    "marioverse:light_blue_mushroom_trampoline",
+    "marioverse:pink_mushroom_trampoline",
+    "marioverse:red_on_off_mega_mushroom_trampoline",
+    "marioverse:red_on_off_mushroom_trampoline",
+    "marioverse:red_on_off_mushroom_trampoline_cap",
+    "marioverse:short_shroomgrass",
+    "marioverse:shroomgrass",
+    "marioverse:shrubroom",
+    "marioverse:tall_shroomgrass"
   ]
 }

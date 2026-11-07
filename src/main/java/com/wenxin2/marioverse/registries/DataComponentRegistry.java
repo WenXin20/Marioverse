@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.registries;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.power_up.PowerUpType;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -16,6 +17,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.DyeColor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DataComponentRegistry {
@@ -45,6 +48,12 @@ public class DataComponentRegistry {
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> UNDYING_CHARM =
             Marioverse.COMPONENTS.register("undying_charm", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> GLOWING =
+            Marioverse.COMPONENTS.register("glowing", () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> WAXED =
+            Marioverse.COMPONENTS.register("waxed", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> LINKED_POS =
@@ -97,6 +106,17 @@ public class DataComponentRegistry {
             Marioverse.COMPONENTS.register("pos_z", () -> DataComponentType.<Integer>builder()
                     .persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build());
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ArrowDirection>> ARROW_SIGN_DIRECTION =
+            Marioverse.COMPONENTS.register("arrow_sign_direction", () -> DataComponentType.<ArrowDirection>builder()
+                    .persistent(StringRepresentable.fromEnum(ArrowDirection::values))
+                    .networkSynchronized(ByteBufCodecs.idMapper(i -> ArrowDirection.values()[i], ArrowDirection::ordinal))
+                    .build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<DyeColor>> DYE_COLOR =
+            Marioverse.COMPONENTS.register("dye_color", () -> DataComponentType.<DyeColor>builder()
+                    .persistent(DyeColor.CODEC).networkSynchronized(DyeColor.STREAM_CODEC)
+                    .build());
+
     public static final Supplier<DataComponentType<Holder<PowerUpType>>> POWER_UP_TYPE =
             Marioverse.COMPONENTS.register("power_up_type", () -> DataComponentType.<Holder<PowerUpType>>builder()
                     .persistent(Marioverse.POWER_UP_REGISTRY.holderByNameCodec())
@@ -106,6 +126,10 @@ public class DataComponentRegistry {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_BLOCK =
             Marioverse.COMPONENTS.register("warp_block", () -> DataComponentType.<WarpTarget>builder()
                     .persistent(WarpTarget.CODEC).networkSynchronized(WarpTarget.STREAM_CODEC).build());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> WARP_BLOCK_TYPE =
+            Marioverse.COMPONENTS.register("warp_block_type", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WarpTarget>> WARP_ENTITY =
             Marioverse.COMPONENTS.register("warp_entity", () -> DataComponentType.<WarpTarget>builder()

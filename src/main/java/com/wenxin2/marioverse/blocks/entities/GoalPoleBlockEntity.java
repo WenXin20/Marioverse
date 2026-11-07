@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.network.client_bound.data.AmericaNamePayload;
 import com.wenxin2.marioverse.network.client_bound.data.WonderNamePayload;
 import java.util.Locale;
 import javax.annotation.Nullable;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
@@ -17,6 +18,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -42,6 +44,16 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     protected static final RawAnimation WINDY_RAIN = RawAnimation.begin().thenLoop("animation.goal_pole.windy_rain");
     protected static final RawAnimation WINDY_THUNDER = RawAnimation.begin().thenLoop("animation.goal_pole.windy_thunder");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    public static final int FLAG_DISAPPEAR_TICKS = 10;
+    public static final int FLAG_APPEAR_TICKS = 10;
+    public static final float FLAG_RISE_TICKS_PER_BLOCK = 4.0F;
+    private static final long MILLIS_PER_TICK = 50L;
+    private static final long MAX_SYNCED_ELAPSED_TICKS = 1_000_000L;
+    private static final long FLAG_RESYNC_TICKS = 10L;
+    private static final float[] DISAPPEAR_TIMES = {0.0F, 0.25F, 0.6667F, 1.0F};
+    private static final float[] DISAPPEAR_SCALES = {1.0F, 1.1875F, 0.7F, 0.0F};
+    private static final float[] APPEAR_TIMES = {0.0F, 0.3333F, 0.6667F, 0.9167F};
+    private static final float[] APPEAR_SCALES = {0.0F, 0.7F, 1.1875F, 1.0F};
 
     private static final Component DEFAULT_NAME = Component.translatable("menu.marioverse.goal_pole");
     public static final String CUSTOM_NAME = "CustomName";
@@ -51,6 +63,18 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     private boolean playedDisappearAnim;
     private boolean renderWonderFlag;
     private boolean renderAmericanFlag;
+    private long flagAnimStart = Long.MIN_VALUE / 2;
+    private float flagPreFrom;
+    private float flagSwapOffset;
+    private float flagFrom;
+    private float flagTo;
+    private boolean flagSwap;
+    private boolean flagSwapToLowered;
+    private boolean pendingSwapPoof;
+    private long clientFlagAnimStart = Util.getMillis() - MAX_SYNCED_ELAPSED_TICKS * MILLIS_PER_TICK;
+    private int clientFlagAnimId;
+    private int soundedFlagAnimId;
+    private int soundedFlagPhases;
 
     public GoalPoleBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegistry.GOAL_POLE_BLOCK_ENTITY.get(), pos, state);
@@ -91,10 +115,7 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
-        tag.putBoolean("playedAppearAnim", this.playedAppearAnim);
-        tag.putBoolean("playedDisappearAnim", this.playedDisappearAnim);
-        tag.putBoolean("renderWonderFlag", this.renderWonderFlag);
-        tag.putBoolean("renderAmericanFlag", this.renderAmericanFlag);
+        this.writeSyncedData(tag);
 
         if (this.name != null) {
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
@@ -112,6 +133,27 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
         this.playedDisappearAnim = tag.getBoolean("playedDisappearAnim");
         this.renderWonderFlag = tag.getBoolean("renderWonderFlag");
         this.renderAmericanFlag = tag.getBoolean("renderAmericanFlag");
+        boolean sameFlagAnimation = this.flagSwap == tag.getBoolean("flagSwap")
+                && this.flagSwapToLowered == tag.getBoolean("flagSwapToLowered")
+                && GoalPoleBlockEntity.isCloseOffset(this.flagPreFrom, tag.getFloat("flagPreFrom"))
+                && GoalPoleBlockEntity.isCloseOffset(this.flagSwapOffset, tag.getFloat("flagSwapOffset"))
+                && GoalPoleBlockEntity.isCloseOffset(this.flagFrom, tag.getFloat("flagFrom"))
+                && GoalPoleBlockEntity.isCloseOffset(this.flagTo, tag.getFloat("flagTo"));
+        if (tag.contains("flagAnimStart"))
+            this.flagAnimStart = tag.getLong("flagAnimStart");
+        this.flagPreFrom = tag.getFloat("flagPreFrom");
+        this.flagSwapOffset = tag.getFloat("flagSwapOffset");
+        this.flagFrom = tag.getFloat("flagFrom");
+        this.flagTo = tag.getFloat("flagTo");
+        this.flagSwap = tag.getBoolean("flagSwap");
+        this.flagSwapToLowered = tag.getBoolean("flagSwapToLowered");
+        if (tag.contains("flagElapsedAtSync")) {
+            long syncedStart = Util.getMillis() - tag.getLong("flagElapsedAtSync") * MILLIS_PER_TICK;
+            if (!sameFlagAnimation)
+                this.clientFlagAnimId++;
+            if (!sameFlagAnimation || Math.abs(syncedStart - this.clientFlagAnimStart) > FLAG_RESYNC_TICKS * MILLIS_PER_TICK)
+                this.clientFlagAnimStart = syncedStart;
+        }
 
         if (tag.contains(CUSTOM_NAME, 8)) {
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
@@ -138,6 +180,16 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @NotNull
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+        CompoundTag tag = new CompoundTag();
+        this.writeSyncedData(tag);
+        if (this.level != null)
+            tag.putLong("flagElapsedAtSync", Mth.clamp(this.level.getGameTime() - this.flagAnimStart, 0L, MAX_SYNCED_ELAPSED_TICKS));
+        return tag;
     }
 
     @Override
@@ -271,5 +323,169 @@ public class GoalPoleBlockEntity extends BlockEntity implements GeoBlockEntity, 
 
     public boolean hasAmericanFlag() {
         return this.renderAmericanFlag;
+    }
+
+    public void startFlagSwap(long gameTime, boolean swapToLowered, float preFrom, float swapOffset, float from, float to) {
+        this.flagSwapToLowered = swapToLowered;
+        this.startFlagAnimation(gameTime, true, preFrom, swapOffset, from, to);
+    }
+
+    public void startFlagMove(long gameTime, float from, float to) {
+        this.startFlagAnimation(gameTime, false, from, from, from, to);
+    }
+
+    public float getFlagMaxOffset() {
+        return Math.max(Math.max(this.flagPreFrom, this.flagSwapOffset), Math.max(this.flagFrom, this.flagTo));
+    }
+
+    public float getFlagElapsed(float partialTick) {
+        if (this.level == null)
+            return Float.MAX_VALUE;
+        if (this.level.isClientSide())
+            return (float) ((double) (Util.getMillis() - this.clientFlagAnimStart) / MILLIS_PER_TICK);
+        return (float) (this.level.getGameTime() - this.flagAnimStart) + partialTick;
+    }
+
+    public float getFlagPreMoveTicks() {
+        if (!this.flagSwap || this.flagPreFrom == this.flagSwapOffset)
+            return 0.0F;
+        return GoalPoleBlockEntity.getMoveTicks(this.flagPreFrom, this.flagSwapOffset);
+    }
+
+    public boolean showsLoweredFlag(boolean lowered) {
+        if (!this.flagSwap)
+            return lowered;
+        return this.isSwappingOutFlag(0.0F) != this.flagSwapToLowered;
+    }
+
+    public float getFlagMainMoveStart() {
+        return this.flagSwap ? this.getFlagPreMoveTicks() + FLAG_DISAPPEAR_TICKS + FLAG_APPEAR_TICKS : 0.0F;
+    }
+
+    public float getFlagMainMoveTicks() {
+        if (this.flagFrom == this.flagTo)
+            return 0.0F;
+        return GoalPoleBlockEntity.getMoveTicks(this.flagFrom, this.flagTo);
+    }
+
+    public boolean isFlagPreMoveLowering() {
+        return this.flagSwapOffset > this.flagPreFrom;
+    }
+
+    public boolean isFlagMainMoveLowering() {
+        return this.flagTo > this.flagFrom;
+    }
+
+    public boolean isFlagResetting() {
+        return this.flagSwap ? !this.flagSwapToLowered : this.flagTo < this.flagFrom;
+    }
+
+    public int getClientFlagAnimId() {
+        return this.clientFlagAnimId;
+    }
+
+    public boolean claimFlagSoundPhase(int phase) {
+        if (this.soundedFlagAnimId != this.clientFlagAnimId) {
+            this.soundedFlagAnimId = this.clientFlagAnimId;
+            this.soundedFlagPhases = 0;
+        }
+        int bit = 1 << phase;
+        if ((this.soundedFlagPhases & bit) != 0)
+            return false;
+        this.soundedFlagPhases |= bit;
+        return true;
+    }
+
+    public boolean isSwappingOutFlag(float partialTick) {
+        return this.flagSwap && this.getFlagElapsed(partialTick) < this.getFlagPreMoveTicks() + FLAG_DISAPPEAR_TICKS;
+    }
+
+    public float getFlagOffset(float partialTick) {
+        float elapsed = this.getFlagElapsed(partialTick);
+        if (!this.flagSwap)
+            return GoalPoleBlockEntity.getMovedOffset(this.flagFrom, this.flagTo, elapsed);
+
+        float preMoveTicks = this.getFlagPreMoveTicks();
+        if (elapsed < preMoveTicks)
+            return GoalPoleBlockEntity.getMovedOffset(this.flagPreFrom, this.flagSwapOffset, elapsed);
+        if (elapsed < preMoveTicks + FLAG_DISAPPEAR_TICKS)
+            return this.flagSwapOffset;
+        return GoalPoleBlockEntity.getMovedOffset(this.flagFrom, this.flagTo,
+                elapsed - preMoveTicks - FLAG_DISAPPEAR_TICKS - FLAG_APPEAR_TICKS);
+    }
+
+    public float getFlagScale(float partialTick) {
+        if (!this.flagSwap)
+            return 1.0F;
+        float elapsed = this.getFlagElapsed(partialTick) - this.getFlagPreMoveTicks();
+        if (elapsed < 0.0F)
+            return 1.0F;
+        if (elapsed < FLAG_DISAPPEAR_TICKS)
+            return GoalPoleBlockEntity.sampleKeyframes(DISAPPEAR_TIMES, DISAPPEAR_SCALES, elapsed / FLAG_DISAPPEAR_TICKS);
+        if (elapsed < FLAG_DISAPPEAR_TICKS + FLAG_APPEAR_TICKS)
+            return GoalPoleBlockEntity.sampleKeyframes(APPEAR_TIMES, APPEAR_SCALES, (elapsed - FLAG_DISAPPEAR_TICKS) / FLAG_APPEAR_TICKS);
+        return 1.0F;
+    }
+
+    public void setPendingSwapPoof(boolean pendingSwapPoof) {
+        this.pendingSwapPoof = pendingSwapPoof;
+    }
+
+    public boolean hasPendingSwapPoof() {
+        return this.pendingSwapPoof;
+    }
+
+    private void startFlagAnimation(long gameTime, boolean swap, float preFrom, float swapOffset, float from, float to) {
+        this.flagAnimStart = gameTime;
+        this.clientFlagAnimStart = Util.getMillis();
+        this.clientFlagAnimId++;
+        this.flagSwap = swap;
+        this.flagPreFrom = Math.max(preFrom, 0.0F);
+        this.flagSwapOffset = Math.max(swapOffset, 0.0F);
+        this.flagFrom = Math.max(from, 0.0F);
+        this.flagTo = Math.max(to, 0.0F);
+        this.pendingSwapPoof = false;
+        this.markUpdated();
+    }
+
+    private void writeSyncedData(CompoundTag tag) {
+        tag.putBoolean("playedAppearAnim", this.playedAppearAnim);
+        tag.putBoolean("playedDisappearAnim", this.playedDisappearAnim);
+        tag.putBoolean("renderWonderFlag", this.renderWonderFlag);
+        tag.putBoolean("renderAmericanFlag", this.renderAmericanFlag);
+        tag.putLong("flagAnimStart", this.flagAnimStart);
+        tag.putFloat("flagPreFrom", this.flagPreFrom);
+        tag.putFloat("flagSwapOffset", this.flagSwapOffset);
+        tag.putFloat("flagFrom", this.flagFrom);
+        tag.putFloat("flagTo", this.flagTo);
+        tag.putBoolean("flagSwap", this.flagSwap);
+        tag.putBoolean("flagSwapToLowered", this.flagSwapToLowered);
+    }
+
+    private static boolean isCloseOffset(float a, float b) {
+        return Math.abs(a - b) < 0.25F;
+    }
+
+    private static float getMoveTicks(float from, float to) {
+        return Math.max(Math.abs(to - from) * FLAG_RISE_TICKS_PER_BLOCK, 1.0F);
+    }
+
+    private static float getMovedOffset(float from, float to, float elapsed) {
+        if (elapsed <= 0.0F)
+            return from;
+        float distance = to - from;
+        float progress = Mth.clamp(elapsed / GoalPoleBlockEntity.getMoveTicks(from, to), 0.0F, 1.0F);
+        float eased = distance > 0.0F ? progress * progress : 1.0F - (1.0F - progress) * (1.0F - progress);
+        return from + distance * eased;
+    }
+
+    private static float sampleKeyframes(float[] times, float[] values, float time) {
+        if (time <= times[0])
+            return values[0];
+        for (int i = 1; i < times.length; i++) {
+            if (time <= times[i])
+                return Mth.lerp((time - times[i - 1]) / (times[i] - times[i - 1]), values[i - 1], values[i]);
+        }
+        return values[values.length - 1];
     }
 }

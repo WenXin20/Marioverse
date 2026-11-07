@@ -15,7 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.windcharge.WindCharge;
+import net.minecraft.world.entity.projectile.windcharge.AbstractWindCharge;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -26,7 +26,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,7 +68,7 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
     protected void onProjectileHit(Level level, BlockState state, BlockHitResult hitResult, Projectile projectile) {
         if (projectile.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES)
                 && projectile.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get()) == 0
-                && !(projectile instanceof WindCharge))
+                && !(projectile instanceof AbstractWindCharge))
             OnOffSwitchBlock.hitSwitchBlock(level, hitResult.getBlockPos(), projectile);
 
         projectile.setData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN.get(), 20);
@@ -109,7 +108,7 @@ public class OnOffSwitchBlock extends OnBlock implements ToggleableBlock {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         BlockState state = level.getBlockState(pos);
 
-        if (ModList.get().isLoaded("sable") && SableProvider.getContext(level, entity) != null) {
+        if (SableProvider.isLoaded() && SableProvider.getContext(level, entity) != null) {
             SableProvider.SableContext context = SableProvider.getContext(level, entity);
             state = context.accessor.getBlockState(pos);
             if (level instanceof ServerLevel)

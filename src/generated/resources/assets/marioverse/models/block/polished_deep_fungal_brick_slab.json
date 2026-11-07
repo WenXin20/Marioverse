@@ -2,7 +2,7 @@
   "parent": "minecraft:block/slab",
   "textures": {
     "bottom": "marioverse:block/polished_deep_fungal_bricks",
-    "side": "marioverse:block/polished_deep_fungal_brick_slab",
+    "side": "marioverse:block/polished_deep_fungal_bricks",
     "top": "marioverse:block/polished_deep_fungal_bricks"
   }
 }

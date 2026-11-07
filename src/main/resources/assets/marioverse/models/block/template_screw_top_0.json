@@ -1,0 +1,27 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"render_type": "solid",
+	"textures": {
+		"particle": "#top",
+		"top": "marioverse:block/iron_screw",
+		"bottom": "marioverse:block/iron_screw_bottom"
+	},
+	"elements": [
+		{
+			"name": "head",
+			"from": [2.05, -0.95, 2.05],
+			"to": [13.95, 0.95, 13.95],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [0, 12, 12, 14], "texture": "#top"},
+				"east": {"uv": [0, 12, 12, 14], "texture": "#top"},
+				"south": {"uv": [0, 12, 12, 14], "texture": "#top"},
+				"west": {"uv": [0, 12, 12, 14], "texture": "#top"},
+				"up": {"uv": [0, 0, 12, 12], "texture": "#top", "cullface": "up"},
+				"down": {"uv": [0, 0, 12, 12], "texture": "#bottom", "cullface": "down"}
+			}
+		}
+	]
+}

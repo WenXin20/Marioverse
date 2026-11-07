@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_stone_bridge": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:stone_bridge"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:mossy_stone_bridge_from_vine"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_vine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:vine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_stone_bridge",
+      "has_vine"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:mossy_stone_bridge_from_vine"
+    ]
+  }
+}

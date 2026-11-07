@@ -7,6 +7,8 @@ import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.integration.SableCompat;
 import com.wenxin2.marioverse.integration.StoneZoneCompat;
 import com.wenxin2.marioverse.integration.WoodGoodCompat;
+import com.wenxin2.marioverse.integration.stone_zone_compat.StoneTypeCompat;
+import com.wenxin2.marioverse.integration.wood_good_compat.LeavesTypeCompat;
 import com.wenxin2.marioverse.loot.AddItemsModifier;
 import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -20,14 +22,17 @@ import com.wenxin2.marioverse.registries.GameEventRegistry;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
+import com.wenxin2.marioverse.registries.PlacedFeatureRegistry;
 import com.wenxin2.marioverse.registries.PowerUpTypeRegistry;
 import com.wenxin2.marioverse.registries.RecipeSerializerRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.TreeRegistry;
+import com.wenxin2.marioverse.registries.WoodTypeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -42,6 +47,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
+import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -73,6 +81,9 @@ public class Marioverse {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registries.FEATURE, Marioverse.MOD_ID);
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister.create(Registries.CONFIGURED_FEATURE, Marioverse.MOD_ID);
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registries.PLACED_FEATURE, Marioverse.MOD_ID);
+    public static final DeferredRegister<FoliagePlacerType<?>> FOLIAGE_PLACERS = DeferredRegister.create(BuiltInRegistries.FOLIAGE_PLACER_TYPE, Marioverse.MOD_ID);
+    public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_PLACERS = DeferredRegister.create(BuiltInRegistries.TRUNK_PLACER_TYPE, Marioverse.MOD_ID);
+    public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister.create(BuiltInRegistries.TREE_DECORATOR_TYPE, Marioverse.MOD_ID);
     public static final DeferredRegister<GameEvent> GAME_EVENTS = DeferredRegister.create(Registries.GAME_EVENT, Marioverse.MOD_ID);
     public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> GLOBAL_LOOT_MODIFIERS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Marioverse.MOD_ID);
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, Marioverse.MOD_ID);
@@ -88,6 +99,7 @@ public class Marioverse {
     public static final DeferredRegister<PowerUpType> POWER_UP_TYPES = DeferredRegister.create(POWER_UP_REGISTRY_KEY, Marioverse.MOD_ID);
 
     public Marioverse(IEventBus bus, Dist dist, ModContainer container) {
+        BlockRegistry.registerAliases();
         ItemRegistry.registerAliases();
         ATTACHMENT_TYPES.register(bus);
         COMPONENTS.register(bus);
@@ -99,6 +111,9 @@ public class Marioverse {
         CONFIGURED_FEATURES.register(bus);
         FEATURES.register(bus);
         PLACED_FEATURES.register(bus);
+        TRUNK_PLACERS.register(bus);
+        FOLIAGE_PLACERS.register(bus);
+        TREE_DECORATORS.register(bus);
         ATTRIBUTES.register(bus);
         PARTICLES.register(bus);
         MENUS.register(bus);
@@ -123,6 +138,7 @@ public class Marioverse {
         ItemRegistry.init();
         MenuRegistry.init();
         ParticleRegistry.init();
+        PlacedFeatureRegistry.init();
         RecipeSerializerRegistry.init();
         SoundRegistry.init();
 
@@ -140,16 +156,19 @@ public class Marioverse {
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onJoinWorld);
         NeoForge.EVENT_BUS.addListener(MarioverseEventHandlers::onRightClickBlock);
         bus.addListener(this::commonSetup);
-        bus.addListener(RegistryEventHandlers::gatherData);
+        bus.addListener(RegistryEventHandlers::addBlockEntityValidBlocks);
         bus.addListener(RegistryEventHandlers::addPackFinder);
+        bus.addListener(RegistryEventHandlers::gatherData);
         bus.addListener(PowerUpTypeRegistry::registerRegistry);
 //        bus.addListener(TreesDataGen::gatherData);
     }
 
     private static void everyCompatModule() {
         try {
-            if (ModList.get().isLoaded("everycomp"))
+            if (ModList.get().isLoaded("everycomp")) {
                 WoodGoodCompat.init();
+                LeavesTypeCompat.init();
+            }
             else LOGGER.info("Every Compat module is not loaded");
         } catch (Exception e) {
             LOGGER.error("Failed to start Wood Good module", e);
@@ -158,9 +177,10 @@ public class Marioverse {
 
     private static void stoneZoneModule() {
         try {
-            if (ModList.get().isLoaded("stonezone"))
+            if (ModList.get().isLoaded("stonezone")) {
                 StoneZoneCompat.init();
-            else LOGGER.info("Stone Zone module is not loaded");
+                StoneTypeCompat.init();
+            } else LOGGER.info("Stone Zone module is not loaded");
         } catch (Exception e) {
             LOGGER.error("Failed to start Stone Zone module", e);
         }

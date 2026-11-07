@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_huge_fortstone_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:huge_fortstone_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:huge_fortstone_brick_wall_from_fortstone_bricks_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_huge_fortstone_bricks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:huge_fortstone_brick_wall_from_fortstone_bricks_stonecutting"
+    ]
+  }
+}

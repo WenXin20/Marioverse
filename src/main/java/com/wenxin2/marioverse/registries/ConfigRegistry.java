@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.registries;
 
-import net.minecraft.world.level.dimension.DimensionType;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -13,6 +12,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_CLIENT = "client";
     public static final String CATEGORY_COMMON = "common";
     public static final String CATEGORY_DEBUG = "debug";
+    public static final String CATEGORY_STARTUP = "startup";
 
     public static final String CATEGORY_BLOCKS = "blocks";
     public static final String CATEGORY_GAMEPLAY = "gameplay";
@@ -28,14 +28,17 @@ public class ConfigRegistry {
     public static final String CATEGORY_COINS = "coins";
     public static final String CATEGORY_DAISY_ABILITY_BLOCK = "daisy_ability_block";
     public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
+    public static final String CATEGORY_DYED_CALCITE = "dyed_calcite";
     public static final String CATEGORY_IRON_SPIKES = "iron_spikes";
     public static final String CATEGORY_LUIGI_ABILITY_BLOCK = "luigi_ability_block";
     public static final String CATEGORY_MARIO_ABILITY_BLOCK = "mario_ability_block";
     public static final String CATEGORY_PEACH_ABILITY_BLOCK = "peach_ability_block";
+    public static final String CATEGORY_PICKET_FENCES = "picket_fences";
     public static final String CATEGORY_QUESTION_BLOCKS = "question_blocks";
     public static final String CATEGORY_ROSALINA_ABILITY_BLOCK = "rosalina_ability_block";
     public static final String CATEGORY_SPIKE_PANELS = "spike_panels";
     public static final String CATEGORY_STAR_COINS = "star_coins";
+    public static final String CATEGORY_STOMPING = "stomping";
     public static final String CATEGORY_WALUIGI_ABILITY_BLOCK = "waluigi_ability_block";
     public static final String CATEGORY_WARIO_ABILITY_BLOCK = "wario_ability_block";
     public static final String CATEGORY_WARP_DOORS = "warp_doors";
@@ -85,6 +88,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_HALLOWEEN = "halloween";
 
     private final ModConfigSpec COMMON_SPEC;
+    private final ModConfigSpec STARTUP_SPEC;
 
     public static ModConfigSpec.BooleanValue ALLOW_FAST_TRAVEL;
     public static ModConfigSpec.BooleanValue ALLOW_WARP_UNWAXING;
@@ -124,11 +128,13 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue DISABLE_REWARD_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_TEXT;
     public static ModConfigSpec.BooleanValue DISABLE_VANILLA_TABS;
+    public static ModConfigSpec.BooleanValue DISABLE_WARP_COOLDOWN_PARTICLES;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_DOORS;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_PAINTINGS;
     public static ModConfigSpec.BooleanValue DISABLE_WARP_TRAPDOORS;
     public static ModConfigSpec.BooleanValue DISPLAY_BUTTON_TOOLTIP;
     public static ModConfigSpec.BooleanValue ENABLE_STOMPABLE_ENEMIES;
+    public static ModConfigSpec.BooleanValue ENABLE_DYED_CALCITE_STONE_ZONE;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_MOBS;
     public static ModConfigSpec.BooleanValue EQUIP_COSTUMES_PLAYERS;
     public static ModConfigSpec.BooleanValue FIRE_FLOWER_POWERS_ALL_MOBS;
@@ -155,6 +161,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue QUESTION_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue REDSTONE_OPENS_QUESTION;
     public static ModConfigSpec.BooleanValue RENDER_ONE_UP_CHARM;
+    public static ModConfigSpec.BooleanValue STOMP_DIFFERENT_MOBS_REQUIRED;
     public static ModConfigSpec.BooleanValue ROSALINA_ABILITY_DOUBLE_JUMP;
     public static ModConfigSpec.BooleanValue RUNNING_ACTIVATES_POWER_UPS;
     public static ModConfigSpec.BooleanValue SELECT_INVISIBLE_QUESTION;
@@ -165,6 +172,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue STOMP_ALL_MOBS;
     public static ModConfigSpec.BooleanValue SUPER_MUSHROOM_POWERS_ALL_MOBS;
     public static ModConfigSpec.BooleanValue SUPER_STAR_POWERS_ALL_MOBS;
+    public static ModConfigSpec.BooleanValue TELEPORT_CONTRAPTIONS;
     public static ModConfigSpec.BooleanValue TELEPORT_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_NON_MOBS;
     public static ModConfigSpec.BooleanValue TELEPORT_PLAYERS;
@@ -244,6 +252,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue SHRINK_WIDTH_SCALE;
     public static ModConfigSpec.DoubleValue SPIKE_PANEL_DAMAGE;
     public static ModConfigSpec.DoubleValue SPINY_CHEEP_CHEEP_LURE_RADIUS;
+    public static ModConfigSpec.DoubleValue STOMP_BOOT_DAMAGE_MULTIPLIER;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT;
     public static ModConfigSpec.DoubleValue STOMP_BOUNCE_HEIGHT_JUMP;
     public static ModConfigSpec.DoubleValue STOMP_DAMAGE;
@@ -262,6 +271,16 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue WARIO_ABILITY_RUNNING_JUMP_BOOST;
     public static ModConfigSpec.DoubleValue WARIO_ABILITY_SAFE_FALL_DISTANCE;
     public static ModConfigSpec.DoubleValue WARIO_ABILITY_WIDTH_SCALE;
+    public static ModConfigSpec.DoubleValue WARP_DOOR_FUEL_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_DOOR_XP_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_ENTITY_FUEL_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_ENTITY_XP_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_PAINTING_FUEL_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_PAINTING_XP_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_PIPE_FUEL_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_PIPE_XP_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_TRAPDOOR_FUEL_COST_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue WARP_TRAPDOOR_XP_COST_MULTIPLIER;
 
     public static ModConfigSpec.IntValue BOO_LIGHT_SENSITIVITY;
     public static ModConfigSpec.IntValue BOO_SUN_EXPOSURE_LIMIT;
@@ -301,6 +320,10 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue MEGA_MUSHROOM_DURATION;
     public static ModConfigSpec.IntValue MEGA_MUSHROOM_MINING_RADIUS;
     public static ModConfigSpec.IntValue ONE_UP_COOLDOWN;
+    public static ModConfigSpec.IntValue PICKET_FENCE_PAINT_RATE;
+    public static ModConfigSpec.IntValue PICKET_FENCE_PAINT_RANGE;
+    public static ModConfigSpec.IntValue PICKET_FENCE_GATE_PAINT_RATE;
+    public static ModConfigSpec.IntValue PICKET_FENCE_GATE_PAINT_RANGE;
     public static ModConfigSpec.IntValue PIRANHA_PLANT_HIDE_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_DURATION;
     public static ModConfigSpec.IntValue POKEY_BLOOM_FREQUENCY;
@@ -320,6 +343,26 @@ public class ConfigRegistry {
 
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+
+        ModConfigSpec.Builder STARTUP_BUILDER = new ModConfigSpec.Builder();
+
+        STARTUP_BUILDER.push(CATEGORY_STARTUP);
+
+            STARTUP_BUILDER.push(CATEGORY_BLOCKS);
+
+                STARTUP_BUILDER.push(CATEGORY_DYED_CALCITE);
+                    ENABLE_DYED_CALCITE_STONE_ZONE = STARTUP_BUILDER.translation("configuration.marioverse.enable_dyed_calcite_stone_zone")
+                            .comment("Enable Stone Zone compat for dyed Calcite.")
+                            .comment("§cRequires game restart")
+                            .comment("§9[Default: false]")
+                            .define("enable_dyed_calcite_stone_zone", false);
+                STARTUP_BUILDER.pop();
+
+            STARTUP_BUILDER.pop();
+
+        STARTUP_BUILDER.pop();
+
+        STARTUP_SPEC = STARTUP_BUILDER.build();
 
         BUILDER.push(CATEGORY_CLIENT);
             DANGO_BLOSSOM_PARTICLES = BUILDER.translation("configuration.marioverse.dango_blossom_particles")
@@ -342,6 +385,10 @@ public class ConfigRegistry {
                     .comment("Disable text rendering on pipes.")
                     .comment("§9[Default: false]")
                     .define("disable_text", false);
+            DISABLE_WARP_COOLDOWN_PARTICLES = BUILDER.translation("configuration.marioverse.disable_warp_cooldown_particles")
+                    .comment("Disable the smoke particles at warp pipe entrances while on warp cooldown.")
+                    .comment("§9[Default: false]")
+                    .define("disable_warp_cooldown_particles", false);
             DISPLAY_BUTTON_TOOLTIP = BUILDER.translation("configuration.marioverse.display_button_tooltip")
                     .comment("Display \"ticks to stay pressed\" on button tooltips.")
                     .comment("§9[Default: true]")
@@ -670,6 +717,21 @@ public class ConfigRegistry {
                             .defineInRange("iron_spike_damage", 2.0, 0.0, 16.0);
                 BUILDER.pop();
 
+                BUILDER.push(CATEGORY_PICKET_FENCES);
+                    PICKET_FENCE_PAINT_RANGE = BUILDER.translation("configuration.marioverse.picket_fence_paint_range")
+                            .comment("The range a dye can paint in a column.")
+                            .defineInRange("picket_fence_paint_range", 3, 0, 8);
+                    PICKET_FENCE_PAINT_RATE = BUILDER.translation("configuration.marioverse.picket_fence_paint_rate")
+                            .comment("The rate a column of fences are painted in ticks.")
+                            .defineInRange("picket_fence_paint_rate", 3, 0, 20);
+                    PICKET_FENCE_GATE_PAINT_RANGE = BUILDER.translation("configuration.marioverse.picket_fence_gate_paint_range")
+                            .comment("The range a dye can paint in a column.")
+                            .defineInRange("picket_fence_gate_paint_range", 3, 0, 8);
+                    PICKET_FENCE_GATE_PAINT_RATE = BUILDER.translation("configuration.marioverse.picket_fence_gate_paint_rate")
+                            .comment("The rate a column of gates are painted in ticks.")
+                            .defineInRange("picket_fence_gate_paint_rate", 3, 0, 20);
+                BUILDER.pop();
+
                 BUILDER.push(CATEGORY_QUESTION_BLOCKS);
                     QUESTION_BUCKET_TWEAKS = BUILDER.translation("configuration.marioverse.question_bucket_tweaks")
                             .comment("Allow question blocks to place bucket liquids and blocks.")
@@ -728,6 +790,14 @@ public class ConfigRegistry {
                             .comment("Cooldown between teleports in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("warp_door_cooldown", 70, 0, 72000);
+                    WARP_DOOR_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_door_xp_cost_multiplier")
+                            .comment("Experience points a player spends per block of distance when teleporting.")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("warp_door_xp_cost_multiplier", 0.0, 0.0, 5.0);
+                    WARP_DOOR_FUEL_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_door_fuel_cost_multiplier")
+                            .comment("Amount of coins or items in the `warp_fuel` item tag a player spends per block of distance when warping.")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("warp_door_fuel_cost_multiplier", 0.0, 0.0, 1.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PAINTINGS);
@@ -742,6 +812,14 @@ public class ConfigRegistry {
                     WARP_PAINTING_FUEL_AMT = BUILDER.translation("configuration.marioverse.warp_painting_fuel_amt")
                             .comment("Amount of fuel required to create a warp painting.§b")
                             .defineInRange("warp_painting_fuel_amt", 4, 0, 64);
+                    WARP_PAINTING_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_painting_xp_cost_multiplier")
+                            .comment("Experience points a player spends per block of distance when warping.")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("warp_painting_xp_cost_multiplier", 0.0, 0.0, 5.0);
+                    WARP_PAINTING_FUEL_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_painting_fuel_cost_multiplier")
+                            .comment("Amount of coins or items in the `warp_fuel` item tag a player spends per block of distance when warping.")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("warp_painting_fuel_cost_multiplier", 0.0, 0.0, 1.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PIPES);
@@ -753,6 +831,14 @@ public class ConfigRegistry {
                             .comment("Cooldown between teleports in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("warp_pipe_cooldown", 50, 0, 72000);
+                    WARP_PIPE_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_pipe_xp_cost_multiplier")
+                            .comment("Experience points a player spends per block of distance when teleporting")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("warp_pipe_xp_cost_multiplier", 0.0, 0.0, 5.0);
+                    WARP_PIPE_FUEL_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_pipe_fuel_cost_multiplier")
+                            .comment("Amount of coins or items in the `warp_fuel` item tag a player spends per block of distance when warping.")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("warp_pipe_fuel_cost_multiplier", 0.0, 0.0, 1.0);
                     WARP_PIPE_SPAWNS_MOBS = BUILDER.translation("configuration.marioverse.warp_pipe_spawns_mobs")
                             .comment("Allow warp pipes to spawn mobs.")
                             .comment("§9[Default: true]")
@@ -796,6 +882,14 @@ public class ConfigRegistry {
                             .comment("Cooldown between teleports in ticks for trapdoors.")
                             .comment("§6[20 ticks = 1 second]§b")
                             .defineInRange("warp_trapdoor_cooldown", 70, 0, 72000);
+                    WARP_TRAPDOOR_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_trapdoor_xp_cost_multiplier")
+                            .comment("Experience points a player spends per block of distance when teleporting.")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("warp_trapdoor_xp_cost_multiplier", 0.0, 0.0, 5.0);
+                    WARP_TRAPDOOR_FUEL_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_trapdoor_fuel_cost_multiplier")
+                            .comment("Amount of coins or items in the `warp_fuel` item tag a player spends per block of distance when warping.")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("warp_trapdoor_fuel_cost_multiplier", 0.0, 0.0, 1.0);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WATER_SPOUTS);
@@ -808,6 +902,45 @@ public class ConfigRegistry {
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_GAMEPLAY);
+
+                BUILDER.push(CATEGORY_STOMPING);
+                    ENABLE_STOMPABLE_ENEMIES = BUILDER.translation("configuration.marioverse.enable_stompable_enemies")
+                            .comment("Enable mobs to stomp other mobs.")
+                            .comment("§cMobs must whitelisted in the entity tag \"marioverse:can_stomp_enemies\".")
+                            .comment("§9[Default: true]")
+                            .define("enable_stompable_enemies", true);
+                    ALL_MOBS_CAN_STOMP = BUILDER.translation("configuration.marioverse.all_mobs_can_stomp")
+                            .comment("Allow all mobs to stomp other mobs.")
+                            .comment("§9[Default: false]")
+                            .define("all_mobs_can_stomp", false);
+                    STOMP_ALL_MOBS = BUILDER.translation("configuration.marioverse.stomp_all_mobs")
+                            .comment("Allow all mobs to be stomped on.")
+                            .comment("§9[Default: false]")
+                            .define("stomp_all_mobs", false);
+                    STOMP_DAMAGE = BUILDER.translation("configuration.marioverse.stomp_damage")
+                            .comment("Amount of damage stomping causes.")
+                            .comment("§6[1 point = 1/2 Heart]§b")
+                            .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
+                    DISABLE_CONSECUTIVE_BOUNCING = BUILDER.translation("configuration.marioverse.disable_consecutive_bouncing")
+                            .comment("Disable consecutive bouncing, including the reward.")
+                            .comment("§9[Default: false]")
+                            .define("disable_consecutive_bouncing", false);
+                    STOMP_DIFFERENT_MOBS_REQUIRED = BUILDER.translation("configuration.marioverse.stomp_different_mobs_required")
+                            .comment("Require stomping 8 different mobs in a row to get the consecutive bounce reward.")
+                            .comment("§9[Default: false]")
+                            .define("stomp_different_mobs_required", false);
+                    STOMP_BOUNCE_HEIGHT = BUILDER.translation("configuration.marioverse.stomp_bounce_height")
+                            .comment("The approx height mobs will bounce when stomping enemies.§b")
+                            .defineInRange("stomp_bounce_height", 1.5, 0.0, 100.0);
+                    STOMP_BOUNCE_HEIGHT_JUMP = BUILDER.translation("configuration.marioverse.stomp_bounce_height_jump")
+                            .comment("The approx height players will bounce when stomping enemies while pressing the jump key.§b")
+                            .defineInRange("stomp_bounce_height_jump", 5.5, 0.0, 100.0);
+                    STOMP_BOOT_DAMAGE_MULTIPLIER = BUILDER.translation("configuration.marioverse.stomp_boot_damage_multiplier")
+                            .comment("Extra stomp damage added per armor point of boots.")
+                            .comment("§6[Set to 0 to disable]§b")
+                            .defineInRange("stomp_boot_damage_multiplier", 0.5, 0.0, 5.0);
+                BUILDER.pop();
+
                 EQUIP_COSTUMES_PLAYERS = BUILDER.translation("configuration.marioverse.equip_costumes_players")
                         .comment("Equips power up costumes on Players.")
                         .comment("§9[Default: true]")
@@ -831,37 +964,11 @@ public class ConfigRegistry {
                         .comment("The width multiplier shrinking will resize the user with.§b")
                         .comment("§6[1.0 is normal width§b")
                         .defineInRange("shrink_width_scale", 0.75, 0.3, 20.0);
-                ENABLE_STOMPABLE_ENEMIES = BUILDER.translation("configuration.marioverse.enable_stompable_enemies")
-                        .comment("Enable mobs to stomp other mobs.")
-                        .comment("§cMobs must whitelisted in the entity tag \"marioverse:can_stomp_enemies\".")
-                        .comment("§9[Default: true]")
-                        .define("enable_stompable_enemies", true);
-                ALL_MOBS_CAN_STOMP = BUILDER.translation("configuration.marioverse.all_mobs_can_stomp")
-                        .comment("Allow all mobs to stomp other mobs.")
-                        .comment("§9[Default: false]")
-                        .define("all_mobs_can_stomp", false);
-                STOMP_ALL_MOBS = BUILDER.translation("configuration.marioverse.stomp_all_mobs")
-                        .comment("Allow all mobs to be stomped on.")
-                        .comment("§9[Default: false]")
-                        .define("stomp_all_mobs", false);
-                DISABLE_CONSECUTIVE_BOUNCING = BUILDER.translation("configuration.marioverse.disable_consecutive_bouncing")
-                        .comment("Disable consecutive bouncing, including the reward.")
-                        .comment("§9[Default: false]")
-                        .define("disable_consecutive_bouncing", false);
-                STOMP_BOUNCE_HEIGHT = BUILDER.translation("configuration.marioverse.stomp_bounce_height")
-                        .comment("The approx height mobs will bounce when stomping enemies.§b")
-                        .defineInRange("stomp_bounce_height", 1.5, 0.0, 100.0);
-                STOMP_BOUNCE_HEIGHT_JUMP = BUILDER.translation("configuration.marioverse.stomp_bounce_height_jump")
-                        .comment("The approx height players will bounce when stomping enemies while pressing the jump key.§b")
-                        .defineInRange("stomp_bounce_height_jump", 5.5, 0.0, 100.0);
-                STOMP_DAMAGE = BUILDER.translation("configuration.marioverse.stomp_damage")
-                        .comment("Amount of damage stomping causes.")
-                        .comment("§6[1 point = 1/2 Heart]§b")
-                                .defineInRange("stomp_damage", 4.0, 0.0, 100.0);
                 PLAY_BOUNCE_SOUND = BUILDER.translation("configuration.marioverse.play_bounce_sound")
                         .comment("Plays a bounce sound when bouncing on mushroom blocks.")
                         .comment("§9[Default: true]")
                         .define("play_bounce_sound", true);
+
             BUILDER.pop();
 
             BUILDER.push(CATEGORY_HOLIDAY);
@@ -1387,6 +1494,10 @@ public class ConfigRegistry {
                         .comment("Warping gives the player a brief blindness effect.")
                         .comment("§9[Default: true]")
                         .define("blindness_effect", true);
+                TELEPORT_CONTRAPTIONS = BUILDER.translation("configuration.marioverse.teleport_contraptions")
+                        .comment("Allow Sable contraptions to teleport.")
+                        .comment("§9[Default: true]")
+                        .define("teleport_contraptions", true);
                 TELEPORT_MOBS = BUILDER.translation("configuration.marioverse.teleport_mobs")
                         .comment("Allow mobs to teleport.")
                         .comment("§9[Default: true]")
@@ -1399,6 +1510,16 @@ public class ConfigRegistry {
                         .comment("Allow players to teleport.")
                         .comment("§9[Default: true]")
                         .define("teleport_players", true);
+                WARP_ENTITY_XP_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_entity_xp_cost_multiplier")
+                        .comment("Experience points a player spends per block of distance when warping through a linked entity.")
+                        .comment("§6[Set to 0 to disable]")
+                        .comment("§9[Default: 0.0]§b")
+                        .defineInRange("warp_entity_xp_cost_multiplier", 0.0, 0.0, 1000.0);
+                WARP_ENTITY_FUEL_COST_MULTIPLIER = BUILDER.translation("configuration.marioverse.warp_entity_fuel_cost_multiplier")
+                        .comment("Amount of coins or items in the `warp_fuel` item tag a player spends per block of distance when warping.")
+                        .comment("§6[Set to 0 to disable]")
+                        .comment("§9[Default: 0.0]§b")
+                        .defineInRange("warp_entity_fuel_cost_multiplier", 0.0, 0.0, 1000.0);
                 WAX_DISABLES_WARP_LINKING = BUILDER.translation("configuration.marioverse.wax_disables_warp_linking")
                         .comment("Allow waxing warp blocks to disable warp linking.")
                         .comment("§9[Default: true]")
@@ -1445,6 +1566,7 @@ public class ConfigRegistry {
 
     public static void register(ModContainer container) {
         container.registerConfig(ModConfig.Type.COMMON, INSTANCE.COMMON_SPEC, "marioverse-common.toml");
+        container.registerConfig(ModConfig.Type.STARTUP, INSTANCE.STARTUP_SPEC, "marioverse-startup.toml");
     }
 
     public static void registerClient(ModContainer container) {

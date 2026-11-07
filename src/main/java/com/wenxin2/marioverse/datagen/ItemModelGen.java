@@ -1,10 +1,14 @@
 package com.wenxin2.marioverse.datagen;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
+import com.wenxin2.marioverse.items.ArrowSignItem;
+import com.wenxin2.marioverse.items.LargeArrowSignItem;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -32,15 +36,85 @@ public class ItemModelGen extends ItemModelProvider {
         this.genInvisibleQuestionBlockVariants();
         this.genStorageBrickVariants();
 
-        this.basicItem(BlockRegistry.BLUE_TRAMPOLINE_CAP.asItem());
+        this.basicBlockItem(BlockRegistry.MUSHROOT_FRAMED_WINDOW_PANE.asItem());
+        this.basicBlockItem(BlockRegistry.MUSHROOT_SAPLING.asItem());
+        this.basicBlockItem(BlockRegistry.SPOOKROOT_FRAMED_WINDOW_PANE.asItem());
+        this.basicBlockItem(BlockRegistry.SPOOKROOT_SAPLING.asItem());
+        this.basicBlockItem(BlockRegistry.SPOOKY_SPOOKROOT_SAPLING.asItem());
+        this.basicBlockItem(BlockRegistry.SHORT_SHROOMGRASS.asItem());
+        this.basicBlockItem(BlockRegistry.SHROOMGRASS.asItem());
+
+        this.basicItem(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.asItem());
         this.basicItem(BlockRegistry.COIN.asItem());
         this.basicItem(BlockRegistry.DANGO_BLOSSOM.asItem());
+        this.basicItem(BlockRegistry.HEDGE.asItem());
+        this.basicItem(BlockRegistry.DIAMOND_SCREW.asItem());
+        this.basicItem(BlockRegistry.GOLD_SCREW.asItem());
+        this.basicItem(BlockRegistry.IRON_SCREW.asItem());
+        this.basicItem(BlockRegistry.NETHERITE_SCREW.asItem());
+        this.basicItem(BlockRegistry.COPPER_SCREW.asItem());
+        this.basicItem(BlockRegistry.EXPOSED_COPPER_SCREW.asItem());
+        this.basicItem(BlockRegistry.WEATHERED_COPPER_SCREW.asItem());
+        this.basicItem(BlockRegistry.OXIDIZED_COPPER_SCREW.asItem());
+        this.waxedItem(BlockRegistry.WAXED_COPPER_SCREW.asItem(), BlockRegistry.COPPER_SCREW.asItem());
+        this.waxedItem(BlockRegistry.WAXED_EXPOSED_COPPER_SCREW.asItem(), BlockRegistry.EXPOSED_COPPER_SCREW.asItem());
+        this.waxedItem(BlockRegistry.WAXED_WEATHERED_COPPER_SCREW.asItem(), BlockRegistry.WEATHERED_COPPER_SCREW.asItem());
+        this.waxedItem(BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW.asItem(), BlockRegistry.OXIDIZED_COPPER_SCREW.asItem());
         this.basicItem(BlockRegistry.IRON_SPIKE.asItem());
-        this.basicItem(BlockRegistry.RED_TRAMPOLINE_CAP.asItem());
+        this.basicItem(BlockRegistry.MUSHROOT_DOOR.asItem());
+        this.basicItem(BlockRegistry.SPOOKROOT_DOOR.asItem());
+        this.basicItem(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_CAP.asItem());
+        this.basicItem(BlockRegistry.SHRUBROOM.asItem());
         this.basicItem(BlockRegistry.SPIKE_PANEL.asItem());
+        this.basicItem(BlockRegistry.TALL_SHROOMGRASS.asItem());
+        this.basicItem(BlockRegistry.BLUE_MEGA_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.BLUE_SUPER_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.GREEN_MEGA_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.GREEN_SUPER_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.LIME_MEGA_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.LIME_SUPER_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.ORANGE_MEGA_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.ORANGE_SUPER_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.PURPLE_MEGA_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.PURPLE_SUPER_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.RED_MEGA_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.RED_SUPER_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.YELLOW_MEGA_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.YELLOW_SUPER_MUSHROOM.asItem());
+        this.basicItem(BlockRegistry.BLUE_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.SCARLET_MEGA_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.ORANGE_MEGA_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.LIGHT_BLUE_MEGA_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.PINK_MEGA_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.SCARLET_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.ORANGE_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.LIGHT_BLUE_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.PINK_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.RED_ON_OFF_MEGA_MUSHROOM_TRAMPOLINE.asItem());
+        this.basicItem(BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE.asItem());
+        this.bloomflowerItem(BlockRegistry.BLUE_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.ORANGE_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.PINK_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.PURPLE_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.RED_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.WHITE_BLOOMFLOWER.asItem());
+        this.bloomflowerItem(BlockRegistry.YELLOW_BLOOMFLOWER.asItem());
+
         this.largeItem(BlockRegistry.STAR_COIN.asItem());
 
         this.basicTwoLayerItem(ItemRegistry.CHRISTMAS_HAT.get());
+
+        this.twoLayerItem(BlockRegistry.PINK_ROSE_HEDGE.asItem(), "_rose");
+        this.twoLayerItem(BlockRegistry.RED_ROSE_HEDGE.asItem(), "_rose");
+        this.twoLayerItem(BlockRegistry.SNOWY_HEDGE.asItem(), "_snow").override()
+                .model(new ModelFile.UncheckedModelFile(modLoc("item/snowy_hedge_snowless")))
+                .predicate(modLoc("snowy"), 1.0F).end();
+        this.getBuilder("snowy_hedge_snowless")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/snowy_hedge"))
+                .texture("layer1", modLoc("item/snowy_hedge_snowless"));
+        this.twoLayerItem(BlockRegistry.WHITE_ROSE_HEDGE.asItem(), "_rose");
 
         this.basicItem(ItemRegistry.BOO_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.BOWSER_BANNER_PATTERN.get());
@@ -79,10 +153,19 @@ public class ItemModelGen extends ItemModelProvider {
         this.basicItem(ItemRegistry.MINI_GOOMBA_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.MINI_MUSHROOM.get());
         this.basicItem(ItemRegistry.MINI_MUSHROOM_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.MUSHROOT_BOAT.get());
+        this.basicItem(ItemRegistry.MUSHROOT_CHEST_BOAT.get());
+        this.basicItem(ItemRegistry.MUSHROOT_HANGING_SIGN.get());
+        this.basicItem(ItemRegistry.MUSHROOT_SIGN.get());
+        this.basicItem(ItemRegistry.SPOOKROOT_BOAT.get());
+        this.basicItem(ItemRegistry.SPOOKROOT_CHEST_BOAT.get());
+        this.basicItem(ItemRegistry.SPOOKROOT_HANGING_SIGN.get());
+        this.basicItem(ItemRegistry.SPOOKROOT_SIGN.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM.get());
         this.basicItem(ItemRegistry.ONE_UP_MUSHROOM_SPAWN_EGG.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_POD.get());
         this.basicItem(ItemRegistry.PIRANHA_PLANT_SPAWN_EGG.get());
+        this.basicItem(ItemRegistry.PLASTIC_MILK_BUCKET.get());
         this.basicItem(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
         this.basicItem(ItemRegistry.PLASTIC_QUICKSAND_BUCKET.get());
         this.basicItem(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
@@ -131,6 +214,20 @@ public class ItemModelGen extends ItemModelProvider {
 
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_BUCKET.get(), Fluids.EMPTY, false, false);
         this.plasticFluidBucketItem(ItemRegistry.PLASTIC_WATER_BUCKET.get(), Fluids.WATER, true, false);
+        this.plasticFluidBucketItem(ItemRegistry.PLASTIC_LAVA_BUCKET.get(), Fluids.LAVA, "plastic_bucket_lava_fluid", false, false);
+
+        // Compat items are namespaced elsewhere and EveryCompat generates their own models.
+        for (Item item : BuiltInRegistries.ITEM) {
+            if (item instanceof ArrowSignItem arrowSignItem && !(item instanceof LargeArrowSignItem)
+                    && BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(Marioverse.MOD_ID))
+                this.arrowSignItem(arrowSignItem);
+        }
+
+        for (Item item : BuiltInRegistries.ITEM) {
+            if (item instanceof LargeArrowSignItem arrowSignItem
+                    && BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(Marioverse.MOD_ID))
+                this.largeArrowSignItem(arrowSignItem);
+        }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet())
             this.handheldItem(entry.getValue().asItem()).override()
@@ -384,12 +481,46 @@ public class ItemModelGen extends ItemModelProvider {
                 .texture("layer1", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath() + "_overlay"));
     }
 
+    public ItemModelBuilder bloomflowerItem(Item item) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        return this.getBuilder(location.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
+                .texture("layer1", modLoc("item/bloomflower_stem"));
+    }
+
+    public ItemModelBuilder twoLayerItem(Item item, String overlaySuffix) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        return this.getBuilder(location.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath()))
+                .texture("layer1", ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "item/" + location.getPath() + overlaySuffix));
+    }
+
+    public ItemModelBuilder basicBlockItem(Item item) {
+        return basicBlockItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), "");
+    }
+
+    public ItemModelBuilder basicBlockItem(Item item, String suffix) {
+        return basicBlockItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), suffix);
+    }
+
+    public ItemModelBuilder basicBlockItem(ResourceLocation item, String suffix) {
+        String removeName = item.getPath().replace("_pane", "");
+        return this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "block/" + removeName + suffix));
+    }
+
     public void largeItem(Item item) {
         this.largeItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)));
     }
 
     public void plasticFluidBucketItem(Item item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
-        this.plasticFluidBucketItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), fluid, applyTint, coverIsMask);
+        this.plasticFluidBucketItem(item, fluid, "plastic_bucket_fluid", applyTint, coverIsMask);
+    }
+
+    public void plasticFluidBucketItem(Item item, Fluid fluid, String mask, boolean applyTint, boolean coverIsMask) {
+        this.plasticFluidBucketItem(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)), fluid, mask, applyTint, coverIsMask);
     }
 
     public void largeItem(ResourceLocation item) {
@@ -398,14 +529,14 @@ public class ItemModelGen extends ItemModelProvider {
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()));
     }
 
-    public void plasticFluidBucketItem(ResourceLocation item, Fluid fluid, boolean applyTint, boolean coverIsMask) {
+    public void plasticFluidBucketItem(ResourceLocation item, Fluid fluid, String mask, boolean applyTint, boolean coverIsMask) {
         ItemModelBuilder builder = this.getBuilder(item.getPath())
                 .parent(new ModelFile.UncheckedModelFile("neoforge:item/default"))
                 .texture("base", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/" + item.getPath()))
-                .texture("fluid", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/plastic_bucket_fluid"));
+                .texture("fluid", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/" + mask));
 
         if (coverIsMask)
-            builder.texture("cover", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/plastic_bucket_fluid_cover"));
+            builder.texture("cover", ResourceLocation.fromNamespaceAndPath(item.getNamespace(), "item/mask/" + mask + "_cover"));
 
         builder.customLoader((parent, existingFileHelper) ->
                 DynamicFluidContainerModelBuilder.begin(parent, existingFileHelper)
@@ -432,6 +563,60 @@ public class ItemModelGen extends ItemModelProvider {
     public void spawnEggItem(Item item, String parentModelPath) {
         getBuilder(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)).toString()).parent(new ModelFile
                 .UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, parentModelPath)));
+    }
+
+    public void arrowSignItem(Item item) {
+        this.arrowOverlayItem(item, "item/arrow_sign", new ModelFile.UncheckedModelFile("item/generated"));
+    }
+
+    public void largeArrowSignItem(Item item) {
+        this.arrowOverlayItem(item, "item/large_arrow_sign",
+                new ModelFile.UncheckedModelFile("marioverse:item/template_large_dropped_item"));
+    }
+
+    // Layer1 is a sprite baked in-game by the blocks atlas' paletted_permutations source (see
+    // ArrowItemSpriteSourceGen), recoloring the shared grayscale pattern per dye color - no per-color art.
+    private void arrowOverlayItem(Item item, String textureFolder, ModelFile parent) {
+        ResourceLocation location = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        String namespace = location.getNamespace();
+        String baseName = location.getPath();
+        ResourceLocation boardTexture = ResourceLocation.fromNamespaceAndPath(namespace, textureFolder + "/" + baseName);
+
+        ItemModelBuilder builder = this.getBuilder(location.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", boardTexture);
+
+        for (ArrowDirection direction : ArrowDirection.values()) {
+            if (direction == ArrowDirection.NONE)
+                continue;
+
+            Map<DyeColor, ResourceLocation> colorModels = new EnumMap<>(DyeColor.class);
+
+            // dyeIndex: 0 = undyed (defaults to red), else dyeColor.ordinal() + 1 - must match ClientEventHandlers.
+            for (int dyeIndex = 0; dyeIndex <= DyeColor.values().length; dyeIndex++) {
+                DyeColor dyeColor = dyeIndex == 0 ? DyeColor.RED : DyeColor.values()[dyeIndex - 1];
+
+                ResourceLocation targetModel = colorModels.computeIfAbsent(dyeColor, color -> {
+                    String overlaySprite = textureFolder + "/pattern/" + direction.getSerializedName() + "_" + color.getSerializedName();
+                    ResourceLocation overlayTexture = ResourceLocation.fromNamespaceAndPath(namespace, overlaySprite);
+                    String modelPath = baseName + "_" + direction.getSerializedName() + "_" + color.getSerializedName();
+                    this.getBuilder(modelPath)
+                            .parent(parent)
+                            .texture("layer0", boardTexture)
+                            .texture("layer1", overlayTexture);
+                    return ResourceLocation.fromNamespaceAndPath(namespace, "item/" + modelPath);
+                });
+
+                builder = builder.override()
+                        .model(new ModelFile.UncheckedModelFile(targetModel))
+                        .predicate(modLoc("arrow_direction"), (float) direction.ordinal())
+                        .predicate(modLoc("arrow_dye_color"), (float) dyeIndex).end();
+            }
+        }
+
+        builder.override()
+                .model(new ModelFile.UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(namespace, "item/" + baseName)))
+                .predicate(modLoc("arrow_direction"), (float) ArrowDirection.NONE.ordinal()).end();
     }
 
     private void genInvisibleQuestionBlockVariants() {
@@ -523,5 +708,12 @@ public class ItemModelGen extends ItemModelProvider {
                 }
             });
         });
+    }
+
+    public void waxedItem(Item waxedItem, Item item) {
+        ResourceLocation texture = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        this.getBuilder(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(waxedItem)).getPath())
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(texture.getNamespace(), "item/" + texture.getPath()));
     }
 }

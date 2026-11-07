@@ -1,0 +1,174 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block",
+        "uvlock": true
+      },
+      "when": {
+        "bottom": "false",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block_cap",
+        "uvlock": true
+      },
+      "when": {
+        "bottom": "true",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/super_mushroom_block_inside"
+      },
+      "when": {
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "bottom": "false",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block_cap",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "bottom": "true",
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/super_mushroom_block_inside",
+        "y": 90
+      },
+      "when": {
+        "east": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "bottom": "false",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block_cap",
+        "uvlock": true,
+        "y": 180
+      },
+      "when": {
+        "bottom": "true",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/super_mushroom_block_inside",
+        "y": 180
+      },
+      "when": {
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "bottom": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block_cap",
+        "uvlock": true,
+        "y": 270
+      },
+      "when": {
+        "bottom": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/super_mushroom_block_inside",
+        "y": 270
+      },
+      "when": {
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block_top",
+        "uvlock": true,
+        "x": 270
+      },
+      "when": {
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/super_mushroom_block_inside",
+        "x": 270
+      },
+      "when": {
+        "up": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/orange_super_mushroom_block_top",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "bottom": "false",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/super_mushroom_block_inside",
+        "x": 90
+      },
+      "when": {
+        "bottom": "true",
+        "down": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/super_mushroom_block_inside",
+        "x": 90
+      },
+      "when": {
+        "down": "false"
+      }
+    }
+  ]
+}

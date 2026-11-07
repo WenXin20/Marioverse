@@ -1,0 +1,68 @@
+{
+  "variants": {
+    "facing=down": [
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor",
+        "x": 180
+      },
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor_mirrored",
+        "x": 180
+      }
+    ],
+    "facing=east": [
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor_mirrored",
+        "x": 90,
+        "y": 90
+      }
+    ],
+    "facing=north": [
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor_mirrored",
+        "x": 90
+      }
+    ],
+    "facing=south": [
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor_mirrored",
+        "x": 90,
+        "y": 180
+      }
+    ],
+    "facing=up": [
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor"
+      },
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor_mirrored"
+      }
+    ],
+    "facing=west": [
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "marioverse:block/deep_fungal_stone_floor_mirrored",
+        "x": 90,
+        "y": 270
+      }
+    ]
+  }
+}

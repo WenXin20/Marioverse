@@ -1,0 +1,23 @@
+{
+  "id": "marioverse:calcite_stairs",
+  "colors": {
+    "default": "marioverse:calcite_stairs",
+    "white": "marioverse:calcite_stairs",
+    "orange": "marioverse:orange_calcite_stairs",
+    "magenta": "marioverse:magenta_calcite_stairs",
+    "light_blue": "marioverse:light_blue_calcite_stairs",
+    "yellow": "marioverse:yellow_calcite_stairs",
+    "lime": "marioverse:lime_calcite_stairs",
+    "pink": "marioverse:pink_calcite_stairs",
+    "gray": "marioverse:gray_calcite_stairs",
+    "light_gray": "marioverse:light_gray_calcite_stairs",
+    "cyan": "marioverse:cyan_calcite_stairs",
+    "purple": "marioverse:purple_calcite_stairs",
+    "blue": "marioverse:blue_calcite_stairs",
+    "brown": "marioverse:brown_calcite_stairs",
+    "green": "marioverse:green_calcite_stairs",
+    "red": "marioverse:red_calcite_stairs",
+    "black": "marioverse:black_calcite_stairs"
+  },
+  "replace": true
+}

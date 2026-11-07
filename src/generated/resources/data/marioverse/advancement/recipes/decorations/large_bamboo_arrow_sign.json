@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bamboo_arrow_sign": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:bamboo_arrow_sign"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:large_bamboo_arrow_sign"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bamboo_arrow_sign"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:large_bamboo_arrow_sign"
+    ]
+  }
+}

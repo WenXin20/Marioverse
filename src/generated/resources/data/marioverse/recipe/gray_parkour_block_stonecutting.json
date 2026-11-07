@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "marioverse:gray_rhombus_parkour_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "marioverse:gray_parkour_block"
+  }
+}

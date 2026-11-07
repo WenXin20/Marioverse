@@ -1,13 +1,31 @@
 {
   "values": {
+    "marioverse:copper_bridge": {
+      "waxed": "marioverse:waxed_copper_bridge"
+    },
     "marioverse:copper_question_block": {
       "waxed": "marioverse:waxed_copper_question_block"
+    },
+    "marioverse:copper_screw": {
+      "waxed": "marioverse:waxed_copper_screw"
+    },
+    "marioverse:cut_copper_loophole": {
+      "waxed": "marioverse:waxed_cut_copper_loophole"
     },
     "marioverse:cut_copper_pedestal": {
       "waxed": "marioverse:waxed_cut_copper_pedestal"
     },
+    "marioverse:exposed_copper_bridge": {
+      "waxed": "marioverse:waxed_exposed_copper_bridge"
+    },
     "marioverse:exposed_copper_question_block": {
       "waxed": "marioverse:waxed_exposed_copper_question_block"
+    },
+    "marioverse:exposed_copper_screw": {
+      "waxed": "marioverse:waxed_exposed_copper_screw"
+    },
+    "marioverse:exposed_cut_copper_loophole": {
+      "waxed": "marioverse:waxed_exposed_cut_copper_loophole"
     },
     "marioverse:exposed_cut_copper_pedestal": {
       "waxed": "marioverse:waxed_exposed_cut_copper_pedestal"
@@ -24,8 +42,17 @@
     "marioverse:invisible_weathered_copper_question_block": {
       "waxed": "marioverse:invisible_waxed_weathered_copper_question_block"
     },
+    "marioverse:oxidized_copper_bridge": {
+      "waxed": "marioverse:waxed_oxidized_copper_bridge"
+    },
     "marioverse:oxidized_copper_question_block": {
       "waxed": "marioverse:waxed_oxidized_copper_question_block"
+    },
+    "marioverse:oxidized_copper_screw": {
+      "waxed": "marioverse:waxed_oxidized_copper_screw"
+    },
+    "marioverse:oxidized_cut_copper_loophole": {
+      "waxed": "marioverse:waxed_oxidized_cut_copper_loophole"
     },
     "marioverse:oxidized_cut_copper_pedestal": {
       "waxed": "marioverse:waxed_oxidized_cut_copper_pedestal"
@@ -54,8 +81,17 @@
     "marioverse:storage_weathered_cut_copper": {
       "waxed": "marioverse:storage_waxed_weathered_cut_copper"
     },
+    "marioverse:weathered_copper_bridge": {
+      "waxed": "marioverse:waxed_weathered_copper_bridge"
+    },
     "marioverse:weathered_copper_question_block": {
       "waxed": "marioverse:waxed_weathered_copper_question_block"
+    },
+    "marioverse:weathered_copper_screw": {
+      "waxed": "marioverse:waxed_weathered_copper_screw"
+    },
+    "marioverse:weathered_cut_copper_loophole": {
+      "waxed": "marioverse:waxed_weathered_cut_copper_loophole"
     },
     "marioverse:weathered_cut_copper_pedestal": {
       "waxed": "marioverse:waxed_weathered_cut_copper_pedestal"

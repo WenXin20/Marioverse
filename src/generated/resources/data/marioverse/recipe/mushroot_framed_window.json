@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:framed_windows",
+  "key": {
+    "#": {
+      "item": "marioverse:mushroot_boards"
+    },
+    "G": {
+      "tag": "c:glass_blocks/colorless"
+    }
+  },
+  "pattern": [
+    " # ",
+    "#G#",
+    " # "
+  ],
+  "result": {
+    "count": 3,
+    "id": "marioverse:mushroot_framed_window"
+  }
+}

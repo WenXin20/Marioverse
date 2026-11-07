@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/tinted_flower_pot_cross",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "plant": "marioverse:block/potted_shroomgrass"
+  }
+}

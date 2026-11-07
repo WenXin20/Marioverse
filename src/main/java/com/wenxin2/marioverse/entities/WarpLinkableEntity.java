@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -48,6 +49,16 @@ public interface WarpLinkableEntity {
 
     void mv$setWarpEntity(Entity entity);
 
+    @Nullable WarpTarget mv$getWarpTarget();
+
+    void mv$setWarpTarget(@Nullable WarpTarget target);
+
+    @Nullable UUID mv$getWarpSubLevel();
+
+    @Nullable BlockPos mv$getWarpSubLevelPos();
+
+    void mv$setWarpSubLevel(@Nullable UUID subLevel, @Nullable BlockPos localPos);
+
     static @Nullable WarpTarget getWarpPos(UUID uuid) {
         return WARP_LOCATIONS.get(uuid);
     }
@@ -56,12 +67,28 @@ public interface WarpLinkableEntity {
         WARP_LOCATIONS.put(uuid, new WarpTarget(pos, direction, width));
     }
 
+    static void updateWarpSubLevel(Level level, WarpLinkableEntity warpLinkableEntity, BlockPos destination) {
+        if (level.isClientSide || !SableProvider.isLoaded())
+            return;
+
+        SableProvider.SubLevelAnchor anchor = SableProvider.getAnchor(level, destination);
+
+        if (anchor != null)
+            warpLinkableEntity.mv$setWarpSubLevel(anchor.subLevel(), anchor.localPos());
+        else if (!SableProvider.isPlotPos(level, destination))
+            warpLinkableEntity.mv$setWarpSubLevel(null, null);
+    }
+
     static void markEntityTeleported(Entity entity) {
         if (entity != null)
             WARPED_ENTITIES.put(entity.getId(), true);
     }
 
     static void warp(Level level, Entity entity, double x, double y, double z) {
+        WarpLinkableEntity.warp(level, entity, x, y, z, entity.getYRot());
+    }
+
+    static void warp(Level level, Entity entity, double x, double y, double z, float yaw) {
         float pitch = 0.9F + level.random.nextFloat() * 0.2F;
         Entity passengerEntity = entity.getControllingPassenger();
         Entity vehicle = entity.getVehicle();
@@ -72,9 +99,11 @@ public interface WarpLinkableEntity {
                 entity.unRide();
 
                 if (entity instanceof ServerPlayer serverPlayer)
-                    serverPlayer.teleportTo((ServerLevel) level, x, y, z, flags, serverPlayer.getYRot(), serverPlayer.getXRot());
+                    serverPlayer.teleportTo((ServerLevel) level, x, y, z, flags, yaw, serverPlayer.getXRot());
                 else entity.teleportTo(x, y, z);
 
+                entity.setYRot(yaw);
+                entity.setYHeadRot(yaw);
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
 
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
@@ -88,6 +117,8 @@ public interface WarpLinkableEntity {
                 }
             } else {
                 entity.teleportTo(x, y, z);
+                entity.setYRot(yaw);
+                entity.setYHeadRot(yaw);
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
 
                 if (passengerEntity instanceof Player player) {

@@ -1,7 +1,10 @@
 package com.wenxin2.marioverse.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.wenxin2.marioverse.blocks.QuicksandBlock;
+import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.items.FemaleCostumeItem;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
@@ -59,6 +62,8 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -316,6 +321,14 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
         if ((this.horizontalCollision || this.jumping) && (state.getBlock() instanceof QuicksandBlock))
             return new Vec3(motion.x, 0.2D, motion.z);
         return motion;
+    }
+
+    @WrapOperation(method = "travel", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/state/BlockState;getFriction(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)F"))
+    private float mv$iceCubeFriction(BlockState state, LevelReader level, BlockPos pos, Entity entity, Operation<Float> original) {
+        if (IceCubeEntity.isStandingOnStillIceCube((LivingEntity) (Object) this))
+            return Blocks.ICE.getFriction();
+        return original.call(state, level, pos, entity);
     }
 
     @ModifyReturnValue(method = "getDimensions", at = @At("TAIL"))

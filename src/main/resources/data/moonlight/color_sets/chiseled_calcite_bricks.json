@@ -1,0 +1,23 @@
+{
+  "id": "marioverse:chiseled_calcite_bricks",
+  "colors": {
+    "default": "marioverse:chiseled_white_calcite_bricks",
+    "white": "marioverse:chiseled_white_calcite_bricks",
+    "orange": "marioverse:chiseled_orange_calcite_bricks",
+    "magenta": "marioverse:chiseled_magenta_calcite_bricks",
+    "light_blue": "marioverse:chiseled_light_blue_calcite_bricks",
+    "yellow": "marioverse:chiseled_yellow_calcite_bricks",
+    "lime": "marioverse:chiseled_lime_calcite_bricks",
+    "pink": "marioverse:chiseled_pink_calcite_bricks",
+    "gray": "marioverse:chiseled_gray_calcite_bricks",
+    "light_gray": "marioverse:chiseled_light_gray_calcite_bricks",
+    "cyan": "marioverse:chiseled_cyan_calcite_bricks",
+    "purple": "marioverse:chiseled_purple_calcite_bricks",
+    "blue": "marioverse:chiseled_blue_calcite_bricks",
+    "brown": "marioverse:chiseled_brown_calcite_bricks",
+    "green": "marioverse:chiseled_green_calcite_bricks",
+    "red": "marioverse:chiseled_red_calcite_bricks",
+    "black": "marioverse:chiseled_black_calcite_bricks"
+  },
+  "replace": true
+}

@@ -1,0 +1,8 @@
+{
+  "targets": [
+    "marioverse:shroomsoil_path"
+  ],
+  "append_models": [
+    "marioverse:block/shroomgrass_side_overlay_path"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "marioverse:block/rocky_deep_fungal_stone_top",
+    "side": "marioverse:block/rocky_deep_fungal_stone"
+  }
+}

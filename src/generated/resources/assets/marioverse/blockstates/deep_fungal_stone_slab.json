@@ -4,7 +4,7 @@
       "model": "marioverse:block/deep_fungal_stone_slab"
     },
     "type=double": {
-      "model": "marioverse:block/deep_fungal_stone"
+      "model": "marioverse:block/deep_fungal_stone_slab_double"
     },
     "type=top": {
       "model": "marioverse:block/deep_fungal_stone_slab_top"

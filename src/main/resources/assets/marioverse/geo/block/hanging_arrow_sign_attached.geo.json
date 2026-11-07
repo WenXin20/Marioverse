@@ -1,0 +1,58 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.arrow_sign_wall",
+				"texture_width": 64,
+				"texture_height": 32,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "root",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "board",
+					"parent": "root",
+					"pivot": [0, 8, 0.5],
+					"cubes": [
+						{"origin": [-7, 5, -1], "size": [16, 5, 2], "uv": [0, 0]},
+						{"origin": [-9, 0, -1], "size": [16, 5, 2], "uv": [0, 8]}
+					]
+				},
+				{
+					"name": "arrow",
+					"parent": "board",
+					"pivot": [0, 5, 0],
+					"cubes": [
+						{
+							"origin": [-8, -3, -1.05],
+							"size": [16, 16, 1],
+							"uv": {
+								"north": {"uv": [0, 0], "uv_size": [16, 16]}
+							}
+						}
+					]
+				},
+				{
+					"name": "chain",
+					"parent": "board",
+					"pivot": [0, 13, 0],
+					"cubes": [
+						{
+							"origin": [-7, 10, 0],
+							"size": [14, 6, 0],
+							"uv": {
+								"north": {"uv": [64, 0], "uv_size": [-14, 6]}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

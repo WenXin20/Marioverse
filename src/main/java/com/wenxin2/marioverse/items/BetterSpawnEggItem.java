@@ -106,12 +106,11 @@ public class BetterSpawnEggItem extends DeferredSpawnEggItem {
                     }
 
                     if (entity instanceof PiranhaPlantEntity piranhaPlant) {
-                        BlockPos newPos = piranhaPlant.findValidBlockPos();
                         String variant = stack.get(DataComponentRegistry.VARIANT.get());
 
                         if (variant != null)
                             piranhaPlant.setVariant(variant);
-                        piranhaPlant.attachToBlock(newPos, context.getClickedFace().getOpposite());
+                        piranhaPlant.attachToClickedFace(pos, direction);
                     }
 
                     if (entity instanceof PorcupufferEntity porcupuffer) {

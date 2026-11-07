@@ -5,19 +5,24 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.LongTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
 public class GlobalSwitchSavedData extends SavedData {
     public static final String ID = "marioverse_switch_state";
+    private static final Map<ResourceKey<Level>, Boolean> ACTIVE_CACHE = new ConcurrentHashMap<>();
     private final Map<ChunkPos, Set<BlockPos>> blocksMap = new HashMap<>();
+    private ResourceKey<Level> dimension;
     private boolean isActive = true;
 
     public static GlobalSwitchSavedData create() {
@@ -74,13 +79,21 @@ public class GlobalSwitchSavedData extends SavedData {
     public void setActive(boolean active) {
         if (this.isActive != active) {
             this.isActive = active;
+            if (this.dimension != null)
+                ACTIVE_CACHE.put(this.dimension, active);
             this.setDirty();
         }
     }
 
     public static GlobalSwitchSavedData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(new SavedData
+        GlobalSwitchSavedData data = level.getDataStorage().computeIfAbsent(new SavedData
                 .Factory<>(GlobalSwitchSavedData::create, GlobalSwitchSavedData::load), GlobalSwitchSavedData.ID);
+
+        if (data.dimension == null) {
+            data.dimension = level.dimension();
+            ACTIVE_CACHE.put(data.dimension, data.isActive);
+        }
+        return data;
     }
 
     public void link(BlockPos pos) {
@@ -103,5 +116,9 @@ public class GlobalSwitchSavedData extends SavedData {
 
     public Collection<Set<BlockPos>> allPositions() {
         return blocksMap.values();
+    }
+
+    public static boolean isActiveCached(ServerLevel level) {
+        return ACTIVE_CACHE.getOrDefault(level.dimension(), true);
     }
 }

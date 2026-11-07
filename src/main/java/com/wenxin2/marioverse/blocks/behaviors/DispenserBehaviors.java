@@ -1,6 +1,8 @@
 package com.wenxin2.marioverse.blocks.behaviors;
 
 import com.wenxin2.marioverse.blocks.SplunkinCarvedPumpkinBlock;
+import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
+import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.DispensibleContainerItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -78,6 +81,11 @@ public class DispenserBehaviors {
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET, dispensePlasticBucketBehavior);
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET, dispensePlasticBucketBehavior);
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_WATER_BUCKET, dispensePlasticBucketBehavior);
+        DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_LAVA_BUCKET, dispensePlasticBucketBehavior);
+        for (Item bucket : RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.values())
+            DispenserBlock.registerBehavior(bucket, dispensePlasticBucketBehavior);
+        for (Item bucket : RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.values())
+            DispenserBlock.registerBehavior(bucket, dispensePlasticBucketBehavior);
 
         DispenseItemBehavior plasticBucketBehavior = DispenserBlock.DISPENSER_REGISTRY.get(ItemRegistry.PLASTIC_BUCKET.get());
         DispenserBlock.registerBehavior(ItemRegistry.PLASTIC_BUCKET.get(), new DefaultDispenseItemBehavior() {
@@ -99,8 +107,10 @@ public class DispenserBehaviors {
                     newStack = new ItemStack(ItemRegistry.PLASTIC_RED_QUICKSAND_BUCKET.get());
                 else if (state.is(Blocks.POWDER_SNOW))
                     newStack = new ItemStack(ItemRegistry.PLASTIC_POWDER_SNOW_BUCKET.get());
-                else if (state.is(Blocks.WATER))
-                    newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
+                else if (RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.containsKey(state.getBlock()))
+                    newStack = new ItemStack(RegistryEventHandlers.PLASTIC_SOLID_BUCKETS.get(state.getBlock()));
+                else if (PlasticBucketItem.canPickUp(stack, level.getFluidState(pos).getType()))
+                    newStack = new ItemStack(PlasticBucketItem.getPlasticBucket(level.getFluidState(pos).getType()));
                 else if (state.is(BlockRegistry.PIPE_BUBBLES))
                     newStack = new ItemStack(ItemRegistry.PLASTIC_WATER_BUCKET.get());
                 else if (state.is(BlockRegistry.WATER_SPOUT))

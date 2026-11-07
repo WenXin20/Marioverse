@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaterniondc;
 import org.joml.Vector3d;
@@ -49,7 +48,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
         int blockY = pos.getY();
         int blockZ = pos.getZ();
 
-        if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+        if (SableProvider.isLoaded() && object instanceof SableProvider.SableContext context) {
             Quaterniondc rotation = context.subLevel.logicalPose().orientation();
             Vector3d localLook = rotation.transformInverse(new Vector3d(look.x, look.y, look.z));
             look = new Vec3(localLook.x, localLook.y, localLook.z).normalize();
@@ -72,9 +71,9 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
             double lookDot = flatX * facing.getStepX() + flatZ * facing.getStepZ();
             boolean facingIntoPipe = lookDot < -0.65;
 
-            boolean withinX = entityX > blockX && entityX < blockX + 1;
+            boolean withinX = entityX >= blockX && entityX < blockX + 1;
             boolean withinY = entityY >= blockY && entityY < blockY + 1;
-            boolean withinZ = entityZ > blockZ && entityZ < blockZ + 1;
+            boolean withinZ = entityZ >= blockZ && entityZ < blockZ + 1;
             boolean insideFaceBounds;
 
             switch (facing.getAxis()) {
@@ -107,7 +106,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
         for (BlockPos posAbove : BlockPos.betweenClosed(min, max)) {
             BlockState stateAbove = level.getBlockState(posAbove);
 
-            if (ModList.get().isLoaded("sable") && object instanceof SableProvider.SableContext context) {
+            if (SableProvider.isLoaded() && object instanceof SableProvider.SableContext context) {
                 BlockPos posEmbedded = context.posEmbedded.above(Math.round(entity.getBbHeight()))
                         .offset(posAbove.getX() - min.getX(), posAbove.getY() - max.getY(), posAbove.getZ() - min.getZ());
                 stateAbove = context.accessor.getBlockState(posEmbedded);
@@ -127,6 +126,9 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
     }
 
     private void displayNoTeleportMessage(Player player, BlockState state) {
+        if (BlockWarpEntityHandler.isStillEnteringAfterWarp(player))
+            return;
+
         if (!this.mv$getBlockWarpTeleportConfig(player) || player.getType().is(TagRegistry.CANNOT_WARP)) {
             if (state.getBlock() instanceof WarpPipeBlock) {
                 player.displayClientMessage(Component.translatable("display.marioverse.pipes_cannot_teleport_players"), true);

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/mega_mushroom_stem"
+    },
+    "top=true": {
+      "model": "marioverse:block/pink_mega_mushroom_trampoline"
+    }
+  }
+}

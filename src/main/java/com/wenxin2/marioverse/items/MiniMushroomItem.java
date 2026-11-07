@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.AbilityBlock;
+import com.wenxin2.marioverse.event_handlers.TickEventHandlers;
 import com.wenxin2.marioverse.power_up.PowerUpSource;
 import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
@@ -48,7 +49,10 @@ public class MiniMushroomItem extends PowerUpItem implements PowerUpSource {
     }
 
     public static void miniMushroomAbility(LivingEntity entity) {
-        boolean isActive = entity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM);
+        boolean isActive = TickEventHandlers.hasFlag(entity, DataAttachmentRegistry.HAS_MINI_MUSHROOM);
+        if (!isActive && !MiniMushroomItem.hasAbilityResidue(entity))
+            return;
+
         AttributeInstance jumpAttribute = entity.getAttribute(Attributes.JUMP_STRENGTH);
         AttributeInstance safeFallAttribute = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE);
         AttributeInstance blockReachAttribute = entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
@@ -72,5 +76,16 @@ public class MiniMushroomItem extends PowerUpItem implements PowerUpSource {
             if (motion.y < 0)
                 entity.setDeltaMovement(motion.x, motion.y * 0.9, motion.z);
         }
+    }
+
+    private static boolean hasAbilityResidue(LivingEntity entity) {
+        return AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.JUMP_STRENGTH),
+                    AttributesRegistry.MINI_JUMP_BOOST, AttributesRegistry.MINI_RUNNING_JUMP_BOOST)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.SAFE_FALL_DISTANCE),
+                    AttributesRegistry.MINI_SAFE_FALL_DISTANCE, AttributesRegistry.MINI_SAFE_FALL_DISTANCE)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE),
+                    AttributesRegistry.MINI_BLOCK_REACH_DISTANCE, AttributesRegistry.MINI_BLOCK_REACH_DISTANCE)
+                || AbilityBlock.hasAnyModifier(entity.getAttribute(Attributes.ENTITY_INTERACTION_RANGE),
+                    AttributesRegistry.MINI_ENTITY_REACH_DISTANCE, AttributesRegistry.MINI_ENTITY_REACH_DISTANCE);
     }
 }

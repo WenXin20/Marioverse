@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:bridges",
+  "key": {
+    "#": {
+      "item": "minecraft:polished_granite"
+    }
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "count": 4,
+    "id": "marioverse:granite_bridge"
+  }
+}

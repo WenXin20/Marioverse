@@ -1,6 +1,9 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.blocks.LargeStandingArrowSignBlock;
+import com.wenxin2.marioverse.blocks.LargeWallArrowSignBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
+import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -12,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -27,7 +31,11 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.HangingSignBlockEntity;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
@@ -79,6 +87,9 @@ public class WrenchItem extends LinkerItem {
             int soundPitch = state.getValue(OnOffSwitchBlock.RADIUS) / 16;
             level.playSound(null, pos, SoundRegistry.SWITCH_RADIUS_TOGGLED.get(),
                     SoundSource.BLOCKS, 1.0F, 0.7F + 0.5F * soundPitch);
+            return InteractionResult.sidedSuccess(true);
+        } else if (state.hasProperty(BlockStateProperties.ROTATION_16)) {
+            WrenchItem.rotateRotation16(level, state, pos);
             return InteractionResult.sidedSuccess(true);
         }
         return super.useOn(useOnContext);
@@ -151,5 +162,38 @@ public class WrenchItem extends LinkerItem {
 
                 .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed,
                         AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND).build();
+    }
+
+    public static boolean rotateRotation16(Level level, BlockState state, BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof ArrowSignBlockEntity arrowSignBE
+                && arrowSignBE.isWaxed())
+            return false;
+        if (level.getBlockEntity(pos) instanceof SignBlockEntity signBE
+                && signBE.isWaxed())
+            return false;
+        if (level.getBlockEntity(pos) instanceof HangingSignBlockEntity hangingSignBE
+                && hangingSignBE.isWaxed())
+            return false;
+
+        if (!level.isClientSide) {
+            int current = state.getValue(BlockStateProperties.ROTATION_16);
+            int rotated = (current + 1) % 16;
+            level.setBlock(pos, state.setValue(BlockStateProperties.ROTATION_16, rotated), Block.UPDATE_CLIENTS);
+
+            Block block = state.getBlock();
+            BlockPos[] siblingPositions;
+            if (block instanceof LargeStandingArrowSignBlock standingSign)
+                siblingPositions = new BlockPos[] { standingSign.otherHalfPos(state, pos) };
+            else siblingPositions = new BlockPos[0];
+
+            for (BlockPos siblingPos : siblingPositions) {
+                BlockState siblingState = level.getBlockState(siblingPos);
+                if (siblingState.is(block) && siblingState.hasProperty(BlockStateProperties.ROTATION_16))
+                    level.setBlock(siblingPos, siblingState.setValue(BlockStateProperties.ROTATION_16, rotated), Block.UPDATE_CLIENTS);
+            }
+
+            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ROTATE_ITEM, SoundSource.BLOCKS);
+        }
+        return true;
     }
 }

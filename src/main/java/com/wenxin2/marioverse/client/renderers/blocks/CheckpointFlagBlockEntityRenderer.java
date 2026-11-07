@@ -1,15 +1,19 @@
 package com.wenxin2.marioverse.client.renderers.blocks;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.states.TripleBlockStates;
 import com.wenxin2.marioverse.client.models.blocks.CheckpointFlagBlockModel;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
@@ -28,6 +32,19 @@ public class CheckpointFlagBlockEntityRenderer extends GeoBlockRenderer<Checkpoi
                 else return null;
             }
         });
+    }
+
+    @Override
+    public void render(CheckpointFlagBlockEntity animatable, float partialTick, PoseStack poseStack,
+                       MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+        Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+        Vec3 center = Vec3.atBottomCenterOf(animatable.getBlockPos());
+        Vec3 cameraPos = camera.getPosition();
+
+        if (!camera.isDetached() && Math.abs(cameraPos.x - center.x) < 0.025 && Math.abs(cameraPos.z - center.z) < 0.025
+                && cameraPos.y >= center.y && cameraPos.y < center.y + 3)
+            return;
+        super.render(animatable, partialTick, poseStack, bufferSource, packedLight, packedOverlay);
     }
 
     @Nullable

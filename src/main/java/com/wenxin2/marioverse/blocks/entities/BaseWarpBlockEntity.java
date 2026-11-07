@@ -1,10 +1,17 @@
 package com.wenxin2.marioverse.blocks.entities;
 
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.WeakHashMap;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -29,13 +36,22 @@ public class BaseWarpBlockEntity extends BlockEntity {
     public static final String UUID = "UUID";
     public static final String PREVENT_WARP = "PreventWarp";
     public static final String IS_WAXED = "IsWaxed";
+    public static final String WARP_SUB_LEVEL = "WarpSubLevel";
+    public static final String WARP_SUB_LEVEL_POS = "WarpSubLevelPos";
+    public static final String WARP_ENTITY_DIRECTION = "WarpEntityDirection";
+    public static final String WARP_ENTITY_WIDTH = "WarpEntityWidth";
     public BlockPos destinationPos;
+    public UUID destinationSubLevel;
+    public BlockPos destinationSubLevelPos;
     public String dimensionTag;
     public boolean preventWarp = Boolean.FALSE;
     public boolean isWaxed;
     public UUID uuid;
     public UUID warpUuid;
-    public static final Map<UUID, BlockPos> WARP_LOCATIONS = new HashMap<>();
+    @Nullable public Direction warpEntityDirection;
+    public int warpEntityWidth;
+    public static final Map<UUID, Set<GlobalPos>> WARP_LOCATIONS = new HashMap<>();
+    public static final Map<Level, Set<BlockPos>> LOADED_WARP_BLOCKS = new WeakHashMap<>();
     // Store a map to track whether entities have teleported or not
     public static final Map<Integer, Boolean> WARPED_ENTITIES = new HashMap<>();
 
@@ -61,6 +77,9 @@ public class BaseWarpBlockEntity extends BlockEntity {
 
     public void setDestinationPos(@Nullable BlockPos pos) {
         this.destinationPos = pos;
+        this.warpEntityDirection = null;
+        this.warpEntityWidth = 0;
+        this.updateDestinationSubLevel(pos);
         this.setChanged();
         if (this.level != null && pos != null) {
             BlockState state = this.getBlockState();
@@ -119,6 +138,16 @@ public class BaseWarpBlockEntity extends BlockEntity {
         this.onLoad();
     }
 
+    public void setWarpEntityTarget(Direction direction, int width) {
+        this.warpEntityDirection = direction;
+        this.warpEntityWidth = width;
+        this.setChanged();
+    }
+
+    public boolean hasWarpEntityTarget() {
+        return this.warpEntityDirection != null;
+    }
+
     public void markUpdated() {
         this.setChanged();
         if (this.level != null)
@@ -146,6 +175,16 @@ public class BaseWarpBlockEntity extends BlockEntity {
 
         if (tag.contains(WARP_UUID))
             this.warpUuid = tag.getUUID(WARP_UUID);
+
+        if (tag.contains(WARP_SUB_LEVEL) && tag.contains(WARP_SUB_LEVEL_POS)) {
+            this.destinationSubLevel = tag.getUUID(WARP_SUB_LEVEL);
+            this.destinationSubLevelPos = NbtUtils.readBlockPos(tag, WARP_SUB_LEVEL_POS).orElse(null);
+        }
+
+        if (tag.contains(WARP_ENTITY_DIRECTION)) {
+            this.warpEntityDirection = Direction.from3DDataValue(tag.getInt(WARP_ENTITY_DIRECTION));
+            this.warpEntityWidth = tag.getInt(WARP_ENTITY_WIDTH);
+        }
     }
 
     @Override
@@ -165,12 +204,38 @@ public class BaseWarpBlockEntity extends BlockEntity {
 
         if (this.warpUuid != null)
             tag.putUUID(WARP_UUID, this.getWarpUuid());
+
+        if (this.destinationSubLevel != null && this.destinationSubLevelPos != null) {
+            tag.putUUID(WARP_SUB_LEVEL, this.destinationSubLevel);
+            tag.put(WARP_SUB_LEVEL_POS, NbtUtils.writeBlockPos(this.destinationSubLevelPos));
+        }
+
+        if (this.warpEntityDirection != null) {
+            tag.putInt(WARP_ENTITY_DIRECTION, this.warpEntityDirection.get3DDataValue());
+            tag.putInt(WARP_ENTITY_WIDTH, this.warpEntityWidth);
+        }
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        WARP_LOCATIONS.put(this.getWarpUuid(), this.getBlockPos());
+        if (this.level != null)
+            BaseWarpBlockEntity.registerWarpLocation(this.getWarpUuid(), this.level, this.getBlockPos());
+
+        if (this.level != null && !this.level.isClientSide)
+            LOADED_WARP_BLOCKS.computeIfAbsent(this.level, level -> new HashSet<>()).add(this.getBlockPos().immutable());
+    }
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+        this.unregisterLoadedWarpBlock();
+    }
+
+    @Override
+    public void onChunkUnloaded() {
+        super.onChunkUnloaded();
+        this.unregisterLoadedWarpBlock();
     }
 
     @NotNull
@@ -202,7 +267,71 @@ public class BaseWarpBlockEntity extends BlockEntity {
             WARPED_ENTITIES.put(entity.getId(), true);
     }
 
-    public static BlockPos findMatchingUUID(UUID uuid) {
-        return WARP_LOCATIONS.getOrDefault(uuid, null);
+    public static void registerWarpLocation(@Nullable UUID uuid, Level level, BlockPos pos) {
+        if (uuid != null)
+            WARP_LOCATIONS.computeIfAbsent(uuid, key -> new HashSet<>()).add(GlobalPos.of(level.dimension(), pos.immutable()));
+    }
+
+    @Nullable
+    public static BlockPos findMatchingUUID(UUID uuid, Level level, BlockPos origin) {
+        Set<GlobalPos> positions = WARP_LOCATIONS.get(uuid);
+        if (positions == null)
+            return null;
+
+        BlockPos nearest = null;
+        double nearestDistance = Double.MAX_VALUE;
+        Iterator<GlobalPos> iterator = positions.iterator();
+
+        while (iterator.hasNext()) {
+            GlobalPos globalPos = iterator.next();
+            BlockPos pos = globalPos.pos();
+
+            if (globalPos.dimension() != level.dimension() || pos.equals(origin))
+                continue;
+
+            if (level.isLoaded(pos) && !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE && uuid.equals(warpBE.getWarpUuid()))) {
+                iterator.remove();
+                continue;
+            }
+
+            double distance = pos.distSqr(origin);
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearest = pos;
+            }
+        }
+
+        if (positions.isEmpty())
+            WARP_LOCATIONS.remove(uuid);
+        return nearest;
+    }
+
+    public void updateDestinationSubLevel(@Nullable BlockPos pos) {
+        if (pos == null) {
+            this.destinationSubLevel = null;
+            this.destinationSubLevelPos = null;
+            return;
+        }
+
+        if (this.level == null || this.level.isClientSide || !SableProvider.isLoaded())
+            return;
+
+        SableProvider.SubLevelAnchor anchor = SableProvider.getAnchor(this.level, pos);
+
+        if (anchor != null) {
+            this.destinationSubLevel = anchor.subLevel();
+            this.destinationSubLevelPos = anchor.localPos();
+        } else if (!SableProvider.isPlotPos(this.level, pos)) {
+            this.destinationSubLevel = null;
+            this.destinationSubLevelPos = null;
+        }
+    }
+
+    private void unregisterLoadedWarpBlock() {
+        if (this.level != null && !this.level.isClientSide) {
+            Set<BlockPos> loadedBlocks = LOADED_WARP_BLOCKS.get(this.level);
+            if (loadedBlocks != null)
+                loadedBlocks.remove(this.getBlockPos());
+        }
     }
 }

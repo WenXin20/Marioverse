@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "marioverse:waxed_copper_screw",
+  "ingredients": [
+    {
+      "item": "marioverse:copper_screw"
+    },
+    {
+      "item": "minecraft:honeycomb"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "marioverse:waxed_copper_screw"
+  }
+}

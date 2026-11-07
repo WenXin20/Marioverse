@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "marioverse:item/huge_fortstone_bricks",
+    "side": "marioverse:item/huge_fortstone_bricks",
+    "top": "marioverse:item/huge_fortstone_bricks"
+  }
+}

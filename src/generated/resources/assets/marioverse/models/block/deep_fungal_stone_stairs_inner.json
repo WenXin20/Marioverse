@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/inner_stairs",
   "textures": {
-    "bottom": "marioverse:block/deep_fungal_stone",
+    "bottom": "marioverse:block/deep_fungal_stone_top",
     "side": "marioverse:block/deep_fungal_stone",
-    "top": "marioverse:block/deep_fungal_stone"
+    "top": "marioverse:block/deep_fungal_stone_top"
   }
 }

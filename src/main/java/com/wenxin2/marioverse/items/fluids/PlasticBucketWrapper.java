@@ -13,7 +13,7 @@ public class PlasticBucketWrapper extends FluidBucketWrapper {
 
     @Override
     public boolean canFillFluidType(FluidStack fluid) {
-        return true;
+        return PlasticBucketItem.canPickUp(this.container, fluid.getFluid());
     }
 
     protected void setFluid(FluidStack fluidStack) {

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "marioverse:block/deep_fungal_cobblestone",
+    "side": "marioverse:block/deep_fungal_cobblestone",
+    "top": "marioverse:block/deep_fungal_cobblestone"
+  }
+}

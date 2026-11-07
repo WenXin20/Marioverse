@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "marioverse:block/spookroot_boards",
+    "side": "marioverse:block/spookroot_boards",
+    "top": "marioverse:block/spookroot_boards"
+  }
+}

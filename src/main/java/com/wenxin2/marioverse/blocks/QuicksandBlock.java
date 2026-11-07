@@ -3,6 +3,7 @@ package com.wenxin2.marioverse.blocks;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.SubLevelCollision;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
@@ -40,7 +41,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -72,18 +72,23 @@ public class QuicksandBlock extends ColoredFallingBlock implements BucketPickup,
         return Shapes.empty();
     }
 
+    @Override
+    public boolean hasDynamicShape() {
+        return true;
+    }
+
     @NotNull
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
-        if (context instanceof EntityCollisionContext entityCollisionContext) {
-            Entity entity = entityCollisionContext.getEntity();
+        {
+            Entity entity = SubLevelCollision.getCollisionEntity(context);
             if (entity != null) {
                 if (entity.fallDistance > 2.5F)
                     return FALLING_COLLISION_SHAPE;
 
                 boolean flag = entity instanceof FallingBlockEntity;
                 if (flag || canEntityWalkOnQuicksand(entity)
-                        && context.isAbove(Shapes.block(), pos, false) && !context.isDescending())
+                        && SubLevelCollision.isAbove(context, Shapes.block(), pos) && !entity.isDescending())
                     return super.getCollisionShape(state, blockGetter, pos, context);
             }
         }

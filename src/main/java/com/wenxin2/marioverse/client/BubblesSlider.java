@@ -1,18 +1,15 @@
 package com.wenxin2.marioverse.client;
 
-import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
+import java.util.function.BooleanSupplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 
 public class BubblesSlider extends TexturedSlider {
+    private final BooleanSupplier waxed;
 
     /**
      * @param x x position of upper left corner
@@ -27,10 +24,12 @@ public class BubblesSlider extends TexturedSlider {
      * @param stepSize Size of step used. Precision will automatically be calculated based on this value if this value is not 0.
      * @param precision Only used when {@code stepSize} is 0. Limited to a maximum of 4 (inclusive).
      * @param drawString Should text be displayed on the widget
+     * @param waxed Whether the pipe this slider controls is waxed
      */
     public BubblesSlider(int x, int y, int width, int height, Component prefix, Component suffix,
-                         double minValue, double maxValue, double currentValue, double stepSize, int precision, boolean drawString){
+                         double minValue, double maxValue, double currentValue, double stepSize, int precision, boolean drawString, BooleanSupplier waxed){
         super(x, y, width, height, prefix, suffix, minValue, maxValue, currentValue, stepSize, precision, drawString);
+        this.waxed = waxed;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class BubblesSlider extends TexturedSlider {
         if (player != null && requiresCreativeBubbles(player))
             guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 12)), this.getY(),
                     0, 96, 12, this.height, 200, 24 , 2, 3, 3, 3);
-        else if (player != null && waxDisablesBubbles(minecraft))
+        else if (player != null && waxDisablesBubbles())
             guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 12)), this.getY(),
                     0, 96, 12, this.height, 200, 24 , 2, 3, 3, 3);
         else guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 12)), this.getY(),
@@ -58,15 +57,7 @@ public class BubblesSlider extends TexturedSlider {
         return !player.isCreative() && ConfigRegistry.CREATIVE_BUBBLES.get();
     }
 
-    public boolean waxDisablesBubbles(Minecraft minecraft) {
-        if (minecraft.player != null && minecraft.hitResult != null && minecraft.level != null && minecraft.hitResult.getType() == HitResult.Type.BLOCK) {
-            BlockPos pos = ((BlockHitResult) minecraft.hitResult).getBlockPos();
-            BlockEntity blockEntity = minecraft.level.getBlockEntity(pos);
-
-            if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-                return pipeBlockEntity.isWaxed() && ConfigRegistry.WAX_DISABLES_BUBBLES.get();
-            }
-        }
-        return false;
+    public boolean waxDisablesBubbles() {
+        return this.waxed.getAsBoolean() && ConfigRegistry.WAX_DISABLES_BUBBLES.get();
     }
 }

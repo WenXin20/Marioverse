@@ -1,0 +1,304 @@
+{
+  "variants": {
+    "facing=east,shape=inner_left,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner"
+    },
+    "facing=east,shape=inner_left,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner"
+    },
+    "facing=east,shape=inner_left,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall"
+    },
+    "facing=east,shape=inner_left,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall"
+    },
+    "facing=east,shape=inner_right,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 90
+    },
+    "facing=east,shape=inner_right,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 90
+    },
+    "facing=east,shape=inner_right,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 90
+    },
+    "facing=east,shape=inner_right,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 90
+    },
+    "facing=east,shape=outer_left,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner"
+    },
+    "facing=east,shape=outer_left,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner"
+    },
+    "facing=east,shape=outer_left,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall"
+    },
+    "facing=east,shape=outer_left,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall"
+    },
+    "facing=east,shape=outer_right,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 90
+    },
+    "facing=east,shape=outer_right,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 90
+    },
+    "facing=east,shape=outer_right,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 90
+    },
+    "facing=east,shape=outer_right,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 90
+    },
+    "facing=east,shape=straight,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence",
+      "y": 90
+    },
+    "facing=east,shape=straight,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence",
+      "y": 90
+    },
+    "facing=east,shape=straight,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_tall",
+      "y": 90
+    },
+    "facing=east,shape=straight,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_tall",
+      "y": 90
+    },
+    "facing=north,shape=inner_left,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 270
+    },
+    "facing=north,shape=inner_left,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 270
+    },
+    "facing=north,shape=inner_left,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 270
+    },
+    "facing=north,shape=inner_left,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 270
+    },
+    "facing=north,shape=inner_right,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner"
+    },
+    "facing=north,shape=inner_right,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner"
+    },
+    "facing=north,shape=inner_right,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall"
+    },
+    "facing=north,shape=inner_right,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall"
+    },
+    "facing=north,shape=outer_left,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 270
+    },
+    "facing=north,shape=outer_left,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 270
+    },
+    "facing=north,shape=outer_left,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 270
+    },
+    "facing=north,shape=outer_left,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 270
+    },
+    "facing=north,shape=outer_right,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner"
+    },
+    "facing=north,shape=outer_right,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner"
+    },
+    "facing=north,shape=outer_right,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall"
+    },
+    "facing=north,shape=outer_right,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall"
+    },
+    "facing=north,shape=straight,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence"
+    },
+    "facing=north,shape=straight,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence"
+    },
+    "facing=north,shape=straight,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_tall"
+    },
+    "facing=north,shape=straight,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_tall"
+    },
+    "facing=south,shape=inner_left,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 90
+    },
+    "facing=south,shape=inner_left,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 90
+    },
+    "facing=south,shape=inner_left,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 90
+    },
+    "facing=south,shape=inner_left,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 90
+    },
+    "facing=south,shape=inner_right,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 180
+    },
+    "facing=south,shape=inner_right,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 180
+    },
+    "facing=south,shape=inner_right,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 180
+    },
+    "facing=south,shape=inner_right,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 180
+    },
+    "facing=south,shape=outer_left,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 90
+    },
+    "facing=south,shape=outer_left,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 90
+    },
+    "facing=south,shape=outer_left,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 90
+    },
+    "facing=south,shape=outer_left,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 90
+    },
+    "facing=south,shape=outer_right,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 180
+    },
+    "facing=south,shape=outer_right,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 180
+    },
+    "facing=south,shape=outer_right,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 180
+    },
+    "facing=south,shape=outer_right,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 180
+    },
+    "facing=south,shape=straight,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence",
+      "y": 180
+    },
+    "facing=south,shape=straight,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence",
+      "y": 180
+    },
+    "facing=south,shape=straight,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_tall",
+      "y": 180
+    },
+    "facing=south,shape=straight,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_tall",
+      "y": 180
+    },
+    "facing=west,shape=inner_left,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 180
+    },
+    "facing=west,shape=inner_left,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 180
+    },
+    "facing=west,shape=inner_left,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 180
+    },
+    "facing=west,shape=inner_left,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 180
+    },
+    "facing=west,shape=inner_right,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 270
+    },
+    "facing=west,shape=inner_right,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner",
+      "y": 270
+    },
+    "facing=west,shape=inner_right,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 270
+    },
+    "facing=west,shape=inner_right,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_inner_corner_tall",
+      "y": 270
+    },
+    "facing=west,shape=outer_left,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 180
+    },
+    "facing=west,shape=outer_left,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 180
+    },
+    "facing=west,shape=outer_left,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 180
+    },
+    "facing=west,shape=outer_left,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 180
+    },
+    "facing=west,shape=outer_right,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 270
+    },
+    "facing=west,shape=outer_right,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner",
+      "y": 270
+    },
+    "facing=west,shape=outer_right,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 270
+    },
+    "facing=west,shape=outer_right,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_outer_corner_tall",
+      "y": 270
+    },
+    "facing=west,shape=straight,tall=false,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence",
+      "y": 270
+    },
+    "facing=west,shape=straight,tall=false,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence",
+      "y": 270
+    },
+    "facing=west,shape=straight,tall=true,waterlogged=false": {
+      "model": "marioverse:block/spruce_picket_fence_tall",
+      "y": 270
+    },
+    "facing=west,shape=straight,tall=true,waterlogged=true": {
+      "model": "marioverse:block/spruce_picket_fence_tall",
+      "y": 270
+    }
+  }
+}

@@ -1,6 +1,8 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.items.ArrowSignItem;
+import com.wenxin2.marioverse.items.LargeArrowSignItem;
 import com.wenxin2.marioverse.items.FireFlowerItem;
 import com.wenxin2.marioverse.items.IceFlowerItem;
 import com.wenxin2.marioverse.items.MegaMushroomItem;
@@ -21,13 +23,16 @@ import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.OneUpMushroomSpawnEggItem;
 import com.wenxin2.marioverse.items.PiranhaPlantPodItem;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
+import com.wenxin2.marioverse.items.PlasticMilkBucketItem;
 import com.wenxin2.marioverse.items.PokeySpawnEggItem;
 import com.wenxin2.marioverse.items.SnowPokeySpawnEggItem;
+import com.wenxin2.marioverse.items.SnowyHedgeItem;
 import com.wenxin2.marioverse.items.SolidPlasticBucketItem;
 import com.wenxin2.marioverse.items.StarCoinBlockItem;
 import com.wenxin2.marioverse.items.SuperMushroomItem;
 import com.wenxin2.marioverse.items.SuperStarItem;
 import com.wenxin2.marioverse.items.WarpDisruptorItem;
+import com.wenxin2.marioverse.items.WoodTypeBoatItem;
 import com.wenxin2.marioverse.items.WrenchItem;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -39,11 +44,14 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.BannerPatternItem;
+import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.SolidBucketItem;
 import net.minecraft.world.item.Tiers;
@@ -100,6 +108,19 @@ public class ItemRegistry {
     public static final DeferredItem<Item> HEFTY_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> ICE_FLOWER;
     public static final DeferredItem<Item> ICE_FLOWER_SPAWN_EGG;
+    public static final DeferredItem<Item> LARGE_MUSHROOT_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_SPOOKROOT_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_OAK_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_SPRUCE_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_BIRCH_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_JUNGLE_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_ACACIA_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_DARK_OAK_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_MANGROVE_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_CHERRY_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_BAMBOO_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_CRIMSON_ARROW_SIGN;
+    public static final DeferredItem<Item> LARGE_WARPED_ARROW_SIGN;
     public static final DeferredItem<Item> LARGE_SNOWBALL;
     public static final DeferredItem<Item> LUIGI_ARMOR_TRIM_SMITHING_TEMPLATE;
     public static final DeferredItem<Item> MARIO_ARMOR_TRIM_SMITHING_TEMPLATE;
@@ -109,12 +130,35 @@ public class ItemRegistry {
     public static final DeferredItem<Item> MINI_GOOMBA_SPAWN_EGG;
     public static final DeferredItem<Item> MINI_MUSHROOM;
     public static final DeferredItem<Item> MINI_MUSHROOM_SPAWN_EGG;
+    public static final DeferredItem<Item> MUSHROOT_ARROW_SIGN;
+    public static final DeferredItem<Item> SPOOKROOT_ARROW_SIGN;
+    public static final DeferredItem<Item> OAK_ARROW_SIGN;
+    public static final DeferredItem<Item> SPRUCE_ARROW_SIGN;
+    public static final DeferredItem<Item> BIRCH_ARROW_SIGN;
+    public static final DeferredItem<Item> JUNGLE_ARROW_SIGN;
+    public static final DeferredItem<Item> ACACIA_ARROW_SIGN;
+    public static final DeferredItem<Item> DARK_OAK_ARROW_SIGN;
+    public static final DeferredItem<Item> MANGROVE_ARROW_SIGN;
+    public static final DeferredItem<Item> CHERRY_ARROW_SIGN;
+    public static final DeferredItem<Item> BAMBOO_ARROW_SIGN;
+    public static final DeferredItem<Item> CRIMSON_ARROW_SIGN;
+    public static final DeferredItem<Item> WARPED_ARROW_SIGN;
+    public static final DeferredItem<Item> MUSHROOT_BOAT;
+    public static final DeferredItem<Item> MUSHROOT_CHEST_BOAT;
+    public static final DeferredItem<Item> MUSHROOT_HANGING_SIGN;
+    public static final DeferredItem<Item> MUSHROOT_SIGN;
+    public static final DeferredItem<Item> SPOOKROOT_BOAT;
+    public static final DeferredItem<Item> SPOOKROOT_CHEST_BOAT;
+    public static final DeferredItem<Item> SPOOKROOT_HANGING_SIGN;
+    public static final DeferredItem<Item> SPOOKROOT_SIGN;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM;
     public static final DeferredItem<Item> ONE_UP_MUSHROOM_SPAWN_EGG;
     public static final DeferredItem<Item> PANTS;
     public static final DeferredItem<Item> PIRANHA_PLANT_POD;
     public static final DeferredItem<Item> PIRANHA_PLANT_SPAWN_EGG;
     public static final DeferredItem<Item> PLASTIC_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_LAVA_BUCKET;
+    public static final DeferredItem<Item> PLASTIC_MILK_BUCKET;
     public static final DeferredItem<Item> PLASTIC_POWDER_SNOW_BUCKET;
     public static final DeferredItem<Item> PLASTIC_QUICKSAND_BUCKET;
     public static final DeferredItem<Item> PLASTIC_RED_QUICKSAND_BUCKET;
@@ -133,6 +177,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> SHIRT;
     public static final DeferredItem<Item> SHOES;
     public static final DeferredItem<Item> SNOW_POKEY_SPAWN_EGG;
+    public static final DeferredItem<Item> SNOWY_HEDGE;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> SPINY_CHEEP_CHEEP_SPAWN_EGG;
@@ -153,6 +198,144 @@ public class ItemRegistry {
         STAR_COIN = registerItem("star_coin", () -> new StarCoinBlockItem(BlockRegistry.STAR_COIN.get(), new Item.Properties()));
         CLASSIC_CHECKPOINT_FLAG = registerItem("classic_checkpoint_flag",
                 () -> new CheckpointFlagBlockItem(BlockRegistry.CLASSIC_CHECKPOINT_FLAG.get(), new Item.Properties()));
+
+        MUSHROOT_BOAT = Marioverse.ITEMS.register("mushroot_boat",
+                () -> new WoodTypeBoatItem(false, EntityRegistry.MUSHROOT_BOAT.get(),
+                        new Item.Properties().stacksTo(1)));
+        MUSHROOT_CHEST_BOAT = Marioverse.ITEMS.register("mushroot_chest_boat",
+                () -> new WoodTypeBoatItem(true, EntityRegistry.MUSHROOT_CHEST_BOAT.get(),
+                        new Item.Properties().stacksTo(1)));
+
+        MUSHROOT_HANGING_SIGN = registerItem("mushroot_hanging_sign",
+                () -> new HangingSignItem(BlockRegistry.MUSHROOT_HANGING_SIGN.get(),
+                        BlockRegistry.MUSHROOT_WALL_HANGING_SIGN.get(),
+                        new Item.Properties().stacksTo(16)));
+
+        MUSHROOT_SIGN = registerItem("mushroot_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.MUSHROOT_SIGN.get(), BlockRegistry.MUSHROOT_WALL_SIGN.get()));
+
+        MUSHROOT_ARROW_SIGN = registerItem("mushroot_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.MUSHROOT_ARROW_SIGN.get(), BlockRegistry.MUSHROOT_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.MUSHROOT_HANGING_ARROW_SIGN.get()));
+
+        LARGE_MUSHROOT_ARROW_SIGN = registerItem("large_mushroot_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_MUSHROOT_ARROW_SIGN.get(), BlockRegistry.LARGE_MUSHROOT_WALL_ARROW_SIGN.get()));
+
+        SPOOKROOT_BOAT = Marioverse.ITEMS.register("spookroot_boat",
+                () -> new WoodTypeBoatItem(false, EntityRegistry.SPOOKROOT_BOAT.get(),
+                        new Item.Properties().stacksTo(1)));
+        SPOOKROOT_CHEST_BOAT = Marioverse.ITEMS.register("spookroot_chest_boat",
+                () -> new WoodTypeBoatItem(true, EntityRegistry.SPOOKROOT_CHEST_BOAT.get(),
+                        new Item.Properties().stacksTo(1)));
+
+        SPOOKROOT_HANGING_SIGN = registerItem("spookroot_hanging_sign",
+                () -> new HangingSignItem(BlockRegistry.SPOOKROOT_HANGING_SIGN.get(),
+                        BlockRegistry.SPOOKROOT_WALL_HANGING_SIGN.get(),
+                        new Item.Properties().stacksTo(16)));
+
+        SPOOKROOT_SIGN = registerItem("spookroot_sign",
+                () -> new SignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.SPOOKROOT_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_SIGN.get()));
+
+        SPOOKROOT_ARROW_SIGN = registerItem("spookroot_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.SPOOKROOT_ARROW_SIGN.get(), BlockRegistry.SPOOKROOT_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.SPOOKROOT_HANGING_ARROW_SIGN.get()));
+
+        LARGE_SPOOKROOT_ARROW_SIGN = registerItem("large_spookroot_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_SPOOKROOT_ARROW_SIGN.get(), BlockRegistry.LARGE_SPOOKROOT_WALL_ARROW_SIGN.get()));
+
+        OAK_ARROW_SIGN = registerItem("oak_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.OAK_ARROW_SIGN.get(), BlockRegistry.OAK_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.OAK_HANGING_ARROW_SIGN.get()));
+        LARGE_OAK_ARROW_SIGN = registerItem("large_oak_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_OAK_ARROW_SIGN.get(), BlockRegistry.LARGE_OAK_WALL_ARROW_SIGN.get()));
+
+        SPRUCE_ARROW_SIGN = registerItem("spruce_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.SPRUCE_ARROW_SIGN.get(), BlockRegistry.SPRUCE_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.SPRUCE_HANGING_ARROW_SIGN.get()));
+        LARGE_SPRUCE_ARROW_SIGN = registerItem("large_spruce_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_SPRUCE_ARROW_SIGN.get(), BlockRegistry.LARGE_SPRUCE_WALL_ARROW_SIGN.get()));
+
+        BIRCH_ARROW_SIGN = registerItem("birch_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.BIRCH_ARROW_SIGN.get(), BlockRegistry.BIRCH_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.BIRCH_HANGING_ARROW_SIGN.get()));
+        LARGE_BIRCH_ARROW_SIGN = registerItem("large_birch_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_BIRCH_ARROW_SIGN.get(), BlockRegistry.LARGE_BIRCH_WALL_ARROW_SIGN.get()));
+
+        JUNGLE_ARROW_SIGN = registerItem("jungle_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.JUNGLE_ARROW_SIGN.get(), BlockRegistry.JUNGLE_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.JUNGLE_HANGING_ARROW_SIGN.get()));
+        LARGE_JUNGLE_ARROW_SIGN = registerItem("large_jungle_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_JUNGLE_ARROW_SIGN.get(), BlockRegistry.LARGE_JUNGLE_WALL_ARROW_SIGN.get()));
+
+        ACACIA_ARROW_SIGN = registerItem("acacia_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.ACACIA_ARROW_SIGN.get(), BlockRegistry.ACACIA_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.ACACIA_HANGING_ARROW_SIGN.get()));
+        LARGE_ACACIA_ARROW_SIGN = registerItem("large_acacia_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_ACACIA_ARROW_SIGN.get(), BlockRegistry.LARGE_ACACIA_WALL_ARROW_SIGN.get()));
+
+        DARK_OAK_ARROW_SIGN = registerItem("dark_oak_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.DARK_OAK_ARROW_SIGN.get(), BlockRegistry.DARK_OAK_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.DARK_OAK_HANGING_ARROW_SIGN.get()));
+        LARGE_DARK_OAK_ARROW_SIGN = registerItem("large_dark_oak_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_DARK_OAK_ARROW_SIGN.get(), BlockRegistry.LARGE_DARK_OAK_WALL_ARROW_SIGN.get()));
+
+        MANGROVE_ARROW_SIGN = registerItem("mangrove_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.MANGROVE_ARROW_SIGN.get(), BlockRegistry.MANGROVE_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.MANGROVE_HANGING_ARROW_SIGN.get()));
+        LARGE_MANGROVE_ARROW_SIGN = registerItem("large_mangrove_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_MANGROVE_ARROW_SIGN.get(), BlockRegistry.LARGE_MANGROVE_WALL_ARROW_SIGN.get()));
+
+        CHERRY_ARROW_SIGN = registerItem("cherry_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.CHERRY_ARROW_SIGN.get(), BlockRegistry.CHERRY_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.CHERRY_HANGING_ARROW_SIGN.get()));
+        LARGE_CHERRY_ARROW_SIGN = registerItem("large_cherry_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_CHERRY_ARROW_SIGN.get(), BlockRegistry.LARGE_CHERRY_WALL_ARROW_SIGN.get()));
+
+        BAMBOO_ARROW_SIGN = registerItem("bamboo_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.BAMBOO_ARROW_SIGN.get(), BlockRegistry.BAMBOO_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.BAMBOO_HANGING_ARROW_SIGN.get()));
+        LARGE_BAMBOO_ARROW_SIGN = registerItem("large_bamboo_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_BAMBOO_ARROW_SIGN.get(), BlockRegistry.LARGE_BAMBOO_WALL_ARROW_SIGN.get()));
+
+        CRIMSON_ARROW_SIGN = registerItem("crimson_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.CRIMSON_ARROW_SIGN.get(), BlockRegistry.CRIMSON_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.CRIMSON_HANGING_ARROW_SIGN.get()));
+        LARGE_CRIMSON_ARROW_SIGN = registerItem("large_crimson_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_CRIMSON_ARROW_SIGN.get(), BlockRegistry.LARGE_CRIMSON_WALL_ARROW_SIGN.get()));
+
+        WARPED_ARROW_SIGN = registerItem("warped_arrow_sign",
+                () -> new ArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.WARPED_ARROW_SIGN.get(), BlockRegistry.WARPED_WALL_ARROW_SIGN.get(),
+                        BlockRegistry.WARPED_HANGING_ARROW_SIGN.get()));
+        LARGE_WARPED_ARROW_SIGN = registerItem("large_warped_arrow_sign",
+                () -> new LargeArrowSignItem(new Item.Properties().stacksTo(16),
+                        BlockRegistry.LARGE_WARPED_ARROW_SIGN.get(), BlockRegistry.LARGE_WARPED_WALL_ARROW_SIGN.get()));
 
         Arrays.stream(DyeColor.values()).forEach(color ->
                 CHECKPOINT_FLAGS.put(color, registerItem(color.getName() + "_checkpoint_flag",
@@ -213,11 +396,17 @@ public class ItemRegistry {
                         new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET)));
         PLASTIC_BUCKET = registerItem("plastic_bucket",
                 () -> new PlasticBucketItem(Ingredient.of(ItemTags.COALS), ArmorMaterials.IRON, ArmorItem.Type.HELMET,
-                        3, new Item.Properties().stacksTo(1)
+                        4, new Item.Properties().stacksTo(1)
                         .durability(ArmorItem.Type.HELMET.getDurability(10))));
         PLASTIC_WATER_BUCKET = registerItem("plastic_water_bucket",
                 () -> new FluidPlasticBucketItem(3, Fluids.WATER, new Item.Properties().stacksTo(1)
                         .durability(128)));
+        PLASTIC_LAVA_BUCKET = registerItem("plastic_lava_bucket",
+                () -> new FluidPlasticBucketItem(2, Fluids.LAVA, new Item.Properties().stacksTo(1)
+                        .durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
+        PLASTIC_MILK_BUCKET = registerItem("plastic_milk_bucket",
+                () -> new PlasticMilkBucketItem(2, new Item.Properties().stacksTo(1)
+                        .durability(128).craftRemainder(ItemRegistry.PLASTIC_BUCKET.get())));
         PLASTIC_POWDER_SNOW_BUCKET = registerItem("plastic_powder_snow_bucket",
                 () -> new SolidPlasticBucketItem(2, Blocks.POWDER_SNOW, SoundEvents.BUCKET_EMPTY_POWDER_SNOW,
                         new Item.Properties().stacksTo(1).durability(128)
@@ -418,6 +607,8 @@ public class ItemRegistry {
         SNOW_POKEY_SPAWN_EGG = registerItem("snow_pokey_spawn_egg",
                 () -> new SnowPokeySpawnEggItem(EntityRegistry.SNOW_POKEY_BODY, 0xFFFFFF, 0xFFFFFF,
                         new Item.Properties()));
+        SNOWY_HEDGE = registerItem("snowy_hedge",
+                () -> new SnowyHedgeItem(new Item.Properties(), BlockRegistry.SNOWY_HEDGE.get()));
         SPINY_CHEEP_CHEEP_SPAWN_EGG = registerItem("spiny_cheep_cheep_spawn_egg",
                 () -> new DeferredSpawnEggItem(EntityRegistry.SPINY_CHEEP_CHEEP, 0xFFFFFF, 0xFFFFFF,
                         new Item.Properties()));

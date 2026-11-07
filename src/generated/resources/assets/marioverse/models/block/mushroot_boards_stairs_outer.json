@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "marioverse:block/mushroot_boards",
+    "side": "marioverse:block/mushroot_boards",
+    "top": "marioverse:block/mushroot_boards"
+  }
+}

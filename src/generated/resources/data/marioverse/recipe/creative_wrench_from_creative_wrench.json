@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "marioverse:keep_damage_shapeless",
   "category": "misc",
   "group": "marioverse:wrenches",
   "ingredients": [

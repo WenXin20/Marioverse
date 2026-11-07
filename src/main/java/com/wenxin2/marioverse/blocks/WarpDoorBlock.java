@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks;
 
+import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -12,6 +13,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -108,6 +110,17 @@ public class WarpDoorBlock extends DoorBlock implements EntityBlock, BlockWarpPl
                 && !entity.getData(DataAttachmentRegistry.PREVENT_WARP))
             this.enterWarp(entity, level, pos, pos, state, null);
         super.entityInside(state, level, pos, entity);
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        super.tick(state, level, pos, random);
+
+        if (state.getValue(OPEN)) {
+            level.setBlock(pos, state.setValue(OPEN, Boolean.FALSE), 10);
+            if (level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE)
+                warpBE.playDoorSounds(null, level, pos, false, this.type());
+        }
     }
 
     @Override

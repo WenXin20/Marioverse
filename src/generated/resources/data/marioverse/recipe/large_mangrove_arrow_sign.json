@@ -1,0 +1,14 @@
+{
+  "type": "marioverse:arrow_sign_upgrade",
+  "group": "marioverse:large_arrow_signs",
+  "key": {
+    "#": {
+      "item": "marioverse:mangrove_arrow_sign"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": "marioverse:large_mangrove_arrow_sign"
+}

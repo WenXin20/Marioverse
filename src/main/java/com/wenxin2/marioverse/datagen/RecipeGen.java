@@ -1,18 +1,22 @@
 package com.wenxin2.marioverse.datagen;
 
+import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.data.BlockFamilyExtended;
 import com.wenxin2.marioverse.data.RecipeUtils;
 import com.wenxin2.marioverse.registries.BlockFamilyRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -33,15 +37,20 @@ public class RecipeGen extends RecipeUtils {
     }
 
     protected void generateForEnabledBlockFamilies(RecipeOutput output, FeatureFlagSet set) {
-        BlockFamilyRegistry.getAllExtendedFamilies().filter(BlockFamilyExtended::shouldGenerateRecipe)
+        BlockFamilyRegistry.getAllExtendedFamilies()
+                .sorted(Comparator.comparing(family ->
+                        BuiltInRegistries.BLOCK.getKey(family.getBaseBlock()).toString()))
+                .filter(BlockFamilyExtended::shouldGenerateRecipe)
                 .forEach(recipes -> generateRecipes(output, recipes, set));
     }
 
     @Override
     protected void buildRecipes(RecipeOutput output) {
         this.generateForEnabledBlockFamilies(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
-        waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
-        smithingTrims().forEach(item -> trimSmithing(output, item.template(), item.id()));
+        RecipeGen.generateInvisibleQuestionBlockRecipes(output, BlockFamilyRegistry.getAllExtendedFamilies()
+                .sorted(Comparator.comparing(family -> BuiltInRegistries.BLOCK.getKey(family.getBaseBlock()).toString())));
+        RecipeGen.waxRecipes(output, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        RecipeGen.smithingTrims().forEach(item -> trimSmithing(output, item.template(), item.id()));
 
         campfireCookingRecipe(600, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD,
                 TagRegistry.CHEEP_CHEEP_ITEMS, output);
@@ -51,8 +60,12 @@ public class RecipeGen extends RecipeUtils {
                 ItemRegistry.PORCUPUFFER, output);
         smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS,
                 BlockRegistry.DEEP_FUNGAL_STONE, output);
-        smeltingRecipe(200, 0.1F, BlockRegistry.POLISHED_FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS,
-                BlockRegistry.FUNGAL_STONE, output);
+        smeltingRecipe(200, 0.1F, BlockRegistry.FUNGAL_STONE, RecipeCategory.BUILDING_BLOCKS,
+                BlockRegistry.FUNGAL_COBBLESTONE, output);
+        smeltingRecipe(200, 0.1F, BlockRegistry.FORTSTONE, RecipeCategory.BUILDING_BLOCKS,
+                BlockRegistry.COBBLED_FORTSTONE, output);
+        smeltingRecipe(200, 0.1F, Blocks.MUD, RecipeCategory.BUILDING_BLOCKS,
+                BlockRegistry.WET_MUD, output);
         smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_CHEEP_CHEEP, RecipeCategory.FOOD,
                 TagRegistry.CHEEP_CHEEP_ITEMS, output);
         smeltingRecipe(200, 0.35F, ItemRegistry.COOKED_SPINY_CHEEP_CHEEP, RecipeCategory.FOOD,
@@ -93,29 +106,104 @@ public class RecipeGen extends RecipeUtils {
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.STEVE_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemTags.TRIM_TEMPLATES, Blocks.CYAN_WOOL, Tags.Items.GEMS_LAPIS, Blocks.CYAN_WOOL, false, output);
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WALUIGI_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WALUIGI_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
         abilityBlockRecipe(1, "ability_blocks", BlockRegistry.WARIO_ABILITY_BLOCK, RecipeCategory.COMBAT, ItemRegistry.WARIO_ARMOR_TRIM_SMITHING_TEMPLATE, Tags.Items.SLIME_BALLS, Tags.Items.GEMS_DIAMOND, ItemTags.WOOL, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.MUSHROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, TagRegistry.MUSHROOT_PLANK_ITEMS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.SPOOKROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, TagRegistry.SPOOKROOT_PLANK_ITEMS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.OAK_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.SPRUCE_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.SPRUCE_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.BIRCH_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.BIRCH_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.JUNGLE_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.JUNGLE_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.ACACIA_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.ACACIA_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.DARK_OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.DARK_OAK_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.MANGROVE_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.MANGROVE_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.CHERRY_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.CHERRY_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.BAMBOO_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.BAMBOO_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.CRIMSON_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.CRIMSON_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowColorSignRecipe(5, "arrow_signs", ItemRegistry.WARPED_ARROW_SIGN, RecipeCategory.DECORATIONS, Blocks.WARPED_PLANKS, Tags.Items.DYES, Tags.Items.CHAINS, false, output);
+        arrowSignFromDyeRecipe(ItemRegistry.MUSHROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.SPOOKROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.SPRUCE_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.BIRCH_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.JUNGLE_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.ACACIA_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.DARK_OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.MANGROVE_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.CHERRY_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.BAMBOO_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.CRIMSON_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.WARPED_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_MUSHROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_SPOOKROOT_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_SPRUCE_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_BIRCH_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_JUNGLE_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_ACACIA_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_DARK_OAK_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_MANGROVE_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_CHERRY_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_BAMBOO_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_CRIMSON_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        arrowSignFromDyeRecipe(ItemRegistry.LARGE_WARPED_ARROW_SIGN, RecipeCategory.DECORATIONS, Tags.Items.DYES, output);
+        boatRecipe(1, "boats", ItemRegistry.MUSHROOT_BOAT, RecipeCategory.TRANSPORTATION, TagRegistry.MUSHROOT_PLANK_ITEMS, false, output);
+        chestBoatRecipe(1, "chest_boats", ItemRegistry.MUSHROOT_CHEST_BOAT, RecipeCategory.TRANSPORTATION, Tags.Items.CHESTS_WOODEN, ItemRegistry.MUSHROOT_BOAT, false, output);
+        boatRecipe(1, "boats", ItemRegistry.SPOOKROOT_BOAT, RecipeCategory.TRANSPORTATION, TagRegistry.SPOOKROOT_PLANK_ITEMS, false, output);
+        chestBoatRecipe(1, "chest_boats", ItemRegistry.SPOOKROOT_CHEST_BOAT, RecipeCategory.TRANSPORTATION, Tags.Items.CHESTS_WOODEN, ItemRegistry.SPOOKROOT_BOAT, false, output);
         checkeredRecipe(4, "spike_panels", BlockRegistry.CALCITE_CHECKERED_TILES, BlockRegistry.POLISHED_CALCITE.get(DyeColor.WHITE), BlockRegistry.POLISHED_CALCITE.get(DyeColor.BLACK), false, output);
         classicCheckpointFlagRecipe(1, BlockRegistry.CLASSIC_CHECKPOINT_FLAG, Tags.Items.INGOTS_GOLD, ItemRegistry.SUPER_MUSHROOM, Items.WHITE_WOOL, Blocks.SMOOTH_STONE_SLAB, output);
         classicGoalPoleRecipe(4, BlockRegistry.CLASSIC_GOAL_POLE, Tags.Items.INGOTS_GOLD, Tags.Items.DYES_LIME, Items.WHITE_WOOL, Items.BAMBOO, output);
         coinRecipe(4, BlockRegistry.COIN, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, output);
         dyeItemRecipe(1, "calcite_from_dye", Blocks.CALCITE, RecipeCategory.BUILDING_BLOCKS, Tags.Items.DYES_WHITE, TagRegistry.CALCITE_ITEMS, false, output);
-        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
-        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
-        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
-        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
+        for (DyeColor color : DyeColor.values())
+            dyeItemRecipe(1, "picket_fence_from_dye", BlockRegistry.PICKET_FENCES.get(color), RecipeCategory.BUILDING_BLOCKS, color.getTag(), TagRegistry.PICKET_FENCE_ITEMS, false, output);
+        for (DyeColor color : DyeColor.values())
+            dyeItemRecipe(1, "picket_fence_gate_from_dye", BlockRegistry.PICKET_FENCE_GATES.get(color), RecipeCategory.REDSTONE, color.getTag(), TagRegistry.PICKET_FENCE_GATE_ITEMS, false, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BROWN_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
+        mushroomTrampolineRecipe(8, "mushroom_trampolines", BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_MUSHROOM_BLOCK, BlockRegistry.RED_DOTTED_LINE_BLOCK, true, output);
         onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.BLUE_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.BLUE_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
         onOffBlockRecipe(8, "dotted_line_blocks", BlockRegistry.RED_DOTTED_LINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, Blocks.RED_CONCRETE, Blocks.REDSTONE_TORCH, false, output);
         onOffSwitchRecipe(1, "on_off_switches", BlockRegistry.ON_OFF_SWITCH, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Tags.Items.GEMS_QUARTZ, Blocks.REDSTONE_TORCH, false, output);
-        oneToOneRecipe(1, "large_snowballs", ItemRegistry.LARGE_SNOWBALL, RecipeCategory.MISC, Items.SNOW_BLOCK, output);
-        oneToOneRecipe(1, "wrenches", ItemRegistry.CREATIVE_WRENCH, RecipeCategory.MISC, ItemRegistry.CREATIVE_WRENCH, output);
-        oneToOneRecipe(1, "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, output);
-        oneToOneRecipe(4, "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);
+        oneToOneRecipe(1, Marioverse.MOD_ID + ":" + "large_snowballs", ItemRegistry.LARGE_SNOWBALL, RecipeCategory.MISC, Items.SNOW_BLOCK, output);
+        oneToOneRecipe(1, Marioverse.MOD_ID + ":" + "wrenches", ItemRegistry.CREATIVE_WRENCH, RecipeCategory.MISC, ItemRegistry.CREATIVE_WRENCH, keepDamage(output));
+        oneToOneRecipe(1, Marioverse.MOD_ID + ":" + "wrenches", ItemRegistry.WRENCH, RecipeCategory.MISC, ItemRegistry.WRENCH, keepDamage(output));
+        oneToOneRecipe(4, "planks", BlockRegistry.MUSHROOT_PLANKS, RecipeCategory.BUILDING_BLOCKS, TagRegistry.MUSHROOT_LOG_ITEMS, output);
+        oneToOneRecipe(4, "planks", BlockRegistry.SPOOKROOT_PLANKS, RecipeCategory.BUILDING_BLOCKS, TagRegistry.SPOOKROOT_LOG_ITEMS, output);
+        oneToOneRecipe(4, Marioverse.MOD_ID + ":" + "snowballs", Items.SNOWBALL, RecipeCategory.MISC, ItemRegistry.LARGE_SNOWBALL, output);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, Items.MUSHROOM_STEW)
+                .requires(Items.BOWL)
+                .requires(Ingredient.fromValues(Stream.of(new Ingredient.TagValue(TagRegistry.SUPER_MUSHROOM_ITEMS),
+                        new Ingredient.TagValue(TagRegistry.MEGA_MUSHROOM_ITEMS))))
+                .requires(Tags.Items.MUSHROOMS)
+                .unlockedBy("has_super_mushroom", has(TagRegistry.SUPER_MUSHROOM_ITEMS))
+                .unlockedBy("has_mega_mushroom", has(TagRegistry.MEGA_MUSHROOM_ITEMS))
+                .save(output, Marioverse.MOD_ID + ":mushroom_stew_from_super_mushrooms");
+        oneToOneRecipe(1, "blue_dye", Items.BLUE_DYE, RecipeCategory.MISC, BlockRegistry.BLUE_BLOOMFLOWER, output);
+        oneToOneRecipe(1, "orange_dye", Items.ORANGE_DYE, RecipeCategory.MISC, BlockRegistry.ORANGE_BLOOMFLOWER, output);
+        oneToOneRecipe(1, "pink_dye", Items.PINK_DYE, RecipeCategory.MISC, BlockRegistry.PINK_BLOOMFLOWER, output);
+        oneToOneRecipe(1, "purple_dye", Items.PURPLE_DYE, RecipeCategory.MISC, BlockRegistry.PURPLE_BLOOMFLOWER, output);
+        oneToOneRecipe(1, "red_dye", Items.RED_DYE, RecipeCategory.MISC, BlockRegistry.DANGO_BLOSSOM, output);
+        oneToOneRecipe(1, "red_dye", Items.RED_DYE, RecipeCategory.MISC, BlockRegistry.RED_BLOOMFLOWER, output);
+        oneToOneRecipe(1, "white_dye", Items.WHITE_DYE, RecipeCategory.MISC, BlockRegistry.WHITE_BLOOMFLOWER, output);
+        oneToOneRecipe(1, "yellow_dye", Items.YELLOW_DYE, RecipeCategory.MISC, BlockRegistry.YELLOW_BLOOMFLOWER, output);
+        oneToOneRecipe(3, "pink_dye", Items.PINK_DYE, RecipeCategory.MISC, BlockRegistry.PINK_ROSE_HEDGE, output);
+        oneToOneRecipe(3, "red_dye", Items.RED_DYE, RecipeCategory.MISC, BlockRegistry.RED_ROSE_HEDGE, output);
+        oneToOneRecipe(3, "white_dye", Items.WHITE_DYE, RecipeCategory.MISC, BlockRegistry.WHITE_ROSE_HEDGE, output);
         plusRecipe(1, "brick_pedestals", BlockRegistry.RED_NETHER_BRICK_PEDESTAL, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_PEDESTAL, true, output);
+        plusRecipe(1, "loopholes", BlockRegistry.RED_NETHER_BRICK_LOOPHOLE, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_LOOPHOLE, true, output);
+        plusRecipe(1, "bridges", BlockRegistry.RED_NETHER_BRICK_BRIDGE, Items.NETHER_WART, BlockRegistry.NETHER_BRICK_BRIDGE, true, output);
         plusRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.INVISIBLE_NETHER_QUESTION_BRICKS, true, output);
         plusRecipe(1, "question_blocks", BlockRegistry.RED_NETHER_QUESTION_BRICKS, Items.NETHER_WART, BlockRegistry.NETHER_QUESTION_BRICKS, true, output);
         plusRecipe(1, "smashable_blocks", BlockRegistry.SMASHABLE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.SMASHABLE_NETHER_BRICKS, true, output);
         plusRecipe(1, "spikes", BlockRegistry.IRON_SPIKE, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, false, output);
         plusRecipe(1, "storage_bricks", BlockRegistry.STORAGE_RED_NETHER_BRICKS, Items.NETHER_WART, BlockRegistry.STORAGE_NETHER_BRICKS, true, output);
         plusRecipe(4, "glow_block", BlockRegistry.GLOW_BLOCK, Tags.Items.GLASS_BLOCKS_COLORLESS, Blocks.GLOWSTONE, false, output);
+        screwRecipe(8, "screws", BlockRegistry.COPPER_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_COPPER, Tags.Items.INGOTS_COPPER, false, output);
+        screwRecipe(8, "screws", BlockRegistry.DIAMOND_SCREW, RecipeCategory.REDSTONE, Tags.Items.GEMS_DIAMOND, Tags.Items.GEMS_DIAMOND, false, output);
+        screwRecipe(4, "screws", BlockRegistry.GOLD_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_GOLD, Tags.Items.NUGGETS_GOLD, false, output);
+        screwRecipe(4, "screws", BlockRegistry.IRON_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_IRON, Tags.Items.NUGGETS_IRON, false, output);
+        screwRecipe(4, "screws", BlockRegistry.NETHERITE_SCREW, RecipeCategory.REDSTONE, Tags.Items.INGOTS_GOLD, Items.NETHERITE_SCRAP, false, output);
         spikePanelRecipe(3, "spike_panels", BlockRegistry.SPIKE_PANEL, Tags.Items.NUGGETS_IRON, Tags.Items.INGOTS_IRON, Blocks.POLISHED_DEEPSLATE_SLAB, false, output);
         threeByThreePacker(output, RecipeCategory.MISC, BlockRegistry.STAR_COIN, BlockRegistry.COIN);
         twoByOneRecipe(1, "quicksand_buckets", ItemRegistry.PLASTIC_QUICKSAND_BUCKET, RecipeCategory.BUILDING_BLOCKS, Tags.Items.SANDS_COLORLESS, ItemRegistry.PLASTIC_WATER_BUCKET, false, output);
@@ -125,12 +213,16 @@ public class RecipeGen extends RecipeUtils {
         twoByOneRecipe(1, "splunkin_o_lantern", BlockRegistry.SPLUNKIN_O_LANTERN, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SPLUNKIN_CARVED_PUMPKIN, Blocks.TORCH, false, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "brick_pedestals", BlockRegistry.MOSSY_STONE_BRICK_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_PEDESTAL, Blocks.VINE, output);
+        twoItemRecipe(1, "loopholes", BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_LOOPHOLE, Blocks.MOSS_BLOCK, output);
+        twoItemRecipe(1, "loopholes", BlockRegistry.MOSSY_STONE_BRICK_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRICK_LOOPHOLE, Blocks.VINE, output);
+        twoItemRecipe(1, "bridges", BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRIDGE, Blocks.MOSS_BLOCK, output);
+        twoItemRecipe(1, "bridges", BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_BRIDGE, Blocks.VINE, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "invisible_question_blocks", BlockRegistry.INVISIBLE_MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, Blocks.VINE, output);
-        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
-        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
-        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
-        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_MUSHROOM_TRAMPOLINE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.BLUE_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BLUE_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.BROWN_MUSHROOM_BLOCK, output);
+        twoItemRecipe(1, "mushroom_trampolines", BlockRegistry.RED_ON_OFF_MUSHROOM_TRAMPOLINE_BLOCK, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RED_DOTTED_LINE_BLOCK, Blocks.RED_MUSHROOM_BLOCK, output);
         twoItemRecipe(1, "question_blocks", BlockRegistry.MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_QUESTION_BRICKS, Blocks.MOSS_BLOCK, output);
         twoItemRecipe(1, "question_blocks", BlockRegistry.MOSSY_STONE_QUESTION_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_QUESTION_BRICKS, Blocks.VINE, output);
         twoItemRecipe(1, "smashable_blocks", BlockRegistry.SMASHABLE_MOSSY_STONE_BRICKS, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMASHABLE_STONE_BRICKS, Blocks.MOSS_BLOCK, output);
@@ -154,14 +246,58 @@ public class RecipeGen extends RecipeUtils {
         waxedBlockRecipe(1, BlockRegistry.STORAGE_WAXED_EXPOSED_CUT_COPPER, BlockRegistry.STORAGE_EXPOSED_CUT_COPPER, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER, BlockRegistry.STORAGE_OXIDIZED_CUT_COPPER, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.STORAGE_WAXED_WEATHERED_CUT_COPPER, BlockRegistry.STORAGE_WEATHERED_CUT_COPPER, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_COPPER_BRIDGE, BlockRegistry.COPPER_BRIDGE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_COPPER_QUESTION_BLOCK, BlockRegistry.COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_COPPER_SCREW, BlockRegistry.COPPER_SCREW, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_CUT_COPPER_LOOPHOLE, BlockRegistry.CUT_COPPER_LOOPHOLE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_CUT_COPPER_PEDESTAL, BlockRegistry.CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE, BlockRegistry.EXPOSED_COPPER_BRIDGE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_QUESTION_BLOCK, BlockRegistry.EXPOSED_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_COPPER_SCREW, BlockRegistry.EXPOSED_COPPER_SCREW, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_LOOPHOLE, BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_PEDESTAL, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE, BlockRegistry.OXIDIZED_COPPER_BRIDGE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_COPPER_QUESTION_BLOCK, BlockRegistry.OXIDIZED_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW, BlockRegistry.OXIDIZED_COPPER_SCREW, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE, BlockRegistry.OXIDIZED_CUT_COPPER_LOOPHOLE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, BlockRegistry.OXIDIZED_CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE, BlockRegistry.WEATHERED_COPPER_BRIDGE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_QUESTION_BLOCK, BlockRegistry.WEATHERED_COPPER_QUESTION_BLOCK, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_COPPER_SCREW, BlockRegistry.WEATHERED_COPPER_SCREW, Items.HONEYCOMB, output);
+        waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_LOOPHOLE, BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE, Items.HONEYCOMB, output);
         waxedBlockRecipe(1, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, Items.HONEYCOMB, output);
+
+        stonecuttingFromBase(2, BlockRegistry.DEEP_FUNGAL_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DEEP_FUNGAL_COBBLESTONE, output);
+        stonecuttingFromBase(2, BlockRegistry.FORTSTONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.COBBLED_FORTSTONE, output);
+        stonecuttingFromBase(2, BlockRegistry.FUNGAL_BRIDGE, RecipeCategory.BUILDING_BLOCKS, BlockRegistry.FUNGAL_COBBLESTONE, output);
+        stonecuttingFromBase(2, BlockRegistry.MOSSY_STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.MOSSY_COBBLESTONE, output);
+        stonecuttingFromBase(2, BlockRegistry.STONE_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.COBBLESTONE, output);
+
+        stonecutting(24, BlockRegistry.COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.COPPER_BLOCK, output);
+        stonecutting(24, BlockRegistry.EXPOSED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.EXPOSED_COPPER, output);
+        stonecutting(24, BlockRegistry.OXIDIZED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.OXIDIZED_COPPER, output);
+        stonecutting(24, BlockRegistry.WAXED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WAXED_COPPER_BLOCK, output);
+        stonecutting(24, BlockRegistry.WAXED_EXPOSED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WAXED_EXPOSED_COPPER, output);
+        stonecutting(24, BlockRegistry.WAXED_OXIDIZED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WAXED_OXIDIZED_COPPER, output);
+        stonecutting(24, BlockRegistry.WAXED_WEATHERED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WAXED_WEATHERED_COPPER, output);
+        stonecutting(24, BlockRegistry.WEATHERED_COPPER_SCREW, RecipeCategory.REDSTONE, Blocks.WEATHERED_COPPER, output);
+
+        stonecutting(2, BlockRegistry.COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.COPPER_BLOCK, output);
+        stonecutting(2, BlockRegistry.EXPOSED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.EXPOSED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_COPPER, output);
+        stonecutting(2, BlockRegistry.OXIDIZED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.OXIDIZED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.OXIDIZED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.OXIDIZED_COPPER, output);
+        stonecutting(2, BlockRegistry.WAXED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WAXED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_COPPER_BLOCK, output);
+        stonecutting(2, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_EXPOSED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WAXED_EXPOSED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_EXPOSED_COPPER, output);
+        stonecutting(2, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WAXED_OXIDIZED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_COPPER, output);
+        stonecutting(2, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WAXED_WEATHERED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_COPPER, output);
+        stonecutting(2, BlockRegistry.WEATHERED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_CUT_COPPER, output);
+        stonecuttingFromBase(2, BlockRegistry.WEATHERED_COPPER_BRIDGE, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_COPPER, output);
 
         stonecutting(1, BlockRegistry.CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
         stonecutting(1, BlockRegistry.EXPOSED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);
@@ -171,6 +307,14 @@ public class RecipeGen extends RecipeUtils {
         stonecutting(1, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_CUT_COPPER, output);
         stonecutting(1, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_CUT_COPPER, output);
         stonecutting(1, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.OXIDIZED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.OXIDIZED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WAXED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_EXPOSED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_CUT_COPPER, output);
+        stonecutting(1, BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_CUT_COPPER, output);
 
         stonecutting(1, BlockRegistry.SMASHABLE_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Blocks.CUT_COPPER, output);
         stonecutting(1, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_CUT_COPPER, output);
@@ -189,6 +333,14 @@ public class RecipeGen extends RecipeUtils {
         stonecuttingFromBase(4, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_COPPER, output);
         stonecuttingFromBase(4, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_COPPER, output);
         stonecuttingFromBase(4, BlockRegistry.WEATHERED_CUT_COPPER_PEDESTAL, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.COPPER_BLOCK, output);
+        stonecuttingFromBase(4, BlockRegistry.EXPOSED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.OXIDIZED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.OXIDIZED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.WAXED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_COPPER_BLOCK, output);
+        stonecuttingFromBase(4, BlockRegistry.WAXED_EXPOSED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_EXPOSED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.WAXED_OXIDIZED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_OXIDIZED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.WAXED_WEATHERED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WAXED_WEATHERED_COPPER, output);
+        stonecuttingFromBase(4, BlockRegistry.WEATHERED_CUT_COPPER_LOOPHOLE, RecipeCategory.BUILDING_BLOCKS, Blocks.WEATHERED_COPPER, output);
 
         stonecuttingFromBase(4, BlockRegistry.SMASHABLE_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Blocks.COPPER_BLOCK, output);
         stonecuttingFromBase(4, BlockRegistry.SMASHABLE_EXPOSED_CUT_COPPER, RecipeCategory.BUILDING_BLOCKS, Blocks.EXPOSED_COPPER, output);
@@ -310,21 +462,107 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_MAGENTA_CALCITE, BlockRegistry.CALCITE.get(DyeColor.MAGENTA), FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_PINK_CALCITE, BlockRegistry.CALCITE.get(DyeColor.PINK), FeatureFlagSet.of(FeatureFlags.VANILLA));
 
-        generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
-        generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
-        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
-
         generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.ROCKY_FUNGAL_STONE, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_COBBLESTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_COBBLESTONE, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_COBBLESTONE, BlockRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_BRICKS, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FUNGAL_BRICKS, BlockRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.HARD_FUNGAL_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_FUNGAL_BLOCK, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_FUNGAL_BLOCK, BlockRegistry.POLISHED_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_FUNGAL_BLOCK, BlockRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_STONE, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_STONE, BlockRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS, BlockRegistry.FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS, BlockRegistry.ROCKY_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FUNGAL_BRICKS, BlockRegistry.POLISHED_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.ROCKY_DEEP_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_COBBLESTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_COBBLESTONE, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_COBBLESTONE, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.DEEP_FUNGAL_BRICKS, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_DEEP_FUNGAL_BLOCK, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_STONE, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
         generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS, BlockRegistry.DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS, BlockRegistry.POLISHED_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DEEP_FUNGAL_BRICKS, BlockRegistry.ROCKY_DEEP_FUNGAL_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.ROCKY_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.ROCKY_FORTSTONE, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.COBBLED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.COBBLED_FORTSTONE, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.COBBLED_FORTSTONE, BlockRegistry.ROCKY_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FORTSTONE_BRICKS, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FORTSTONE_BRICKS, BlockRegistry.COBBLED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.FORTSTONE_BRICKS, BlockRegistry.ROCKY_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.HARD_FORTSTONE_BLOCK, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_FORTSTONE_BLOCK, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_FORTSTONE_BLOCK, BlockRegistry.POLISHED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HARD_FORTSTONE_BLOCK, BlockRegistry.ROCKY_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE, BlockRegistry.ROCKY_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_BRICKS, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_BRICKS, BlockRegistry.POLISHED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_BRICKS, BlockRegistry.ROCKY_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_TILES, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_TILES, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_TILES, BlockRegistry.POLISHED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_FORTSTONE_TILES, BlockRegistry.POLISHED_FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.HUGE_FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_FORTSTONE_BRICKS, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_FORTSTONE_BRICKS, BlockRegistry.COBBLED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_FORTSTONE_BRICKS, BlockRegistry.FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_BRICKS, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_BRICKS, BlockRegistry.POLISHED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_BRICKS, BlockRegistry.POLISHED_FORTSTONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_TILES, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_TILES, BlockRegistry.FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_TILES, BlockRegistry.POLISHED_FORTSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.HUGE_POLISHED_FORTSTONE_TILES, BlockRegistry.POLISHED_FORTSTONE_TILES, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.CUT_SANDSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.CUT_SANDSTONE, Blocks.SANDSTONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
@@ -357,6 +595,12 @@ public class RecipeGen extends RecipeUtils {
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.END_STONE_BRICKS, Blocks.END_STONE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.MOSSY_STONE_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_GRANITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_GRANITE, Blocks.GRANITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_DIORITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_DIORITE, Blocks.DIORITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingRecipes(output, BlockFamilyRegistry.POLISHED_ANDESITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
+        generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.POLISHED_ANDESITE, Blocks.ANDESITE, FeatureFlagSet.of(FeatureFlags.VANILLA));
 
         generateStonecuttingRecipes(output, BlockFamilyRegistry.MUD_BRICKS, FeatureFlagSet.of(FeatureFlags.VANILLA));
         generateStonecuttingFromBaseRecipes(output, BlockFamilyRegistry.MUD_BRICKS, Blocks.PACKED_MUD, FeatureFlagSet.of(FeatureFlags.VANILLA));
@@ -415,6 +659,111 @@ public class RecipeGen extends RecipeUtils {
             dyeItemRecipe(1, "chiseled_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CHISELED_CALCITE_BRICK_ITEMS, false, output);
         }
 
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BUTTONS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_buttons_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BUTTON_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_PRESSURE_PLATES.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_pressure_plates_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_PRESSURE_PLATE_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_SLABS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_slabs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_SLAB_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_STAIRS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_stairs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_STAIR_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_WALLS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_walls_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_WALL_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.POLISHED_CALCITE_SLABS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "polished_calcite_slabs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.POLISHED_CALCITE_SLAB_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.POLISHED_CALCITE_STAIRS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "polished_calcite_stairs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.POLISHED_CALCITE_STAIR_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.POLISHED_CALCITE_WALLS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "polished_calcite_walls_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.POLISHED_CALCITE_WALL_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_SLABS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_slabs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_SLAB_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_STAIRS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_stairs_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_STAIR_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_WALLS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_walls_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_WALL_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.STORAGE_CALCITE_BRICKS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "storage_calcite_bricks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.STORAGE_CALCITE_BRICK_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_PEDESTALS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_pedestals_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_PEDESTAL_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRICK_LOOPHOLES.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_brick_loopholes_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRICK_LOOPHOLE_ITEMS, false, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CALCITE_BRIDGES.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "calcite_bridges_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.CALCITE_BRIDGE_ITEMS, false, output);
+        }
+
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.CHECKPOINT_FLAGS.entrySet()) {
             DyeColor dyeColor = entry.getKey();
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
@@ -444,7 +793,25 @@ public class RecipeGen extends RecipeUtils {
             TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
 
             dyeItemRecipe(1, "pipe_junctions_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.PIPE_JUNCTION_BLOCK_ITEMS, false, output);
-            dyeItemRecipe(1, "pipe_junctions_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, Blocks.COPPER_BLOCK, true, output);
+            pipeJunctionRecipe(1, entry.getValue(), Tags.Items.INGOTS_COPPER, dyeItemTag, output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.PARKOUR_BLOCKS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "parkour_blocks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.NORMAL_PARKOUR_BLOCK_ITEMS, false, output);
+            parkourBlockRecipe(4, entry.getValue(), TagRegistry.SCREW_ITEMS, Tags.Items.INGOTS_COPPER, dyeItemTag, output);
+            stonecutting(1, entry.getValue(), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.get(dyeColor), output);
+        }
+
+        for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.RHOMBUS_PARKOUR_BLOCKS.entrySet()) {
+            DyeColor dyeColor = entry.getKey();
+            TagKey<Item> dyeItemTag = TagRegistry.itemTags("c", "dyes/" + dyeColor.getName());
+
+            dyeItemRecipe(1, "rhombus_parkour_blocks_from_dye", entry.getValue(), RecipeCategory.BUILDING_BLOCKS, dyeItemTag, TagRegistry.RHOMBUS_PARKOUR_BLOCK_ITEMS, false, output);
+            rhombusParkourBlockRecipe(4, entry.getValue(), BlockRegistry.PARKOUR_BLOCKS.get(dyeColor), output);
+            stonecutting(1, entry.getValue(), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.PARKOUR_BLOCKS.get(dyeColor), output);
         }
 
         for (Map.Entry<DyeColor, DeferredBlock<Block>> entry : BlockRegistry.WARP_PIPES.entrySet()) {

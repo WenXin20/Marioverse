@@ -1,0 +1,22 @@
+{
+  "type": "marioverse:arrow_color_shaped",
+  "count": 5,
+  "group": "marioverse:arrow_signs",
+  "key": {
+    "C": {
+      "tag": "c:chains"
+    },
+    "D": {
+      "color_tag": "c:dyes"
+    },
+    "P": {
+      "item": "minecraft:dark_oak_planks"
+    }
+  },
+  "pattern": [
+    "C C",
+    "PDP",
+    "PPP"
+  ],
+  "result": "marioverse:dark_oak_arrow_sign"
+}

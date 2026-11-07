@@ -16,8 +16,7 @@ public class WeatheringCopperPedestalBlock extends BrickPedestalBlock implements
     public static final MapCodec<WeatheringCopperPedestalBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(WeatheringCopper.WeatherState.CODEC.fieldOf("weathering_state")
                             .forGetter(ChangeOverTimeBlock::getAge), propertiesCodec())
-                    .apply(instance, WeatheringCopperPedestalBlock::new)
-    );
+                    .apply(instance, WeatheringCopperPedestalBlock::new));
     private final WeatheringCopper.WeatherState weatherState;
 
     @NotNull

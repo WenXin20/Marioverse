@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_slabs": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#minecraft:wooden_slabs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:warped_picket_fence"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_warped_slab": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:warped_slab"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_slabs",
+      "has_warped_slab"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:warped_picket_fence"
+    ]
+  }
+}

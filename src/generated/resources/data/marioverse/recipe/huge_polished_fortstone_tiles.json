@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "marioverse:huge_blocks",
+  "key": {
+    "#": {
+      "item": "marioverse:polished_fortstone_tiles"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 9,
+    "id": "marioverse:huge_polished_fortstone_tiles"
+  }
+}

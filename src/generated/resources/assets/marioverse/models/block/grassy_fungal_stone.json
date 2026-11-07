@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/grass_block",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "bottom": "marioverse:block/fungal_stone",
+    "overlay": "marioverse:block/grassy_fungal_stone_overlay",
+    "side": "marioverse:block/grassy_fungal_stone",
+    "top": "marioverse:block/grassy_fungal_stone_top"
+  }
+}

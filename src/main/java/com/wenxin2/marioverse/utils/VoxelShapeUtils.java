@@ -6,39 +6,15 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class VoxelShapeUtils {
-    public static VoxelShape rotateShape(VoxelShape shape, Direction facing) {
-        switch (facing) {
-            case NORTH -> {
-                return rotateShapeAxis(shape, Direction.Axis.Y, 270);
-            }
-            case SOUTH -> {
-                return rotateShapeAxis(shape, Direction.Axis.Y, 90);
-            }
-            case EAST -> {
-                return rotateShapeAxis(shape, Direction.Axis.Y, 0);
-            }
-            case WEST -> {
-                return rotateShapeAxis(shape, Direction.Axis.Y, 180);
-            }
-            default -> {
-                return shape;
-            }
-        }
-    }
-
-    public static VoxelShape rotateShape(VoxelShape shape, Direction fromDirection, Direction toDirection) {
-        VoxelShape[] buffer = new VoxelShape[]{ shape, Shapes.empty() };
-
-        // Calculate the number of 90-degree rotations needed around the specified axis
-        int times = (toDirection.get2DDataValue() - fromDirection.get2DDataValue() + 4) % 4;
-
-        for (int i = 0; i < times; i++) {
-            buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ)
-                    -> buffer[1] = Shapes.or(buffer[1], Shapes.create(1-maxZ, minY, minX, 1-minZ, maxY, maxX)));
+    public static VoxelShape rotateShape(Direction from, Direction to, VoxelShape shape) {
+        VoxelShape[] buffer = new VoxelShape[]{shape, Shapes.empty()};
+        int rotations = (to.get2DDataValue() - from.get2DDataValue() + 4) % 4;
+        for (int i = 0; i < rotations; i++) {
+            buffer[0].forAllBoxes((minX, minY, minZ, maxX, maxY, maxZ) ->
+                    buffer[1] = Shapes.or(buffer[1], Shapes.box(1 - maxZ, minY, minX, 1 - minZ, maxY, maxX)));
             buffer[0] = buffer[1];
             buffer[1] = Shapes.empty();
         }
-
         return buffer[0];
     }
 

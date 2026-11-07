@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "marioverse:block/tall_shroomgrass_bottom"
+    },
+    "half=upper": {
+      "model": "marioverse:block/tall_shroomgrass_top"
+    }
+  }
+}

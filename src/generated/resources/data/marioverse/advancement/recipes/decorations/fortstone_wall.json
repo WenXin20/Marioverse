@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_fortstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "marioverse:fortstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "marioverse:fortstone_wall"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_fortstone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "marioverse:fortstone_wall"
+    ]
+  }
+}

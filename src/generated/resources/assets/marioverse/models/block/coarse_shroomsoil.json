@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "marioverse:block/coarse_shroomsoil_top",
+    "side": "marioverse:block/coarse_shroomsoil"
+  }
+}

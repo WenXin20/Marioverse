@@ -1,0 +1,44 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:paletted_permutations",
+      "palette_key": "marioverse:palettes/arrow/gray_key",
+      "permutations": {
+        "black": "marioverse:palettes/arrow/black",
+        "blue": "marioverse:palettes/arrow/blue",
+        "brown": "marioverse:palettes/arrow/brown",
+        "cyan": "marioverse:palettes/arrow/cyan",
+        "gray": "marioverse:palettes/arrow/gray",
+        "green": "marioverse:palettes/arrow/green",
+        "light_blue": "marioverse:palettes/arrow/light_blue",
+        "light_gray": "marioverse:palettes/arrow/light_gray",
+        "lime": "marioverse:palettes/arrow/lime",
+        "magenta": "marioverse:palettes/arrow/magenta",
+        "orange": "marioverse:palettes/arrow/orange",
+        "pink": "marioverse:palettes/arrow/pink",
+        "purple": "marioverse:palettes/arrow/purple",
+        "red": "marioverse:palettes/arrow/red",
+        "white": "marioverse:palettes/arrow/white",
+        "yellow": "marioverse:palettes/arrow/yellow"
+      },
+      "textures": [
+        "marioverse:item/arrow_sign/pattern/up",
+        "marioverse:item/arrow_sign/pattern/top_right",
+        "marioverse:item/arrow_sign/pattern/right",
+        "marioverse:item/arrow_sign/pattern/bottom_right",
+        "marioverse:item/arrow_sign/pattern/down",
+        "marioverse:item/arrow_sign/pattern/bottom_left",
+        "marioverse:item/arrow_sign/pattern/left",
+        "marioverse:item/arrow_sign/pattern/top_left",
+        "marioverse:item/large_arrow_sign/pattern/up",
+        "marioverse:item/large_arrow_sign/pattern/top_right",
+        "marioverse:item/large_arrow_sign/pattern/right",
+        "marioverse:item/large_arrow_sign/pattern/bottom_right",
+        "marioverse:item/large_arrow_sign/pattern/down",
+        "marioverse:item/large_arrow_sign/pattern/bottom_left",
+        "marioverse:item/large_arrow_sign/pattern/left",
+        "marioverse:item/large_arrow_sign/pattern/top_left"
+      ]
+    }
+  ]
+}

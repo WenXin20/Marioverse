@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "marioverse:block/mega_mushroom_stem"
+    },
+    "top=true": {
+      "model": "marioverse:block/purple_mega_mushroom"
+    }
+  }
+}

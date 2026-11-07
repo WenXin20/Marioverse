@@ -1,29 +1,37 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.BloomflowerBlock;
 import com.wenxin2.marioverse.blocks.OnOffSwitchBlock;
 import com.wenxin2.marioverse.blocks.CheckpointFlagBlock;
-import com.wenxin2.marioverse.blocks.OnBlock;
+import com.wenxin2.marioverse.blocks.DyeColumnBlock;
+import com.wenxin2.marioverse.blocks.GoalPoleBlock;
+import com.wenxin2.marioverse.blocks.PottedBloomflowerBlock;
 import com.wenxin2.marioverse.blocks.PottedPiranhaPlantBlock;
 import com.wenxin2.marioverse.blocks.ToggleableBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
-import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.CheckpointFlagBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.PorcupufferEntity;
+import com.wenxin2.marioverse.entities.WarpLinkableEntity;
+import com.wenxin2.marioverse.entities.ai.goals.BeePollinatesEntityGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ChaseTargetGoal;
 import com.wenxin2.marioverse.entities.ai.goals.CollectBlockGoal;
 import com.wenxin2.marioverse.entities.ai.goals.PickupAndThrowShellGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingFireballGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ShootBouncingIceBallGoal;
+import com.wenxin2.marioverse.entities.ai.goals.ReturnThroughWarpGoal;
+import com.wenxin2.marioverse.entities.ai.goals.UseClearPipeGoal;
+import com.wenxin2.marioverse.entities.ai.goals.UseWarpLinkGoal;
 import com.wenxin2.marioverse.entities.power_ups.FireFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.IceFlowerEntity;
 import com.wenxin2.marioverse.entities.power_ups.MushroomEntity;
@@ -32,6 +40,7 @@ import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.LinkerItem;
@@ -48,9 +57,12 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
 import com.wenxin2.marioverse.utils.AbilitiesHandler;
+import com.wenxin2.marioverse.utils.BlockWarpEntityHandler;
+import com.wenxin2.marioverse.utils.EntityWarpEntityHandler;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import com.wenxin2.marioverse.world.GlobalSwitchSavedData;
 import com.wenxin2.marioverse.world.LinkedSwitchSavedData;
+import com.wenxin2.marioverse.world.PendingWarpLinkSavedData;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -59,10 +71,14 @@ import java.util.Set;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -82,15 +98,21 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.decoration.Painting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.NameTagItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.component.BlockItemStateProperties;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -106,9 +128,12 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.EntityMountEvent;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -119,8 +144,10 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -129,19 +156,44 @@ import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 @EventBusSubscriber(modid = Marioverse.MOD_ID)
 public class MarioverseEventHandlers {
     @SubscribeEvent
+    public static void onEntitySize(EntityEvent.Size event) {
+        if (ClearWarpPipeBlock.isShrunkPose(event.getEntity(), event.getPose()))
+            event.setNewSize(ClearWarpPipeBlock.getShrunkDimensions(event.getNewSize(), event.getPose()));
+    }
+
+    @SubscribeEvent
+    public static void onPlayLevelSound(PlayLevelSoundEvent.AtEntity event) {
+        if (event.getSound() != null && event.getSound().value() == SoundRegistry.MUD_STEP.get()) {
+            float pitch = 0.9F + event.getLevel().getRandom().nextFloat() * 0.2F;
+            event.setNewPitch(pitch);
+        }
+    }
+
+    @SubscribeEvent
     public static void onTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
 
         if (stack.is(TagRegistry.SMASHABLE_BLOCK_ITEMS))
-            event.getToolTip().add(Component.translatable("tooltip.marioverse.smashable_blocks"));
+            event.getToolTip().add(Component.translatable("block.marioverse.smashable_blocks.tooltip"));
+    }
+
+    @SubscribeEvent
+    public static void onLevelLoad(LevelEvent.Load event) {
+        if (event.getLevel() instanceof ServerLevel level)
+            GlobalSwitchSavedData.get(level);
     }
 
     @SubscribeEvent
     public static void onChunkLoad(ChunkEvent.Load event) {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
 
-        level.getServer().execute(() -> processChunk(level, event.getChunk().getPos()));
-        level.getServer().execute(() -> processLinkedChunk(level, event.getChunk().getPos()));
+        ChunkPos chunkPos = event.getChunk().getPos();
+        MinecraftServer server = level.getServer();
+
+        server.tell(new TickTask(server.getTickCount(), () -> {
+            processChunk(level, chunkPos);
+            processLinkedChunk(level, chunkPos);
+        }));
     }
 
     private static void processChunk(ServerLevel level, ChunkPos chunkPos) {
@@ -157,8 +209,8 @@ public class MarioverseEventHandlers {
                 continue;
             }
 
-            if (state.getValue(OnBlock.ACTIVE) != isActive)
-                level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
+            if (state.getValue(BlockStatePropertyRegistry.ACTIVE) != isActive)
+                level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ACTIVE, isActive), Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
         }
     }
 
@@ -188,8 +240,8 @@ public class MarioverseEventHandlers {
                     continue;
                 }
 
-                if (state.getValue(OnBlock.ACTIVE) != isActive)
-                    level.setBlock(pos, state.setValue(OnBlock.ACTIVE, isActive), Block.UPDATE_CLIENTS);
+                if (state.getValue(BlockStatePropertyRegistry.ACTIVE) != isActive)
+                    level.setBlock(pos, state.setValue(BlockStatePropertyRegistry.ACTIVE, isActive), Block.UPDATE_CLIENTS);
             }
         }
     }
@@ -197,6 +249,21 @@ public class MarioverseEventHandlers {
     @SubscribeEvent
     public static void onJoinWorld(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
+
+        if (!event.getLevel().isClientSide() && entity instanceof PathfinderMob pathfinderMob
+                && !pathfinderMob.getBrain().checkMemory(MemoryModuleType.PATH, MemoryStatus.REGISTERED)) {
+            UseClearPipeGoal.addTo(pathfinderMob);
+            UseWarpLinkGoal.addTo(pathfinderMob);
+            ReturnThroughWarpGoal.addTo(pathfinderMob);
+        }
+
+        if (entity instanceof WarpLinkableEntity warpEntity && event.getLevel().getServer() != null) {
+            PendingWarpLinkSavedData.get(event.getLevel().getServer()).applyLink(entity);
+
+            if (SableProvider.isLoaded() && warpEntity.mv$getWarpUUID() != null)
+                SableProvider.recordEntityAnchor(entity);
+        }
+
         if (!(entity instanceof LivingEntity)) return;
         CompoundTag tag = entity.getPersistentData();
 
@@ -275,6 +342,9 @@ public class MarioverseEventHandlers {
                 }
             } else entity.setData(DataAttachmentRegistry.HAS_SUPER_MUSHROOM, true);
         }
+
+        if (entity instanceof Bee bee && !bee.level().isClientSide)
+            bee.goalSelector.addGoal(5, new BeePollinatesEntityGoal(bee, 5.0));
 
         if (entity instanceof Mob mob) {
             if (mob.getType().is(TagRegistry.CAN_SHOOT_SUPPLEMENTARIES_CANNON)
@@ -624,24 +694,52 @@ public class MarioverseEventHandlers {
         }
     }
 
-    @SubscribeEvent
-    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onRightClickCheckpointFlag(PlayerInteractEvent.RightClickBlock event) {
         Level level = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = level.getBlockState(pos);
         ItemStack heldItem = event.getItemStack();
         Player player = event.getEntity();
 
+        if (heldItem.is(CompatRegistry.SOAP.get()) && CheckpointFlagBlock.canWash(state)) {
+            if (!level.isClientSide)
+                CheckpointFlagBlock.washFlag(level, pos, state, player, heldItem);
+
+            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            event.setCanceled(true);
+        }
+    }
+
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        Level level = event.getLevel();
+        BlockPos pos = event.getPos();
+        BlockState state = level.getBlockState(pos);
+        ItemStack heldItem = event.getItemStack();
+        Player player = event.getEntity();
         Direction.Axis axis = event.getEntity().getDirection().getAxis();
-        BlockState newState = BlockRegistry.POTTED_PIRANHA_PLANT.get().defaultBlockState()
-                .setValue(BlockStateProperties.HORIZONTAL_AXIS, axis);
+
+        if (player.isSpectator() && !level.isClientSide && level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
+                && ((BlockWarpEntityHandler) player).spectatorWarp(player, level, pos, state, warpBE)) {
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+            return;
+        }
+
+        if (state.getBlock() instanceof GoalPoleBlock goalPole && goalPole.canResetFlag(state, player, event.getHand())) {
+            goalPole.resetFlag(state, level, pos);
+            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            event.setCanceled(true);
+            return;
+        }
 
         if (heldItem.getItem() instanceof PiranhaPlantPodItem plantPodItem
                 && state.getBlock() instanceof FlowerPotBlock flowerPot
                 && !(state.getBlock() instanceof PottedPiranhaPlantBlock)
                 && flowerPot.getPotted() == Blocks.AIR
                 && !player.isShiftKeyDown()) {
-
+            BlockState newState = BlockRegistry.POTTED_PIRANHA_PLANT.get().defaultBlockState()
+                    .setValue(BlockStateProperties.HORIZONTAL_AXIS, axis);
             level.setBlock(pos, newState, 3);
             BlockEntity blockEntity = level.getBlockEntity(pos);
 
@@ -658,6 +756,69 @@ public class MarioverseEventHandlers {
             player.awardStat(Stats.POT_FLOWER);
             player.swing(InteractionHand.MAIN_HAND);
             heldItem.consume(1, player);
+        }
+
+        if (heldItem.getItem() == BlockRegistry.SNOWY_HEDGE.asItem()
+                && state.getBlock() instanceof FlowerPotBlock snowyHedgePot
+                && snowyHedgePot.getPotted() == Blocks.AIR) {
+            BlockItemStateProperties savedProperties = heldItem.get(DataComponents.BLOCK_STATE);
+
+            if (savedProperties != null && !savedProperties.isEmpty()) {
+                BlockState newHedgeState = savedProperties.apply(BlockRegistry.POTTED_SNOWY_HEDGE.get().defaultBlockState());
+
+                level.setBlock(pos, newHedgeState, 3);
+                level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                player.awardStat(Stats.POT_FLOWER);
+                heldItem.consume(1, player);
+
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                event.setCanceled(true);
+            }
+        }
+
+        if (heldItem.getItem() instanceof BlockItem blockItem
+                && blockItem.getBlock() instanceof BloomflowerBlock
+                && state.getBlock() instanceof FlowerPotBlock bloomflowerPot
+                && bloomflowerPot.getPotted() == Blocks.AIR) {
+            Block pottedBlock = bloomflowerPot.getEmptyPot().getFullPotsView()
+                    .getOrDefault(BuiltInRegistries.BLOCK.getKey(blockItem.getBlock()), () -> Blocks.AIR).get();
+
+            if (pottedBlock instanceof PottedBloomflowerBlock) {
+                BlockState newState = pottedBlock.defaultBlockState()
+                        .setValue(BlockStateProperties.HORIZONTAL_FACING, player.getDirection());
+
+                level.setBlock(pos, newState, 3);
+                level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+                player.awardStat(Stats.POT_FLOWER);
+                heldItem.consume(1, player);
+
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                event.setCanceled(true);
+            }
+        }
+
+        if (player.isShiftKeyDown() && heldItem.getItem() instanceof DyeItem
+                && state.getBlock() instanceof DyeColumnBlock dyeColumnBlock
+                && dyeColumnBlock.dyeSingleBlock(level, pos, state, heldItem, player, event.getFace())) {
+            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+            event.setCanceled(true);
+        }
+
+        if (heldItem.canPerformAction(ItemAbilities.PICKAXE_DIG)) {
+            BlockState floorState = state.getToolModifiedState(new UseOnContext(player, event.getHand(), event.getHitVec()),
+                    ItemAbilities.PICKAXE_DIG, true);
+
+            if (floorState != null && floorState != state) {
+                if (!level.isClientSide) {
+                    level.setBlock(pos, floorState, Block.UPDATE_ALL_IMMEDIATE);
+                    level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, floorState));
+                    level.playSound(null, pos, floorState.getSoundType(level, pos, player).getHitSound(),
+                            SoundSource.BLOCKS, 1.0F, 0.9F + level.random.nextFloat() * 0.2F);
+                    heldItem.hurtAndBreak(1, player, LivingEntity.getSlotForHand(event.getHand()));
+                }
+                event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+                event.setCanceled(true);
+            }
         }
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
@@ -700,7 +861,7 @@ public class MarioverseEventHandlers {
                 player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) ->
                         new QuestionBlockMenu(id, playerInventory, questionBE,
                                 questionBE.getDataAccess(), ContainerLevelAccess.create(level, pos)),
-                        ((QuestionBlockEntity) blockEntity).getDisplayName()));
+                        questionBE.getDisplayName()));
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, heldItem);
                     player.awardStat(Stats.ITEM_USED.get(heldItem.getItem()));
@@ -762,12 +923,20 @@ public class MarioverseEventHandlers {
                 event.setCanceled(true);
             }
         }
+    }
 
-        if (level.isClientSide()) {
-            if (blockEntity instanceof WarpPipeBlockEntity) {
-                // Update the last clicked position
-                WarpPipeScreen.lastClickedPos = pos;
-            }
+    @SubscribeEvent
+    public static void onEntityInteractSpecific(PlayerInteractEvent.EntityInteractSpecific event) {
+        Player player = event.getEntity();
+        Entity target = event.getTarget();
+
+        if (player.isSpectator() && target instanceof WarpLinkableEntity linkable && linkable.mv$getWarpUUID() != null) {
+            if (!event.getLevel().isClientSide && !target.getData(DataAttachmentRegistry.PREVENT_WARP)
+                    && player.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0)
+                ((EntityWarpEntityHandler) player).warp(player, event.getLevel(), linkable);
+
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
         }
     }
 

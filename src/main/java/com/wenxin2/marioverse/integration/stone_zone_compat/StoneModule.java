@@ -2,7 +2,9 @@ package com.wenxin2.marioverse.integration.stone_zone_compat;
 
 import com.wenxin2.marioverse.MarioverseCreativeTabs;
 import com.wenxin2.marioverse.blocks.BrickPedestalBlock;
+import com.wenxin2.marioverse.blocks.BridgeBlock;
 import com.wenxin2.marioverse.blocks.InvisibleQuestionBlock;
+import com.wenxin2.marioverse.blocks.LoopholeBlock;
 import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.integration.CompatRegistry;
@@ -12,6 +14,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import net.mehvahdjukaar.every_compat.api.PaletteStrategies;
 import net.mehvahdjukaar.every_compat.api.PaletteStrategy;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
+import net.mehvahdjukaar.every_compat.api.TabAddMode;
 import net.mehvahdjukaar.moonlight.api.resources.textures.Palette;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
 import net.mehvahdjukaar.stone_zone.api.StonePaletteStrategies;
@@ -21,7 +24,6 @@ import net.mehvahdjukaar.stone_zone.api.set.stone.StoneType;
 import net.mehvahdjukaar.stone_zone.api.set.stone.VanillaStoneChildKeys;
 import net.mehvahdjukaar.stone_zone.api.set.stone.VanillaStoneTypes;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
@@ -30,8 +32,10 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 public class StoneModule extends StoneZoneModule {
     public final SimpleEntrySet<StoneType, Block> brickPedestal;
     public final SimpleEntrySet<StoneType, Block> invisibleQuestionBlock;
+    public final SimpleEntrySet<StoneType, Block> brickLoophole;
     public final SimpleEntrySet<StoneType, Block> questionBlock;
     public final SimpleEntrySet<StoneType, Block> smashableBricks;
+    public final SimpleEntrySet<StoneType, Block> stoneBridge;
     public final SimpleEntrySet<StoneType, Block> storageBricks;
 
     public static final PaletteStrategy darkerPalette = PaletteStrategies.registerCached((blockType, resourceManager) -> {
@@ -64,26 +68,42 @@ public class StoneModule extends StoneZoneModule {
 
     public StoneModule(String modId, String shortId) {
         super(modId, shortId);
-        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_BLOCKS_TAB;
-        DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_BLOCKS_TAB;
+        DeferredHolder<CreativeModeTab, CreativeModeTab> buildingBlocksTab = MarioverseCreativeTabs.MARIOVERSE_BUILDING_TAB;
+        DeferredHolder<CreativeModeTab, CreativeModeTab> functionalBlocksTab = MarioverseCreativeTabs.MARIOVERSE_FUNCTIONAL_TAB;
 
         brickPedestal = StoneZoneEntrySet.of(StoneType.class, "brick_pedestal",
                         BlockRegistry.STONE_BRICK_PEDESTAL, () -> VanillaStoneTypes.STONE,
-                        stoneType -> new BrickPedestalBlock(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new BrickPedestalBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.BRICK_PEDESTAL_ITEMS, Registries.ITEM)
                 .addRecipe(modRes("stone_brick_pedestal_from_stone_stonecutting"))
                 .addRecipe(modRes("stone_brick_pedestal_stonecutting"))
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .requiresChildren("bricks")
-                .defaultRecipe()
                 .setTab(buildingBlocksTab)
+                .defaultRecipe()
                 .build();
         this.addEntry(brickPedestal);
 
+        brickLoophole = StoneZoneEntrySet.of(StoneType.class, "brick_loophole",
+                        BlockRegistry.STONE_BRICK_LOOPHOLE, () -> VanillaStoneTypes.STONE,
+                        stoneType -> new LoopholeBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
+                .addTag(TagRegistry.LOOPHOLE_BLOCKS, Registries.BLOCK)
+                .addTag(TagRegistry.LOOPHOLE_ITEMS, Registries.ITEM)
+                .addRecipe(modRes("stone_brick_loophole_from_stone_stonecutting"))
+                .addRecipe(modRes("stone_brick_loophole_stonecutting"))
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
+                .setTab(buildingBlocksTab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(brickLoophole);
+
         invisibleQuestionBlock = StoneZoneEntrySet.of(StoneType.class, "question_bricks", "invisible",
                         BlockRegistry.INVISIBLE_STONE_QUESTION_BRICKS, () -> VanillaStoneTypes.STONE,
-                        stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new InvisibleQuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/invisible_stone_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTag(CompatRegistry.CREATE_MOVABLE_EMPTY_COLLIDER, Registries.BLOCK)
                 .addTag(CompatRegistry.CREATE_SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
@@ -95,14 +115,16 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.INVISIBLE_QUESTION_BLOCK_ENTITY)
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .requiresChildren("bricks")
                 .setTab(functionalBlocksTab)
+                .defaultRecipe()
                 .build();
         this.addEntry(invisibleQuestionBlock);
 
         questionBlock = StoneZoneEntrySet.of(StoneType.class, "question_bricks",
                         BlockRegistry.STONE_QUESTION_BRICKS, () -> VanillaStoneTypes.STONE,
-                        stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new QuestionBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/empty_stone_question_bricks"), StonePaletteStrategies.BRICKS_STANDARD)
                 .addTexture(modRes("block/stone_question_bricks"), questionPalette)
                 .addTag(CompatRegistry.CREATE_COPYCAT_ALLOW, Registries.BLOCK)
@@ -115,29 +137,50 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.QUESTION_BLOCK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.QUESTION_BLOCK_ENTITY)
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .requiresChildren("bricks")
-                .defaultRecipe()
                 .setTab(functionalBlocksTab)
+                .defaultRecipe()
                 .build();
         this.addEntry(questionBlock);
 
         smashableBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "smashable",
                         BlockRegistry.SMASHABLE_TUFF_BRICKS, () -> VanillaStoneTypes.TUFF,
-                        stoneType -> new Block(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new Block(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/smashable_tuff_bricks_overlay"), darkerPalette)
                 .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCKS, Registries.BLOCK)
                 .addTag(TagRegistry.SMASHABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addRecipe(modRes("smashable_tuff_bricks_from_tuff_stonecutting"))
                 .addRecipe(modRes("smashable_tuff_bricks_stonecutting"))
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .requiresChildren("bricks")
                 .setTab(buildingBlocksTab)
                 .build();
         this.addEntry(smashableBricks);
 
+        stoneBridge = StoneZoneEntrySet.of(StoneType.class, "bridge",
+                        BlockRegistry.STONE_BRIDGE, () -> VanillaStoneTypes.STONE,
+                        stoneType -> new BridgeBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
+                .addTexture(modRes("block/stone_bridge"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTexture(modRes("block/stone_bridge_bottom"), darkerPalette)
+                .addTexture(modRes("block/stone_bridge_side"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTexture(modRes("block/stone_bridge_top"), StonePaletteStrategies.BRICKS_STANDARD)
+                .addTag(BlockTags.MINEABLE_WITH_PICKAXE, Registries.BLOCK)
+                .addTag(TagRegistry.STONE_BRIDGES, Registries.BLOCK)
+                .addTag(TagRegistry.STONE_BRIDGE_ITEMS, Registries.ITEM)
+                .addRecipe(modRes("stone_bridge_from_stone_stonecutting"))
+                .addRecipe(modRes("stone_bridge_stonecutting"))
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
+                .requiresChildren("bricks")
+                .setTab(buildingBlocksTab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(stoneBridge);
+
         storageBricks = StoneZoneEntrySet.of(StoneType.class, "bricks", "storage",
                         BlockRegistry.STORAGE_STONE_BRICKS, () -> VanillaStoneTypes.STONE,
-                        stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.stone)))
+                        stoneType -> new StorageBrickBlock(Utils.copyPropertySafe(stoneType.bricksOrStone())))
                 .addTexture(modRes("block/stone_question_bricks_overlay"), lighterPalette)
                 .addTag(CompatRegistry.CREATE_COPYCAT_ALLOW, Registries.BLOCK)
                 .addTag(CompatRegistry.CREATE_SIMPLE_MOUNTED_STORAGE, Registries.BLOCK)
@@ -149,9 +192,10 @@ public class StoneModule extends StoneZoneModule {
                 .addTag(TagRegistry.BONKABLE_BLOCK_ITEMS, Registries.ITEM)
                 .addTag(TagRegistry.STORAGE_BRICK_ITEMS, Registries.ITEM)
                 .addTile(BlockEntityRegistry.STORAGE_BRICKS_BLOCK_ENTITY)
+                .setTabMode(TabAddMode.AFTER_SAME_WOOD)
                 .requiresChildren("bricks")
-                .defaultRecipe()
                 .setTab(functionalBlocksTab)
+                .defaultRecipe()
                 .build();
         this.addEntry(storageBricks);
     }

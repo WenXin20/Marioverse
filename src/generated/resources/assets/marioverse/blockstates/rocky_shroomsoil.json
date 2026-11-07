@@ -1,0 +1,62 @@
+{
+  "variants": {
+    "axis=x": [
+      {
+        "model": "marioverse:block/rocky_shroomsoil",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/rocky_shroomsoil_mirrored",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/rocky_shroomsoil",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "marioverse:block/rocky_shroomsoil_mirrored",
+        "x": 90,
+        "y": 90
+      }
+    ],
+    "axis=y": [
+      {
+        "model": "marioverse:block/rocky_shroomsoil"
+      },
+      {
+        "model": "marioverse:block/rocky_shroomsoil_mirrored"
+      },
+      {
+        "model": "marioverse:block/rocky_shroomsoil",
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/rocky_shroomsoil_mirrored",
+        "y": 180
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "marioverse:block/rocky_shroomsoil",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/rocky_shroomsoil_mirrored",
+        "x": 90
+      },
+      {
+        "model": "marioverse:block/rocky_shroomsoil",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "marioverse:block/rocky_shroomsoil_mirrored",
+        "x": 90,
+        "y": 180
+      }
+    ]
+  }
+}
