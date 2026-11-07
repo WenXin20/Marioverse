@@ -97,7 +97,7 @@ dependencies {
     compileOnly "curse.maven:the-twilight-forest-227639:7797302"
     compileOnly "curse.maven:the-undergarden-379849:7862546"
     implementation "curse.maven:treechop-421377:6254465"
-    implementation "curse.maven:tree-physics-1522010:8448844"
+    implementation "curse.maven:tree-physics-1522010:8448844" // Requires Sable
     implementation "curse.maven:vista-${vista_version}" // Requires Moonlight
     implementation "curse.maven:worldedit-225608:5830452"
     implementation "curse.maven:xaeros-minimap-263420:7598595"
