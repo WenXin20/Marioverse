@@ -287,8 +287,9 @@ public class MarioverseClient {
             return -1;
         }, ItemRegistry.PLASTIC_WATER_BUCKET.get());
 
-        event.register(new DynamicFluidContainerModel.Colors(),
-                RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.values().toArray(Item[]::new));
+        if (!RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.isEmpty())
+            event.register(new DynamicFluidContainerModel.Colors(),
+                    RegistryEventHandlers.PLASTIC_FLUID_BUCKETS.values().toArray(Item[]::new));
 
         event.register((stack, tintIndex) -> {
             if (tintIndex == 0)

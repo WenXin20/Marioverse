@@ -458,8 +458,9 @@ public class RegistryEventHandlers {
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_LAVA_BUCKET);
         event.registerItem(Capabilities.FluidHandler.ITEM,
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_MILK_BUCKET);
-        event.registerItem(Capabilities.FluidHandler.ITEM,
-                (stack, contex) -> new PlasticBucketWrapper(stack), PLASTIC_FLUID_BUCKETS.values().toArray(Item[]::new));
+        if (!PLASTIC_FLUID_BUCKETS.isEmpty())
+            event.registerItem(Capabilities.FluidHandler.ITEM,
+                    (stack, contex) -> new PlasticBucketWrapper(stack), PLASTIC_FLUID_BUCKETS.values().toArray(Item[]::new));
     }
 
     @SubscribeEvent

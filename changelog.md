@@ -1,3 +1,8 @@
+## Update 1.12.1
+- Fixed a startup crash with Plastic Buckets if no fluids were registered by other mods
+
+Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
+
 ## Update 1.12.0
 ### Thanks to @Boenndal for many textures
 #### Most new blocks need to crafted or traded for with wandering traders. 
