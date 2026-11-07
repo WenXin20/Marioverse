@@ -70,7 +70,7 @@ dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api" // Required Dependency
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}" // Required Dependency
 
-    implementation "curse.maven:aether-255308:6389857" // Requires Accessories, Owo Lib
+    compileOnly "curse.maven:aether-255308:6389857" // Requires Accessories, Owo Lib
     compileOnly "curse.maven:amendments-896746:8825641" // Requires Moonlight
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:8822348" // Requires Create
@@ -79,7 +79,7 @@ dependencies {
     implementation "curse.maven:create-aeronautics-676721:8763471" // Requires Create, Sable, Incompatible w/ Embeddium
     implementation "curse.maven:create-coasters-simulated-1601871:8655742" // Requires Create, Sable
     compileOnly "curse.maven:framedblocks-441647:7584453"
-    implementation "curse.maven:deep-aether-852465:6839619"
+    compileOnly "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
     implementation "curse.maven:guard-villagers-360203:6066966"
     implementation "curse.maven:hole-filler-mod-440585:6583948"
@@ -94,7 +94,7 @@ dependencies {
     compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     compileOnly "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
-    implementation "curse.maven:the-twilight-forest-227639:7797302"
+    compileOnly "curse.maven:the-twilight-forest-227639:7797302"
     compileOnly "curse.maven:the-undergarden-379849:7862546"
     implementation "curse.maven:treechop-421377:6254465"
     implementation "curse.maven:tree-physics-1522010:8448844"
@@ -153,7 +153,7 @@ runs {
     }
 
     server {
-        workingDirectory 'run'
+        workingDirectory 'run/server'
         client false
         server true
         dataGenerator false
