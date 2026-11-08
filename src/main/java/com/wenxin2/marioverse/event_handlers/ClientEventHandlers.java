@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiFunction;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -158,78 +159,15 @@ public class ClientEventHandlers {
     @SubscribeEvent
     public static void onModelBake(ModelEvent.ModifyBakingResult event) {
         Map<ModelResourceLocation, BakedModel> models = event.getModels();
+        Map<ResourceLocation, List<ModelResourceLocation>> modelsById = new HashMap<>();
 
-        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
-            Block source = entry.getKey();
-            Block warp = entry.getValue();
-            ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(source);
-            ResourceLocation warpId = BuiltInRegistries.BLOCK.getKey(warp);
-            ModelResourceLocation sourceItemMrl = new ModelResourceLocation(sourceId, "inventory");
-            BakedModel sourceItemModel = models.get(sourceItemMrl);
+        for (ModelResourceLocation mrl : models.keySet())
+            modelsById.computeIfAbsent(mrl.id(), id -> new ArrayList<>()).add(mrl);
 
-            for (Map.Entry<ModelResourceLocation, BakedModel> model : models.entrySet()) {
-                ModelResourceLocation warpMrl = model.getKey();
-                if (!warpMrl.id().equals(warpId))
-                    continue;
-
-                ModelResourceLocation sourceMrl = new ModelResourceLocation(sourceId, warpMrl.getVariant());
-                BakedModel sourceBlockModel = models.get(sourceMrl);
-
-                if (sourceBlockModel == null) {
-                    for (Map.Entry<ModelResourceLocation, BakedModel> candidate : models.entrySet()) {
-                        ModelResourceLocation candidateMrl = candidate.getKey();
-                        if (!candidateMrl.id().equals(sourceId))
-                            continue;
-                        String v = candidateMrl.getVariant();
-
-                        if (v.contains("facing=") && v.contains("half=") && v.contains("hinge=")
-                                && v.contains("open=") && v.contains("powered=")) {
-                            sourceBlockModel = candidate.getValue();
-                            break;
-                        }
-                    }
-                }
-                if (sourceBlockModel == null)
-                    continue;
-                model.setValue(new WarpDoorModel(sourceBlockModel, sourceItemModel != null ? sourceItemModel : sourceBlockModel));
-            }
-        }
-
-        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_TRAPDOORS.entrySet()) {
-            Block source = entry.getKey();
-            Block warp = entry.getValue();
-            ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(source);
-            ResourceLocation warpId = BuiltInRegistries.BLOCK.getKey(warp);
-            ModelResourceLocation sourceItemMrl = new ModelResourceLocation(sourceId, "inventory");
-            BakedModel sourceItemModel = models.get(sourceItemMrl);
-
-            for (Map.Entry<ModelResourceLocation, BakedModel> model : models.entrySet()) {
-                ModelResourceLocation warpMrl = model.getKey();
-                if (!warpMrl.id().equals(warpId))
-                    continue;
-
-                ModelResourceLocation sourceMrl = new ModelResourceLocation(sourceId, warpMrl.getVariant());
-                BakedModel sourceBlockModel = models.get(sourceMrl);
-
-                if (sourceBlockModel == null) {
-                    for (Map.Entry<ModelResourceLocation, BakedModel> candidate : models.entrySet()) {
-                        ModelResourceLocation candidateMrl = candidate.getKey();
-                        if (!candidateMrl.id().equals(sourceId))
-                            continue;
-                        String v = candidateMrl.getVariant();
-
-                        if (v.contains("facing=") && v.contains("half=") && v.contains("open=")
-                                && v.contains("powered=") && v.contains("waterlogged=")) {
-                            sourceBlockModel = candidate.getValue();
-                            break;
-                        }
-                    }
-                }
-                if (sourceBlockModel == null)
-                    continue;
-                model.setValue(new WarpTrapDoorModel(sourceBlockModel, sourceItemModel != null ? sourceItemModel : sourceBlockModel));
-            }
-        }
+        ClientEventHandlers.wrapWarpModels(models, modelsById, RegistryEventHandlers.WARP_DOORS,
+                List.of("facing=", "half=", "hinge=", "open=", "powered="), WarpDoorModel::new);
+        ClientEventHandlers.wrapWarpModels(models, modelsById, RegistryEventHandlers.WARP_TRAPDOORS,
+                List.of("facing=", "half=", "open=", "powered=", "waterlogged="), WarpTrapDoorModel::new);
     }
 
     @SubscribeEvent
@@ -794,5 +732,39 @@ public class ClientEventHandlers {
         for (CooldownSmoke smoke : COOLDOWN_PIPE_ENTRANCES)
             level.addParticle(ParticleTypes.SMOKE, smoke.pos().x, smoke.pos().y, smoke.pos().z,
                     smoke.speed().x, smoke.speed().y, smoke.speed().z);
+    }
+
+    private static void wrapWarpModels(Map<ModelResourceLocation, BakedModel> models,
+                                       Map<ResourceLocation, List<ModelResourceLocation>> modelsById,
+                                       Map<Block, Block> warpBlocks, List<String> fallbackStates,
+                                       BiFunction<BakedModel, BakedModel, BakedModel> wrapper) {
+        for (Map.Entry<Block, Block> entry : warpBlocks.entrySet()) {
+            ResourceLocation sourceId = BuiltInRegistries.BLOCK.getKey(entry.getKey());
+            ResourceLocation warpId = BuiltInRegistries.BLOCK.getKey(entry.getValue());
+            BakedModel sourceItemModel = models.get(new ModelResourceLocation(sourceId, "inventory"));
+            BakedModel fallbackModel = null;
+            boolean searchedFallback = false;
+
+            for (ModelResourceLocation warpMrl : modelsById.getOrDefault(warpId, List.of())) {
+                BakedModel sourceBlockModel = models.get(new ModelResourceLocation(sourceId, warpMrl.getVariant()));
+
+                if (sourceBlockModel == null && !searchedFallback) {
+                    searchedFallback = true;
+                    for (ModelResourceLocation candidate : modelsById.getOrDefault(sourceId, List.of())) {
+                        String variant = candidate.getVariant();
+                        if (fallbackStates.stream().allMatch(variant::contains)) {
+                            fallbackModel = models.get(candidate);
+                            break;
+                        }
+                    }
+                }
+
+                if (sourceBlockModel == null)
+                    sourceBlockModel = fallbackModel;
+                if (sourceBlockModel == null)
+                    continue;
+                models.put(warpMrl, wrapper.apply(sourceBlockModel, sourceItemModel != null ? sourceItemModel : sourceBlockModel));
+            }
+        }
     }
 }
