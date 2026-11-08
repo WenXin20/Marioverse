@@ -92,7 +92,8 @@ public class WoodModule extends EveryCompatModule {
 
         hardBlock = SimpleEntrySet.builder(WoodType.class, "block", "hard",
                         BlockRegistry.HARD_OAK_BLOCK, () -> VanillaWoodTypes.OAK,
-                        woodType -> new Block(Utils.copyPropertySafe(woodType.planks).strength(4.0F, 8.0F)))
+                        woodType -> new Block(Utils.copyPropertySafe(woodType.planks)
+                                .strength(4.0F, 8.0F)))
                 .addTexture(modRes("block/hard_oak_block"), PaletteStrategies.PLANKS_STANDARD)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(TagRegistry.BONKABLE_BLOCKS, Registries.BLOCK)
@@ -198,7 +199,8 @@ public class WoodModule extends EveryCompatModule {
 
         bridgeStairs = SimpleEntrySet.builder(WoodType.class, "log_bridge_stairs",
                         BlockRegistry.OAK_LOG_BRIDGE_STAIRS, () -> VanillaWoodTypes.OAK,
-                        woodType -> new LogBridgeStairBlock(woodType.log.defaultBlockState(), Utils.copyPropertySafe(woodType.log)))
+                        woodType -> new LogBridgeStairBlock(woodType.log.defaultBlockState(),
+                                Utils.copyPropertySafe(woodType.log)))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(BlockTags.WOODEN_STAIRS, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_STAIR_BLOCKS, Registries.BLOCK)
@@ -215,7 +217,8 @@ public class WoodModule extends EveryCompatModule {
 
         strippedBridgeStairs = SimpleEntrySet.builder(WoodType.class, "log_bridge_stairs", "stripped",
                         BlockRegistry.STRIPPED_OAK_LOG_BRIDGE_STAIRS, () -> VanillaWoodTypes.OAK,
-                        woodType -> new LogBridgeStairBlock(woodType.log.defaultBlockState(), Utils.copyPropertySafe(woodType.log)))
+                        woodType -> new LogBridgeStairBlock(woodType.log.defaultBlockState(),
+                                Utils.copyPropertySafe(woodType.log)))
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .addTag(BlockTags.WOODEN_STAIRS, Registries.BLOCK)
                 .addTag(TagRegistry.FLAMMABLE_BRIDGE_STAIR_BLOCKS, Registries.BLOCK)
