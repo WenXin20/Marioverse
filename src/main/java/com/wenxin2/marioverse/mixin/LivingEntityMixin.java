@@ -226,7 +226,7 @@ public abstract class LivingEntityMixin extends Entity implements BlockWarpEntit
             for (InteractionHand hand : InteractionHand.values()) {
                 ItemStack stackInHand = livingEntity.getItemInHand(hand);
                 if (stackInHand.getComponents().getOrDefault(DataComponentRegistry.UNDYING_CHARM.get(), false)) {
-                    stack = stackInHand.copy();
+                    stack = stackInHand;
                     break;
                 }
             }
