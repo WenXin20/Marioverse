@@ -24,7 +24,6 @@ import com.wenxin2.marioverse.datagen.EntityTypeTagsGen;
 import com.wenxin2.marioverse.datagen.FluidTagsGen;
 import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
-import com.wenxin2.marioverse.dynamic_pack.DynamicRecipeResources;
 import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.items.DynamicPlasticBucketItem;
@@ -440,28 +439,6 @@ public class RegistryEventHandlers {
                                 @Override
                                 public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
                                     return new DynamicServerResources(info);
-                                }
-                            },
-                            PackType.SERVER_DATA,
-                            new PackSelectionConfig(true, Pack.Position.TOP, false)
-                    )
-            ));
-
-            ResourceLocation recipePackLocation = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "dynamic_recipes");
-            PackLocationInfo recipePackLocationInfo = new PackLocationInfo(Marioverse.MOD_ID + ":dynamic_recipes",
-                    Component.translatable("datapack.marioverse.dynamic_recipes"), PackSource.BUILT_IN,
-                    Optional.of(new KnownPack("marioverse", "mod/" + recipePackLocation, "22")));
-
-            event.addRepositorySource((consumer) -> consumer.accept(Pack.readMetaAndCreate(recipePackLocationInfo,
-                            new Pack.ResourcesSupplier() {
-                                @Override
-                                public PackResources openPrimary(PackLocationInfo info) {
-                                    return new DynamicRecipeResources(info);
-                                }
-
-                                @Override
-                                public PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
-                                    return new DynamicRecipeResources(info);
                                 }
                             },
                             PackType.SERVER_DATA,

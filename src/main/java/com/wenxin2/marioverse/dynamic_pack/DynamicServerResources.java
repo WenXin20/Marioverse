@@ -44,6 +44,7 @@ public final class DynamicServerResources implements PackResources {
     private final Map<ResourceLocation, byte[]> lootTables = new HashMap<>();
     private final Map<ResourceLocation, byte[]> colorSets = new HashMap<>();
     private final Map<ResourceLocation, byte[]> bucketTags = new HashMap<>();
+    private final Map<ResourceLocation, byte[]> recipes = new HashMap<>();
     private final PackLocationInfo location;
 
     public DynamicServerResources(PackLocationInfo location) {
@@ -51,6 +52,10 @@ public final class DynamicServerResources implements PackResources {
         this.generateLootTables();
         this.generateColorSets();
         this.generateBucketTags();
+        this.generateRecipes(RegistryEventHandlers.WARP_DOORS, "marioverse:warp_door",
+                "marioverse:warp_doors", TagRegistry.CRAFTS_WARP_DOOR);
+        this.generateRecipes(RegistryEventHandlers.WARP_TRAPDOORS, "marioverse:warp_trapdoor",
+                "marioverse:warp_trapdoors", TagRegistry.CRAFTS_WARP_TRAPDOOR);
     }
 
     private void generateBucketTags() {
@@ -112,6 +117,37 @@ public final class DynamicServerResources implements PackResources {
             Tags.Items.BUCKETS
     );
 
+    private void generateRecipes(Map<Block, Block> conversions, String type, String group, TagKey<Item> extra) {
+        for (Map.Entry<Block, Block> entry : conversions.entrySet()) {
+            ResourceLocation sourceId = BuiltInRegistries.ITEM.getKey(entry.getKey().asItem());
+            ResourceLocation warpId = BuiltInRegistries.ITEM.getKey(entry.getValue().asItem());
+
+            JsonObject source = new JsonObject();
+            source.addProperty("item", sourceId.toString());
+
+            JsonObject ingredient = new JsonObject();
+            ingredient.addProperty("tag", extra.location().toString());
+
+            JsonArray ingredients = new JsonArray();
+            ingredients.add(source);
+            ingredients.add(ingredient);
+
+            JsonObject json = new JsonObject();
+            json.addProperty("type", type);
+            json.addProperty("category", "building");
+            json.addProperty("group", group);
+            json.add("ingredients", ingredients);
+            json.addProperty("result", warpId.toString());
+
+            String recipePath = sourceId.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)
+                    || sourceId.getNamespace().equals(Marioverse.MOD_ID)
+                    ? "warp_" + sourceId.getPath() : sourceId.getNamespace() + "_warp_" + sourceId.getPath();
+            ResourceLocation recipeId = ResourceLocation
+                    .fromNamespaceAndPath(Marioverse.MOD_ID, "recipe/" + recipePath + ".json");
+            this.recipes.put(recipeId, json.toString().getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
     private void generateLootTables() {
         for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
             ResourceLocation warpId   = BuiltInRegistries.BLOCK.getKey(entry.getValue());
@@ -141,7 +177,7 @@ public final class DynamicServerResources implements PackResources {
             JsonObject pack = new JsonObject();
 
             pack.addProperty("pack_format", SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA));
-            pack.addProperty("description", "Marioverse dynamic data for warp doors & trapdoors");
+            pack.addProperty("description", "Marioverse dynamic data & recipes for warp doors & trapdoors");
 
             root.add("pack", pack);
 
@@ -197,6 +233,10 @@ public final class DynamicServerResources implements PackResources {
         byte[] colorSet = colorSets.get(location);
         if (colorSet != null)
             return () -> new ByteArrayInputStream(colorSet);
+
+        byte[] recipe = recipes.get(location);
+        if (recipe != null)
+            return () -> new ByteArrayInputStream(recipe);
 
         return null;
     }
@@ -278,6 +318,13 @@ public final class DynamicServerResources implements PackResources {
 
         if (path.equals("color_sets")) {
             for (Map.Entry<ResourceLocation, byte[]> entry : colorSets.entrySet()) {
+                if (entry.getKey().getNamespace().equals(namespace))
+                    output.accept(entry.getKey(), () -> new ByteArrayInputStream(entry.getValue()));
+            }
+        }
+
+        if (path.equals("recipe")) {
+            for (Map.Entry<ResourceLocation, byte[]> entry : recipes.entrySet()) {
                 if (entry.getKey().getNamespace().equals(namespace))
                     output.accept(entry.getKey(), () -> new ByteArrayInputStream(entry.getValue()));
             }
