@@ -8,17 +8,14 @@ import com.wenxin2.marioverse.data.HexColorShapedRecipe;
 import com.wenxin2.marioverse.data.HexColorShapelessRecipe;
 import com.wenxin2.marioverse.data.WarpDoorRecipe;
 import com.wenxin2.marioverse.data.KeepDamageShapelessRecipe;
-import com.wenxin2.marioverse.data.WarpTrapDoorRecipe;
 import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
-import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class RecipeSerializerRegistry {
-    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<WarpDoorRecipe>> WARP_DOOR;
-    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<WarpTrapDoorRecipe>> WARP_TRAPDOOR;
+    public static final Supplier<RecipeSerializer<WarpDoorRecipe>> WARP_DOOR;
+    public static final Supplier<RecipeSerializer<WarpDoorRecipe>> WARP_TRAPDOOR;
     public static final Supplier<RecipeSerializer<KeepDamageShapelessRecipe>> KEEP_DAMAGE_SHAPELESS;
     public static final Supplier<RecipeSerializer<HexColorShapedRecipe>> HEX_COLOR_SHAPED;
     public static final Supplier<RecipeType<HexColorShapedRecipe>> HEX_COLOR_SHAPED_TYPE;
@@ -58,9 +55,9 @@ public class RecipeSerializerRegistry {
                 () -> RecipeType.simple(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "arrow_sign_upgrade")));
 
         WARP_DOOR = Marioverse.RECIPE_SERIALIZERS.register("warp_door",
-                () -> new SimpleCraftingRecipeSerializer<>(WarpDoorRecipe::new));
+                () -> new WarpDoorRecipe.Serializer(WarpDoorRecipe.Kind.DOOR));
         WARP_TRAPDOOR = Marioverse.RECIPE_SERIALIZERS.register("warp_trapdoor",
-                () -> new SimpleCraftingRecipeSerializer<>(WarpTrapDoorRecipe::new));
+                () -> new WarpDoorRecipe.Serializer(WarpDoorRecipe.Kind.TRAPDOOR));
         KEEP_DAMAGE_SHAPELESS = Marioverse.RECIPE_SERIALIZERS
                 .register("keep_damage_shapeless", KeepDamageShapelessRecipe.Serializer::new);
     }

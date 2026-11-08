@@ -1,40 +1,48 @@
 package com.wenxin2.marioverse.integration.rei_compat;
 
 import com.wenxin2.marioverse.data.WarpDoorRecipe;
-import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
-import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCraftingDisplay;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 public class WarpDoorCraftingDisplay extends DefaultCraftingDisplay<WarpDoorRecipe> {
-    public WarpDoorCraftingDisplay() {
-        super(List.of(EntryIngredients.ofItems(RegistryEventHandlers.WARP_DOORS.keySet()
-                                .stream().map(block -> (ItemLike) block).toList()),
-                        EntryIngredients.ofTag(WarpDoorRecipe.INGREDIENTS,
-                                holder -> EntryStacks.of(holder.value()))),
-
-                List.of(EntryIngredients.ofItems(RegistryEventHandlers.WARP_DOORS.values()
-                        .stream().map(block -> (ItemLike) block).toList())),
-
-                Optional.empty()
-        );
+    public WarpDoorCraftingDisplay(RecipeHolder<WarpDoorRecipe> recipeHolder) {
+        super(WarpDoorCraftingDisplay.createInputs(recipeHolder.value()),
+                List.of(EntryIngredients.ofItemStacks(recipeHolder.value().getOutputStacks())),
+                Optional.of(recipeHolder));
     }
 
     @Override
     public int getWidth() {
-        return 2;
+        WarpDoorRecipe recipe = this.getOptionalRecipe().orElseThrow().value();
+        return recipe.isShaped() ? recipe.getWidth() : Math.min(3, recipe.getIngredients().size());
     }
 
     @Override
     public int getHeight() {
-        return 2;
+        WarpDoorRecipe recipe = this.getOptionalRecipe().orElseThrow().value();
+        return recipe.isShaped() ? recipe.getHeight() : (recipe.getIngredients().size() + 2) / 3;
     }
 
     @Override
     public boolean isShapeless() {
-        return true;
+        return !this.getOptionalRecipe().orElseThrow().value().isShaped();
+    }
+
+    private static List<EntryIngredient> createInputs(WarpDoorRecipe recipe) {
+        List<Ingredient> slots = recipe.getIngredients();
+        List<EntryIngredient> inputs = new ArrayList<>(slots.size());
+        for (int i = 0; i < slots.size(); i++) {
+            if (i == recipe.getSourceIndex())
+                inputs.add(EntryIngredients.ofItemStacks(recipe.getSourceStacks()));
+            else inputs.add(slots.get(i).isEmpty() ? EntryIngredient.empty()
+                    : EntryIngredients.ofIngredient(slots.get(i)));
+        }
+        return inputs;
     }
 }

@@ -5,6 +5,7 @@ import com.wenxin2.marioverse.data.ArrowColorShapelessRecipe;
 import com.wenxin2.marioverse.data.ArrowSignUpgradeRecipe;
 import com.wenxin2.marioverse.data.HexColorShapedRecipe;
 import com.wenxin2.marioverse.data.HexColorShapelessRecipe;
+import com.wenxin2.marioverse.data.WarpDoorRecipe;
 import com.wenxin2.marioverse.integration.rei_compat.ArrowColorCraftingDisplay;
 import com.wenxin2.marioverse.integration.rei_compat.ArrowColorRecipeTransferHandler;
 import com.wenxin2.marioverse.integration.rei_compat.ArrowColorShapelessCraftingDisplay;
@@ -15,7 +16,6 @@ import com.wenxin2.marioverse.integration.rei_compat.HexColorRecipeTransferHandl
 import com.wenxin2.marioverse.integration.rei_compat.HexColorShapelessCraftingDisplay;
 import com.wenxin2.marioverse.integration.rei_compat.HexColorShapelessRecipeTransferHandler;
 import com.wenxin2.marioverse.integration.rei_compat.WarpDoorCraftingDisplay;
-import com.wenxin2.marioverse.integration.rei_compat.WarpTrapDoorCraftingDisplay;
 import dev.architectury.event.EventResult;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
@@ -40,8 +40,8 @@ public class REICompat implements REIClientPlugin {
                 RecipeType.CRAFTING, ArrowColorShapelessCraftingDisplay::new);
         registry.registerRecipeFiller(ArrowSignUpgradeRecipe.class,
                 RecipeType.CRAFTING, ArrowSignUpgradeCraftingDisplay::new);
-        registry.add(new WarpDoorCraftingDisplay());
-        registry.add(new WarpTrapDoorCraftingDisplay());
+        registry.registerRecipeFiller(WarpDoorRecipe.class,
+                RecipeType.CRAFTING, WarpDoorCraftingDisplay::new);
 
         // REI's own DefaultCraftingCategory generates a plain DefaultCraftingDisplay.of(...) for every
         // RecipeType.CRAFTING recipe regardless of registerRecipeFiller - without this, our color-cycling
@@ -51,13 +51,13 @@ public class REICompat implements REIClientPlugin {
                 return EventResult.pass();
             if (craftingDisplay instanceof ArrowColorCraftingDisplay || craftingDisplay instanceof ArrowColorShapelessCraftingDisplay
                     || craftingDisplay instanceof HexColorCraftingDisplay || craftingDisplay instanceof HexColorShapelessCraftingDisplay
-                    || craftingDisplay instanceof ArrowSignUpgradeCraftingDisplay)
+                    || craftingDisplay instanceof ArrowSignUpgradeCraftingDisplay || craftingDisplay instanceof WarpDoorCraftingDisplay)
                 return EventResult.pass();
 
             Object recipeValue = craftingDisplay.getOptionalRecipe().map(RecipeHolder::value).orElse(null);
             boolean isOurRecipe = recipeValue instanceof ArrowColorShapedRecipe || recipeValue instanceof ArrowColorShapelessRecipe
                     || recipeValue instanceof HexColorShapedRecipe || recipeValue instanceof HexColorShapelessRecipe
-                    || recipeValue instanceof ArrowSignUpgradeRecipe;
+                    || recipeValue instanceof ArrowSignUpgradeRecipe || recipeValue instanceof WarpDoorRecipe;
 
             return isOurRecipe ? EventResult.interruptFalse() : EventResult.pass();
         });

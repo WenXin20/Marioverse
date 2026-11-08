@@ -1,3 +1,14 @@
 {
-  "type": "marioverse:warp_door"
+  "type": "marioverse:warp_door",
+  "enabled": false,
+  "category": "building",
+  "group": "marioverse:warp_doors",
+  "ingredients": [
+    {
+      "tag": "minecraft:doors"
+    },
+    {
+      "tag": "marioverse:crafts_warp_door"
+    }
+  ]
 }

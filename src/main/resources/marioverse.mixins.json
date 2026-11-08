@@ -23,6 +23,7 @@
     "PlayerMixin",
     "PowderSnowBlockMixin",
     "ProjectileMixin",
+    "RecipeManagerMixin",
     "ServerPlayerMixin",
     "StructureStartMixin",
     "StructureTemplateMixin",
