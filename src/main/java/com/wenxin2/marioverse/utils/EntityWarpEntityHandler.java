@@ -3,6 +3,9 @@ package com.wenxin2.marioverse.utils;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsCompat;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsProvider;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.PaintingBlockWarp;
 import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityProvider;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityProvider;
@@ -26,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import org.jetbrains.annotations.Nullable;
 
 public interface EntityWarpEntityHandler {
@@ -48,23 +52,36 @@ public interface EntityWarpEntityHandler {
                     WarpLinkableEntity.WARPED_ENTITIES.put(entityId, false);
 
                 this.enterWarpPainting(entity, world, linkableEntity, warpEntity);
-                break;
+                return;
+            }
+        }
+
+        if (FastPaintingsProvider.isLoaded()) {
+            PaintingBlockWarp paintingWarp = FastPaintingsCompat.getTouchedWarp(entity, world);
+
+            if (paintingWarp != null) {
+                int entityId = entity.getId();
+
+                if (WarpLinkableEntity.WARPED_ENTITIES.getOrDefault(entityId, false))
+                    WarpLinkableEntity.WARPED_ENTITIES.put(entityId, false);
+
+                this.enterWarpPainting(entity, world, paintingWarp, paintingWarp.getBlockEntity());
             }
         }
     }
 
-    default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, Entity warpEntity) {
+    default void enterWarpPainting(Entity entity, Level world, WarpLinkableEntity warpLinkableEntity, IAttachmentHolder warpHolder) {
         if (!entity.getData(DataAttachmentRegistry.PREVENT_WARP)) {
             if (this.mv$getEntityWarpTeleportConfig() && !entity.getType().is(TagRegistry.CANNOT_WARP)) {
-                if (!warpEntity.getData(DataAttachmentRegistry.PREVENT_WARP.get()) && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0
+                if (!warpHolder.getData(DataAttachmentRegistry.PREVENT_WARP.get()) && entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) == 0
                         && !entity.isShiftKeyDown()) {
                     this.warp(entity, world, warpLinkableEntity);
                     BlockWarpEntityHandler.AWAITING_RELEASE.put(entity, entity.level().getGameTime());
                 } else if (entity instanceof Player player && !BlockWarpEntityHandler.isStillEnteringAfterWarp(entity)) {
-                    if (warpEntity.getData(DataAttachmentRegistry.PREVENT_WARP.get()) && warpLinkableEntity instanceof Painting warpPainting)
-                        this.displayWarpDisruptedMessage(player, warpPainting);
+                    if (warpHolder.getData(DataAttachmentRegistry.PREVENT_WARP.get()) && EntityWarpEntityHandler.isWarpPainting(warpLinkableEntity))
+                        this.displayWarpDisruptedMessage(player, warpLinkableEntity);
                     else if (warpLinkableEntity.mv$hasDestinationPos())
-                        this.displayCooldownMessage(player, warpEntity);
+                        this.displayCooldownMessage(player, warpLinkableEntity);
                 }
             }
         }
@@ -76,6 +93,7 @@ public interface EntityWarpEntityHandler {
             UUID warpUUID = warpLinkableEntity.mv$getWarpUUID();
             Entity warpEntity = serverWorld.getEntity(warpLinkableEntity.mv$getWarpUUID());
             BlockPos xpDestination = null;
+            PaintingBlockWarp destinationPainting = null;
 
             if (warpEntity != null)
                 xpDestination = warpEntity.blockPosition();
@@ -87,12 +105,7 @@ public interface EntityWarpEntityHandler {
                 xpDestination = warpLinkableEntity.mv$getDestinationPos();
 
             Vec3 enteredPos = warpLinkableEntity instanceof Entity enteredWarp ? enteredWarp.position() : entity.position();
-            boolean isWarpPainting = warpLinkableEntity instanceof Painting
-                    || (warpLinkableEntity instanceof Entity enteredEntity && (enteredEntity.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
-                    || enteredEntity.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
-                    || enteredEntity.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
-                    || enteredEntity.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
-                    || enteredEntity.getType() == CompatRegistry.MAGIC_PAINTING.get()));
+            boolean isWarpPainting = EntityWarpEntityHandler.isWarpPainting(warpLinkableEntity);
             WarpCost.Cost warpCost = WarpCost.getEntityCost(world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting);
             Vec3 startPos = entity.position();
 
@@ -198,8 +211,10 @@ public interface EntityWarpEntityHandler {
 
                 if (savedTarget != null) {
                     BlockPos basePos = subLevelPos != null ? subLevelPos : savedTarget.pos();
+                    PaintingBlockWarp paintingWarp = FastPaintingsProvider.isLoaded()
+                            ? FastPaintingsCompat.findWarp(world, basePos, warpUUID) : null;
 
-                    if (serverWorld.areEntitiesLoaded(ChunkPos.asLong(basePos))) {
+                    if (paintingWarp == null && serverWorld.areEntitiesLoaded(ChunkPos.asLong(basePos))) {
                         if (entity instanceof Player player)
                             BlockWarpEntityHandler.displayDestinationMissingMessage(player);
                         return;
@@ -209,6 +224,10 @@ public interface EntityWarpEntityHandler {
 
                     if (!EntityWarpEntityHandler.warpPaintingDirection(null, basePos, direction, width, entity, world))
                         return;
+
+                    if (paintingWarp != null && paintingWarp.isBreak())
+                        FastPaintingsCompat.removePainting(paintingWarp);
+                    else destinationPainting = paintingWarp;
 
                     List<Entity> entitiesAtPos = world.getEntities(null, new AABB(basePos));
                     for (Entity targetEntity : entitiesAtPos) {
@@ -226,7 +245,10 @@ public interface EntityWarpEntityHandler {
             if (!entity.position().equals(startPos)) {
                 if (warpLinkableEntity instanceof Entity enteredWarp)
                     PaintingRipples.sendRipple(enteredWarp);
+                else if (warpLinkableEntity instanceof PaintingBlockWarp enteredPainting)
+                    PaintingRipples.sendBlockRipple(enteredPainting);
                 PaintingRipples.sendRipple(serverWorld.getEntity(warpUUID));
+                PaintingRipples.sendBlockRipple(destinationPainting);
             }
         }
     }
@@ -272,9 +294,9 @@ public interface EntityWarpEntityHandler {
         return true;
     }
 
-    private void displayCooldownMessage(Player player, Entity warpEntity) {
+    private void displayCooldownMessage(Player player, WarpLinkableEntity warpLinkableEntity) {
         if (player.getData(DataAttachmentRegistry.WARP_COOLDOWN) >= 10) {
-            if (warpEntity instanceof Painting) {
+            if (warpLinkableEntity instanceof Painting || warpLinkableEntity instanceof PaintingBlockWarp) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_painting_cooldown.ticks",
@@ -285,11 +307,14 @@ public interface EntityWarpEntityHandler {
         }
     }
 
-    default void displayWarpDisruptedMessage(Player player, Painting warpPainting) {
-        if (warpPainting.getVariant().getKey() != null) {
+    default void displayWarpDisruptedMessage(Player player, WarpLinkableEntity warpLinkableEntity) {
+        if (warpLinkableEntity instanceof Painting warpPainting && warpPainting.getVariant().getKey() != null) {
             player.displayClientMessage(Component.translatable("display.marioverse.painting_warp_disrupted",
                     Component.translatable(warpPainting.getVariant().getKey().location().toLanguageKey("painting", "title")),
                     warpPainting.getName()).withStyle(ChatFormatting.RED), true);
+        } else if (warpLinkableEntity instanceof PaintingBlockWarp paintingWarp && paintingWarp.getTitle() != null) {
+            player.displayClientMessage(Component.translatable("display.marioverse.painting_warp_disrupted",
+                    paintingWarp.getTitle(), paintingWarp.getName()).withStyle(ChatFormatting.RED), true);
         }
     }
 
@@ -352,5 +377,14 @@ public interface EntityWarpEntityHandler {
         if (ModList.get().isLoaded("twilightforest") && entity.getType() == CompatRegistry.MAGIC_PAINTING.get())
             return MagicPaintingEntityProvider.getPaintingWidth(entity);
         return 0;
+    }
+
+    static boolean isWarpPainting(WarpLinkableEntity warpLinkableEntity) {
+        return warpLinkableEntity instanceof Painting || warpLinkableEntity instanceof PaintingBlockWarp
+                || (warpLinkableEntity instanceof Entity entity && (entity.getType() == CompatRegistry.IMMERSIVE_GLOW_GRAFFITI.get()
+                || entity.getType() == CompatRegistry.IMMERSIVE_GLOW_PAINTING.get()
+                || entity.getType() == CompatRegistry.IMMERSIVE_GRAFFITI.get()
+                || entity.getType() == CompatRegistry.IMMERSIVE_PAINTING.get()
+                || entity.getType() == CompatRegistry.MAGIC_PAINTING.get()));
     }
 }

@@ -3,6 +3,8 @@ package com.wenxin2.marioverse.utils;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsCompat;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsProvider;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.particles.WarpLinkParticleOption;
 import com.wenxin2.marioverse.particles.WarpStarParticleOption;
@@ -54,7 +56,8 @@ public class WarpLinkParticles {
                     if (partPanel != null)
                         panel = panel == null ? partPanel : panel.minmax(partPanel);
                 }
-            }
+            } else if (FastPaintingsProvider.isLoaded() && FastPaintingsCompat.isPaintingBlock(state))
+                panel = FastPaintingsCompat.getPaintingBounds(level, pos);
 
             if (panel != null)
                 WarpLinkParticles.outlineFace(level, viewer, panel);

@@ -20,11 +20,13 @@ import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
 import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
 import com.wenxin2.marioverse.client.models.loaders.SolidBucketModelLoader;
+import com.wenxin2.marioverse.client.renderers.PaintingBlockRippleRenderer;
 import com.wenxin2.marioverse.client.renderers.SuperStarGlowRenderer;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsProvider;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.items.ArrowSignItem;
 import com.wenxin2.marioverse.network.server_bound.data.BouncePayload;
@@ -146,6 +148,9 @@ public class ClientEventHandlers {
     @SubscribeEvent
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
         SuperStarGlowRenderer.onRenderLevelStage(event);
+
+        if (FastPaintingsProvider.isLoaded())
+            PaintingBlockRippleRenderer.onRenderLevelStage(event);
     }
 
     @SubscribeEvent

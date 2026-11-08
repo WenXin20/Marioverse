@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 public class MixinCompatPlugin implements IMixinConfigPlugin {
     private static final String MIXIN_PACKAGE = "com.wenxin2.marioverse.mixin.";
     private static final Map<String, List<String>> COMPAT_PACKAGES = Map.of(
+            "fastpaintings.", List.of("fastpaintings"),
             "iris.", List.of("iris", "oculus"),
             "immersive_paintings.", List.of("immersive_paintings"),
             "twilightforest.", List.of("twilightforest"));

@@ -7,6 +7,8 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsCompat;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsProvider;
 import com.wenxin2.marioverse.integration.immersive_paintings_compat.PaintingEntityProvider;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.integration.twilightforest_compat.MagicPaintingEntityProvider;
@@ -65,7 +67,7 @@ public class LinkerItem extends TieredItem {
         super(tier, properties);
     }
 
-    private static boolean getLinkableBlock(BlockState state) {
+    public static boolean getLinkableBlock(BlockState state) {
         if (state.getBlock() instanceof WarpPipeBlock && state.getValue(WarpPipeBlock.ENTRANCE))
             return true;
         else if (state.getBlock() instanceof WarpPipeBlock && !state.getValue(WarpPipeBlock.ENTRANCE))
@@ -120,6 +122,10 @@ public class LinkerItem extends TieredItem {
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.requires_creative"), true);
             return InteractionResult.SUCCESS;
         } else if (player != null) {
+            if (player.isShiftKeyDown() && FastPaintingsProvider.isLoaded()
+                    && FastPaintingsCompat.useLinker(this, stack, level, player, pos, state, useOnContext.getHand()))
+                return InteractionResult.sidedSuccess(level.isClientSide);
+
             if (player.isShiftKeyDown() && blockEntity instanceof BaseWarpBlockEntity warpBE
                     && getLinkableBlock(state)) {
                 UUID uuid = warpBE.getUUID();
@@ -550,6 +556,8 @@ public class LinkerItem extends TieredItem {
 
                             WarpLinkParticles.outlineEntity(serverWorld, target, null);
                             linker.playSound(level, pos, SoundRegistry.WRENCH_WARP_LINKED.get(), SoundSource.PLAYERS, 1.0F, pitchLow);
+                        } else if (FastPaintingsProvider.isLoaded() && FastPaintingsCompat.isBoundToPainting(stack)) {
+                            FastPaintingsCompat.linkBoundPaintingToEntity(linker, stack, serverWorld, player, target);
                         } else {
                             BlockPos warpPos = getWarpPos(stack);
                             UUID warpUUID = getWarpUUID(stack);
@@ -816,7 +824,7 @@ public class LinkerItem extends TieredItem {
             SableProvider.recordEntityAnchor(entity);
     }
 
-    private static void linkBlocksToEntity(Level level, UUID entityUuid, BlockPos entityPos, Vec3 entityCenter, Direction direction, int width,
+    public static void linkBlocksToEntity(Level level, UUID entityUuid, BlockPos entityPos, Vec3 entityCenter, Direction direction, int width,
                                            BlockPos pos, BlockState state) {
         List<BlockPos> blocks = new ArrayList<>(WarpPipeBlock.getEntranceGroup(level, pos, state));
         if (blocks.isEmpty())

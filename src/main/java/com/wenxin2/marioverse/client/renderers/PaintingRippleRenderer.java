@@ -30,7 +30,7 @@ public class PaintingRippleRenderer {
             return;
 
         float[] progresses = PaintingRipples.getProgresses(painting, partialTick);
-        if (progresses.length == 0 || PaintingRippleRenderer.isShaderPackInUse())
+        if (progresses.length == 0)
             return;
 
         Direction facing = painting.getDirection();
@@ -41,6 +41,17 @@ public class PaintingRippleRenderer {
 
         float width = (float) Math.max(bounds.max(uAxis) - bounds.min(uAxis), 0.0625);
         float height = (float) Math.max(bounds.max(vAxis) - bounds.min(vAxis), 0.0625);
+        PaintingRippleRenderer.begin(progresses, uAxis, vAxis, center, width, height, poseStack);
+    }
+
+    public static void begin(float[] progresses, Direction.Axis uAxis, Direction.Axis vAxis, Vec3 center, float width, float height,
+                             PoseStack poseStack) {
+        current = null;
+
+        if (PaintingRippleRenderTypes.ripplingPaintingShader == null || progresses.length == 0
+                || PaintingRippleRenderer.isShaderPackInUse())
+            return;
+
         int aspect = Mth.clamp(Math.round(((float) (Math.log(width / height) / Math.log(2.0)) + 4.0F) * ASPECT_STEPS), 0, 63);
 
         int[] encodedProgresses = new int[PaintingRipples.MAX_RIPPLES];
@@ -54,6 +65,10 @@ public class PaintingRippleRenderer {
 
     public static void end() {
         current = null;
+    }
+
+    public static boolean isActive() {
+        return current != null;
     }
 
     public static RenderType renderType(RenderType original, ResourceLocation texture, boolean translucent) {

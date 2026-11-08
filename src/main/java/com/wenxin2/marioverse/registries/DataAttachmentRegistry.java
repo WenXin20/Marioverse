@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.mojang.serialization.Codec;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.PaintingWarpData;
 import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -310,6 +311,9 @@ public class DataAttachmentRegistry {
     public static final Supplier<AttachmentType<UUID>> VEHICLE_UUID = Marioverse.ATTACHMENT_TYPES
             .register("vehicle_uuid", () -> AttachmentType.<UUID>builder(() -> null).serialize(UUIDUtil.CODEC)
                     .sync(UUIDUtil.STREAM_CODEC).build());
+    public static final Supplier<AttachmentType<PaintingWarpData>> PAINTING_WARP = Marioverse.ATTACHMENT_TYPES
+            .register("painting_warp", () -> AttachmentType.builder(() -> PaintingWarpData.EMPTY)
+                    .serialize(PaintingWarpData.CODEC).build());
 
     // TODO: Remove in 26.1+
     public static final Supplier<AttachmentType<Boolean>> HAS_HIT_BLOCK = Marioverse.ATTACHMENT_TYPES

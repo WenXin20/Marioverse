@@ -4,6 +4,9 @@ import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsCompat;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsProvider;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.PaintingBlockWarp;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.PaintingRipples;
@@ -50,6 +53,8 @@ public class SubLevelWarpHandler {
     private record EntryMotion(Vec3 direction, Vector3d velocity) {}
 
     private record PendingLoad(BlockPos entrancePos, Vector3d velocity, long deadline) {}
+
+    private record PaintingDestination(WarpPoint point, @Nullable Entity entity, @Nullable PaintingBlockWarp painting) {}
 
     public static void tick(ServerSubLevelContainer container) {
         ServerLevel level = container.getLevel();
@@ -148,6 +153,8 @@ public class SubLevelWarpHandler {
             WarpCost.charge(passengers, warpCost);
             PENDING_LOADS.remove(sub.getUniqueId());
             WarpLinkParticles.spawnWarpTransition(level, pos, state, exit.pos(), level.getBlockState(exit.pos()));
+            if (FastPaintingsProvider.isLoaded() && warpBE.hasWarpEntityTarget())
+                PaintingRipples.sendBlockRipple(FastPaintingsCompat.findWarp(level, exit.pos(), warpBE.getWarpUuid()));
 
             int cooldown = isPipe ? ConfigRegistry.WARP_PIPE_COOLDOWN.get()
                     : WarpDoorBlock.isDoor(state) ? ConfigRegistry.WARP_DOOR_COOLDOWN.get()
@@ -175,27 +182,93 @@ public class SubLevelWarpHandler {
             if (motion == null)
                 continue;
 
-            Entity destination = level.getEntity(((WarpLinkableEntity) warpEntity).mv$getWarpUUID());
-            if (destination == null || SubLevelWarpHandler.isOnSubLevel(level, destination.blockPosition(), sub))
+            PaintingDestination destination = SubLevelWarpHandler.getPaintingDestination(level, (WarpLinkableEntity) warpEntity, sub);
+            if (destination == null || !SubLevelWarpHandler.warpThroughPainting(level, sub, bounds, entrance, motion, destination))
                 continue;
 
-            WarpPoint exit = SubLevelWarpHandler.getEntityWarpPoint(level, destination);
-            if (exit == null)
-                continue;
-
-            List<Player> passengers = SubLevelWarpHandler.getPassengers(level, bounds);
-            WarpCost.Cost warpCost = WarpCost.getEntityCost(entrance.center().distanceTo(exit.center()), true);
-
-            if (!WarpCost.canAfford(passengers, warpCost) || !SubLevelWarpHandler.warp(sub, entrance, motion, exit))
-                continue;
-
-            WarpCost.charge(passengers, warpCost);
             PaintingRipples.sendRipple(warpEntity);
-            PaintingRipples.sendRipple(destination);
-
-            WARP_COOLDOWNS.put(sub.getUniqueId(), level.getGameTime() + ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
             return;
         }
+
+        if (!FastPaintingsProvider.isLoaded())
+            return;
+
+        for (PaintingBlockWarp painting : FastPaintingsCompat.getLinkedWarpsIn(level, bounds)) {
+            if (SubLevelWarpHandler.isOnSubLevel(level, painting.getMasterPos(), sub))
+                continue;
+
+            WarpPoint entrance = SubLevelWarpHandler.getPaintingBlockWarpPoint(level, painting);
+            if (entrance == null || !SubLevelWarpHandler.isTouching(sub, entrance, false))
+                continue;
+
+            EntryMotion motion = SubLevelWarpHandler.getEntryMotion(level, painting.getBasePos(), entrance, true, velocities);
+            if (motion == null)
+                continue;
+
+            PaintingDestination destination = SubLevelWarpHandler.getPaintingDestination(level, painting, sub);
+            if (destination == null || !SubLevelWarpHandler.warpThroughPainting(level, sub, bounds, entrance, motion, destination))
+                continue;
+
+            PaintingRipples.sendBlockRipple(painting);
+            return;
+        }
+    }
+
+    private static boolean warpThroughPainting(ServerLevel level, ServerSubLevel sub, AABB bounds, WarpPoint entrance, EntryMotion motion,
+                                               PaintingDestination destination) {
+        List<Player> passengers = SubLevelWarpHandler.getPassengers(level, bounds);
+        WarpCost.Cost warpCost = WarpCost.getEntityCost(entrance.center().distanceTo(destination.point().center()), true);
+
+        if (!WarpCost.canAfford(passengers, warpCost) || !SubLevelWarpHandler.warp(sub, entrance, motion, destination.point()))
+            return false;
+
+        WarpCost.charge(passengers, warpCost);
+        PaintingRipples.sendRipple(destination.entity());
+        PaintingRipples.sendBlockRipple(destination.painting());
+        WARP_COOLDOWNS.put(sub.getUniqueId(), level.getGameTime() + ConfigRegistry.WARP_PAINTING_COOLDOWN.get());
+        return true;
+    }
+
+    @Nullable
+    private static PaintingDestination getPaintingDestination(ServerLevel level, WarpLinkableEntity source, ServerSubLevel sub) {
+        UUID warpUuid = source.mv$getWarpUUID();
+        if (warpUuid == null)
+            return null;
+
+        Entity entity = level.getEntity(warpUuid);
+        if (entity != null) {
+            if (SubLevelWarpHandler.isOnSubLevel(level, entity.blockPosition(), sub))
+                return null;
+
+            WarpPoint point = SubLevelWarpHandler.getEntityWarpPoint(level, entity);
+            return point != null ? new PaintingDestination(point, entity, null) : null;
+        }
+
+        BlockPos destinationPos = source.mv$getDestinationPos();
+        if (destinationPos != null && level.getBlockEntity(destinationPos) instanceof BaseWarpBlockEntity warpBE
+                && warpUuid.equals(warpBE.getUUID())) {
+            if (SubLevelWarpHandler.isOnSubLevel(level, destinationPos, sub))
+                return null;
+
+            WarpPoint point = SubLevelWarpHandler.getBlockWarpPoint(level, destinationPos, level.getBlockState(destinationPos), false);
+            return point != null ? new PaintingDestination(point, null, null) : null;
+        }
+
+        WarpLinkableEntity.WarpTarget target = source.mv$getWarpTarget();
+        if (target == null || !FastPaintingsProvider.isLoaded())
+            return null;
+
+        PaintingBlockWarp painting = FastPaintingsCompat.findWarp(level, target.pos(), warpUuid);
+        if (painting == null || SubLevelWarpHandler.isOnSubLevel(level, painting.getMasterPos(), sub))
+            return null;
+
+        WarpPoint point = SubLevelWarpHandler.getPaintingBlockWarpPoint(level, painting);
+        return point != null ? new PaintingDestination(point, null, painting) : null;
+    }
+
+    @Nullable
+    private static WarpPoint getPaintingBlockWarpPoint(Level level, PaintingBlockWarp painting) {
+        return SubLevelWarpHandler.toWorldWarpPoint(level, painting.getBasePos(), painting.getCenter(), painting.getDirection());
     }
 
     @Nullable
@@ -206,6 +279,14 @@ public class SubLevelWarpHandler {
             if (warpBE.destinationSubLevel.equals(sub.getUniqueId()))
                 return null;
             destination = SableProvider.resolveSubLevelPos(level, warpBE.destinationSubLevel, warpBE.destinationSubLevelPos);
+        }
+
+        if (destination != null && warpBE.hasWarpEntityTarget() && FastPaintingsProvider.isLoaded()) {
+            PaintingBlockWarp painting = FastPaintingsCompat.findWarp(level, destination, warpBE.getWarpUuid());
+
+            if (painting != null)
+                return SubLevelWarpHandler.isOnSubLevel(level, painting.getMasterPos(), sub)
+                        ? null : SubLevelWarpHandler.getPaintingBlockWarpPoint(level, painting);
         }
 
         if ((destination == null || !(level.getBlockEntity(destination) instanceof BaseWarpBlockEntity)) && warpBE.getUUID() != null) {

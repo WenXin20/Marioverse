@@ -37,6 +37,16 @@ public abstract class PaintingRippleRenderTypes extends RenderType {
                             .setLightmapState(LIGHTMAP)
                             .createCompositeState(true))));
 
+    private static final Function<ResourceLocation, RenderType> RIPPLING_OVERLAY = Util.memoize(texture ->
+            PaintingRippleRenderTypes.track(false, RenderType.create("marioverse_rippling_painting_overlay", DefaultVertexFormat.NEW_ENTITY,
+                    VertexFormat.Mode.QUADS, 1536, true, false, RenderType.CompositeState.builder()
+                            .setShaderState(new ShaderStateShard(() -> ripplingPaintingShader))
+                            .setTextureState(new TextureStateShard(texture, false, false))
+                            .setTransparencyState(NO_TRANSPARENCY)
+                            .setLightmapState(LIGHTMAP)
+                            .setLayeringState(POLYGON_OFFSET_LAYERING)
+                            .createCompositeState(true))));
+
     private PaintingRippleRenderTypes(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize, boolean affectsCrumbling,
                                       boolean sortOnUpload, Runnable setupState, Runnable clearState) {
         super(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);
@@ -44,6 +54,10 @@ public abstract class PaintingRippleRenderTypes extends RenderType {
 
     public static RenderType ripplingPainting(ResourceLocation texture, boolean translucent) {
         return translucent ? RIPPLING_TRANSLUCENT.apply(texture) : RIPPLING_SOLID.apply(texture);
+    }
+
+    public static RenderType ripplingPaintingOverlay(ResourceLocation texture) {
+        return RIPPLING_OVERLAY.apply(texture);
     }
 
     public static boolean isRippling(RenderType renderType) {

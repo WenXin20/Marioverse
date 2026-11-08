@@ -41,6 +41,8 @@ import com.wenxin2.marioverse.entities.power_ups.SuperStarEntity;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.SupplementariesCompat;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsCompat;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsProvider;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
@@ -721,6 +723,12 @@ public class MarioverseEventHandlers {
         if (player.isSpectator() && !level.isClientSide && level.getBlockEntity(pos) instanceof BaseWarpBlockEntity warpBE
                 && ((BlockWarpEntityHandler) player).spectatorWarp(player, level, pos, state, warpBE)) {
             event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+            return;
+        }
+
+        if (FastPaintingsProvider.isLoaded() && FastPaintingsCompat.onRightClickPainting(level, pos, state, player, heldItem)) {
+            event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
             event.setCanceled(true);
             return;
         }

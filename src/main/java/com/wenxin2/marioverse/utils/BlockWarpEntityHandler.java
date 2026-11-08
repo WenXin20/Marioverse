@@ -6,6 +6,9 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsCompat;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsProvider;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.PaintingBlockWarp;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -252,8 +255,11 @@ public interface BlockWarpEntityHandler {
                 && !(warpPos != null && level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity)
                 ? serverLevel.getEntity(warpBE.getWarpUuid()) : null;
 
+        PaintingBlockWarp paintingWarp = linkedEntity == null && warpPos != null && warpBE.hasWarpEntityTarget()
+                && FastPaintingsProvider.isLoaded() ? FastPaintingsCompat.findWarp(level, warpPos, warpBE.getWarpUuid()) : null;
         boolean useSavedTarget = linkedEntity == null && warpPos != null && warpBE.hasWarpEntityTarget()
-                && level instanceof ServerLevel serverLevel && !serverLevel.areEntitiesLoaded(ChunkPos.asLong(warpPos));
+                && level instanceof ServerLevel serverLevel
+                && (paintingWarp != null || !serverLevel.areEntitiesLoaded(ChunkPos.asLong(warpPos)));
 
         if (linkedEntity != null || useSavedTarget) {
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos, state);
@@ -264,6 +270,10 @@ public interface BlockWarpEntityHandler {
             if (linkedEntity != null ? !EntityWarpEntityHandler.warpToEntity(entity, level, linkedEntity)
                     : !EntityWarpEntityHandler.warpToSavedTarget(entity, level, warpPos, warpBE.warpEntityDirection, warpBE.warpEntityWidth))
                 return;
+
+            if (paintingWarp != null && paintingWarp.isBreak())
+                FastPaintingsCompat.removePainting(paintingWarp);
+            else PaintingRipples.sendBlockRipple(paintingWarp);
 
             if (state.getBlock() instanceof WarpPipeBlock)
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);

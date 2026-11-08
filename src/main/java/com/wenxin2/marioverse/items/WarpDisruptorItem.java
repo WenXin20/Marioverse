@@ -5,6 +5,8 @@ import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpTrapDoorBlockEntity;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsCompat;
+import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsProvider;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
@@ -98,6 +100,10 @@ public class WarpDisruptorItem extends Item {
         BlockState state = world.getBlockState(pos);
         ItemStack stack = useOnContext.getItemInHand();
         BlockEntity blockEntity = world.getBlockEntity(pos);
+
+        if (FastPaintingsProvider.isLoaded()
+                && FastPaintingsCompat.disrupt(this, world, pos, state, player, stack, useOnContext.getHand()))
+            return InteractionResult.sidedSuccess(world.isClientSide);
 
         if (!ConfigRegistry.DISABLE_WARP_DOORS.get() && WarpDoorBlock.isDoor(state)
                 && world instanceof ServerLevel serverWorld) {

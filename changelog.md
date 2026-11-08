@@ -1,5 +1,6 @@
 ## Update 1.12.2
 - Added Dramatic Doors compat for warp doors
+- Added Fast Paintings compat for warp paintings, existing warp paintings keep their links
 - Fixed a crash with Dramatic Doors or any mod that adds waterlogging to fence gates
 - Fixed 1-Ups not being consumed from the offhand
 - Changed warp door & trapdoor recipes to allow recipe changes via datapack
