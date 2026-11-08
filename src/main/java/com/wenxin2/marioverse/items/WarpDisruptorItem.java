@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.items;
 
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
@@ -31,10 +32,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
@@ -100,12 +99,9 @@ public class WarpDisruptorItem extends Item {
         ItemStack stack = useOnContext.getItemInHand();
         BlockEntity blockEntity = world.getBlockEntity(pos);
 
-        if (!ConfigRegistry.DISABLE_WARP_DOORS.get() && state.getBlock() instanceof DoorBlock
+        if (!ConfigRegistry.DISABLE_WARP_DOORS.get() && WarpDoorBlock.isDoor(state)
                 && world instanceof ServerLevel serverWorld) {
-            BlockEntity blockEntityBelow = world.getBlockEntity(pos.below());
-
-            if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER
-                    && blockEntity instanceof WarpDoorBlockEntity doorBE
+            if (world.getBlockEntity(WarpDoorBlock.getLowerPart(state, pos)) instanceof WarpDoorBlockEntity doorBE
                     && (!doorBE.preventWarp || !doorBE.breakDoor)) {
                 if (doorBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
                     if (player != null)
@@ -122,34 +118,6 @@ public class WarpDisruptorItem extends Item {
                     ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, null, pos, 16);
                     if (player != null)
                         player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp", 50), true);
-                    doorBE.setPreventWarp(Boolean.TRUE);
-                }
-
-                if (player != null) {
-                    if (!player.isCreative())
-                        stack.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
-                }
-                doorBE.markUpdated();
-                world.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
-                return InteractionResult.SUCCESS;
-            } else if (state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER
-                    && blockEntityBelow instanceof WarpDoorBlockEntity doorBE
-                    && (!doorBE.preventWarp || !doorBE.breakDoor)) {
-                if (doorBE.isWaxed() && ConfigRegistry.WAX_DISABLES_WARP_LINKING.get()) {
-                    if (player != null)
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.waxed",
-                                state.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
-                    return InteractionResult.sidedSuccess(Boolean.TRUE);
-                } else if (doorBE.preventWarp) {
-                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.WARPED_SPORE, serverWorld, null, pos, 16);
-                    if (player != null)
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.break_door",
-                                state.getBlock().getName()).withStyle(ChatFormatting.DARK_AQUA), true);
-                    doorBE.setBreakDoor(Boolean.TRUE);
-                } else {
-                    ServerParticleUtils.spawnThreeLayerBlockParticles(ParticleTypes.CRIMSON_SPORE, serverWorld, null, pos, 16);
-                    if (player != null)
-                        player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.prevent_door_warp"), true);
                     doorBE.setPreventWarp(Boolean.TRUE);
                 }
 

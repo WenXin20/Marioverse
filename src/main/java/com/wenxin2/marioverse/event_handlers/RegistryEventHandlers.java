@@ -26,6 +26,7 @@ import com.wenxin2.marioverse.datagen.ItemModelGen;
 import com.wenxin2.marioverse.datagen.ItemTagsGen;
 import com.wenxin2.marioverse.dynamic_pack.DynamicServerResources;
 import com.wenxin2.marioverse.integration.CompatRegistry;
+import com.wenxin2.marioverse.integration.dramatic_doors_compat.DramaticDoorsCompat;
 import com.wenxin2.marioverse.items.DynamicPlasticBucketItem;
 import com.wenxin2.marioverse.items.DynamicSolidPlasticBucketItem;
 import com.wenxin2.marioverse.items.WarpDoorBlockItem;
@@ -95,6 +96,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.neoforged.bus.api.EventPriority;
+import net.neoforged.fml.ModList;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -173,6 +175,9 @@ public class RegistryEventHandlers {
                 helper.register(warpID, warpDoor);
                 WARP_DOORS.put(source, warpDoor);
             }
+
+            if (ModList.get().isLoaded(DramaticDoorsCompat.MOD_ID))
+                DramaticDoorsCompat.registerWarpDoors(helper, WARP_DOORS);
         });
 
         event.register(Registries.BLOCK, helper -> {

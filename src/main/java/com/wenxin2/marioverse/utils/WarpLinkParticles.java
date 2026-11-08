@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.particles.WarpLinkParticleOption;
@@ -15,9 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -48,11 +47,13 @@ public class WarpLinkParticles {
         if (!(state.getBlock() instanceof WarpPipeBlock)) {
             AABB panel = WarpLinkParticles.getShapeBounds(level, pos);
 
-            if (state.getBlock() instanceof DoorBlock) {
-                BlockPos lowerPos = state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? pos : pos.below();
-                AABB lowerPanel = WarpLinkParticles.getShapeBounds(level, lowerPos);
-                AABB upperPanel = WarpLinkParticles.getShapeBounds(level, lowerPos.above());
-                panel = lowerPanel == null ? upperPanel : upperPanel == null ? lowerPanel : lowerPanel.minmax(upperPanel);
+            if (WarpDoorBlock.isDoor(state)) {
+                panel = null;
+                for (BlockPos part : WarpDoorBlock.getParts(state, pos)) {
+                    AABB partPanel = WarpLinkParticles.getShapeBounds(level, part);
+                    if (partPanel != null)
+                        panel = panel == null ? partPanel : panel.minmax(partPanel);
+                }
             }
 
             if (panel != null)
@@ -163,11 +164,10 @@ public class WarpLinkParticles {
             center = new Vec3(blocks.stream().mapToInt(BlockPos::getX).average().orElse(pos.getX()) + 0.5,
                     blocks.stream().mapToInt(BlockPos::getY).average().orElse(pos.getY()) + 0.5,
                     blocks.stream().mapToInt(BlockPos::getZ).average().orElse(pos.getZ()) + 0.5);
-        } else if (state.getBlock() instanceof DoorBlock) {
-            facing = state.getValue(DoorBlock.FACING);
-            BlockPos lowerPos = state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? pos : pos.below();
-            blocks = List.of(lowerPos, lowerPos.above());
-            center = Vec3.atCenterOf(lowerPos).add(0.0, 0.5, 0.0);
+        } else if (WarpDoorBlock.isDoor(state)) {
+            facing = WarpDoorBlock.getFacing(state);
+            blocks = WarpDoorBlock.getParts(state, pos);
+            center = Vec3.atCenterOf(blocks.getFirst()).add(0.0, (blocks.size() - 1) * 0.5, 0.0);
         }
 
         Vec3 normal = new Vec3(facing.getStepX(), facing.getStepY(), facing.getStepZ());

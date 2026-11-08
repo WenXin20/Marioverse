@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.event_handlers.RegistryEventHandlers;
 import com.wenxin2.marioverse.integration.stone_zone_compat.StoneTypeCompat;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -30,7 +31,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.fml.ModList;
@@ -82,17 +82,27 @@ public final class DynamicServerResources implements PackResources {
             colorSets.putAll(StoneTypeCompat.createCalciteColorSets());
     }
 
+    private static final String DRAMATIC_DOORS = "dramaticdoors";
+
     private static final Set<TagKey<Block>> DOOR_BLOCK_TAGS = Set.of(
             TagRegistry.WARP_DOOR_BLOCKS,
             BlockTags.DOORS,
             BlockTags.MINEABLE_WITH_PICKAXE,
-            BlockTags.WOODEN_DOORS
+            BlockTags.WOODEN_DOORS,
+            TagRegistry.blockTags(DRAMATIC_DOORS, "short_doors"),
+            TagRegistry.blockTags(DRAMATIC_DOORS, "short_wooden_doors"),
+            TagRegistry.blockTags(DRAMATIC_DOORS, "tall_doors"),
+            TagRegistry.blockTags(DRAMATIC_DOORS, "tall_wooden_doors")
     );
 
     private static final Set<TagKey<Item>> DOOR_ITEM_TAGS = Set.of(
             TagRegistry.WARP_DOOR_ITEMS,
             ItemTags.DOORS,
-            ItemTags.WOODEN_DOORS
+            ItemTags.WOODEN_DOORS,
+            TagRegistry.itemTags(DRAMATIC_DOORS, "short_doors"),
+            TagRegistry.itemTags(DRAMATIC_DOORS, "short_wooden_doors"),
+            TagRegistry.itemTags(DRAMATIC_DOORS, "tall_doors"),
+            TagRegistry.itemTags(DRAMATIC_DOORS, "tall_wooden_doors")
     );
 
     private static final Set<TagKey<Block>> TRAPDOOR_BLOCK_TAGS = Set.of(
@@ -155,7 +165,7 @@ public final class DynamicServerResources implements PackResources {
             ResourceLocation lootId = ResourceLocation
                     .fromNamespaceAndPath(Marioverse.MOD_ID, "blocks/" + warpId.getPath() + ".json");
 
-            JsonObject json = createDoorLootTable(warpId);
+            JsonObject json = DynamicServerResources.createDoorLootTable(warpId, WarpDoorBlock.getDropProperties(entry.getValue()));
             lootTables.put(lootId, json.toString().getBytes(StandardCharsets.UTF_8));
         }
 
@@ -347,7 +357,7 @@ public final class DynamicServerResources implements PackResources {
     @NotNull
     @Override
     public Set<String> getNamespaces(PackType type) {
-        return type == PackType.SERVER_DATA ? Set.of("c", "minecraft", Marioverse.MOD_ID) : Set.of();
+        return type == PackType.SERVER_DATA ? Set.of("c", "minecraft", DRAMATIC_DOORS, Marioverse.MOD_ID) : Set.of();
     }
 
     @Nullable
@@ -400,23 +410,9 @@ public final class DynamicServerResources implements PackResources {
         JsonObject json = new JsonObject();
         JsonArray values = new JsonArray();
 
-        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
-            Block source = entry.getKey();
-            Block warp = entry.getValue();
-
-            if (source instanceof DoorBlock door) {
-                boolean isWooden = door.type().canOpenByHand();
-
-                if (tag.equals(BlockTags.DOORS) && isWooden)
-                    continue;
-                if (tag.equals(BlockTags.MINEABLE_WITH_PICKAXE) && isWooden)
-                    continue;
-                if (tag.equals(BlockTags.WOODEN_DOORS) && !isWooden)
-                    continue;
-
+        for (Block warp : RegistryEventHandlers.WARP_DOORS.values())
+            if (DynamicServerResources.isInDoorTag(tag.location(), warp))
                 values.add(BuiltInRegistries.BLOCK.getKey(warp).toString());
-            }
-        }
 
         json.addProperty("replace", false);
         json.add("values", values);
@@ -458,27 +454,32 @@ public final class DynamicServerResources implements PackResources {
         JsonObject json = new JsonObject();
         JsonArray values = new JsonArray();
 
-        for (Map.Entry<Block, Block> entry : RegistryEventHandlers.WARP_DOORS.entrySet()) {
-            Block source = entry.getKey();
-            Block warp = entry.getValue();
-
-            if (source instanceof DoorBlock door) {
-                boolean isWooden = door.type().canOpenByHand();
-
-                if (tag.equals(ItemTags.DOORS) && isWooden)
-                    continue;
-                if (tag.equals(ItemTags.WOODEN_DOORS) && !isWooden)
-                    continue;
-
+        for (Block warp : RegistryEventHandlers.WARP_DOORS.values())
+            if (DynamicServerResources.isInDoorTag(tag.location(), warp))
                 values.add(BuiltInRegistries.ITEM.getKey(warp.asItem()).toString());
-            }
-        }
 
         json.addProperty("replace", false);
         json.add("values", values);
 
         byte[] data = json.toString().getBytes(StandardCharsets.UTF_8);
         return () -> new ByteArrayInputStream(data);
+    }
+
+    private static boolean isInDoorTag(ResourceLocation tag, Block warp) {
+        String family = WarpDoorBlock.getFamily(warp);
+        boolean isWooden = WarpDoorBlock.getType(warp.defaultBlockState()).canOpenByHand();
+        String namespace = family.isEmpty() ? ResourceLocation.DEFAULT_NAMESPACE : DynamicServerResources.DRAMATIC_DOORS;
+        String prefix = family.isEmpty() ? "" : family + "_";
+
+        if (tag.equals(TagRegistry.WARP_DOOR_BLOCKS.location()) || tag.equals(TagRegistry.WARP_DOOR_ITEMS.location()))
+            return true;
+        if (tag.equals(BlockTags.MINEABLE_WITH_PICKAXE.location()))
+            return !isWooden;
+        if (tag.equals(ResourceLocation.fromNamespaceAndPath(namespace, prefix + "wooden_doors")))
+            return isWooden;
+        if (tag.equals(ResourceLocation.fromNamespaceAndPath(namespace, prefix + "doors")))
+            return !isWooden;
+        return false;
     }
 
     private IoSupplier<InputStream> buildTrapDoorItemTag(TagKey<Item> tag) {
@@ -508,7 +509,7 @@ public final class DynamicServerResources implements PackResources {
         return () -> new ByteArrayInputStream(data);
     }
 
-    private static JsonObject createDoorLootTable(ResourceLocation blockId) {
+    private static JsonObject createDoorLootTable(ResourceLocation blockId, Map<String, String> dropProperties) {
         JsonObject root = new JsonObject();
         root.addProperty("type", "minecraft:block");
 
@@ -526,17 +527,19 @@ public final class DynamicServerResources implements PackResources {
         entry.addProperty("type", "minecraft:item");
         entry.addProperty("name", blockId.toString());
 
-        JsonArray entryConditions = new JsonArray();
-        JsonObject blockStateCondition = new JsonObject();
-        blockStateCondition.addProperty("block", blockId.toString());
-        blockStateCondition.addProperty("condition", "minecraft:block_state_property");
+        if (!dropProperties.isEmpty()) {
+            JsonArray entryConditions = new JsonArray();
+            JsonObject blockStateCondition = new JsonObject();
+            blockStateCondition.addProperty("block", blockId.toString());
+            blockStateCondition.addProperty("condition", "minecraft:block_state_property");
 
-        JsonObject properties = new JsonObject();
-        properties.addProperty("half", "lower");
-        blockStateCondition.add("properties", properties);
+            JsonObject properties = new JsonObject();
+            dropProperties.forEach(properties::addProperty);
+            blockStateCondition.add("properties", properties);
 
-        entryConditions.add(blockStateCondition);
-        entry.add("conditions", entryConditions);
+            entryConditions.add(blockStateCondition);
+            entry.add("conditions", entryConditions);
+        }
 
         JsonArray entries = new JsonArray();
         entries.add(entry);

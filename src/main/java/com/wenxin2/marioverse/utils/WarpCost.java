@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.utils;
 
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.BlockRegistry;
@@ -19,7 +20,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -36,7 +36,7 @@ public class WarpCost {
     }
 
     public static Cost getBlockCost(double distance, BlockState state) {
-        if (state.getBlock() instanceof DoorBlock)
+        if (WarpDoorBlock.isDoor(state))
             return WarpCost.getCost(distance, ConfigRegistry.WARP_DOOR_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_DOOR_FUEL_COST_MULTIPLIER.get());
         if (state.getBlock() instanceof TrapDoorBlock)
             return WarpCost.getCost(distance, ConfigRegistry.WARP_TRAPDOOR_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_TRAPDOOR_FUEL_COST_MULTIPLIER.get());

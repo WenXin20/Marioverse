@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.items;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
@@ -50,11 +51,9 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
@@ -174,19 +173,8 @@ public class LinkerItem extends TieredItem {
                             if (!LinkerItem.linkPipeGroups(this, stack, level, firstPos, firstState, pos, state))
                                 this.link(stack, firstWarpBE, warpBE);
 
-                            if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER) {
-                                BlockEntity firstBEAbove = level.getBlockEntity(firstPos.above());
-                                BlockEntity BEAbove = level.getBlockEntity(pos.above());
-                                if (firstBEAbove instanceof WarpDoorBlockEntity firstWarpBEAbove && BEAbove instanceof BaseWarpBlockEntity warpBEAbove)
-                                    this.link(stack, firstWarpBEAbove, warpBEAbove);
-                            }
-
-                            if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
-                                BlockEntity firstBEBelow = level.getBlockEntity(firstPos.below());
-                                BlockEntity BEBelow = level.getBlockEntity(pos.below());
-                                if (firstBEBelow instanceof WarpDoorBlockEntity firstWarpBEAbove && BEBelow instanceof BaseWarpBlockEntity warpBEBelow)
-                                    this.link(stack, firstWarpBEAbove, warpBEBelow);
-                            }
+                            if (WarpDoorBlock.isDoor(state) && WarpDoorBlock.isDoor(firstState))
+                                this.linkDoorParts(stack, level, firstPos, firstState, pos, state);
 
                             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".message.linked_warp_block",
                                             state.getBlock().getName(), firstState.getBlock().getName()).withStyle(ChatFormatting.GOLD), true);
@@ -375,7 +363,7 @@ public class LinkerItem extends TieredItem {
 
         if (blockState.getBlock() instanceof WarpPipeBlock)
             stack.set(DataComponentRegistry.WARP_BLOCK_TYPE.get(), "pipe");
-        else if (blockState.getBlock() instanceof DoorBlock)
+        else if (WarpDoorBlock.isDoor(blockState))
             stack.set(DataComponentRegistry.WARP_BLOCK_TYPE.get(), "door");
         else if (blockState.getBlock() instanceof TrapDoorBlock)
             stack.set(DataComponentRegistry.WARP_BLOCK_TYPE.get(), "trapdoor");
@@ -833,8 +821,10 @@ public class LinkerItem extends TieredItem {
         List<BlockPos> blocks = new ArrayList<>(WarpPipeBlock.getEntranceGroup(level, pos, state));
         if (blocks.isEmpty())
             blocks.add(pos);
-        if (state.getBlock() instanceof DoorBlock)
-            blocks.add(state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER ? pos.above() : pos.below());
+        if (WarpDoorBlock.isDoor(state))
+            for (BlockPos part : WarpDoorBlock.getParts(state, pos))
+                if (!part.equals(pos))
+                    blocks.add(part);
 
         for (BlockPos blockPos : blocks) {
             if (!(level.getBlockEntity(blockPos) instanceof BaseWarpBlockEntity blockBE))
@@ -850,6 +840,22 @@ public class LinkerItem extends TieredItem {
 
             if (level instanceof ServerLevel serverLevel)
                 WarpLinkParticles.sendLinkVibration(serverLevel, Vec3.atCenterOf(blockPos), entityCenter);
+        }
+    }
+
+    private void linkDoorParts(ItemStack stack, Level level, BlockPos firstPos, BlockState firstState, BlockPos pos, BlockState state) {
+        List<BlockPos> parts = WarpDoorBlock.getParts(state, pos);
+        List<BlockPos> firstParts = WarpDoorBlock.getParts(firstState, firstPos);
+        int offset = firstParts.indexOf(firstPos) - parts.indexOf(pos);
+
+        for (int i = 0; i < parts.size(); i++) {
+            int firstIndex = i + offset;
+            if (parts.get(i).equals(pos) || firstIndex < 0 || firstIndex >= firstParts.size())
+                continue;
+
+            if (level.getBlockEntity(firstParts.get(firstIndex)) instanceof WarpDoorBlockEntity firstPartBE
+                    && level.getBlockEntity(parts.get(i)) instanceof BaseWarpBlockEntity partBE)
+                this.link(stack, firstPartBE, partBE);
         }
     }
 }

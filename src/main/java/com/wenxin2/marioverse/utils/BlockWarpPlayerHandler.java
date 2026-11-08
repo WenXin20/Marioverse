@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.utils;
 
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
@@ -13,7 +14,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -132,7 +132,7 @@ public interface BlockWarpPlayerHandler extends BlockWarpEntityHandler {
         if (!this.mv$getBlockWarpTeleportConfig(player) || player.getType().is(TagRegistry.CANNOT_WARP)) {
             if (state.getBlock() instanceof WarpPipeBlock) {
                 player.displayClientMessage(Component.translatable("display.marioverse.pipes_cannot_teleport_players"), true);
-            } else if (state.getBlock() instanceof DoorBlock) {
+            } else if (WarpDoorBlock.isDoor(state)) {
                 player.displayClientMessage(Component.translatable("display.marioverse.doors_cannot_teleport_players"), true);
             } else if (state.getBlock() instanceof TrapDoorBlock) {
                 player.displayClientMessage(Component.translatable("display.marioverse.trapdoors_cannot_teleport_players"), true);

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.integration.sable_compat;
 
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
@@ -28,7 +29,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.BlockAttachedEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -150,7 +150,7 @@ public class SubLevelWarpHandler {
             WarpLinkParticles.spawnWarpTransition(level, pos, state, exit.pos(), level.getBlockState(exit.pos()));
 
             int cooldown = isPipe ? ConfigRegistry.WARP_PIPE_COOLDOWN.get()
-                    : state.getBlock() instanceof DoorBlock ? ConfigRegistry.WARP_DOOR_COOLDOWN.get()
+                    : WarpDoorBlock.isDoor(state) ? ConfigRegistry.WARP_DOOR_COOLDOWN.get()
                     : ConfigRegistry.WARP_TRAPDOOR_COOLDOWN.get();
             WARP_COOLDOWNS.put(sub.getUniqueId(), level.getGameTime() + cooldown);
             return true;
@@ -239,8 +239,8 @@ public class SubLevelWarpHandler {
                 center = new Vec3(groupCorner.x + 0.5, center.y, groupCorner.z + 0.5);
             }
             center = center.add(facing.getStepX() * 0.5, facing.getStepY() * 0.5, facing.getStepZ() * 0.5);
-        } else if (state.getBlock() instanceof DoorBlock)
-            facing = state.getValue(DoorBlock.FACING);
+        } else if (WarpDoorBlock.isDoor(state))
+            facing = WarpDoorBlock.getFacing(state);
         else if (state.getBlock() instanceof TrapDoorBlock)
             facing = state.getValue(TrapDoorBlock.FACING);
         else return null;

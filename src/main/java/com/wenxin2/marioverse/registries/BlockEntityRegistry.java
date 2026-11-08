@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.MultiPartWarpDoor;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.ArrowSignBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.BlockSpawnerBlockEntity;
@@ -215,7 +216,8 @@ public class BlockEntityRegistry {
 
         WARP_DOOR_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_door",
                 () -> BlockEntityType.Builder.of(WarpDoorBlockEntity::new,
-                        BuiltInRegistries.BLOCK.stream().filter(block -> block instanceof DoorBlock).toArray(Block[]::new)).build(null));
+                        BuiltInRegistries.BLOCK.stream().filter(block -> block instanceof DoorBlock
+                                || block instanceof MultiPartWarpDoor).toArray(Block[]::new)).build(null));
 
         WARP_TRAPDOOR_BLOCK_ENTITY = Marioverse.BLOCK_ENTITIES.register("warp_trapdoor",
                 () -> BlockEntityType.Builder.of(WarpTrapDoorBlockEntity::new,

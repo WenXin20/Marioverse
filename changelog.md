@@ -1,4 +1,5 @@
 ## Update 1.12.2
+- Added Dramatic Doors compat for warp doors
 - Fixed a crash with Dramatic Doors or any mod that adds waterlogging to fence gates
 - Fixed 1-Ups not being consumed from the offhand
 - Changed warp door & trapdoor recipes to allow recipe changes via datapack

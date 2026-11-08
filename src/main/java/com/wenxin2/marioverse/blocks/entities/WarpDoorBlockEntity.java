@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks.entities;
 
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
@@ -17,9 +18,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
@@ -36,7 +37,7 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
 
     @Override
     public boolean isValidBlockState(BlockState state) {
-        return this.getType().isValid(state) || state.getBlock() instanceof DoorBlock;
+        return this.getType().isValid(state) || WarpDoorBlock.isDoor(state);
     }
 
     @Override
@@ -58,12 +59,12 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
 
     public static void breakDoor(BlockPos warpPos, Level world) {
         if (!world.isClientSide) {
-            if (world.getBlockState(warpPos).getBlock() instanceof DoorBlock)
+            if (WarpDoorBlock.isDoor(world.getBlockState(warpPos)))
                 world.destroyBlock(warpPos, true);
         }
     }
 
-    public static void warp(Level world, BlockPos warpPos, BlockState state, Entity entity, DoorBlock doorBlock, BaseWarpBlockEntity warpBE) {
+    public static void warp(Level world, BlockPos warpPos, BlockState state, Entity entity, BlockSetType type, BaseWarpBlockEntity warpBE) {
         Entity passengerEntity = entity.getControllingPassenger();
         Entity vehicle = entity.getVehicle();
         double x = warpPos.getX() + 0.5;
@@ -85,8 +86,8 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
 
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_DOOR_COOLDOWN.get());
 
-                if (state.getBlock() instanceof DoorBlock)
-                    warpBE.playDoorSounds(null, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                if (WarpDoorBlock.isDoor(state))
+                    warpBE.playDoorSounds(null, world, warpPos, WarpDoorBlock.isDoorOpen(state), type);
 
                 if (ConfigRegistry.BLINDNESS_EFFECT.get())
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20, 0, true, false));
@@ -101,8 +102,8 @@ public class WarpDoorBlockEntity extends BaseWarpBlockEntity {
                 entity.teleportTo(x, y, z);
                 entity.setData(DataAttachmentRegistry.WARP_COOLDOWN, ConfigRegistry.WARP_DOOR_COOLDOWN.get());
 
-                if (state.getBlock() instanceof DoorBlock)
-                    warpBE.playDoorSounds(entity, world, warpPos, state.getValue(DoorBlock.OPEN), doorBlock.type());
+                if (WarpDoorBlock.isDoor(state))
+                    warpBE.playDoorSounds(entity, world, warpPos, WarpDoorBlock.isDoorOpen(state), type);
 
                 if (passengerEntity instanceof Player player) {
                     entity.unRide();

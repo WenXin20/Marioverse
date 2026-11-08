@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
@@ -18,7 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -109,8 +109,8 @@ public class WarpLinkPathing {
             return;
 
         BlockState state = level.getBlockState(trigger);
-        if (!(state.getBlock() instanceof DoorBlock doorBlock) || state.getValue(DoorBlock.HALF) != DoubleBlockHalf.LOWER
-                || (!state.getValue(DoorBlock.OPEN) && !doorBlock.type().canOpenByHand())
+        if (!WarpDoorBlock.isDoor(state) || !WarpDoorBlock.isLowerPart(state, trigger)
+                || (!WarpDoorBlock.isDoorOpen(state) && !WarpDoorBlock.getType(state).canOpenByHand())
                 || !(level.getBlockEntity(trigger) instanceof WarpDoorBlockEntity))
             return;
 

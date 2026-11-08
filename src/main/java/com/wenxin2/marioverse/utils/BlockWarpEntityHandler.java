@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.utils;
 
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpDoorBlockEntity;
@@ -24,7 +25,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -72,7 +72,7 @@ public interface BlockWarpEntityHandler {
                 // Reset the teleport status for the entity
                 BaseWarpBlockEntity.WARPED_ENTITIES.put(entityId, false);
 
-            if (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock)
+            if (WarpDoorBlock.isDoor(state) || state.getBlock() instanceof TrapDoorBlock)
                 this.enterWarpDoor(entity, world, posEmbedded, warpPos, warpBE);
 
             if (state.getBlock() instanceof WarpPipeBlock)
@@ -267,7 +267,7 @@ public interface BlockWarpEntityHandler {
 
             if (state.getBlock() instanceof WarpPipeBlock)
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
-            if (!level.isClientSide && (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock))
+            if (!level.isClientSide && (WarpDoorBlock.isDoor(state) || state.getBlock() instanceof TrapDoorBlock))
                 level.scheduleTick(pos, state.getBlock(), WARP_DOOR_CLOSE_DELAY);
             WarpCost.chargeIfWarped(entity, startPos, warpCost);
             return;
@@ -285,8 +285,8 @@ public interface BlockWarpEntityHandler {
             if (!WarpCost.canAfford(entity, warpCost))
                 return;
 
-            if (warpState.getBlock() instanceof DoorBlock doorblock)
-                WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, doorblock, warpBE);
+            if (WarpDoorBlock.isDoor(warpState))
+                WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, WarpDoorBlock.getType(warpState), warpBE);
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
                 WarpTrapDoorBlockEntity.warp(level, warpPos, warpState, entity, trapdoorBlock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
@@ -309,8 +309,8 @@ public interface BlockWarpEntityHandler {
             if (!WarpCost.canAfford(entity, warpCost))
                 return;
 
-            if (warpState.getBlock() instanceof DoorBlock doorblock)
-                WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, doorblock, warpBE);
+            if (WarpDoorBlock.isDoor(warpState))
+                WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, WarpDoorBlock.getType(warpState), warpBE);
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
                 WarpTrapDoorBlockEntity.warp(level, warpPos, warpState, entity, trapdoorBlock, warpBE);
             if (warpState.getBlock() instanceof WarpPipeBlock)
@@ -340,20 +340,19 @@ public interface BlockWarpEntityHandler {
             if (warpBE instanceof WarpTrapDoorBlockEntity warpTrapdoorBE && warpTrapdoorBE.breakTrapdoor)
                 WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, level);
 
-            if (state.getBlock() instanceof DoorBlock || state.getBlock() instanceof TrapDoorBlock)
+            if (WarpDoorBlock.isDoor(state) || state.getBlock() instanceof TrapDoorBlock)
                 level.scheduleTick(pos, state.getBlock(), WARP_DOOR_CLOSE_DELAY);
 
             if (warpBE instanceof WarpDoorBlockEntity warpDoorBE && !warpDoorBE.breakDoor)
-                level.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE)
-                        .setValue(DoorBlock.FACING, warpState.getValue(DoorBlock.FACING)), 10);
+                level.setBlock(warpPos, WarpDoorBlock.setDoorOpen(warpState, true), 10);
             if (warpBE instanceof WarpTrapDoorBlockEntity warpDoorBE && !warpDoorBE.breakTrapdoor)
                 level.setBlock(warpPos, warpState.setValue(TrapDoorBlock.OPEN, Boolean.TRUE)
                         .setValue(TrapDoorBlock.FACING, warpState.getValue(TrapDoorBlock.FACING)), 10);
         }
 
         if (blockEntity instanceof BaseWarpBlockEntity warpDoorBE) {
-            if (warpState.getBlock() instanceof DoorBlock doorBlock)
-                warpDoorBE.playDoorSounds(null, level, warpPos, warpState.getValue(DoorBlock.OPEN), doorBlock.type());
+            if (WarpDoorBlock.isDoor(warpState))
+                warpDoorBE.playDoorSounds(null, level, warpPos, WarpDoorBlock.isDoorOpen(warpState), WarpDoorBlock.getType(warpState));
 
             if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
                 warpDoorBE.playDoorSounds(null, level, warpPos, warpState.getValue(TrapDoorBlock.OPEN), trapdoorBlock.getType());
@@ -369,7 +368,7 @@ public interface BlockWarpEntityHandler {
                                 player.getData(DataAttachmentRegistry.WARP_COOLDOWN)), true);
                     else player.displayClientMessage(Component.translatable("display.marioverse.warp_pipe_cooldown"), true);
                 }
-            } else if (state.getBlock() instanceof DoorBlock) {
+            } else if (WarpDoorBlock.isDoor(state)) {
                 if (ConfigRegistry.WARP_COOLDOWN_MESSAGE.get()) {
                     if (ConfigRegistry.WARP_COOLDOWN_MESSAGE_TICKS.get())
                         player.displayClientMessage(Component.translatable("display.marioverse.warp_door_cooldown.ticks",
@@ -393,7 +392,7 @@ public interface BlockWarpEntityHandler {
     }
 
     default boolean spectatorWarp(Entity entity, Level level, BlockPos pos, BlockState state, BaseWarpBlockEntity warpBE) {
-        boolean isWarpBlock = state.getBlock() instanceof WarpPipeBlock || state.getBlock() instanceof DoorBlock
+        boolean isWarpBlock = state.getBlock() instanceof WarpPipeBlock || WarpDoorBlock.isDoor(state)
                 || state.getBlock() instanceof TrapDoorBlock;
 
         if (!isWarpBlock || warpBE.preventWarp || !warpBE.hasDestinationPos() || entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0)
@@ -433,8 +432,8 @@ public interface BlockWarpEntityHandler {
 
         BlockState warpState = level.getBlockState(warpPos);
 
-        if (warpState.getBlock() instanceof DoorBlock doorBlock)
-            WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, doorBlock, destBE);
+        if (WarpDoorBlock.isDoor(warpState))
+            WarpDoorBlockEntity.warp(level, warpPos, warpState, entity, WarpDoorBlock.getType(warpState), destBE);
         else if (warpState.getBlock() instanceof TrapDoorBlock trapdoorBlock)
             WarpTrapDoorBlockEntity.warp(level, warpPos, warpState, entity, trapdoorBlock, destBE);
         else if (warpState.getBlock() instanceof WarpPipeBlock)
@@ -447,7 +446,7 @@ public interface BlockWarpEntityHandler {
         if (destBE instanceof WarpDoorBlockEntity doorBE && doorBE.breakDoor)
             WarpDoorBlockEntity.breakDoor(warpPos, level);
         else if (destBE instanceof WarpDoorBlockEntity)
-            level.setBlock(warpPos, warpState.setValue(DoorBlock.OPEN, Boolean.TRUE), 10);
+            level.setBlock(warpPos, WarpDoorBlock.setDoorOpen(warpState, true), 10);
 
         if (destBE instanceof WarpTrapDoorBlockEntity trapdoorBE && trapdoorBE.breakTrapdoor)
             WarpTrapDoorBlockEntity.breakTrapdoor(warpPos, level);

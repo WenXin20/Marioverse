@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.BloomflowerBlock;
@@ -118,12 +119,10 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -887,10 +886,10 @@ public class MarioverseEventHandlers {
                 warpBE.markUpdated();
                 heldItem.consume(1, player);
 
-                if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
-                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos.above(), ParticleTypes.WAX_ON, UniformInt.of(3, 5));
-                if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
-                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos.below(), ParticleTypes.WAX_ON, UniformInt.of(3, 5));
+                if (WarpDoorBlock.isDoor(state))
+                    for (BlockPos part : WarpDoorBlock.getParts(state, pos))
+                        if (!part.equals(pos))
+                            ParticleUtils.spawnParticlesOnBlockFaces(level, part, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
 
                 ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.WAX_ON, UniformInt.of(3, 5));
                 level.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS);
@@ -909,10 +908,10 @@ public class MarioverseEventHandlers {
                 warpBE.markUpdated();
                 heldItem.hurtAndBreak(1, player, Player.getSlotForHand(player.getUsedItemHand()));
 
-                if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
-                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos.above(), ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
-                if (state.getBlock() instanceof DoorBlock && state.getValue(DoorBlock.HALF) == DoubleBlockHalf.UPPER)
-                    ParticleUtils.spawnParticlesOnBlockFaces(level, pos.below(), ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
+                if (WarpDoorBlock.isDoor(state))
+                    for (BlockPos part : WarpDoorBlock.getParts(state, pos))
+                        if (!part.equals(pos))
+                            ParticleUtils.spawnParticlesOnBlockFaces(level, part, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
 
                 ParticleUtils.spawnParticlesOnBlockFaces(level, pos, ParticleTypes.WAX_OFF, UniformInt.of(3, 5));
                 level.playSound(null, pos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS);
