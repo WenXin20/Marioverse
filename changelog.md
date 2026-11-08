@@ -1,7 +1,10 @@
 ## Update 1.12.1
-- Fixed a startup crash with Plastic Buckets if no fluids were registered by other mods
+- Fixed a crash with Dramatic Doors or any mod that adds waterlogging to fence gates
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
+
+## Update 1.12.1
+- Fixed a startup crash with Plastic Buckets if no fluids were registered by other mods
 
 ## Update 1.12.0
 ### Thanks to @Boenndal for many textures
@@ -169,8 +172,6 @@ Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/
 - Fixed the plastic water bucket not rendering water
 - Fixed the plastic water bucket emptying itself when in creative
 - Fixed the quicksand overlay rendering over the hotbar and other gui elements
-
-Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.11.2
 - Added Caverns & Chasms calcite to Marioverse calcite tags to craft calcite blocks

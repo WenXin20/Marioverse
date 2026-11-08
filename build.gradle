@@ -78,6 +78,7 @@ dependencies {
     implementation "curse.maven:create-328085:7963363"
     implementation "curse.maven:create-aeronautics-676721:8763471" // Requires Create, Sable, Incompatible w/ Embeddium
     implementation "curse.maven:create-coasters-simulated-1601871:8655742" // Requires Create, Sable
+    implementation "curse.maven:dramatic-doors-380617:6479044"
     compileOnly "curse.maven:framedblocks-441647:7584453"
     compileOnly "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"

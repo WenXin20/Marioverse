@@ -41,6 +41,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
@@ -146,7 +147,9 @@ public class PicketFenceGateBlock extends FenceGateBlock implements SimpleWaterl
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(HINGE, TALL, EXTENDED, WATERLOGGED);
+        for (Property<?> property : List.of(HINGE, TALL, EXTENDED, WATERLOGGED))
+            if (!builder.properties.containsKey(property.getName()))
+                builder.add(property);
     }
 
     @NotNull
