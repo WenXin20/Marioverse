@@ -92,16 +92,16 @@ ordering="AFTER"
 side="BOTH"
 
 [[dependencies.marioverse]]
-modId="fastpaintings"
+modId="everycomp"
 type="optional"
-versionRange="[1.21-1.3.1,)"
+versionRange="[1.21-2.11.4,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.marioverse]]
-modId="everycomp"
+modId="fastpaintings"
 type="optional"
-versionRange="[1.21-2.11.4,)"
+versionRange="[1.21-1.3.1,)"
 ordering="NONE"
 side="BOTH"
 
