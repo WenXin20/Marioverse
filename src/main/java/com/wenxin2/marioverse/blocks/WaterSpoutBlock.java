@@ -67,8 +67,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
     public static final int MAX_CONNECTED_SPOUTS = 256;
     private static final ThreadLocal<Set<BlockPos>> CACHED_GROUP = new ThreadLocal<>();
     private static final ThreadLocal<Map<BlockPos, Integer>> CACHED_PARTITION = new ThreadLocal<>();
-    public static final VoxelShape SPOUT = Block.box(5, 0, 5, 11, 16, 11).optimize();
-    public static final VoxelShape SPOUT_TOP = Block.box(5, 0, 5, 11, 12, 11).optimize();
+    private final Map<BlockState, VoxelShape> shapes;
 
     public WaterSpoutBlock(Properties properties) {
         super(properties);
@@ -77,6 +76,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
                 .setValue(SOUTH, Boolean.FALSE).setValue(WEST, Boolean.FALSE)
                 .setValue(COVERED_NORTH, Boolean.FALSE).setValue(COVERED_EAST, Boolean.FALSE)
                 .setValue(COVERED_SOUTH, Boolean.FALSE).setValue(COVERED_WEST, Boolean.FALSE));
+        this.shapes = this.getShapeForEachState(WaterSpoutBlock::createShape);
     }
 
     @Override
@@ -94,9 +94,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
                         || (player.getItemInHand(player.getUsedItemHand()).getItem() instanceof PlasticBucketItem
                             && ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get())
                         || player.getItemInHand(player.getUsedItemHand()).is(TagRegistry.CAN_SELECT_WATER_SPOUTS)))) {
-                if (state.getValue(TOP)) {
-                    return SPOUT_TOP;
-                } else return SPOUT;
+                return this.shapes.get(state);
             }
         }
         // Shapes.empty() causes a crash, use a tiny bounding box instead
@@ -533,6 +531,34 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
             }
         }
         return score;
+    }
+
+    public static VoxelShape createShape(BlockState state) {
+        VoxelShape shape = Block.box(5, 0, 5, 11, state.getValue(TOP) ? 12 : 16, 11);
+
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            if (!state.getValue(PipeBlock.PROPERTY_BY_DIRECTION.get(direction)))
+                continue;
+
+            Direction clockwise = direction.getClockWise();
+            boolean covered = state.getValue(COVERED_BY_DIRECTION.get(direction));
+            shape = Shapes.or(shape, WaterSpoutBlock.sectionBox(direction.getStepX(), direction.getStepZ(), covered ? 16 : 12));
+
+            if (state.getValue(PipeBlock.PROPERTY_BY_DIRECTION.get(clockwise))) {
+                boolean cornerCovered = covered && state.getValue(COVERED_BY_DIRECTION.get(clockwise));
+                shape = Shapes.or(shape, WaterSpoutBlock.sectionBox(direction.getStepX() + clockwise.getStepX(),
+                        direction.getStepZ() + clockwise.getStepZ(), cornerCovered ? 16 : 12));
+            }
+        }
+        return shape.optimize();
+    }
+
+    public static VoxelShape sectionBox(int stepX, int stepZ, double height) {
+        double minX = stepX < 0 ? 0 : stepX > 0 ? 11 : 5;
+        double maxX = stepX < 0 ? 5 : stepX > 0 ? 16 : 11;
+        double minZ = stepZ < 0 ? 0 : stepZ > 0 ? 11 : 5;
+        double maxZ = stepZ < 0 ? 5 : stepZ > 0 ? 16 : 11;
+        return Block.box(minX, 0, minZ, maxX, height, maxZ);
     }
 
     public static boolean isSpout(LevelAccessor worldAccessor, BlockPos pos) {
