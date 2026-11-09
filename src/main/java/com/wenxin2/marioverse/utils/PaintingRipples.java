@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.fast_paintings_compat.PaintingBlockWarp;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.network.client_bound.data.PaintingBlockRipplePayload;
 import com.wenxin2.marioverse.network.client_bound.data.PaintingRipplePayload;
 import java.util.ArrayDeque;
@@ -50,8 +51,12 @@ public class PaintingRipples {
     }
 
     public static void sendBlockRipple(@Nullable PaintingBlockWarp painting) {
-        if (painting != null && painting.getLevel() instanceof ServerLevel serverLevel)
-            PacketDistributor.sendToPlayersTrackingChunk(serverLevel, new ChunkPos(painting.getMasterPos()),
+        if (painting == null || !(painting.getLevel() instanceof ServerLevel serverLevel))
+            return;
+
+        BlockPos trackedPos = SableProvider.isLoaded() ? SableProvider.toWorldPos(serverLevel, painting.getMasterPos()) : painting.getMasterPos();
+        if (trackedPos != null)
+            PacketDistributor.sendToPlayersTrackingChunk(serverLevel, new ChunkPos(trackedPos),
                     new PaintingBlockRipplePayload(painting.getMasterPos()));
     }
 

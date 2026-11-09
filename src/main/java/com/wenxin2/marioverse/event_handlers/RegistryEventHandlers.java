@@ -34,6 +34,7 @@ import com.wenxin2.marioverse.items.WarpTrapDoorBlockItem;
 import com.wenxin2.marioverse.items.fluids.PlasticBucketWrapper;
 import com.wenxin2.marioverse.registries.BannerPatternRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.world.feature.SuperTreeFeatures;
@@ -149,6 +150,9 @@ public class RegistryEventHandlers {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerBlocks(RegisterEvent event) {
         event.register(Registries.BLOCK, helper -> {
+            if (ConfigRegistry.DISABLE_WARP_DOORS.get())
+                return;
+
             for (Block block : BuiltInRegistries.BLOCK) {
                 if (!(block instanceof DoorBlock source))
                     continue;
@@ -176,11 +180,14 @@ public class RegistryEventHandlers {
                 WARP_DOORS.put(source, warpDoor);
             }
 
-            if (ModList.get().isLoaded(DramaticDoorsCompat.MOD_ID))
+            if (ModList.get().isLoaded(DramaticDoorsCompat.MOD_ID) && !ConfigRegistry.DISABLE_DRAMATIC_DOORS_COMPAT.get())
                 DramaticDoorsCompat.registerWarpDoors(helper, WARP_DOORS);
         });
 
         event.register(Registries.BLOCK, helper -> {
+            if (ConfigRegistry.DISABLE_WARP_TRAPDOORS.get())
+                return;
+
             for (Block block : BuiltInRegistries.BLOCK) {
                 if (!(block instanceof TrapDoorBlock source))
                     continue;

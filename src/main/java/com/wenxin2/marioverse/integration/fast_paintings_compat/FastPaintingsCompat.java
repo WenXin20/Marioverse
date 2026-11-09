@@ -100,20 +100,13 @@ public class FastPaintingsCompat {
             return null;
 
         AABB reach = entity.getBoundingBox().inflate(ENTRY_REACH, 0.0, ENTRY_REACH);
-        BlockPos min = BlockPos.containing(reach.minX, reach.minY, reach.minZ);
-        BlockPos max = BlockPos.containing(reach.maxX, reach.maxY, reach.maxZ);
+        PaintingBlockWarp warp = FastPaintingsCompat.getTouchedWarp(level, reach);
+        if (warp != null || !SableProvider.isLoaded())
+            return warp;
 
-        for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
-            BlockState state = level.getBlockState(pos);
-            if (!FastPaintingsCompat.isPaintingBlock(state))
-                continue;
-
-            VoxelShape shape = state.getShape(level, pos);
-            if (shape.isEmpty() || !shape.bounds().move(pos).intersects(reach))
-                continue;
-
-            PaintingBlockWarp warp = FastPaintingsCompat.getWarp(level, pos.immutable());
-            if (warp != null && warp.mv$getWarpUUID() != null && !warp.isPreventWarp())
+        for (AABB localReach : SableProvider.toLocalBoxes(level, reach)) {
+            warp = FastPaintingsCompat.getTouchedWarp(level, localReach);
+            if (warp != null)
                 return warp;
         }
         return null;
@@ -636,5 +629,29 @@ public class FastPaintingsCompat {
     private static ResourceKey<Level> parseDimension(String dimension) {
         ResourceLocation location = dimension.isEmpty() ? null : ResourceLocation.tryParse(dimension);
         return location != null ? ResourceKey.create(Registries.DIMENSION, location) : null;
+    }
+
+    @Nullable
+    private static PaintingBlockWarp getTouchedWarp(Level level, AABB reach) {
+        BlockPos min = BlockPos.containing(reach.minX, reach.minY, reach.minZ);
+        BlockPos max = BlockPos.containing(reach.maxX, reach.maxY, reach.maxZ);
+
+        for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
+            if (!level.isLoaded(pos))
+                continue;
+
+            BlockState state = level.getBlockState(pos);
+            if (!FastPaintingsCompat.isPaintingBlock(state))
+                continue;
+
+            VoxelShape shape = state.getShape(level, pos);
+            if (shape.isEmpty() || !shape.bounds().move(pos).intersects(reach))
+                continue;
+
+            PaintingBlockWarp warp = FastPaintingsCompat.getWarp(level, pos.immutable());
+            if (warp != null && warp.mv$getWarpUUID() != null && !warp.isPreventWarp())
+                return warp;
+        }
+        return null;
     }
 }

@@ -235,6 +235,31 @@ public class SableCompat {
             }
 
             @Override
+            public List<AABB> toLocalBoxes(Level level, AABB worldBox) {
+                SubLevelContainer container = SubLevelContainer.getContainer(level);
+                if (container == null || container.getLoadedCount() == 0)
+                    return List.of();
+
+                List<AABB> boxes = new ArrayList<>();
+                for (SubLevel sub : container.queryIntersecting(new BoundingBox3d(worldBox))) {
+                    Pose3dc pose = sub.logicalPose();
+                    Vector3d min = new Vector3d(Double.MAX_VALUE);
+                    Vector3d max = new Vector3d(-Double.MAX_VALUE);
+
+                    for (int corner = 0; corner < 8; corner++) {
+                        Vector3d local = pose.transformPositionInverse(new Vector3d(
+                                (corner & 1) == 0 ? worldBox.minX : worldBox.maxX,
+                                (corner & 2) == 0 ? worldBox.minY : worldBox.maxY,
+                                (corner & 4) == 0 ? worldBox.minZ : worldBox.maxZ));
+                        min.min(local);
+                        max.max(local);
+                    }
+                    boxes.add(new AABB(min.x, min.y, min.z, max.x, max.y, max.z));
+                }
+                return boxes;
+            }
+
+            @Override
             public Vec3 toWorldDirection(Level level, BlockPos plotPos, Vec3 localDirection) {
                 SubLevel sub = SableCompat.getPlotSubLevel(level, plotPos);
                 if (sub == null)

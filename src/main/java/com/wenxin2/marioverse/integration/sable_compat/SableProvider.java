@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.integration.sable_compat;
 
 import dev.ryanhcode.sable.companion.math.Pose3dc;
 import dev.ryanhcode.sable.sublevel.SubLevel;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
@@ -97,6 +99,7 @@ public class SableProvider {
         Vec3 toLocalDirection(Level level, BlockPos plotPos, Vec3 worldDirection);
         void recordEntityAnchor(Entity entity);
         @Nullable SubLevelAnchor getEntityAnchor(Level level, UUID entity);
+        List<AABB> toLocalBoxes(Level level, AABB worldBox);
     }
 
     private static WarpResolver WARP_RESOLVER = new WarpResolver() {
@@ -158,6 +161,11 @@ public class SableProvider {
         public SubLevelAnchor getEntityAnchor(Level level, UUID entity) {
             return null;
         }
+
+        @Override
+        public List<AABB> toLocalBoxes(Level level, AABB worldBox) {
+            return List.of();
+        }
     };
 
     public static void setWarpResolver(WarpResolver resolver) {
@@ -208,6 +216,10 @@ public class SableProvider {
     @Nullable
     public static SubLevelAnchor getEntityAnchor(Level level, UUID entity) {
         return WARP_RESOLVER.getEntityAnchor(level, entity);
+    }
+
+    public static List<AABB> toLocalBoxes(Level level, AABB worldBox) {
+        return WARP_RESOLVER.toLocalBoxes(level, worldBox);
     }
 
     public static boolean requestSubLevelLoad(ServerLevel level, UUID subLevel) {

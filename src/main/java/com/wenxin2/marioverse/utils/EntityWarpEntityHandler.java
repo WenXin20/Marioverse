@@ -196,7 +196,8 @@ public interface EntityWarpEntityHandler {
 
                 if (SableProvider.isLoaded() && warpSubLevel != null && warpSubLevelPos != null && subLevelPos == null) {
                     if (SableProvider.queueSubLevelWarp(serverWorld, warpSubLevel, warpSubLevelPos, entity,
-                            loadedPos -> serverWorld.getEntity(warpUUID) != null,
+                            loadedPos -> serverWorld.getEntity(warpUUID) != null || (FastPaintingsProvider.isLoaded()
+                                    && FastPaintingsCompat.findWarp(serverWorld, loadedPos, warpUUID) != null),
                             () -> this.warp(entity, world, warpLinkableEntity))) {
                         if (entity instanceof Player player)
                             player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_loading"), true);

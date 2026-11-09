@@ -1,8 +1,9 @@
 ## Update 1.12.2
-- Added Dramatic Doors compat for warp doors
+- Added Dramatic Doors compat for warp doors, configurable
 - Added Fast Paintings compat for warp paintings, existing warp paintings keep their links
 - Fixed a crash with Dramatic Doors or any mod that adds waterlogging to fence gates
 - Fixed 1-Ups not being consumed from the offhand
+- Fixed the config to disable warp doors & trapdoors not preventing block registration
 - Changed warp door & trapdoor recipes to allow recipe changes via datapack
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)

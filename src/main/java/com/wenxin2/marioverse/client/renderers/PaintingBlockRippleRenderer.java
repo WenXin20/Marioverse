@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsCompat;
 import com.wenxin2.marioverse.integration.fast_paintings_compat.PaintingBlockWarp;
+import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.utils.PaintingRipples;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -19,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class PaintingBlockRippleRenderer {
@@ -58,7 +60,8 @@ public class PaintingBlockRippleRenderer {
         int height = painting.getHeight();
         PoseStack poseStack = new PoseStack();
 
-        poseStack.translate(masterPos.getX() - camera.x, masterPos.getY() - camera.y, masterPos.getZ() - camera.z);
+        if (!PaintingBlockRippleRenderer.applyPaintingTransform(level, masterPos, camera, poseStack))
+            return;
 
         Vec3 frontOrigin = new Vec3(0.5 - facing.getStepX() * FRONT_OFFSET, 0.5, 0.5 - facing.getStepZ() * FRONT_OFFSET);
         Vec3 center = frontOrigin.add(along.getStepX() * (width - 1) / 2.0, -(height - 1) / 2.0, along.getStepZ() * (width - 1) / 2.0);
@@ -93,6 +96,34 @@ public class PaintingBlockRippleRenderer {
 
         bufferSource.endBatch(renderType);
         PaintingRippleRenderer.end();
+    }
+
+    private static boolean applyPaintingTransform(ClientLevel level, BlockPos masterPos, Vec3 camera, PoseStack poseStack) {
+        Vec3 corner = Vec3.atLowerCornerOf(masterPos);
+
+        if (!SableProvider.isLoaded() || !SableProvider.isPlotPos(level, masterPos)) {
+            poseStack.translate(corner.x - camera.x, corner.y - camera.y, corner.z - camera.z);
+            return true;
+        }
+
+        Vec3 origin = SableProvider.toWorldVec(level, corner);
+        Vec3 xEnd = SableProvider.toWorldVec(level, corner.add(1.0, 0.0, 0.0));
+        Vec3 yEnd = SableProvider.toWorldVec(level, corner.add(0.0, 1.0, 0.0));
+        Vec3 zEnd = SableProvider.toWorldVec(level, corner.add(0.0, 0.0, 1.0));
+        if (origin == null || xEnd == null || yEnd == null || zEnd == null)
+            return false;
+
+        Vec3 xAxis = xEnd.subtract(origin);
+        Vec3 yAxis = yEnd.subtract(origin);
+        Vec3 zAxis = zEnd.subtract(origin);
+
+        poseStack.translate(origin.x - camera.x, origin.y - camera.y, origin.z - camera.z);
+        poseStack.mulPose(new Matrix4f(
+                (float) xAxis.x, (float) xAxis.y, (float) xAxis.z, 0.0F,
+                (float) yAxis.x, (float) yAxis.y, (float) yAxis.z, 0.0F,
+                (float) zAxis.x, (float) zAxis.y, (float) zAxis.z, 0.0F,
+                0.0F, 0.0F, 0.0F, 1.0F));
+        return true;
     }
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, Vec3 pos, float u, float v, int light, Direction facing) {
