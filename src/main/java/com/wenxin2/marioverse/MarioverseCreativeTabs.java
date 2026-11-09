@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse;
 
 import com.wenxin2.marioverse.blocks.HedgeBlock;
+import com.wenxin2.marioverse.blocks.MultiPartWarpDoor;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
@@ -1084,7 +1085,8 @@ public class MarioverseCreativeTabs {
             addDyedBlocks(event, BlockRegistry.STORAGE_WAXED_OXIDIZED_CUT_COPPER, BlockRegistry.STORAGE_CALCITE_BRICKS, true, true);
 
             RegistryEventHandlers.WARP_DOORS.entrySet().stream()
-                    .sorted(Comparator.comparing((Map.Entry<Block, Block> e) -> BuiltInRegistries.BLOCK.getKey(e.getKey()).getNamespace())
+                    .sorted(Comparator.comparing((Map.Entry<Block, Block> e) -> e.getValue() instanceof MultiPartWarpDoor)
+                            .thenComparing(e -> BuiltInRegistries.BLOCK.getKey(e.getKey()).getNamespace())
                             .thenComparing(e -> BuiltInRegistries.BLOCK.getKey(e.getKey()).getPath()))
                     .forEach(block -> {
                         Block warpDoor = block.getValue();
