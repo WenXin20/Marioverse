@@ -4,6 +4,7 @@
 - Fixed a crash with Dramatic Doors or any mod that adds waterlogging to fence gates
 - Fixed 1-Ups not being consumed from the offhand
 - Fixed the config to disable warp doors & trapdoors not preventing block registration
+- Fixed the entity tag `cannot_reward_one_ups` not working
 - Changed warp door & trapdoor recipes to allow recipe changes via datapack
 - Changed water spouts to connect the model to make wider spouts
 
