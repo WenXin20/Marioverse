@@ -32,6 +32,7 @@ import com.wenxin2.marioverse.blocks.SuperMushroomBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomCapBlock;
 import com.wenxin2.marioverse.blocks.SuperMushroomStemBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.WaterSpoutBlock;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.blocks.states.ColumnBlockStates;
 import com.wenxin2.marioverse.blocks.states.ConnectionBlockStates;
@@ -3287,6 +3288,8 @@ public class BlockStateGen extends BlockStateProvider {
             BooleanProperty property = PipeBlock.PROPERTY_BY_DIRECTION.get(direction);
             BooleanProperty left = PipeBlock.PROPERTY_BY_DIRECTION.get(direction.getCounterClockWise());
             BooleanProperty right = PipeBlock.PROPERTY_BY_DIRECTION.get(direction.getClockWise());
+            BooleanProperty covered = WaterSpoutBlock.COVERED_BY_DIRECTION.get(direction);
+            BooleanProperty coveredRight = WaterSpoutBlock.COVERED_BY_DIRECTION.get(direction.getClockWise());
             int yRot = this.horizontalRotation(Direction.NORTH, direction);
 
             builder.part().modelFile(side).rotationY(yRot).addModel()
@@ -3296,19 +3299,21 @@ public class BlockStateGen extends BlockStateProvider {
             builder.part().modelFile(sideRight).rotationY(yRot).addModel()
                     .condition(property, true).condition(right, false).end();
             builder.part().modelFile(topEdge).rotationY(yRot).addModel()
-                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, true).end();
+                    .condition(property, true).condition(covered, false).end();
             builder.part().modelFile(topCorner).rotationY(yRot).addModel()
-                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, true).condition(right, true).end();
+                    .condition(property, true).condition(right, true).condition(covered, false).end();
+            builder.part().modelFile(topCorner).rotationY(yRot).addModel()
+                    .condition(property, true).condition(right, true).condition(covered, true).condition(coveredRight, false).end();
             builder.part().modelFile(splash).rotationY(yRot).addModel()
-                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).end();
+                    .condition(BlockStatePropertyRegistry.SURFACE, true).condition(property, false).end();
             builder.part().modelFile(splashLeft).rotationY(yRot).addModel()
-                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).condition(left, false).end();
+                    .condition(BlockStatePropertyRegistry.SURFACE, true).condition(property, false).condition(left, false).end();
             builder.part().modelFile(splashRight).rotationY(yRot).addModel()
-                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).condition(right, false).end();
+                    .condition(BlockStatePropertyRegistry.SURFACE, true).condition(property, false).condition(right, false).end();
             builder.part().modelFile(splashExtendLeft).rotationY(yRot).addModel()
-                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).condition(left, true).end();
+                    .condition(BlockStatePropertyRegistry.SURFACE, true).condition(property, false).condition(left, true).end();
             builder.part().modelFile(splashExtendRight).rotationY(yRot).addModel()
-                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).condition(right, true).end();
+                    .condition(BlockStatePropertyRegistry.SURFACE, true).condition(property, false).condition(right, true).end();
         }
     }
 

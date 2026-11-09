@@ -53,10 +53,17 @@ import org.jetbrains.annotations.Nullable;
 
 public class WaterSpoutBlock extends Block implements BucketPickup {
     public static final BooleanProperty TOP = BlockStatePropertyRegistry.TOP;
+    public static final BooleanProperty SURFACE = BlockStatePropertyRegistry.SURFACE;
     public static final BooleanProperty NORTH = PipeBlock.NORTH;
     public static final BooleanProperty EAST = PipeBlock.EAST;
     public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
     public static final BooleanProperty WEST = PipeBlock.WEST;
+    public static final BooleanProperty COVERED_NORTH = BlockStatePropertyRegistry.COVERED_NORTH;
+    public static final BooleanProperty COVERED_EAST = BlockStatePropertyRegistry.COVERED_EAST;
+    public static final BooleanProperty COVERED_SOUTH = BlockStatePropertyRegistry.COVERED_SOUTH;
+    public static final BooleanProperty COVERED_WEST = BlockStatePropertyRegistry.COVERED_WEST;
+    public static final Map<Direction, BooleanProperty> COVERED_BY_DIRECTION = Map.of(Direction.NORTH, COVERED_NORTH,
+            Direction.EAST, COVERED_EAST, Direction.SOUTH, COVERED_SOUTH, Direction.WEST, COVERED_WEST);
     public static final int MAX_CONNECTED_SPOUTS = 256;
     private static final ThreadLocal<Set<BlockPos>> CACHED_GROUP = new ThreadLocal<>();
     private static final ThreadLocal<Map<BlockPos, Integer>> CACHED_PARTITION = new ThreadLocal<>();
@@ -65,14 +72,16 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
 
     public WaterSpoutBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(TOP, Boolean.FALSE)
+        this.registerDefaultState(this.stateDefinition.any().setValue(TOP, Boolean.FALSE).setValue(SURFACE, Boolean.FALSE)
                 .setValue(NORTH, Boolean.FALSE).setValue(EAST, Boolean.FALSE)
-                .setValue(SOUTH, Boolean.FALSE).setValue(WEST, Boolean.FALSE));
+                .setValue(SOUTH, Boolean.FALSE).setValue(WEST, Boolean.FALSE)
+                .setValue(COVERED_NORTH, Boolean.FALSE).setValue(COVERED_EAST, Boolean.FALSE)
+                .setValue(COVERED_SOUTH, Boolean.FALSE).setValue(COVERED_WEST, Boolean.FALSE));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(TOP, NORTH, EAST, SOUTH, WEST);
+        stateBuilder.add(TOP, SURFACE, NORTH, EAST, SOUTH, WEST, COVERED_NORTH, COVERED_EAST, COVERED_SOUTH, COVERED_WEST);
     }
 
     @NotNull
@@ -182,7 +191,9 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         double y = pos.getY();
         double z = pos.getZ();
 
-        if (world.getBlockState(pos.above()).isAir()) {
+        boolean openAbove = world.getBlockState(pos.above()).isAir();
+
+        if (openAbove || (!state.getValue(TOP) && state.getValue(SURFACE))) {
             double topY = y + 0.75D;
 
             for (Direction direction : Direction.Plane.HORIZONTAL) {
@@ -213,7 +224,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
             double minZ = state.getValue(NORTH) ? 0.0D : 0.3125D;
             double maxZ = state.getValue(SOUTH) ? 1.0D : 0.6875D;
 
-            for (int i = 0; i < 2 + random.nextInt(2); ++i)
+            for (int i = 0; openAbove && i < 2 + random.nextInt(2); ++i)
                 this.addAlwaysVisibleParticles(world, ParticleTypes.SPLASH,
                         x + minX + random.nextDouble() * (maxX - minX), topY,
                         z + minZ + random.nextDouble() * (maxZ - minZ), 0.0D, 0.04D, 0.0D);
@@ -349,22 +360,38 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
             return state;
 
         BlockPos start = pos.immutable();
-        return WaterSpoutBlock.connect(state, WaterSpoutBlock.getPartition(worldAccessor, start), start);
+        return WaterSpoutBlock.connect(worldAccessor, state, WaterSpoutBlock.getPartition(worldAccessor, start), start);
     }
 
-    public static BlockState connect(BlockState state, Map<BlockPos, Integer> partition, BlockPos pos) {
+    public static BlockState connect(LevelAccessor worldAccessor, BlockState state, Map<BlockPos, Integer> partition, BlockPos pos) {
         Integer rectangle = partition.get(pos);
-        return state.setValue(NORTH, rectangle != null && rectangle.equals(partition.get(pos.north())))
+        return WaterSpoutBlock.withCover(worldAccessor, state.setValue(NORTH, rectangle != null && rectangle.equals(partition.get(pos.north())))
                 .setValue(EAST, rectangle != null && rectangle.equals(partition.get(pos.east())))
                 .setValue(SOUTH, rectangle != null && rectangle.equals(partition.get(pos.south())))
-                .setValue(WEST, rectangle != null && rectangle.equals(partition.get(pos.west())));
+                .setValue(WEST, rectangle != null && rectangle.equals(partition.get(pos.west()))), pos);
+    }
+
+    public static BlockState withCover(LevelAccessor worldAccessor, BlockState state, BlockPos pos) {
+        BlockState stateAbove = worldAccessor.getBlockState(pos.above());
+        boolean covered = !state.getValue(TOP) && stateAbove.getBlock() instanceof WaterSpoutBlock;
+        boolean surface = state.getValue(TOP);
+
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BooleanProperty property = PipeBlock.PROPERTY_BY_DIRECTION.get(direction);
+            boolean coveredSide = covered && stateAbove.getValue(property);
+            state = state.setValue(COVERED_BY_DIRECTION.get(direction), coveredSide);
+            if (state.getValue(property) && !coveredSide)
+                surface = true;
+        }
+        return state.setValue(SURFACE, surface);
     }
 
     public static BlockState withExistingConnections(BlockState state, LevelAccessor worldAccessor, BlockPos pos) {
         BlockState existingState = worldAccessor.getBlockState(pos);
         if (state.getBlock() instanceof WaterSpoutBlock && existingState.getBlock() instanceof WaterSpoutBlock)
-            return state.setValue(NORTH, existingState.getValue(NORTH)).setValue(EAST, existingState.getValue(EAST))
-                    .setValue(SOUTH, existingState.getValue(SOUTH)).setValue(WEST, existingState.getValue(WEST));
+            return WaterSpoutBlock.withCover(worldAccessor, state.setValue(NORTH, existingState.getValue(NORTH))
+                    .setValue(EAST, existingState.getValue(EAST)).setValue(SOUTH, existingState.getValue(SOUTH))
+                    .setValue(WEST, existingState.getValue(WEST)), pos);
         return WaterSpoutBlock.withConnections(state, worldAccessor, pos);
     }
 
@@ -375,7 +402,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         if (group.equals(CACHED_GROUP.get()))
             return CACHED_PARTITION.get();
 
-        Map<BlockPos, Integer> partition = WaterSpoutBlock.partitionIntoRectangles(group);
+        Map<BlockPos, Integer> partition = WaterSpoutBlock.partitionIntoRectangles(worldAccessor, group);
         CACHED_GROUP.set(group);
         CACHED_PARTITION.set(partition);
 
@@ -383,7 +410,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
             for (BlockPos member : group) {
                 BlockState memberState = worldAccessor.getBlockState(member);
                 if (!member.equals(start) && memberState.getBlock() instanceof WaterSpoutBlock) {
-                    BlockState connectedState = WaterSpoutBlock.connect(memberState, partition, member);
+                    BlockState connectedState = WaterSpoutBlock.connect(worldAccessor, memberState, partition, member);
                     if (connectedState != memberState)
                         worldAccessor.setBlock(member, connectedState, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
                 }
@@ -414,7 +441,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         return visited;
     }
 
-    public static Map<BlockPos, Integer> partitionIntoRectangles(Set<BlockPos> group) {
+    public static Map<BlockPos, Integer> partitionIntoRectangles(LevelAccessor worldAccessor, Set<BlockPos> group) {
         int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE, minZ = Integer.MAX_VALUE, maxZ = Integer.MIN_VALUE;
         int y = 0;
         for (BlockPos member : group) {
@@ -428,12 +455,22 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         int width = maxX - minX + 1;
         int depth = maxZ - minZ + 1;
         boolean[][] free = new boolean[width][depth];
-        for (BlockPos member : group)
-            free[member.getX() - minX][member.getZ() - minZ] = true;
+        boolean[][] connectedEast = new boolean[width][depth];
+        boolean[][] connectedSouth = new boolean[width][depth];
+        for (BlockPos member : group) {
+            int x = member.getX() - minX;
+            int z = member.getZ() - minZ;
+            BlockState memberState = worldAccessor.getBlockState(member);
+            free[x][z] = true;
+            if (memberState.getBlock() instanceof WaterSpoutBlock) {
+                connectedEast[x][z] = memberState.getValue(EAST);
+                connectedSouth[x][z] = memberState.getValue(SOUTH);
+            }
+        }
 
         Map<BlockPos, Integer> partition = new HashMap<>();
         int id = 0;
-        int[] best = WaterSpoutBlock.findLargestRectangle(free, width, depth);
+        int[] best = WaterSpoutBlock.findLargestRectangle(free, connectedEast, connectedSouth, width, depth);
 
         while (best != null) {
             for (int x = best[0]; x <= best[2]; x++) {
@@ -443,16 +480,18 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
                 }
             }
             id++;
-            best = WaterSpoutBlock.findLargestRectangle(free, width, depth);
+            best = WaterSpoutBlock.findLargestRectangle(free, connectedEast, connectedSouth, width, depth);
         }
         return partition;
     }
 
     @Nullable
-    public static int[] findLargestRectangle(boolean[][] free, int width, int depth) {
+    public static int[] findLargestRectangle(boolean[][] free, boolean[][] connectedEast, boolean[][] connectedSouth,
+                                             int width, int depth) {
         int[] heights = new int[width];
         int[] best = null;
         int bestArea = 0;
+        int bestScore = -1;
 
         for (int z = 0; z < depth; z++) {
             for (int x = 0; x < width; x++)
@@ -466,14 +505,34 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
                         break;
 
                     int area = (right - left + 1) * minHeight;
-                    if (area >= 2 && area > bestArea) {
+                    if (area < 2 || area < bestArea)
+                        continue;
+
+                    int top = z - minHeight + 1;
+                    int score = WaterSpoutBlock.countExistingConnections(connectedEast, connectedSouth, left, top, right, z);
+                    if (area > bestArea || score > bestScore) {
                         bestArea = area;
-                        best = new int[]{left, z - minHeight + 1, right, z};
+                        bestScore = score;
+                        best = new int[]{left, top, right, z};
                     }
                 }
             }
         }
         return best;
+    }
+
+    public static int countExistingConnections(boolean[][] connectedEast, boolean[][] connectedSouth,
+                                               int left, int top, int right, int bottom) {
+        int score = 0;
+        for (int x = left; x <= right; x++) {
+            for (int z = top; z <= bottom; z++) {
+                if (x < right && connectedEast[x][z])
+                    score++;
+                if (z < bottom && connectedSouth[x][z])
+                    score++;
+            }
+        }
+        return score;
     }
 
     public static boolean isSpout(LevelAccessor worldAccessor, BlockPos pos) {

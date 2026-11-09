@@ -39,8 +39,8 @@
         "model": "marioverse:block/water_spout_top_edge"
       },
       "when": {
-        "north": "true",
-        "top": "true"
+        "covered_north": "false",
+        "north": "true"
       }
     },
     {
@@ -48,9 +48,20 @@
         "model": "marioverse:block/water_spout_top_corner"
       },
       "when": {
+        "covered_north": "false",
         "east": "true",
-        "north": "true",
-        "top": "true"
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner"
+      },
+      "when": {
+        "covered_east": "false",
+        "covered_north": "true",
+        "east": "true",
+        "north": "true"
       }
     },
     {
@@ -59,7 +70,7 @@
       },
       "when": {
         "north": "false",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -68,7 +79,7 @@
       },
       "when": {
         "north": "false",
-        "top": "true",
+        "surface": "true",
         "west": "false"
       }
     },
@@ -79,7 +90,7 @@
       "when": {
         "east": "false",
         "north": "false",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -88,7 +99,7 @@
       },
       "when": {
         "north": "false",
-        "top": "true",
+        "surface": "true",
         "west": "true"
       }
     },
@@ -99,7 +110,7 @@
       "when": {
         "east": "true",
         "north": "false",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -137,8 +148,8 @@
         "y": 90
       },
       "when": {
-        "east": "true",
-        "top": "true"
+        "covered_east": "false",
+        "east": "true"
       }
     },
     {
@@ -147,9 +158,21 @@
         "y": 90
       },
       "when": {
+        "covered_east": "false",
         "east": "true",
-        "south": "true",
-        "top": "true"
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "y": 90
+      },
+      "when": {
+        "covered_east": "true",
+        "covered_south": "false",
+        "east": "true",
+        "south": "true"
       }
     },
     {
@@ -159,7 +182,7 @@
       },
       "when": {
         "east": "false",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -170,7 +193,7 @@
       "when": {
         "east": "false",
         "north": "false",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -181,7 +204,7 @@
       "when": {
         "east": "false",
         "south": "false",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -192,7 +215,7 @@
       "when": {
         "east": "false",
         "north": "true",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -203,7 +226,7 @@
       "when": {
         "east": "false",
         "south": "true",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -241,8 +264,8 @@
         "y": 180
       },
       "when": {
-        "south": "true",
-        "top": "true"
+        "covered_south": "false",
+        "south": "true"
       }
     },
     {
@@ -251,8 +274,20 @@
         "y": 180
       },
       "when": {
+        "covered_south": "false",
         "south": "true",
-        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "y": 180
+      },
+      "when": {
+        "covered_south": "true",
+        "covered_west": "false",
+        "south": "true",
         "west": "true"
       }
     },
@@ -263,7 +298,7 @@
       },
       "when": {
         "south": "false",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -274,7 +309,7 @@
       "when": {
         "east": "false",
         "south": "false",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -284,7 +319,7 @@
       },
       "when": {
         "south": "false",
-        "top": "true",
+        "surface": "true",
         "west": "false"
       }
     },
@@ -296,7 +331,7 @@
       "when": {
         "east": "true",
         "south": "false",
-        "top": "true"
+        "surface": "true"
       }
     },
     {
@@ -306,7 +341,7 @@
       },
       "when": {
         "south": "false",
-        "top": "true",
+        "surface": "true",
         "west": "true"
       }
     },
@@ -345,7 +380,7 @@
         "y": 270
       },
       "when": {
-        "top": "true",
+        "covered_west": "false",
         "west": "true"
       }
     },
@@ -355,8 +390,20 @@
         "y": 270
       },
       "when": {
+        "covered_west": "false",
         "north": "true",
-        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "y": 270
+      },
+      "when": {
+        "covered_north": "false",
+        "covered_west": "true",
+        "north": "true",
         "west": "true"
       }
     },
@@ -366,7 +413,7 @@
         "y": 270
       },
       "when": {
-        "top": "true",
+        "surface": "true",
         "west": "false"
       }
     },
@@ -377,7 +424,7 @@
       },
       "when": {
         "south": "false",
-        "top": "true",
+        "surface": "true",
         "west": "false"
       }
     },
@@ -388,7 +435,7 @@
       },
       "when": {
         "north": "false",
-        "top": "true",
+        "surface": "true",
         "west": "false"
       }
     },
@@ -399,7 +446,7 @@
       },
       "when": {
         "south": "true",
-        "top": "true",
+        "surface": "true",
         "west": "false"
       }
     },
@@ -410,7 +457,7 @@
       },
       "when": {
         "north": "true",
-        "top": "true",
+        "surface": "true",
         "west": "false"
       }
     }

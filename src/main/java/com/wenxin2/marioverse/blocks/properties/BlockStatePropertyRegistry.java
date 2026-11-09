@@ -13,11 +13,16 @@ public class BlockStatePropertyRegistry {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final BooleanProperty BOARD = BooleanProperty.create("board");
     public static final BooleanProperty BOTTOM = BooleanProperty.create("bottom");
+    public static final BooleanProperty COVERED_EAST = BooleanProperty.create("covered_east");
+    public static final BooleanProperty COVERED_NORTH = BooleanProperty.create("covered_north");
+    public static final BooleanProperty COVERED_SOUTH = BooleanProperty.create("covered_south");
+    public static final BooleanProperty COVERED_WEST = BooleanProperty.create("covered_west");
     public static final BooleanProperty DISGUISED = BooleanProperty.create("disguised");
     public static final BooleanProperty END = BooleanProperty.create("end");
     public static final BooleanProperty FLOWERS = BooleanProperty.create("flowers");
     public static final BooleanProperty INVISIBLE = BooleanProperty.create("invisible");
     public static final BooleanProperty POST = BooleanProperty.create("post");
+    public static final BooleanProperty SURFACE = BooleanProperty.create("surface");
     public static final BooleanProperty TALL = BooleanProperty.create("tall");
     public static final BooleanProperty TOP = BooleanProperty.create("top");
     public static final EnumProperty<ConnectionBlockStates> ABOVE = EnumProperty
