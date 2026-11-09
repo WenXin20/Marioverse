@@ -120,6 +120,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue DISABLE_CHRISTMAS_HATS;
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
+    public static ModConfigSpec.BooleanValue DISABLE_DRAMATIC_DOORS_COMPAT;
     public static ModConfigSpec.BooleanValue DISABLE_JEB_SHADER;
     public static ModConfigSpec.BooleanValue DISABLE_JUMP_SOUND;
     public static ModConfigSpec.BooleanValue DISABLE_MARIOVERSE_TABS;
@@ -356,6 +357,27 @@ public class ConfigRegistry {
                             .comment("§cRequires game restart")
                             .comment("§9[Default: false]")
                             .define("enable_dyed_calcite_stone_zone", false);
+                STARTUP_BUILDER.pop();
+
+                STARTUP_BUILDER.push(CATEGORY_WARP_DOORS);
+                    DISABLE_WARP_DOORS = STARTUP_BUILDER.translation("configuration.marioverse.disable_warp_doors")
+                            .comment("Disables warp doors, preventing them from being registered.")
+                            .comment("§cRequires game restart")
+                            .comment("§9[Default: false]")
+                            .define("disable_warp_doors", false);
+                    DISABLE_DRAMATIC_DOORS_COMPAT = STARTUP_BUILDER.translation("configuration.marioverse.disable_dramatic_doors_compat")
+                            .comment("Disables Dramatic Doors compat, preventing warp tall and short doors from being registered.")
+                            .comment("§cRequires game restart")
+                            .comment("§9[Default: false]")
+                            .define("disable_dramatic_doors_compat", false);
+                STARTUP_BUILDER.pop();
+
+                STARTUP_BUILDER.push(CATEGORY_WARP_TRAPDOORS);
+                    DISABLE_WARP_TRAPDOORS = STARTUP_BUILDER.translation("configuration.marioverse.disable_warp_trapdoors")
+                            .comment("Disables warp trapdoors, preventing them from being registered.")
+                            .comment("§cRequires game restart")
+                            .comment("§9[Default: false]")
+                            .define("disable_warp_trapdoors", false);
                 STARTUP_BUILDER.pop();
 
             STARTUP_BUILDER.pop();
@@ -782,10 +804,6 @@ public class ConfigRegistry {
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_DOORS);
-                    DISABLE_WARP_DOORS = BUILDER.translation("configuration.marioverse.disable_warp_doors")
-                            .comment("Disables the creation of warp doors.")
-                            .comment("§9[Default: false]")
-                            .define("disable_warp_doors", false);
                     WARP_DOOR_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_door_cooldown")
                             .comment("Cooldown between teleports in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")
@@ -874,10 +892,6 @@ public class ConfigRegistry {
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_TRAPDOORS);
-                    DISABLE_WARP_TRAPDOORS = BUILDER.translation("configuration.marioverse.disable_warp_trapdoors")
-                            .comment("Disables the creation of warp trapdoors.")
-                            .comment("§9[Default: false]")
-                            .define("disable_warp_trapdoors", false);
                     WARP_TRAPDOOR_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_trapdoor_cooldown")
                             .comment("Cooldown between teleports in ticks for trapdoors.")
                             .comment("§6[20 ticks = 1 second]§b")

@@ -70,7 +70,7 @@ dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api" // Required Dependency
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}" // Required Dependency
 
-    compileOnly "curse.maven:aether-255308:6389857" // Requires Accessories, Owo Lib
+    implementation "curse.maven:aether-255308:6389857" // Requires Accessories, Owo Lib
     compileOnly "curse.maven:amendments-896746:8825641" // Requires Moonlight
     compileOnly "maven.modrinth:automobility:0.5.0.h-neoforge" // Requires Kotlin
     implementation "curse.maven:copycats-968398:8822348" // Requires Create
@@ -78,7 +78,8 @@ dependencies {
     implementation "curse.maven:create-328085:7963363"
     implementation "curse.maven:create-aeronautics-676721:8763471" // Requires Create, Sable, Incompatible w/ Embeddium
     implementation "curse.maven:create-coasters-simulated-1601871:8655742" // Requires Create, Sable
-    implementation "curse.maven:dramatic-doors-380617:6479044"
+    compileOnly "curse.maven:dramatic-doors-380617:6479044"
+    implementation "curse.maven:fast-paintings-883287:8975088"
     compileOnly "curse.maven:framedblocks-441647:7584453"
     compileOnly "curse.maven:deep-aether-852465:6839619"
     implementation "curse.maven:gardens-of-the-dead-683174:5640395"
@@ -89,13 +90,13 @@ dependencies {
     compileOnly "curse.maven:irisshaders-455508:6661598" // Requires Sodium
     implementation "curse.maven:jade-324717:6853386"
     implementation "curse.maven:jei-${jei_version}"
-    implementation "curse.maven:jei-trade-1641894:8998466"
+    compileOnly "curse.maven:jei-trade-1641894:8998466"
     compileOnly "curse.maven:neoculus-1200907:6787071"
     compileOnly "curse.maven:packs-editor-1606070:8432925"
     compileOnly "curse.maven:refurbished-furniture-897116:7473565" // Requires Framework
     compileOnly "curse.maven:roughly-enough-items-${rei_version}"
     implementation "curse.maven:spark-${spark_version}"
-    compileOnly "curse.maven:the-twilight-forest-227639:7797302"
+    implementation "curse.maven:the-twilight-forest-227639:7797302"
     compileOnly "curse.maven:the-undergarden-379849:7862546"
     implementation "curse.maven:treechop-421377:6254465"
     implementation "curse.maven:tree-physics-1522010:8448844" // Requires Sable
