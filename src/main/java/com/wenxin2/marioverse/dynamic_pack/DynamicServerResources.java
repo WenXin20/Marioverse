@@ -138,15 +138,21 @@ public final class DynamicServerResources implements PackResources {
             JsonObject ingredient = new JsonObject();
             ingredient.addProperty("tag", extra.location().toString());
 
-            JsonArray ingredients = new JsonArray();
-            ingredients.add(source);
-            ingredients.add(ingredient);
+            JsonArray pattern = new JsonArray();
+            pattern.add(" E ");
+            pattern.add("EDE");
+            pattern.add(" E ");
+
+            JsonObject key = new JsonObject();
+            key.add("D", source);
+            key.add("E", ingredient);
 
             JsonObject json = new JsonObject();
             json.addProperty("type", type);
             json.addProperty("category", "building");
             json.addProperty("group", group);
-            json.add("ingredients", ingredients);
+            json.add("pattern", pattern);
+            json.add("key", key);
             json.addProperty("result", warpId.toString());
 
             String recipePath = sourceId.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)

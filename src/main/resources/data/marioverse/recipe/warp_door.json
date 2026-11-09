@@ -3,8 +3,13 @@
   "enabled": false,
   "category": "building",
   "group": "marioverse:warp_doors",
-  "ingredients": [
-    [
+  "pattern": [
+    " E ",
+    "EDE",
+    " E "
+  ],
+  "key": {
+    "D": [
       {
         "tag": "minecraft:doors"
       },
@@ -15,8 +20,8 @@
         "tag": "dramaticdoors:tall_doors"
       }
     ],
-    {
+    "E": {
       "tag": "marioverse:crafts_warp_door"
     }
-  ]
+  }
 }

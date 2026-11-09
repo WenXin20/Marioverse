@@ -3,12 +3,17 @@
   "enabled": false,
   "category": "building",
   "group": "marioverse:warp_trapdoors",
-  "ingredients": [
-    {
+  "pattern": [
+    " E ",
+    "EDE",
+    " E "
+  ],
+  "key": {
+    "D": {
       "tag": "minecraft:trapdoors"
     },
-    {
+    "E": {
       "tag": "marioverse:crafts_warp_trapdoor"
     }
-  ]
+  }
 }
