@@ -1,0 +1,27 @@
+{
+	"parent": "minecraft:block/block",
+	"render_type": "translucent",
+	"textures": {
+		"particle": "#side",
+		"side": "marioverse:block/water_spout_flow",
+		"top": "marioverse:block/water_spout_still"
+	},
+	"elements": [
+		{
+			"from": [5, 12, 0],
+			"to": [11, 12, 5],
+			"faces": {
+				"up": {
+					"uv": [5, 0, 11, 5],
+					"texture": "#top",
+					"tintindex": 0
+				},
+				"down": {
+					"uv": [5, 5, 11, 0],
+					"texture": "#top",
+					"tintindex": 0
+				}
+			}
+		}
+	]
+}

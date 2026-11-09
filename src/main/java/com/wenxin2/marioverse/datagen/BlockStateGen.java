@@ -3268,16 +3268,55 @@ public class BlockStateGen extends BlockStateProvider {
     private void waterSpoutModel(Block block, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation splashTexture) {
         String modelName = BuiltInRegistries.BLOCK.getKey(block).getPath();
 
-        ModelFile model = models()
-                .withExistingParent(modelName, modLoc("block/template_water_spout"))
-                .texture("side", sideTexture);
-        ModelFile modelTop = models()
-                .withExistingParent(modelName + "_top", modLoc("block/template_water_spout_top"))
-                .texture("splash", splashTexture).texture("side", sideTexture).texture("top", topTexture);
+        ModelFile side = this.waterSpoutPart(modelName, "_side", sideTexture, topTexture, splashTexture);
+        ModelFile sideLeft = this.waterSpoutPart(modelName, "_side_left", sideTexture, topTexture, splashTexture);
+        ModelFile sideRight = this.waterSpoutPart(modelName, "_side_right", sideTexture, topTexture, splashTexture);
+        ModelFile topCenter = this.waterSpoutPart(modelName, "_top_center", sideTexture, topTexture, splashTexture);
+        ModelFile topEdge = this.waterSpoutPart(modelName, "_top_edge", sideTexture, topTexture, splashTexture);
+        ModelFile topCorner = this.waterSpoutPart(modelName, "_top_corner", sideTexture, topTexture, splashTexture);
+        ModelFile splash = this.waterSpoutPart(modelName, "_splash", sideTexture, topTexture, splashTexture);
+        ModelFile splashLeft = this.waterSpoutPart(modelName, "_splash_left", sideTexture, topTexture, splashTexture);
+        ModelFile splashRight = this.waterSpoutPart(modelName, "_splash_right", sideTexture, topTexture, splashTexture);
+        ModelFile splashExtendLeft = this.waterSpoutPart(modelName, "_splash_extend_left", sideTexture, topTexture, splashTexture);
+        ModelFile splashExtendRight = this.waterSpoutPart(modelName, "_splash_extend_right", sideTexture, topTexture, splashTexture);
 
-        VariantBlockStateBuilder variantBuilder = this.getVariantBuilder(block);
-        variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, false).addModels(new ConfiguredModel(model));
-        variantBuilder.partialState().with(BlockStatePropertyRegistry.TOP, true).addModels(new ConfiguredModel(modelTop));
+        MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block);
+        builder.part().modelFile(topCenter).addModel().condition(BlockStatePropertyRegistry.TOP, true).end();
+
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BooleanProperty property = PipeBlock.PROPERTY_BY_DIRECTION.get(direction);
+            BooleanProperty left = PipeBlock.PROPERTY_BY_DIRECTION.get(direction.getCounterClockWise());
+            BooleanProperty right = PipeBlock.PROPERTY_BY_DIRECTION.get(direction.getClockWise());
+            int yRot = this.horizontalRotation(Direction.NORTH, direction);
+
+            builder.part().modelFile(side).rotationY(yRot).addModel()
+                    .condition(property, false).end();
+            builder.part().modelFile(sideLeft).rotationY(yRot).addModel()
+                    .condition(property, true).condition(left, false).end();
+            builder.part().modelFile(sideRight).rotationY(yRot).addModel()
+                    .condition(property, true).condition(right, false).end();
+            builder.part().modelFile(topEdge).rotationY(yRot).addModel()
+                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, true).end();
+            builder.part().modelFile(topCorner).rotationY(yRot).addModel()
+                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, true).condition(right, true).end();
+            builder.part().modelFile(splash).rotationY(yRot).addModel()
+                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).end();
+            builder.part().modelFile(splashLeft).rotationY(yRot).addModel()
+                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).condition(left, false).end();
+            builder.part().modelFile(splashRight).rotationY(yRot).addModel()
+                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).condition(right, false).end();
+            builder.part().modelFile(splashExtendLeft).rotationY(yRot).addModel()
+                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).condition(left, true).end();
+            builder.part().modelFile(splashExtendRight).rotationY(yRot).addModel()
+                    .condition(BlockStatePropertyRegistry.TOP, true).condition(property, false).condition(right, true).end();
+        }
+    }
+
+    private ModelFile waterSpoutPart(String modelName, String suffix, ResourceLocation sideTexture,
+                                     ResourceLocation topTexture, ResourceLocation splashTexture) {
+        return models().withExistingParent(modelName + suffix, modLoc("block/template_water_spout" + suffix))
+                .texture("side", sideTexture).texture("top", topTexture).texture("splash", splashTexture)
+                .texture("particle", sideTexture);
     }
 
     // Unfinished

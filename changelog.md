@@ -5,6 +5,7 @@
 - Fixed 1-Ups not being consumed from the offhand
 - Fixed the config to disable warp doors & trapdoors not preventing block registration
 - Changed warp door & trapdoor recipes to allow recipe changes via datapack
+- Changed water spouts to connect the model to make wider spouts
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

@@ -1,0 +1,77 @@
+{
+	"parent": "minecraft:block/block",
+	"render_type": "translucent",
+	"textures": {
+		"particle": "#side",
+		"side": "marioverse:block/water_spout_flow",
+		"splash": "marioverse:block/water_spout_splash"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 5],
+			"to": [4, 11, 5],
+			"shade": false,
+			"rotation": {
+				"angle": 45,
+				"axis": "x",
+				"origin": [8, 12, 5]
+			},
+			"faces": {
+				"north": {
+					"uv": [12, 1, 13, 12],
+					"texture": "#splash",
+					"tintindex": 0
+				},
+				"south": {
+					"uv": [12, 1, 13, 12],
+					"texture": "#splash",
+					"tintindex": 0
+				}
+			}
+		},
+		{
+			"from": [2, 0, 5],
+			"to": [3, 10, 5],
+			"shade": false,
+			"rotation": {
+				"angle": 45,
+				"axis": "x",
+				"origin": [8, 12, 5]
+			},
+			"faces": {
+				"north": {
+					"uv": [13, 2, 14, 12],
+					"texture": "#splash",
+					"tintindex": 0
+				},
+				"south": {
+					"uv": [13, 2, 14, 12],
+					"texture": "#splash",
+					"tintindex": 0
+				}
+			}
+		},
+		{
+			"from": [1, 0, 5],
+			"to": [2, 9, 5],
+			"shade": false,
+			"rotation": {
+				"angle": 45,
+				"axis": "x",
+				"origin": [8, 12, 5]
+			},
+			"faces": {
+				"north": {
+					"uv": [14, 3, 15, 12],
+					"texture": "#splash",
+					"tintindex": 0
+				},
+				"south": {
+					"uv": [14, 3, 15, 12],
+					"texture": "#splash",
+					"tintindex": 0
+				}
+			}
+		}
+	]
+}
