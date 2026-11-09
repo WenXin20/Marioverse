@@ -2797,6 +2797,7 @@
   "marioverse.configuration.client": "Client Config",
   "marioverse.configuration.common": "Common Config",
   "marioverse.configuration.debug": "Debug Config",
+  "marioverse.configuration.startup": "Startup Config",
 
   "marioverse.configuration.blocks": "Blocks",
   "marioverse.configuration.gameplay": "Gameplay",
