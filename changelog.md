@@ -1,8 +1,9 @@
 ## Update 1.12.3
+- Added the ability for water spouts to face any direction
 - Added the ability to pickup shells and throw shells 
   - The koopa will wake up and attack if held too long
   - Shells can be pickup as an item only if the koopa is killed
-- Added the ability for water spouts to face any direction
+- Improved koopa shell bouncing
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
