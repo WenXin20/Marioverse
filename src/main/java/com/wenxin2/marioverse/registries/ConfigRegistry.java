@@ -1162,21 +1162,21 @@ public class ConfigRegistry {
                         GOLD_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.gold_koopa_troopa_hide_duration")
                                 .comment("Duration gold koopa troopas hide in their shells in ticks.")
                                 .comment("§6[20 ticks = 1 second]§b")
-                                .defineInRange("gold_koopa_troopa_hide_duration", 80, 0, 999);
+                                .defineInRange("gold_koopa_troopa_hide_duration", 160, 0, 999);
                     BUILDER.pop();
 
                     BUILDER.push(CATEGORY_GREEN_KOOPA_TROOPA);
                         GREEN_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.green_koopa_troopa_hide_duration")
                                 .comment("Duration green koopa troopas hide in their shells in ticks.")
                                 .comment("§6[20 ticks = 1 second]§b")
-                                .defineInRange("green_koopa_troopa_hide_duration", 140, 0, 999);
+                                .defineInRange("green_koopa_troopa_hide_duration", 280, 0, 999);
                     BUILDER.pop();
 
                     BUILDER.push(CATEGORY_RED_KOOPA_TROOPA);
                         RED_KOOPA_TROOPA_HIDE_DURATION = BUILDER.translation("configuration.marioverse.red_koopa_troopa_hide_duration")
                                 .comment("Duration red koopa troopas hide in their shells in ticks.")
                                 .comment("§6[20 ticks = 1 second]§b")
-                                .defineInRange("red_koopa_troopa_hide_duration", 100, 0, 999);
+                                .defineInRange("red_koopa_troopa_hide_duration", 200, 0, 999);
                     BUILDER.pop();
 
                 BUILDER.pop();

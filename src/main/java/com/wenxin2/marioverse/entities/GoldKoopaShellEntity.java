@@ -95,6 +95,11 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
     }
 
     @Override
+    public int getHideDuration() {
+        return ConfigRegistry.GOLD_KOOPA_TROOPA_HIDE_DURATION.get();
+    }
+
+    @Override
     public float getShellDamage() {
         return ConfigRegistry.GOLD_KOOPA_SHELL_DAMAGE.get().floatValue();
     }

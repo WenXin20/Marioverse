@@ -583,8 +583,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 this.level.setBlock(menuPos, state.setValue(WarpPipeBlock.CLOSED, Boolean.FALSE), 3);
                 this.playSound(this.level, menuPos, SoundRegistry.PIPE_OPENS.get(), SoundSource.BLOCKS, 1.0F, pitchLow);
             } else {
-                if (this.level.getBlockState(menuPos.above()).getBlock() instanceof WaterSpoutBlock)
-                    this.level.destroyBlock(menuPos.above(), false);
+                BlockPos spoutPos = menuPos.relative(state.getValue(WarpPipeBlock.FACING));
+                if (this.level.getBlockState(spoutPos).getBlock() instanceof WaterSpoutBlock)
+                    this.level.destroyBlock(spoutPos, false);
                 this.level.setBlock(menuPos, state.setValue(WarpPipeBlock.CLOSED, Boolean.TRUE), 0);
                 this.playSound(this.level, menuPos, SoundRegistry.PIPE_CLOSES.get(), SoundSource.BLOCKS, 1.0F, pitchHigh);
             }

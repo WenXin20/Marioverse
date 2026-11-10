@@ -66,6 +66,11 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
     }
 
     @Override
+    public int getHideDuration() {
+        return ConfigRegistry.RED_KOOPA_TROOPA_HIDE_DURATION.get();
+    }
+
+    @Override
     public float getShellDamage() {
         return ConfigRegistry.RED_KOOPA_SHELL_DAMAGE.get().floatValue();
     }

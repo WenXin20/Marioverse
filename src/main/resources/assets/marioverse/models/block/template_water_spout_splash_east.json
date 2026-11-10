@@ -1,0 +1,33 @@
+{
+	"parent": "minecraft:block/block",
+	"render_type": "translucent",
+	"textures": {
+		"particle": "#side",
+		"side": "marioverse:block/water_spout_flow",
+		"splash": "marioverse:block/water_spout_splash"
+	},
+	"elements": [
+		{
+			"from": [11, 0, 4],
+			"to": [11, 12, 12],
+			"shade": false,
+			"rotation": {
+				"angle": 45,
+				"axis": "z",
+				"origin": [11, 12, 8]
+			},
+			"faces": {
+				"east": {
+					"uv": [4, 0, 12, 12],
+					"texture": "#splash",
+					"tintindex": 0
+				},
+				"west": {
+					"uv": [4, 0, 12, 12],
+					"texture": "#splash",
+					"tintindex": 0
+				}
+			}
+		}
+	]
+}

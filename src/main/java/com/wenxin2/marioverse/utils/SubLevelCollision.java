@@ -67,11 +67,15 @@ public class SubLevelCollision {
     }
 
     public static Vec3 getUpDirection(Level level, BlockPos pos) {
-        if (!SableProvider.isLoaded() || !SableProvider.isPlotPos(level, pos))
-            return WORLD_UP;
+        return SubLevelCollision.getWorldDirection(level, pos, WORLD_UP);
+    }
 
-        Vec3 up = SableProvider.toWorldDirection(level, pos, WORLD_UP);
-        return up == null || up.lengthSqr() < 1.0E-6 ? WORLD_UP : up.normalize();
+    public static Vec3 getWorldDirection(Level level, BlockPos pos, Vec3 localDirection) {
+        if (!SableProvider.isLoaded() || !SableProvider.isPlotPos(level, pos))
+            return localDirection;
+
+        Vec3 direction = SableProvider.toWorldDirection(level, pos, localDirection);
+        return direction == null || direction.lengthSqr() < 1.0E-6 ? localDirection : direction.normalize();
     }
 
     public static Vec3 withSpeedAlong(Vec3 motion, Vec3 direction, double speed) {

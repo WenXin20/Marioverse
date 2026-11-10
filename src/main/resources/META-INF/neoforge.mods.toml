@@ -28,6 +28,8 @@ authors="${mod_authors}"
 # The description text for the mod (multi line!) (#mandatory)
 description='''${mod_description}'''
 
+enumExtensions="META-INF/enumextensions.json"
+
 [[accessTransformers]]
 file="META-INF/accesstransformer.cfg"
 

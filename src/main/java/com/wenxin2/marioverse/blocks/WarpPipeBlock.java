@@ -474,8 +474,9 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                 BaseWarpBlockEntity.registerWarpLocation(uuid, serverWorld, pos);
             }
 
-            if (pipeBE.hasWaterSpout() && state.getValue(FACING) == Direction.UP && serverWorld.dimension() != Level.NETHER) {
-                WaterSpoutBlock.repeatColumnUp(serverWorld, pos.above(), state, pipeBE.spoutHeight);
+            if (pipeBE.hasWaterSpout() && serverWorld.dimension() != Level.NETHER) {
+                WaterSpoutBlock.repeatColumn(serverWorld, pos.relative(state.getValue(FACING)), state,
+                        state.getValue(FACING), pipeBE.spoutHeight);
                 serverWorld.scheduleTick(pos, this, 3);
             }
 

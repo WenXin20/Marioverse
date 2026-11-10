@@ -2,9 +2,506 @@
   "multipart": [
     {
       "apply": {
+        "model": "marioverse:block/water_spout_top_center",
+        "x": 180
+      },
+      "when": {
+        "facing": "down",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 180
+      },
+      "when": {
+        "facing": "down",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 180
+      },
+      "when": {
+        "facing": "down",
+        "north": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "down",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 180
+      },
+      "when": {
+        "facing": "down",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "down",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 180
+      },
+      "when": {
+        "facing": "down",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 180
+      },
+      "when": {
+        "facing": "down",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "down",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 180
+      },
+      "when": {
+        "facing": "down",
+        "north": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "down",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "down"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "down",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "down",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "down",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "down",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "down",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "down",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "down",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "down",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 180,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "down",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "facing": "down",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "down",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "facing": "down",
+        "south": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "facing": "down",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "facing": "down",
+        "south": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "facing": "down",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "down",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "facing": "down",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "down",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 180,
+        "y": 180
+      },
+      "when": {
+        "facing": "down",
+        "south": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "south": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "north": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "north": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "south": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 180,
+        "y": 90
+      },
+      "when": {
+        "facing": "down",
+        "north": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
         "model": "marioverse:block/water_spout_top_center"
       },
       "when": {
+        "facing": "up",
         "top": "true"
       }
     },
@@ -13,6 +510,7 @@
         "model": "marioverse:block/water_spout_side"
       },
       "when": {
+        "facing": "up",
         "north": "false"
       }
     },
@@ -21,6 +519,7 @@
         "model": "marioverse:block/water_spout_side_left"
       },
       "when": {
+        "facing": "up",
         "north": "true",
         "west": "false"
       }
@@ -31,6 +530,7 @@
       },
       "when": {
         "east": "false",
+        "facing": "up",
         "north": "true"
       }
     },
@@ -39,8 +539,9 @@
         "model": "marioverse:block/water_spout_top_edge"
       },
       "when": {
-        "covered_north": "false",
-        "north": "true"
+        "facing": "up",
+        "north": "true",
+        "top": "true"
       }
     },
     {
@@ -48,20 +549,10 @@
         "model": "marioverse:block/water_spout_top_corner"
       },
       "when": {
-        "covered_north": "false",
         "east": "true",
-        "north": "true"
-      }
-    },
-    {
-      "apply": {
-        "model": "marioverse:block/water_spout_top_corner"
-      },
-      "when": {
-        "covered_east": "false",
-        "covered_north": "true",
-        "east": "true",
-        "north": "true"
+        "facing": "up",
+        "north": "true",
+        "top": "true"
       }
     },
     {
@@ -69,8 +560,9 @@
         "model": "marioverse:block/water_spout_splash"
       },
       "when": {
+        "facing": "up",
         "north": "false",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -78,8 +570,9 @@
         "model": "marioverse:block/water_spout_splash_left"
       },
       "when": {
+        "facing": "up",
         "north": "false",
-        "surface": "true",
+        "top": "true",
         "west": "false"
       }
     },
@@ -89,8 +582,9 @@
       },
       "when": {
         "east": "false",
+        "facing": "up",
         "north": "false",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -98,8 +592,9 @@
         "model": "marioverse:block/water_spout_splash_extend_left"
       },
       "when": {
+        "facing": "up",
         "north": "false",
-        "surface": "true",
+        "top": "true",
         "west": "true"
       }
     },
@@ -109,8 +604,9 @@
       },
       "when": {
         "east": "true",
+        "facing": "up",
         "north": "false",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -119,7 +615,8 @@
         "y": 90
       },
       "when": {
-        "east": "false"
+        "east": "false",
+        "facing": "up"
       }
     },
     {
@@ -129,6 +626,7 @@
       },
       "when": {
         "east": "true",
+        "facing": "up",
         "north": "false"
       }
     },
@@ -139,6 +637,7 @@
       },
       "when": {
         "east": "true",
+        "facing": "up",
         "south": "false"
       }
     },
@@ -148,8 +647,9 @@
         "y": 90
       },
       "when": {
-        "covered_east": "false",
-        "east": "true"
+        "east": "true",
+        "facing": "up",
+        "top": "true"
       }
     },
     {
@@ -158,21 +658,10 @@
         "y": 90
       },
       "when": {
-        "covered_east": "false",
         "east": "true",
-        "south": "true"
-      }
-    },
-    {
-      "apply": {
-        "model": "marioverse:block/water_spout_top_corner",
-        "y": 90
-      },
-      "when": {
-        "covered_east": "true",
-        "covered_south": "false",
-        "east": "true",
-        "south": "true"
+        "facing": "up",
+        "south": "true",
+        "top": "true"
       }
     },
     {
@@ -182,7 +671,8 @@
       },
       "when": {
         "east": "false",
-        "surface": "true"
+        "facing": "up",
+        "top": "true"
       }
     },
     {
@@ -192,8 +682,9 @@
       },
       "when": {
         "east": "false",
+        "facing": "up",
         "north": "false",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -203,8 +694,9 @@
       },
       "when": {
         "east": "false",
+        "facing": "up",
         "south": "false",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -214,8 +706,9 @@
       },
       "when": {
         "east": "false",
+        "facing": "up",
         "north": "true",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -225,8 +718,9 @@
       },
       "when": {
         "east": "false",
+        "facing": "up",
         "south": "true",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -235,6 +729,7 @@
         "y": 180
       },
       "when": {
+        "facing": "up",
         "south": "false"
       }
     },
@@ -245,6 +740,7 @@
       },
       "when": {
         "east": "false",
+        "facing": "up",
         "south": "true"
       }
     },
@@ -254,6 +750,7 @@
         "y": 180
       },
       "when": {
+        "facing": "up",
         "south": "true",
         "west": "false"
       }
@@ -264,8 +761,9 @@
         "y": 180
       },
       "when": {
-        "covered_south": "false",
-        "south": "true"
+        "facing": "up",
+        "south": "true",
+        "top": "true"
       }
     },
     {
@@ -274,20 +772,9 @@
         "y": 180
       },
       "when": {
-        "covered_south": "false",
+        "facing": "up",
         "south": "true",
-        "west": "true"
-      }
-    },
-    {
-      "apply": {
-        "model": "marioverse:block/water_spout_top_corner",
-        "y": 180
-      },
-      "when": {
-        "covered_south": "true",
-        "covered_west": "false",
-        "south": "true",
+        "top": "true",
         "west": "true"
       }
     },
@@ -297,8 +784,9 @@
         "y": 180
       },
       "when": {
+        "facing": "up",
         "south": "false",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -308,8 +796,9 @@
       },
       "when": {
         "east": "false",
+        "facing": "up",
         "south": "false",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -318,8 +807,9 @@
         "y": 180
       },
       "when": {
+        "facing": "up",
         "south": "false",
-        "surface": "true",
+        "top": "true",
         "west": "false"
       }
     },
@@ -330,8 +820,9 @@
       },
       "when": {
         "east": "true",
+        "facing": "up",
         "south": "false",
-        "surface": "true"
+        "top": "true"
       }
     },
     {
@@ -340,8 +831,9 @@
         "y": 180
       },
       "when": {
+        "facing": "up",
         "south": "false",
-        "surface": "true",
+        "top": "true",
         "west": "true"
       }
     },
@@ -351,6 +843,7 @@
         "y": 270
       },
       "when": {
+        "facing": "up",
         "west": "false"
       }
     },
@@ -360,6 +853,7 @@
         "y": 270
       },
       "when": {
+        "facing": "up",
         "south": "false",
         "west": "true"
       }
@@ -370,6 +864,7 @@
         "y": 270
       },
       "when": {
+        "facing": "up",
         "north": "false",
         "west": "true"
       }
@@ -380,7 +875,8 @@
         "y": 270
       },
       "when": {
-        "covered_west": "false",
+        "facing": "up",
+        "top": "true",
         "west": "true"
       }
     },
@@ -390,20 +886,9 @@
         "y": 270
       },
       "when": {
-        "covered_west": "false",
+        "facing": "up",
         "north": "true",
-        "west": "true"
-      }
-    },
-    {
-      "apply": {
-        "model": "marioverse:block/water_spout_top_corner",
-        "y": 270
-      },
-      "when": {
-        "covered_north": "false",
-        "covered_west": "true",
-        "north": "true",
+        "top": "true",
         "west": "true"
       }
     },
@@ -413,7 +898,8 @@
         "y": 270
       },
       "when": {
-        "surface": "true",
+        "facing": "up",
+        "top": "true",
         "west": "false"
       }
     },
@@ -423,8 +909,9 @@
         "y": 270
       },
       "when": {
+        "facing": "up",
         "south": "false",
-        "surface": "true",
+        "top": "true",
         "west": "false"
       }
     },
@@ -434,8 +921,9 @@
         "y": 270
       },
       "when": {
+        "facing": "up",
         "north": "false",
-        "surface": "true",
+        "top": "true",
         "west": "false"
       }
     },
@@ -445,8 +933,9 @@
         "y": 270
       },
       "when": {
+        "facing": "up",
         "south": "true",
-        "surface": "true",
+        "top": "true",
         "west": "false"
       }
     },
@@ -456,8 +945,1996 @@
         "y": 270
       },
       "when": {
+        "facing": "up",
         "north": "true",
-        "surface": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_center",
+        "x": 90
+      },
+      "when": {
+        "facing": "north",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 90
+      },
+      "when": {
+        "facing": "north",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 90
+      },
+      "when": {
+        "facing": "north",
+        "north": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "north",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 90
+      },
+      "when": {
+        "facing": "north",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "north",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 90
+      },
+      "when": {
+        "facing": "north",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 90
+      },
+      "when": {
+        "facing": "north",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "north",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 90
+      },
+      "when": {
+        "facing": "north",
+        "north": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "north",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_east",
+        "x": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left_east",
+        "x": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "north",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right_east",
+        "x": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "north",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge_east",
+        "x": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "north",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner_east",
+        "x": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "north",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_east",
+        "x": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "north",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left_east",
+        "x": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "north",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right_east",
+        "x": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "north",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left_east",
+        "x": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "north",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right_east",
+        "x": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "north",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "north",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "north",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "north",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "north": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "north": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "south": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right_east",
+        "x": 270,
+        "y": 180
+      },
+      "when": {
+        "facing": "north",
+        "north": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_center",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "north": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "south",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "south",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "south",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "north": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "south",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "south",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "south",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "south",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "true",
+        "facing": "south",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "south",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "south",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "south",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "south",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right_east",
+        "x": 90,
+        "y": 180
+      },
+      "when": {
+        "east": "false",
+        "facing": "south",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "south",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "south",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "south",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "north": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "north": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "south": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right_east",
+        "x": 270
+      },
+      "when": {
+        "facing": "south",
+        "north": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_center",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "north": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "west",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "west",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "west",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "north": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "west",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "west",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "west",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "west",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "west",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "west",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "west",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "west",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "west",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right_east",
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "west",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "west",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "west",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "west",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "north": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "north": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "south": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right_east",
+        "x": 270,
+        "y": 90
+      },
+      "when": {
+        "facing": "west",
+        "north": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_center",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "north": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "east",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "east",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "east",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "north": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "east",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "east",
+        "north": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "east",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "east",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "true",
+        "facing": "east",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "east",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "east",
+        "north": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "east",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "east",
+        "north": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right_east",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "east": "false",
+        "facing": "east",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "east",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "true",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "east": "false",
+        "facing": "east",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "east": "true",
+        "facing": "east",
+        "south": "false",
+        "top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "false",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_left_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_side_right_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "north": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_edge_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_top_corner_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "north": "true",
+        "top": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_left_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_right_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "north": "false",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_left_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "south": "true",
+        "top": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "marioverse:block/water_spout_splash_extend_right_east",
+        "x": 270,
+        "y": 270
+      },
+      "when": {
+        "facing": "east",
+        "north": "true",
+        "top": "true",
         "west": "false"
       }
     }
