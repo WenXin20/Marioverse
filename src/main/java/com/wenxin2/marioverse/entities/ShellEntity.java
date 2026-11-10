@@ -101,6 +101,7 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
     public final Set<UUID> entityCollided = new HashSet<>();
     public Vec3 slidingMovement = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
     @Nullable private UUID ownerUUID;
+    @Nullable private UUID angerTargetUUID;
     @Nullable private Entity cachedOwner;
     private boolean leftOwner;
     private int holdTicks;
@@ -157,6 +158,8 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
             tag.putUUID("Owner", this.ownerUUID);
         if (this.leftOwner)
             tag.putBoolean("LeftOwner", true);
+        if (this.angerTargetUUID != null)
+            tag.putUUID("AngerTarget", this.angerTargetUUID);
     }
 
     @Override
@@ -170,6 +173,9 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
             this.ownerUUID = tag.getUUID("Owner");
             this.cachedOwner = null;
         }
+
+        if (tag.hasUUID("AngerTarget"))
+            this.angerTargetUUID = tag.getUUID("AngerTarget");
     }
 
     @Override
@@ -572,6 +578,18 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         return holderId != -1 && this.level().getEntity(holderId) instanceof LivingEntity holder ? holder : null;
     }
 
+    @Nullable
+    public LivingEntity getAngerTarget() {
+        if (this.angerTargetUUID != null && this.level() instanceof ServerLevel serverLevel
+                && serverLevel.getEntity(this.angerTargetUUID) instanceof LivingEntity holder)
+            return holder;
+        return null;
+    }
+
+    public void setAngerTarget(@Nullable UUID angerTargetUUID) {
+        this.angerTargetUUID = angerTargetUUID;
+    }
+
     public void setOwner(@Nullable Entity ownerEntity) {
         if (ownerEntity != null) {
             this.ownerUUID = ownerEntity.getUUID();
@@ -644,18 +662,19 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
                 .subtract(0.0, this.getBbHeight() * 0.5, 0.0);
     }
 
-    public void startHolding(Player player) {
+    public void startHolding(LivingEntity holder) {
         float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
-        Vec3 holdPos = this.getHoldPosition(player, 1.0F);
+        Vec3 holdPos = this.getHoldPosition(holder, 1.0F);
 
         this.setDeltaMovement(Vec3.ZERO);
         this.slidingMovement = Vec3.ZERO;
         this.setSliding(false);
         this.holdTicks = 0;
-        this.entityData.set(DATA_HOLDER_ID, player.getId());
-        this.entityData.set(DATA_HELD_SLOT, player.getInventory().selected);
+        this.entityData.set(DATA_HOLDER_ID, holder.getId());
+        this.angerTargetUUID = holder.getUUID();
+        this.entityData.set(DATA_HELD_SLOT, holder instanceof Player player ? player.getInventory().selected : -1);
         this.setPos(holdPos.x, holdPos.y, holdPos.z);
-        this.level().playSound(null, player.blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 1.0F, pitch);
+        this.level().playSound(null, holder.blockPosition(), SoundEvents.ITEM_PICKUP, holder.getSoundSource(), 1.0F, pitch);
     }
 
     public void releaseHold() {

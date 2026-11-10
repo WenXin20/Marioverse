@@ -1,3 +1,11 @@
+## Update 1.12.3
+- Added the ability to pickup shells and throw shells 
+  - The koopa will wake up and attack if held too long
+  - Shells can be pickup as an item only if the koopa is killed
+- Added the ability for water spouts to face any direction
+
+Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
+
 ## Update 1.12.2
 - Added Dramatic Doors compat for warp doors, configurable
 - Added Fast Paintings compat for warp paintings, existing warp paintings keep their links
@@ -7,8 +15,6 @@
 - Fixed the entity tag `cannot_reward_one_ups` not working
 - Changed warp door & trapdoor recipes to allow recipe changes via datapack
 - Changed water spouts to connect the model to make wider spouts
-
-Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
 ## Update 1.12.1
 - Fixed a startup crash with Plastic Buckets if no fluids were registered by other mods

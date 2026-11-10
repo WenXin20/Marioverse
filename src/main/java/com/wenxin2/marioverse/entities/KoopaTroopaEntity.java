@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -109,6 +110,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
     private boolean droppedShellItem;
+    @Nullable private UUID stomperUUID;
 
     public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
         super(type, world);
@@ -245,6 +247,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
             this.ejectPassengers();
             this.hideTicks = this.getHideDuration();
             this.hideAnimationTicks = 15;
+            this.stomperUUID = source.getEntity() instanceof LivingEntity stomper ? stomper.getUUID() : null;
             this.triggerAnim("hide_controller", "hide");
             this.level().playSound(null, this.blockPosition(), SoundRegistry.KOOPA_TROOPA_STOMP.get(),
                     SoundSource.HOSTILE, 1.0F, pitch);
@@ -594,6 +597,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
 
             shell.setBounceCount(this.getBounceCount());
             shell.setHideTicks(hideTicks);
+            shell.setAngerTarget(this.stomperUUID);
             shell.setPos(this.getX(), this.getY(), this.getZ());
             shell.setYRot(this.getYRot());
             shell.setXRot(this.getXRot());

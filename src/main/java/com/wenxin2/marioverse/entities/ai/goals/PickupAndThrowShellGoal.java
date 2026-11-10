@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.Optional;
+import javax.annotation.Nullable;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -26,6 +27,7 @@ import net.minecraft.world.phys.AABB;
 
 public class PickupAndThrowShellGoal extends Goal {
     private ItemStack heldShell = ItemStack.EMPTY;
+    @Nullable private ShellEntity heldEntityShell;
     private LivingEntity target;
     private final Mob mob;
     private int aimingTicks = 0;
@@ -45,7 +47,7 @@ public class PickupAndThrowShellGoal extends Goal {
 
         if (this.mob.getMainHandItem().getItem() instanceof KoopaShellItem
                 || this.mob.getOffhandItem().getItem() instanceof KoopaShellItem
-                || !heldShell.isEmpty()) {
+                || !heldShell.isEmpty() || this.isHoldingEntityShell()) {
             this.target = this.mob.getTarget();
             return true;
         } else return this.findNearbyShell() != null;
@@ -61,8 +63,9 @@ public class PickupAndThrowShellGoal extends Goal {
         boolean hasShellInMainHand = this.mob.getMainHandItem().getItem() instanceof KoopaShellItem;
         boolean hasShellInOffHand = this.mob.getOffhandItem().getItem() instanceof KoopaShellItem;
         boolean hasShellInMemory = !heldShell.isEmpty();
+        boolean hasEntityShell = this.isHoldingEntityShell();
 
-        if ((hasShellInMainHand || hasShellInOffHand || hasShellInMemory)) {
+        if ((hasShellInMainHand || hasShellInOffHand || hasShellInMemory || hasEntityShell)) {
             if (target != null)
                 this.mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
             this.mob.yRotO = this.mob.getYHeadRot();
@@ -76,12 +79,14 @@ public class PickupAndThrowShellGoal extends Goal {
             if (!(mob instanceof Monster) && !(mob instanceof AbstractGolem)) {
                 this.throwShellAt(hasShellInMainHand ? this.mob.getMainHandItem() : heldShell);
                 this.throwShellAt(hasShellInOffHand ? this.mob.getOffhandItem() : heldShell);
+                this.throwHeldEntityShell();
                 cooldown = 100;
             } else if (target != null && this.mob.distanceToSqr(target) < 16 * 16
                     && this.mob.getSensing().hasLineOfSight(target)
                     && this.mob.getLookControl().isLookingAtTarget()) {
                 this.throwShellAt(hasShellInMainHand ? this.mob.getMainHandItem() : heldShell);
                 this.throwShellAt(hasShellInOffHand ? this.mob.getOffhandItem() : heldShell);
+                this.throwHeldEntityShell();
                 cooldown = 100;
                 aimingTicks = 0;
             }
@@ -101,7 +106,7 @@ public class PickupAndThrowShellGoal extends Goal {
         AABB searchBox = this.mob.getBoundingBox().inflate(8.0);
 
         Optional<ShellEntity> entityShell = level.getEntitiesOfClass(ShellEntity.class, searchBox)
-                .stream().filter(e -> e.getDeltaMovement().lengthSqr() < 0.1 && e.isAlive() && e.isEmptyShell() && !e.isHeld())
+                .stream().filter(e -> e.getDeltaMovement().lengthSqr() < 0.1 && e.isAlive() && !e.isHeld() && e.canStayHeld())
                 .min(Comparator.comparingDouble(mob::distanceToSqr));
 
         if (entityShell.isPresent()) return entityShell.get();
@@ -141,6 +146,10 @@ public class PickupAndThrowShellGoal extends Goal {
             this.mob.level().playSound(mob, this.mob.blockPosition(), SoundEvents.ITEM_PICKUP,
                     SoundSource.NEUTRAL, 1.0F, pitch);
             shell.discard();
+        } else if (entity instanceof ShellEntity shell && !shell.isEmptyShell()) {
+            shell.startHolding(this.mob);
+            heldEntityShell = shell;
+            this.mob.swing(InteractionHand.MAIN_HAND);
         }
     }
 
@@ -179,5 +188,21 @@ public class PickupAndThrowShellGoal extends Goal {
         } catch (IllegalArgumentException e) {
             return false;
         }
+    }
+
+    private boolean isHoldingEntityShell() {
+        if (this.heldEntityShell != null && (!this.heldEntityShell.isAlive() || this.heldEntityShell.getHolder() != this.mob))
+            this.heldEntityShell = null;
+        return this.heldEntityShell != null;
+    }
+
+    private void throwHeldEntityShell() {
+        if (!this.isHoldingEntityShell())
+            return;
+
+        this.heldEntityShell.throwFrom(this.mob);
+        this.mob.swing(InteractionHand.MAIN_HAND);
+        this.heldEntityShell = null;
+        cooldown = 100;
     }
 }

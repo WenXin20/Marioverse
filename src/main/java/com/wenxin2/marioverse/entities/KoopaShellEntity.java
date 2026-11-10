@@ -213,6 +213,13 @@ public class KoopaShellEntity extends ShellEntity {
         }
 
         this.level().addFreshEntity(troopa);
+
+        LivingEntity angerTarget = this.getAngerTarget();
+        if (angerTarget != null && angerTarget.isAlive() && troopa.canAttack(angerTarget)) {
+            troopa.setLastHurtByMob(angerTarget);
+            troopa.setTarget(angerTarget);
+        }
+
         this.discard();
     }
 
