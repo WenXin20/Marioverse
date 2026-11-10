@@ -24,9 +24,11 @@ public class ThrowHeldShellPacket {
                 if (shell == null || shell.getHoldTicks() < ShellEntity.THROW_DELAY_TICKS)
                     return;
 
-                if (payload.place())
-                    shell.placeFrom(player);
-                else shell.throwFrom(player);
+                if (payload.place()) {
+                    if (!player.canInteractWithBlock(payload.placePos(), 1.0)
+                            || !shell.placeAt(player, payload.placePos()))
+                        return;
+                } else shell.throwFrom(player);
 
                 player.swing(InteractionHand.MAIN_HAND, true);
             });

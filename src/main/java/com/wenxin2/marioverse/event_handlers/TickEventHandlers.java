@@ -8,7 +8,6 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.MegaMushroomItem;
@@ -55,7 +54,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -729,17 +727,8 @@ public class TickEventHandlers {
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
         boolean didHit = false;
-        Direction direction;
-
-        if (Math.abs(diffX) > Math.abs(diffZ))
-            direction = diffX > 0 ? Direction.EAST : Direction.WEST;
-        else direction = diffZ > 0 ? Direction.SOUTH : Direction.NORTH;
-        Vec3 hitPos = Vec3.atCenterOf(pos).subtract(Vec3.atLowerCornerOf(direction.getNormal()).scale(0.5));
-        BlockHitResult hitResult = new BlockHitResult(hitPos, direction, pos, false);
 
         if (state.is(BlockRegistry.ON_OFF_SWITCH) && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)) {
-            if (entity instanceof ShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
-                shell.bounceShell(level, hitResult);
             OnOffSwitchBlock.hitSwitchBlockFromSide(level, pos, entity);
             didHit = true;
         }
@@ -747,15 +736,11 @@ public class TickEventHandlers {
         if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
                 && blockEntity instanceof QuestionBlockEntity
                 && !(state.hasProperty(QuestionBlock.EMPTY) && state.getValue(QuestionBlock.EMPTY))) {
-            if (entity instanceof ShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
-                shell.bounceShell(level, hitResult);
             QuestionBlock.hitQuestionBlockFromSide(level, pos, entity);
             didHit = true;
         }
 
         if (!didHit && state.is(TagRegistry.SMASHABLE_BLOCKS) && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)) {
-            if (entity instanceof ShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
-                shell.bounceShell(level, hitResult);
             SmashableBrickBlock.smashBlock(level, pos, state, entity);
             didHit = true;
         }
@@ -767,8 +752,6 @@ public class TickEventHandlers {
         }
 
         if (!didHit && state.is(TagRegistry.BONKABLE_BLOCKS) && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)) {
-            if (entity instanceof ShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
-                shell.bounceShell(level, hitResult);
             StorageBrickBlock.bonkBlockFromSide(level, pos, state);
             didHit = true;
         }

@@ -103,6 +103,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -622,8 +624,16 @@ public class ClientEventHandlers {
         event.setCanceled(true);
         event.setSwingHand(false);
 
-        if (heldShell.getHoldTicks() >= ShellEntity.THROW_DELAY_TICKS) {
-            PacketDistributor.sendToServer(new ThrowHeldShellPayload(player.isShiftKeyDown()));
+        if (heldShell.getHoldTicks() < ShellEntity.THROW_DELAY_TICKS)
+            return;
+
+        if (!player.isShiftKeyDown()) {
+            PacketDistributor.sendToServer(new ThrowHeldShellPayload(false, BlockPos.ZERO));
+            player.swing(InteractionHand.MAIN_HAND);
+        } else if (Minecraft.getInstance().hitResult instanceof BlockHitResult blockHit
+                && blockHit.getType() == HitResult.Type.BLOCK) {
+            PacketDistributor.sendToServer(new ThrowHeldShellPayload(true,
+                    blockHit.getBlockPos().relative(blockHit.getDirection())));
             player.swing(InteractionHand.MAIN_HAND);
         }
     }

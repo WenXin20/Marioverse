@@ -1,17 +1,13 @@
 package com.wenxin2.marioverse.entities;
 
 import com.google.common.base.MoreObjects;
-import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.integration.automobility_compat.AutomobilityEntityProvider;
-import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
-import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
-import com.wenxin2.marioverse.registries.DamageTypeRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -22,7 +18,6 @@ import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -46,7 +41,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Crackiness;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -62,17 +56,12 @@ import net.minecraft.world.entity.vehicle.VehicleEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -105,6 +94,7 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
     @Nullable private Entity cachedOwner;
     private boolean leftOwner;
     private int holdTicks;
+    private int lastBounceDamageTick = -1;
 
     public ShellEntity(EntityType<? extends ShellEntity> type, Level world) {
         super(type, world);
@@ -195,8 +185,6 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
     @Override
     public void tick() {
         super.tick();
-        Vec3 motion = this.getDeltaMovement();
-
         this.tickHolding();
 
         if (this.isSliding())
@@ -210,59 +198,13 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
             this.discard();
         }
 
-        if (this.isAlive() && !this.isNoAi()) {
-            this.collideWithWall(this.level());
-        }
-
-        if (this.isSliding() && this.isAlive() && !this.isNoAi()) {
-            BlockPos posBelow = this.blockPosition().below();
-            BlockState stateBelow = level().getBlockState(posBelow);
-            float friction = stateBelow.getFriction(level(), posBelow, this);
-            double slideFriction = /*(friction > 0.8) ? 0.4 + friction / 1.5 :*/ 1.0;
-            Vec3 slideMotion = this.slidingMovement.scale(slideFriction);
-
-            if (this.getLastDamageSource() != null
-                    && this.getDeltaMovement().horizontalDistance() > 0
-                    && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-                    || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
-                this.setDeltaMovement(Vec3.ZERO);
-                this.slidingMovement = Vec3.ZERO;
-            } else if (this.getLastDamageSource() != null
-                    && this.getLastDamageSource().getEntity() != null
-                    && this.getDeltaMovement().horizontalDistance() == 0
-                    && (this.getLastDamageSource().is(DamageTypeRegistry.STOMP)
-                    || this.getLastDamageSource().is(DamageTypeRegistry.PLAYER_STOMP))) {
-                Vec3 lookDir = this.getLastDamageSource().getEntity().getLookAngle().normalize();
-                Vec3 horizontalDir = new Vec3(lookDir.x, 0, lookDir.z).normalize();
-                Vec3 newSlideMotion = horizontalDir.scale(1.2);
-
-                this.setDeltaMovement(newSlideMotion.x, this.getDeltaMovement().y, newSlideMotion.z);
-                this.slidingMovement = new Vec3(newSlideMotion.x, this.getDeltaMovement().y, newSlideMotion.z);
-                this.hasImpulse = true;
-            } else if ((this.onGround()) && motion.horizontalDistance() > 0.0001) {
-                this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
-                this.slidingMovement = new Vec3(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
-                this.hasImpulse = true;
-            } else if (this.isInWaterOrBubble() && !this.isNoGravity()) {
-                this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y - this.getAttributeValue(Attributes.GRAVITY), slideMotion.z);
-            }
-        }
-
-        if (!this.isNoAi()) {
-            if (motion.length() == 0) {
-                this.setSliding(false);
-            } else if (!this.isSliding() && this.isAlive() && motion.horizontalDistance() > 0.0001) {
-                this.setSliding(true);
-                this.setDeltaMovement(motion);
-                this.slidingMovement = motion;
-                this.hasImpulse = true;
-            }
-        }
-
-        if (this.isDeadOrDying()) {
-            this.setSliding(false);
-            this.setDeltaMovement(Vec3.ZERO);
+        if (this.isDeadOrDying())
             this.slidingMovement = Vec3.ZERO;
+
+        if (!this.level().isClientSide) {
+            boolean sliding = this.isMovingShell() && !this.isHeld() && this.isAlive();
+            if (sliding != this.isSliding())
+                this.setSliding(sliding);
         }
     }
 
@@ -291,21 +233,16 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         if (this.isHeld())
             return;
 
-        Vec3 lookDir = entity.getLookAngle().normalize();
-        Vec3 horizontalDir = new Vec3(lookDir.x, 0, lookDir.z).normalize();
-        Vec3 slideMotion = horizontalDir.scale(1.2);
-
         if (this.getOwner() == null) {
             this.setOwner(entity);
             this.leftOwner = false;
         }
 
-        if ((this.onGround()) && entity.getDeltaMovement().horizontalDistance() > 0
-                && (this.getOwner() == null || this.getOwner() == entity)) {
-            this.setDeltaMovement(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
-            this.slidingMovement = new Vec3(slideMotion.x, this.getDeltaMovement().y, slideMotion.z);
-            this.hasImpulse = true;
-        }
+        if (!this.level().isClientSide && !this.isNoAi() && !this.isMovingShell() && this.onGround()
+                && entity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-4
+                && (this.getOwner() == null || this.getOwner() == entity))
+            this.kick(this.getKickDirection(entity), entity);
+
         super.push(entity);
     }
 
@@ -329,55 +266,16 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         if (this.isHeld() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY))
             return false;
 
-        Level world = this.level();
-        BlockPos posBelow = this.blockPosition().below();
-        BlockState stateBelow = world.getBlockState(posBelow);
-
         if (source.is(TagRegistry.FLIPS_KOOPA_SHELL))
             this.triggerAnim("flip_controller", "flip");
 
-        if (source.is(TagRegistry.STOPS_KOOPA_SHELL)) {
-            if (this.slidingMovement != Vec3.ZERO) {
-                this.setXxa(0.0F);
-                this.setSpeed(0.0F);
-                this.setDeltaMovement(0, this.getDeltaMovement().y, 0);
-                this.slidingMovement = new Vec3(0, this.getDeltaMovement().y, 0);
-                this.setSliding(false);
-            }
-        }
-
-        if (!source.is(TagRegistry.FLIPS_KOOPA_SHELL) && !source.is(TagRegistry.STOPS_KOOPA_SHELL)
-                || this.slidingMovement == Vec3.ZERO) {
-            float friction = stateBelow.getFriction(world, posBelow, this);
-            double slideSpeed;
-
-            if (friction > 0.6)
-                slideSpeed = 0.4 + friction / 1.5;
-            else slideSpeed = 1.0;
-
-            Vec3 slideDirection = new Vec3(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
-
-            if (source.getEntity() != null) {
-                Vec3 attackerPos = source.getEntity().position();
-                Vec3 hitPos = this.position();
-                Vec3 slideDirRaw = hitPos.subtract(attackerPos).normalize();
-                slideDirection = new Vec3(slideDirRaw.x, this.getDeltaMovement().y, slideDirRaw.z).normalize();
-            } else if (source.getDirectEntity() != null)
-                slideDirection = source.getDirectEntity().getDeltaMovement().normalize();
-
-            Vec3 movement = slideDirection.scale(slideSpeed);
-
-            if (!isNoAi()) {
-                this.setDeltaMovement(movement.x, this.getDeltaMovement().y, movement.z);
-                this.slidingMovement = new Vec3(movement.x, this.getDeltaMovement().y, movement.z);
-                this.setSliding(true);
-                this.hasImpulse = true;
-
-                if (this.getOwner() == null || source.getEntity() instanceof Player) {
-                    this.setOwner(source.getEntity());
-                    this.leftOwner = false;
-                }
-            }
+        if (!this.level().isClientSide && !this.isNoAi()) {
+            if (source.is(TagRegistry.STOPS_KOOPA_SHELL) && this.isMovingShell())
+                this.stopSliding();
+            else if (source.getEntity() != null)
+                this.kick(this.getKickDirection(source.getEntity()), source.getEntity());
+            else if (source.getDirectEntity() != null)
+                this.kick(source.getDirectEntity().getDeltaMovement(), null);
         }
         return super.hurt(source, amount);
     }
@@ -390,52 +288,53 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
 
     @Override
     public void travel(Vec3 vec3) {
-        if (this.isHeld())
+        if (this.isHeld() || !this.isControlledByLocalInstance())
             return;
 
-        if (this.isControlledByLocalInstance()) {
-            double d9 = this.getY();
-            double d0 = this.getGravity();
-            boolean flag = this.getDeltaMovement().y <= 0.0;
-            FluidState fluidstate = this.level().getFluidState(this.blockPosition());
-            if (flag && this.hasEffect(MobEffects.SLOW_FALLING))
-                d0 = Math.min(d0, 0.01);
+        if (this.isNoAi()) {
+            super.travel(vec3);
+            return;
+        }
 
-            if ((this.isInWaterOrBubble() || (this.isInFluidType(fluidstate)
-                    && fluidstate.getFluidType() != NeoForgeMod.LAVA_TYPE.value()))
-                    && this.isAffectedByFluids() && !this.canStandOnFluid(fluidstate)) {
-                if (this.isInWaterOrBubble() || (this.isInFluidType(fluidstate)
-                        && !this.moveInFluid(fluidstate, vec3, d0))) {
-                    float f4 = this.isSprinting() ? 0.9F : this.getWaterSlowDown();
-                    float f5 = 0.02F;
-                    float f6 = (float) this.getAttributeValue(Attributes.WATER_MOVEMENT_EFFICIENCY);
+        Vec3 motion = this.getDeltaMovement();
+        boolean inFluid = !this.level().getFluidState(this.blockPosition()).isEmpty();
+        boolean moving = this.isMovingShell();
+        double fluidScale = inFluid ? 0.5 : 1.0;
+        double horizontalX;
+        double horizontalZ;
+        double verticalY;
 
-                    if (!this.onGround())
-                        f6 *= 1.0F;
+        if (moving) {
+            if (this.onGround())
+                this.slidingMovement = new Vec3(this.slidingMovement.x, 0.0, this.slidingMovement.z).normalize().scale(this.getSlideSpeed());
+            horizontalX = this.slidingMovement.x * fluidScale;
+            horizontalZ = this.slidingMovement.z * fluidScale;
+        } else {
+            double drag = this.onGround() ? 0.5 : 0.91;
+            horizontalX = motion.x * drag;
+            horizontalZ = motion.z * drag;
+        }
 
-                    if (f6 > 0.0F) {
-                        f4 += (0.54600006F - f4) * f6;
-                        f5 += (this.getSpeed() - f5) * f6;
-                    }
+        if (inFluid)
+            verticalY = motion.y * 0.8 - this.getGravity() * 0.25;
+        else verticalY = (motion.y - this.getGravity()) * 0.98;
 
-                    if (this.hasEffect(MobEffects.DOLPHINS_GRACE))
-                        f4 = 0.96F;
+        Vec3 intended = new Vec3(horizontalX, verticalY, horizontalZ);
+        this.setDeltaMovement(intended);
+        this.move(MoverType.SELF, intended);
+        Vec3 result = this.getDeltaMovement();
 
-                    f5 *= (float) this.getAttributeValue(NeoForgeMod.SWIM_SPEED);
-                    this.moveRelative(f5, vec3);
-                    this.move(MoverType.SELF, this.getDeltaMovement());
-                    Vec3 vec36 = this.getDeltaMovement();
-                    if (this.horizontalCollision && this.onClimbable())
-                        vec36 = new Vec3(vec36.x, 0.5, vec36.z);
+        if (moving && this.horizontalCollision) {
+            boolean blockedX = Math.abs(horizontalX) > 1.0E-5 && result.x == 0.0;
+            boolean blockedZ = Math.abs(horizontalZ) > 1.0E-5 && result.z == 0.0;
 
-                    this.setDeltaMovement(vec36.multiply(f4, 0.7F, f4));
-                    Vec3 vec32 = this.getFluidFallingAdjustedMovement(d0, flag, this.getDeltaMovement());
-                    this.setDeltaMovement(vec32);
-                    if (this.horizontalCollision
-                            && this.isFree(vec32.x, vec32.y + 0.6F - this.getY() + d9, vec32.z))
-                        this.setDeltaMovement(vec32.x, 0.5F, vec32.z);
-                }
-            } else super.travel(vec3);
+            if (blockedX || blockedZ) {
+                this.slidingMovement = new Vec3(blockedX ? -this.slidingMovement.x : this.slidingMovement.x, 0.0,
+                        blockedZ ? -this.slidingMovement.z : this.slidingMovement.z);
+                this.setDeltaMovement(this.slidingMovement.x * fluidScale, result.y, this.slidingMovement.z * fluidScale);
+                this.hasImpulse = true;
+                this.onWallBounce();
+            }
         }
     }
 
@@ -524,7 +423,17 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         return true;
     }
 
+    public double getSlideSpeed() {
+        return 0.7;
+    }
+
+    public boolean isMovingShell() {
+        return this.slidingMovement.horizontalDistanceSqr() > 1.0E-4;
+    }
+
     protected void onPlaced() {}
+
+    protected void onStartMoving() {}
 
     protected <E extends GeoAnimatable> PlayState walkAnimation(final AnimationState<E> event) {
         if (this.isSliding()) {
@@ -628,8 +537,7 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         Vec3 motion = this.slidingMovement;
         this.setDeltaMovement(new Vec3(-motion.x, motion.y, -motion.z));
         this.slidingMovement = new Vec3(-motion.x, motion.y, -motion.z);
-        if (this.getBounceCount() != -1)
-            this.setBounceCount(this.getBounceCount() + 1);
+        this.addBounceDamage();
     }
 
     @Nullable
@@ -637,6 +545,12 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         List<ShellEntity> shells = holder.level().getEntitiesOfClass(ShellEntity.class, holder.getBoundingBox().inflate(4.0),
                 shell -> shell.entityData.get(DATA_HOLDER_ID) == holder.getId());
         return shells.isEmpty() ? null : shells.getFirst();
+    }
+
+    public static float getHolderYaw(Entity holder, float partialTick) {
+        if (holder instanceof LivingEntity livingHolder && !(holder instanceof Player))
+            return Mth.rotLerp(partialTick, livingHolder.yBodyRotO, livingHolder.yBodyRot);
+        return holder.getViewYRot(partialTick);
     }
 
     public static ItemStack createShellItem(SpawnEggItem item, int bounceCount) {
@@ -653,13 +567,44 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
 
     public Vec3 getHoldPosition(Entity holder, float partialTick) {
         float xRot = holder.getViewXRot(partialTick);
-        float yRot = holder.getViewYRot(partialTick);
+        float yRot = ShellEntity.getHolderYaw(holder, partialTick);
         Vec3 look = Vec3.directionFromRotation(xRot, yRot);
         Vec3 up = Vec3.directionFromRotation(xRot - 90.0F, yRot);
         double distance = holder.getBbWidth() * 0.5 + this.getBbWidth() * 0.5 + 0.35;
 
         return holder.getEyePosition(partialTick).add(look.scale(distance)).add(up.scale(-0.45))
                 .subtract(0.0, this.getBbHeight() * 0.5, 0.0);
+    }
+
+    public void kick(Vec3 direction, @Nullable Entity kicker) {
+        Vec3 horizontal = new Vec3(direction.x, 0.0, direction.z);
+
+        if (horizontal.lengthSqr() < 1.0E-6)
+            return;
+
+        this.slidingMovement = horizontal.normalize().scale(this.getSlideSpeed());
+        this.onStartMoving();
+        this.setDeltaMovement(this.slidingMovement.x, this.getDeltaMovement().y, this.slidingMovement.z);
+        this.hasImpulse = true;
+
+        if (kicker != null && (this.getOwner() == null || kicker instanceof Player)) {
+            this.setOwner(kicker);
+            this.leftOwner = false;
+        }
+    }
+
+    public void stopSliding() {
+        this.slidingMovement = Vec3.ZERO;
+        this.setDeltaMovement(0.0, this.getDeltaMovement().y, 0.0);
+        this.hasImpulse = true;
+    }
+
+    private Vec3 getKickDirection(Entity kicker) {
+        Vec3 away = this.position().subtract(kicker.position());
+
+        if (away.horizontalDistanceSqr() > 0.01)
+            return away;
+        return kicker.getLookAngle();
     }
 
     public void startHolding(LivingEntity holder) {
@@ -713,9 +658,10 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         this.holdTicks++;
         this.setDeltaMovement(Vec3.ZERO);
         this.setPos(holdPos.x, holdPos.y, holdPos.z);
-        this.setYRot(holder.getYRot());
-        this.yBodyRot = holder.getYRot();
-        this.setYHeadRot(holder.getYRot());
+        float holderYaw = ShellEntity.getHolderYaw(holder, 1.0F);
+        this.setYRot(holderYaw);
+        this.yBodyRot = holderYaw;
+        this.setYHeadRot(holderYaw);
 
         if (!this.level().isClientSide && (!holder.isAlive() || holder.isSpectator() || !this.canStayHeld()
                 || (holder instanceof Player player && player.getInventory().selected != this.getHeldSlot())))
@@ -756,28 +702,33 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
                     SoundSource.PLAYERS, 1.0F, pitch);
         }
 
+        Vec3 thrownMotion = this.getDeltaMovement();
+        this.slidingMovement = thrownMotion.horizontalDistanceSqr() > 0.0025
+                ? new Vec3(thrownMotion.x, 0.0, thrownMotion.z) : Vec3.ZERO;
+        this.onStartMoving();
         this.hasImpulse = true;
         this.setOwner(thrower);
         this.leftOwner = false;
     }
 
-    public void placeFrom(LivingEntity placer) {
+    public boolean placeAt(LivingEntity placer, BlockPos pos) {
+        Vec3 placePos = Vec3.atBottomCenterOf(pos);
+        AABB placeBox = this.getDimensions(this.getPose()).makeBoundingBox(placePos);
+
+        if (!this.level().noCollision(this, placeBox) || placeBox.intersects(placer.getBoundingBox()))
+            return false;
+
         float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
-        float yaw = placer.getYRot() * Mth.DEG_TO_RAD;
-        double distance = placer.getBbWidth() * 0.5 + this.getBbWidth() * 0.5 + 0.2;
-        Vec3 placePos = new Vec3(placer.getX() - Mth.sin(yaw) * distance, placer.getY(), placer.getZ() + Mth.cos(yaw) * distance);
+        float placerYaw = ShellEntity.getHolderYaw(placer, 1.0F);
 
         this.releaseHold();
-
-        if (this.level().noCollision(this, this.getDimensions(this.getPose()).makeBoundingBox(placePos)))
-            this.setPos(placePos.x, placePos.y, placePos.z);
-        else this.setPos(placer.getX(), placer.getY(), placer.getZ());
-
-        this.setYRot(placer.getYRot());
-        this.yBodyRot = placer.getYRot();
-        this.setYHeadRot(placer.getYRot());
+        this.setPos(placePos.x, placePos.y, placePos.z);
+        this.setYRot(placerYaw);
+        this.yBodyRot = placerYaw;
+        this.setYHeadRot(placerYaw);
         this.onPlaced();
         this.level().playSound(null, this.blockPosition(), SoundEvents.ARMOR_EQUIP_TURTLE.value(), SoundSource.PLAYERS, 1.0F, pitch);
+        return true;
     }
 
     private InteractionResult pickUpAsItem(Player player) {
@@ -796,112 +747,19 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         return InteractionResult.SUCCESS;
     }
 
-    public void collideWithWall(Level level) {
-        Vec3 motion = this.slidingMovement;
-        double horizontalSpeed = motion.horizontalDistance();
-        if (horizontalSpeed < 1e-6) return;
-
-        Vec3 horizontalDir = new Vec3(motion.x, 0, motion.z);
-        if (horizontalDir.lengthSqr() < 1e-6) return;
-
-        horizontalDir = horizontalDir.normalize();
-        Vec3 perpendicular = new Vec3(-horizontalDir.z, 0, horizontalDir.x);
-        Vec3 rayOrigin = this.position().add(0, this.getBbHeight() * 0.6, 0);
-        BlockHitResult closestHit = null;
-        double closestAlong = Double.MAX_VALUE;
-        double halfWidth = this.getBbWidth() * 0.5;
-        double rayLength = horizontalSpeed;
-
-        Object object = null;
-        if (SableProvider.isLoaded())
-            object = SableProvider.getContext(level, this);
-
-        for (double offset : new double[]{0, -halfWidth, halfWidth}) {
-            Vec3 start = rayOrigin.add(perpendicular.scale(offset));
-            Vec3 end = start.add(horizontalDir.scale(rayLength));
-            BlockHitResult hitResult = level.clip(new ClipContext(start, end, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-            BlockState state = level.getBlockState(hitResult.getBlockPos());
-
-            if (object instanceof SableProvider.SableContext context) {
-                BlockPos pos = hitResult.getBlockPos();
-                BlockPos base = BlockPos.containing(context.posLocal);
-                BlockPos localPos = context.posEmbedded
-                        .offset(pos.getX() - base.getX(),
-                                pos.getY() - base.getY(),
-                                pos.getZ() - base.getZ());
-                state = context.accessor.getBlockState(localPos);
-
-                if (level instanceof ServerLevel) {
-                    localPos = context.posWorld
-                            .offset(pos.getX() - base.getX(),
-                                    pos.getY() - base.getY(),
-                                    pos.getZ() - base.getZ());
-                    state = context.accessor.getServerBlockState(localPos);
-                }
-
-                if (!state.isSolid()) continue;
-
-                Vec3 hitPos = hitResult.getLocation();
-                hitResult = new BlockHitResult(hitPos, hitResult.getDirection(), pos, hitResult.isInside());
-            }
-
-            if (state.is(BlockRegistry.ON_OFF_SWITCH)
-                    || state.is(TagRegistry.BONKABLE_BLOCKS)
-                    || state.is(TagRegistry.SMASHABLE_BLOCKS)
-                    || (state.hasProperty(QuestionBlock.EMPTY) && !state.getValue(QuestionBlock.EMPTY)))
-                continue;
-
-            if (hitResult.getType() != HitResult.Type.BLOCK) continue;
-            if (hitResult.getDirection().getAxis() == Direction.Axis.Y) continue;
-
-            double along = hitResult.getLocation().subtract(start).dot(horizontalDir);
-
-            if (along < closestAlong) {
-                closestAlong = along;
-                closestHit = hitResult;
-            }
-        }
-
-        if (closestHit != null)
-            this.bounceShell(level, closestHit);
-    }
-
-    public void bounceShell(Level level, BlockHitResult hitResult) {
+    protected void onWallBounce() {
         float pitch = 0.8F + this.level().random.nextFloat() * 0.3F;
-        Direction direction = hitResult.getDirection();
 
-        if (direction.getAxis() == Direction.Axis.Y)
-            return;
+        if (this.level() instanceof ServerLevel server) {
+            Vec3 direction = this.slidingMovement.normalize().scale(-this.getBbWidth() * 0.5);
+            server.sendParticles(ParticleTypes.CRIT, this.getX() + direction.x, this.getY() + this.getBbHeight() * 0.5,
+                    this.getZ() + direction.z, 3, 0.1, 0.1, 0.1, 0.0);
 
-        Vec3 motion = this.slidingMovement;
-        double speed = motion.horizontalDistance();
-        if (speed < 1e-6) return;
-        if (level.getBlockState(hitResult.getBlockPos()).isAir()) return;
-
-        double newX = motion.x;
-        double newZ = motion.z;
-        if (direction.getAxis() == Direction.Axis.X)
-            newX = -motion.x;
-        else if (direction.getAxis() == Direction.Axis.Z)
-            newZ = -motion.z;
-
-        Vec3 newMotion = new Vec3(newX, 0, newZ).normalize().scale(speed).add(0, this.getDeltaMovement().y, 0);
-
-        this.setDeltaMovement(newMotion);
-        this.slidingMovement = newMotion;
-        this.hasImpulse = true;
-        Vec3 hitPos = hitResult.getLocation();
-
-        if (level instanceof ServerLevel server && speed > 0.25) {
-            server.sendParticles(ParticleTypes.CRIT, hitPos.x, hitPos.y + this.getBbHeight() * 0.5, hitPos.z,
-                    3, 0.1, 0.1, 0.1, 0.0);
-
-            if (this.getBounceCount() != -1)
-                this.setBounceCount(this.getBounceCount() + 1);
+            this.addBounceDamage();
         }
 
-        if (speed > 0.25 && this.getData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get()) == 0) {
-            level.playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
+        if (this.getData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get()) == 0) {
+            this.level().playSound(null, this.blockPosition(), SoundRegistry.KOOPA_SHELL_BOUNCED.get(),
                     SoundSource.NEUTRAL, 1.0F, pitch);
             this.setData(DataAttachmentRegistry.HIT_BLOCK_SOUND_COOLDOWN.get(), 2);
         }
@@ -1136,5 +994,13 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
 
     public void trailParticles(BlockState state, BlockPos posLegacy, double x, double z, Vec3 vec3) {
         this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state).setPos(posLegacy), x, this.getY() + 0.1, z, vec3.x * -4.0, 1.5, vec3.z * -4.0);
+    }
+
+    private void addBounceDamage() {
+        if (this.getBounceCount() == -1 || this.lastBounceDamageTick == this.tickCount)
+            return;
+
+        this.lastBounceDamageTick = this.tickCount;
+        this.setBounceCount(this.getBounceCount() + 1);
     }
 }

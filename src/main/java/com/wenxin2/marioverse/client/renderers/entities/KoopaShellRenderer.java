@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.client.models.entities.KoopaShellModel;
 import com.wenxin2.marioverse.entities.GoldKoopaShellEntity;
 import com.wenxin2.marioverse.entities.GoldKoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -174,7 +175,7 @@ public class KoopaShellRenderer extends GeoEntityRenderer<KoopaShellEntity> {
             return;
         }
 
-        float holderYaw = holder.getViewYRot(partialTick);
+        float holderYaw = ShellEntity.getHolderYaw(holder, partialTick);
         Vec3 offset = entity.getHoldPosition(holder, partialTick).subtract(entity.getPosition(partialTick));
 
         entity.yBodyRotO = holderYaw;

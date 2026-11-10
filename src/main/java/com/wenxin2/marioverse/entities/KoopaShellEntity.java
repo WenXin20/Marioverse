@@ -102,7 +102,7 @@ public class KoopaShellEntity extends ShellEntity {
         if (!this.level().isClientSide && emergeAnimationTicks == 1)
             this.spawnKoopaTroopa();
 
-        if (hideTicks == 0 && emergeAnimationTicks == 0 && !this.isHeld()
+        if (hideTicks == 0 && emergeAnimationTicks == 0 && !this.isHeld() && !this.isMovingShell()
                 && this.getDeltaMovement().horizontalDistance() == 0 && (this.onGround() || this.isInWaterOrBubble())) {
             this.triggerAnim("emerge_controller", "emerge");
             this.emergeAnimationTicks = 60;
@@ -123,6 +123,18 @@ public class KoopaShellEntity extends ShellEntity {
     @Override
     public boolean canStayHeld() {
         return this.hideTicks != 0;
+    }
+
+    @Override
+    protected void onStartMoving() {
+        if (this.isEmptyShell())
+            return;
+
+        if (this.emergeAnimationTicks > 0)
+            this.stopTriggeredAnim("emerge_controller", "emerge");
+
+        this.hideTicks = this.getHideDuration();
+        this.emergeAnimationTicks = 0;
     }
 
     @Override

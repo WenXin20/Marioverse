@@ -65,6 +65,9 @@ public class PickupAndThrowShellGoal extends Goal {
         boolean hasShellInMemory = !heldShell.isEmpty();
         boolean hasEntityShell = this.isHoldingEntityShell();
 
+        if (hasEntityShell)
+            this.mob.setAggressive(true);
+
         if ((hasShellInMainHand || hasShellInOffHand || hasShellInMemory || hasEntityShell)) {
             if (target != null)
                 this.mob.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ());
@@ -74,6 +77,15 @@ public class PickupAndThrowShellGoal extends Goal {
             if (aimingTicks < 10) {
                 aimingTicks++;
                 return;
+            }
+
+            if (hasEntityShell && target != null) {
+                float targetYaw = (float) (Mth.atan2(target.getZ() - this.mob.getZ(), target.getX() - this.mob.getX())
+                        * Mth.RAD_TO_DEG) - 90.0F;
+                this.mob.setYBodyRot(Mth.approachDegrees(this.mob.yBodyRot, targetYaw, 20.0F));
+
+                if (Mth.degreesDifferenceAbs(this.mob.yBodyRot, targetYaw) > 10.0F)
+                    return;
             }
 
             if (!(mob instanceof Monster) && !(mob instanceof AbstractGolem)) {
@@ -149,6 +161,7 @@ public class PickupAndThrowShellGoal extends Goal {
         } else if (entity instanceof ShellEntity shell && !shell.isEmptyShell()) {
             shell.startHolding(this.mob);
             heldEntityShell = shell;
+            this.mob.setAggressive(true);
             this.mob.swing(InteractionHand.MAIN_HAND);
         }
     }
@@ -191,8 +204,10 @@ public class PickupAndThrowShellGoal extends Goal {
     }
 
     private boolean isHoldingEntityShell() {
-        if (this.heldEntityShell != null && (!this.heldEntityShell.isAlive() || this.heldEntityShell.getHolder() != this.mob))
+        if (this.heldEntityShell != null && (!this.heldEntityShell.isAlive() || this.heldEntityShell.getHolder() != this.mob)) {
             this.heldEntityShell = null;
+            this.mob.setAggressive(false);
+        }
         return this.heldEntityShell != null;
     }
 
@@ -202,6 +217,7 @@ public class PickupAndThrowShellGoal extends Goal {
 
         this.heldEntityShell.throwFrom(this.mob);
         this.mob.swing(InteractionHand.MAIN_HAND);
+        this.mob.setAggressive(false);
         this.heldEntityShell = null;
         cooldown = 100;
     }
