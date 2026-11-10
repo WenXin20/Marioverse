@@ -37,6 +37,12 @@ public class GoldKoopaTroopaEntity extends KoopaTroopaEntity {
 
     @NotNull
     @Override
+    public Item getKoopaShellItem() {
+        return ItemRegistry.GOLD_KOOPA_SHELL.get();
+    }
+
+    @NotNull
+    @Override
     public Item getKoopaShoes() {
         return ItemRegistry.GOLDEN_KOOPA_SHOES.get();
     }

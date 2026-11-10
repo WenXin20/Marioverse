@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
@@ -160,6 +162,30 @@ public class KoopaShellRenderer extends GeoEntityRenderer<KoopaShellEntity> {
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });
+    }
+
+    @Override
+    public void render(KoopaShellEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
+                       MultiBufferSource bufferSource, int packedLight) {
+        LivingEntity holder = entity.getHolder();
+
+        if (holder == null) {
+            super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+            return;
+        }
+
+        float holderYaw = holder.getViewYRot(partialTick);
+        Vec3 offset = entity.getHoldPosition(holder, partialTick).subtract(entity.getPosition(partialTick));
+
+        entity.yBodyRotO = holderYaw;
+        entity.yBodyRot = holderYaw;
+        entity.yHeadRotO = holderYaw;
+        entity.yHeadRot = holderYaw;
+
+        poseStack.pushPose();
+        poseStack.translate(offset.x, offset.y, offset.z);
+        super.render(entity, holderYaw, partialTick, poseStack, bufferSource, packedLight);
+        poseStack.popPose();
     }
 
     @Override

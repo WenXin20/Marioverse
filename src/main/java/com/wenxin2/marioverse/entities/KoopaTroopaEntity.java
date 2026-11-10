@@ -15,6 +15,7 @@ import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,12 +65,14 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
@@ -105,6 +108,7 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     private boolean isHiding;
     public int hideTicks = -1;
     public int hideAnimationTicks = 0;
+    private boolean droppedShellItem;
 
     public KoopaTroopaEntity(EntityType<? extends KoopaTroopaEntity> type, Level world) {
         super(type, world);
@@ -249,8 +253,24 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     }
 
     @Override
+    protected void dropFromLootTable(DamageSource source, boolean hitByPlayer) {
+        super.dropFromLootTable(source, hitByPlayer);
+        Collection<ItemEntity> drops = this.captureDrops();
+
+        if (drops == null || !(this.getKoopaShellItem() instanceof SpawnEggItem shellItem))
+            return;
+
+        for (ItemEntity drop : drops) {
+            if (drop.getItem().is(shellItem)) {
+                this.droppedShellItem = true;
+                drop.setItem(ShellEntity.createShellItem(shellItem, this.getBounceCount()));
+            }
+        }
+    }
+
+    @Override
     protected void triggerOnDeathMobEffects(RemovalReason reason) {
-        if (this.level() instanceof ServerLevel && this.getRandom().nextFloat() < 0.25f
+        if (this.level() instanceof ServerLevel && !this.droppedShellItem && this.getRandom().nextFloat() < 0.25f
                 && reason == RemovalReason.KILLED)
             this.spawnKoopaShell(this.getMaxHealth(), -1, -1, false, false);
 
@@ -543,6 +563,11 @@ public class KoopaTroopaEntity extends Monster implements CrackableEntity, GeoEn
     @NotNull
     public KoopaShellEntity getKoopaShellEntity() {
         return new KoopaShellEntity(EntityRegistry.GREEN_KOOPA_SHELL.get(), this.level());
+    }
+
+    @NotNull
+    public Item getKoopaShellItem() {
+        return ItemRegistry.GREEN_KOOPA_SHELL.get();
     }
 
     @NotNull

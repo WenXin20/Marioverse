@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
@@ -163,7 +163,7 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         ItemStack coinItem = new ItemStack(this.asItem());
 
-        if (entity instanceof KoopaShellEntity koopaShell && koopaShell.getOwner() != null
+        if (entity instanceof ShellEntity koopaShell && koopaShell.getOwner() != null
                 && koopaShell.getOwner().getType().is(TagRegistry.CAN_COLLECT_STAR_COINS))
             StarCoinBlock.collectCoin(this, world, state, pos, koopaShell.getOwner(), coinItem);
         else if (entity instanceof Projectile projectile && projectile.getOwner() != null)

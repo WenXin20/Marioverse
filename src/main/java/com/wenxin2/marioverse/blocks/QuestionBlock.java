@@ -2,7 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.mojang.serialization.MapCodec;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.items.PlasticBucketItem;
 import com.wenxin2.marioverse.items.PowerUpItem;
@@ -414,11 +414,11 @@ public class QuestionBlock extends BaseEntityBlock {
                 if (entityAbove instanceof LivingEntity livingEntity && livingEntity.onGround()) {
                     entityAbove.setDeltaMovement(entityAbove.getDeltaMovement().add(0, 0.5, 0));
                     if (world.getBlockState(pos).getBlock() instanceof QuestionBlock) {
-                        if (livingEntity instanceof KoopaShellEntity)
+                        if (livingEntity instanceof ShellEntity)
                             livingEntity.hurt(DamageSourceRegistry.bonked(livingEntity, attackingEntity), 0.0F);
                         else livingEntity.hurt(DamageSourceRegistry.bonked(livingEntity, attackingEntity), 4.0F);
                     } else {
-                        if (livingEntity instanceof KoopaShellEntity)
+                        if (livingEntity instanceof ShellEntity)
                             livingEntity.hurt(DamageSourceRegistry.shrapnel(livingEntity, attackingEntity), 0.0F);
                         else livingEntity.hurt(DamageSourceRegistry.shrapnel(livingEntity, attackingEntity), 4.0F);
                     }

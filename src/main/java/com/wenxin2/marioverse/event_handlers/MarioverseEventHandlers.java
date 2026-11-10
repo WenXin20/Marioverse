@@ -20,9 +20,9 @@ import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.PorcupufferEntity;
+import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.ai.goals.BeePollinatesEntityGoal;
 import com.wenxin2.marioverse.entities.ai.goals.ChaseTargetGoal;
@@ -142,6 +142,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingSwapItemsEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -363,7 +364,7 @@ public class MarioverseEventHandlers {
                 mob.goalSelector.addGoal(5, new CollectBlockGoal(mob, 0.15F, 5, 0.4F,
                         state -> state.is(BlockRegistry.STAR_COIN)));
 
-            if (!(mob instanceof KoopaShellEntity) && mob instanceof AbilitiesHandler) {
+            if (!(mob instanceof ShellEntity) && mob instanceof AbilitiesHandler) {
                 if (!(mob instanceof FireGoombaEntity)) {
                     mob.goalSelector.addGoal(5, new ShootBouncingFireballGoal(mob, ConfigRegistry.MAX_MOB_FIREBALLS.get(),
                             0, true));
@@ -372,7 +373,7 @@ public class MarioverseEventHandlers {
                 }
 
                 if (mob instanceof PathfinderMob pathfinderMob && !(mob instanceof KoopaTroopaEntity))
-                    mob.goalSelector.addGoal(3, new AvoidEntityGoal<>(pathfinderMob, KoopaShellEntity.class, 3.0F, 1.0, 1.2));
+                    mob.goalSelector.addGoal(3, new AvoidEntityGoal<>(pathfinderMob, ShellEntity.class, 3.0F, 1.0, 1.2));
             }
 
             if (!mob.getType().is(TagRegistry.CANNOT_CONSUME_POWER_UPS)) {
@@ -1078,6 +1079,12 @@ public class MarioverseEventHandlers {
                     event.setCanceled(true);
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onSwapHands(LivingSwapItemsEvent.Hands event) {
+        if (ShellEntity.getHeldShell(event.getEntity()) != null)
+            event.setCanceled(true);
     }
 
     @SubscribeEvent

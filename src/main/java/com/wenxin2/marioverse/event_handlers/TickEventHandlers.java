@@ -8,7 +8,7 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.MegaMushroomItem;
@@ -738,7 +738,7 @@ public class TickEventHandlers {
         BlockHitResult hitResult = new BlockHitResult(hitPos, direction, pos, false);
 
         if (state.is(BlockRegistry.ON_OFF_SWITCH) && entity.getType().is(TagRegistry.CAN_HIT_ON_OFF_SWITCHES_FROM_SIDE)) {
-            if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
+            if (entity instanceof ShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
                 shell.bounceShell(level, hitResult);
             OnOffSwitchBlock.hitSwitchBlockFromSide(level, pos, entity);
             didHit = true;
@@ -747,14 +747,14 @@ public class TickEventHandlers {
         if (!didHit && entity.getType().is(TagRegistry.CAN_HIT_QUESTION_BLOCKS_FROM_SIDE)
                 && blockEntity instanceof QuestionBlockEntity
                 && !(state.hasProperty(QuestionBlock.EMPTY) && state.getValue(QuestionBlock.EMPTY))) {
-            if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
+            if (entity instanceof ShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
                 shell.bounceShell(level, hitResult);
             QuestionBlock.hitQuestionBlockFromSide(level, pos, entity);
             didHit = true;
         }
 
         if (!didHit && state.is(TagRegistry.SMASHABLE_BLOCKS) && entity.getType().is(TagRegistry.CAN_SMASH_BLOCKS_FROM_SIDE)) {
-            if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
+            if (entity instanceof ShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
                 shell.bounceShell(level, hitResult);
             SmashableBrickBlock.smashBlock(level, pos, state, entity);
             didHit = true;
@@ -767,7 +767,7 @@ public class TickEventHandlers {
         }
 
         if (!didHit && state.is(TagRegistry.BONKABLE_BLOCKS) && entity.getType().is(TagRegistry.CAN_BONK_BLOCKS_FROM_SIDE)) {
-            if (entity instanceof KoopaShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
+            if (entity instanceof ShellEntity shell && entity.getData(DataAttachmentRegistry.HIT_BLOCK_COOLDOWN) == 0)
                 shell.bounceShell(level, hitResult);
             StorageBrickBlock.bonkBlockFromSide(level, pos, state);
             didHit = true;

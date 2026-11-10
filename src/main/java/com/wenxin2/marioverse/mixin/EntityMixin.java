@@ -6,8 +6,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
+import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
@@ -553,7 +553,7 @@ public abstract class EntityMixin implements BlockWarpEntityHandler, EntityWarpE
                                     || stompingEntity.level().getGameRules().getBoolean(Marioverse.STOMP_ALL_MOBS)) {
                                 if (stompingEntity.getData(DataAttachmentRegistry.HAS_MINI_MUSHROOM)
                                         || damagedEntity instanceof KoopaTroopaEntity
-                                        || damagedEntity instanceof KoopaShellEntity)
+                                        || damagedEntity instanceof ShellEntity)
                                     damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), 0);
                                 else damagedEntity.hurt(DamageSourceRegistry.stomp(damagedEntity, stompingEntity), AbilitiesHandler.getStompDamage(stompingEntity));
                             }

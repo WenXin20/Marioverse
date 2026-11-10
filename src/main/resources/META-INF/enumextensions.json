@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "MARIOVERSE_SHELL_HOLD",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "com/wenxin2/marioverse/client/ShellArmPose",
+        "field": "SHELL_HOLD"
+      }
+    }
+  ]
+}

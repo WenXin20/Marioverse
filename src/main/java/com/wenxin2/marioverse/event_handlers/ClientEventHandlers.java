@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.wenxin2.marioverse.blocks.properties.BlockStatePropertyRegistry;
 import com.wenxin2.marioverse.client.PipeTravelRotations;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -16,6 +18,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.states.ArrowDirection;
 import com.wenxin2.marioverse.client.QuicksandOverlay;
 import com.wenxin2.marioverse.client.RedQuicksandOverlay;
+import com.wenxin2.marioverse.client.ShellArmPose;
 import com.wenxin2.marioverse.client.models.blocks.WarpDoorModel;
 import com.wenxin2.marioverse.client.models.blocks.WarpTrapDoorModel;
 import com.wenxin2.marioverse.client.models.loaders.DisguisedBlockModelLoader;
@@ -23,6 +26,7 @@ import com.wenxin2.marioverse.client.models.loaders.SolidBucketModelLoader;
 import com.wenxin2.marioverse.client.renderers.PaintingBlockRippleRenderer;
 import com.wenxin2.marioverse.client.renderers.SuperStarGlowRenderer;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
+import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
@@ -34,6 +38,7 @@ import com.wenxin2.marioverse.network.server_bound.data.DoubleJumpPayload;
 import com.wenxin2.marioverse.network.server_bound.data.FireballShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IceBallShootPayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
+import com.wenxin2.marioverse.network.server_bound.data.ThrowHeldShellPayload;
 import com.wenxin2.marioverse.power_up.PowerUpType;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -58,11 +63,16 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -79,7 +89,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -97,11 +109,14 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
+import net.neoforged.neoforge.client.event.RenderHandEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
@@ -451,6 +466,11 @@ public class ClientEventHandlers {
             Level level = player.level();
             Vec3 motion = player.getDeltaMovement();
             double minY = player.getBoundingBox().minY;
+            ShellEntity heldShell = ShellEntity.getHeldShell(player);
+
+            if (heldShell != null && heldShell.getHeldSlot() >= 0
+                    && player.getInventory().selected != heldShell.getHeldSlot())
+                player.getInventory().selected = heldShell.getHeldSlot();
 
             if (!player.isSpectator()) {
                 AABB belowBox = player.getBoundingBox()
@@ -545,6 +565,66 @@ public class ClientEventHandlers {
             if (!ConfigRegistry.DISABLE_WARP_COOLDOWN_PARTICLES.get() && player.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0
                     && level.getGameTime() % 4 == 0)
                 ClientEventHandlers.spawnWarpCooldownParticles(level, player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
+        if (ShellEntity.getHeldShell(event.getEntity()) == null)
+            return;
+
+        PlayerModel<AbstractClientPlayer> model = event.getRenderer().getModel();
+        model.rightArmPose = ShellArmPose.getShellHoldPose();
+        model.leftArmPose = ShellArmPose.getShellHoldPose();
+    }
+
+    @SubscribeEvent
+    public static void onRenderHand(RenderHandEvent event) {
+        LocalPlayer player = Minecraft.getInstance().player;
+
+        if (player == null || ShellEntity.getHeldShell(player) == null)
+            return;
+
+        event.setCanceled(true);
+
+        if (event.getHand() != InteractionHand.MAIN_HAND || player.isInvisible())
+            return;
+
+        PoseStack poseStack = event.getPoseStack();
+        poseStack.pushPose();
+        poseStack.translate(0.0F, 0.04F + event.getEquipProgress() * -1.2F, -0.72F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(90.0F));
+        ClientEventHandlers.renderShellHoldingArm(poseStack, event.getMultiBufferSource(), event.getPackedLight(), player, HumanoidArm.RIGHT);
+        ClientEventHandlers.renderShellHoldingArm(poseStack, event.getMultiBufferSource(), event.getPackedLight(), player, HumanoidArm.LEFT);
+        poseStack.popPose();
+    }
+
+    @SubscribeEvent
+    public static void onMouseScroll(InputEvent.MouseScrollingEvent event) {
+        Player player = Minecraft.getInstance().player;
+
+        if (player != null && !player.isSpectator() && ShellEntity.getHeldShell(player) != null)
+            event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public static void onInteractionKey(InputEvent.InteractionKeyMappingTriggered event) {
+        Player player = Minecraft.getInstance().player;
+
+        if (player == null || !event.isUseItem())
+            return;
+
+        ShellEntity heldShell = ShellEntity.getHeldShell(player);
+
+        if (heldShell == null)
+            return;
+
+        event.setCanceled(true);
+        event.setSwingHand(false);
+
+        if (heldShell.getHoldTicks() >= ShellEntity.THROW_DELAY_TICKS) {
+            PacketDistributor.sendToServer(new ThrowHeldShellPayload(player.isShiftKeyDown()));
+            player.swing(InteractionHand.MAIN_HAND);
         }
     }
 
@@ -771,5 +851,23 @@ public class ClientEventHandlers {
                 models.put(warpMrl, wrapper.apply(sourceBlockModel, sourceItemModel != null ? sourceItemModel : sourceBlockModel));
             }
         }
+    }
+
+    private static void renderShellHoldingArm(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight,
+                                              AbstractClientPlayer player, HumanoidArm arm) {
+        PlayerRenderer renderer = (PlayerRenderer) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
+        float side = arm == HumanoidArm.RIGHT ? 1.0F : -1.0F;
+
+        poseStack.pushPose();
+        poseStack.mulPose(Axis.YP.rotationDegrees(92.0F));
+        poseStack.mulPose(Axis.XP.rotationDegrees(45.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(side * -41.0F));
+        poseStack.translate(side * 0.3F, -1.1F, 0.45F);
+
+        if (arm == HumanoidArm.RIGHT)
+            renderer.renderRightHand(poseStack, bufferSource, packedLight, player);
+        else renderer.renderLeftHand(poseStack, bufferSource, packedLight, player);
+
+        poseStack.popPose();
     }
 }

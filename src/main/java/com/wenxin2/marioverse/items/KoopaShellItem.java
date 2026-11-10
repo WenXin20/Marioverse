@@ -1,12 +1,11 @@
 package com.wenxin2.marioverse.items;
 
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
-import com.wenxin2.marioverse.integration.CompatRegistry;
-import com.wenxin2.marioverse.integration.automobility_compat.AutomobilityEntityProvider;
-import com.wenxin2.marioverse.registries.SoundRegistry;
+import com.wenxin2.marioverse.entities.ShellEntity;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.function.Supplier;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -16,11 +15,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 
 public class KoopaShellItem extends BetterSpawnEggItem {
@@ -51,7 +49,7 @@ public class KoopaShellItem extends BetterSpawnEggItem {
         EntityType<?> entityType = this.getType(stack);
         Entity entity = entityType.create(world);
 
-        if (entity instanceof KoopaShellEntity shell
+        if (entity instanceof ShellEntity shell
                 && player.getType().is(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS)) {
             this.throwShell(world, player, shell, stack);
             return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
@@ -66,7 +64,7 @@ public class KoopaShellItem extends BetterSpawnEggItem {
         EntityType<?> entityType = this.getType(stack);
         Entity entity = entityType.create(player.level());
 
-        if (entity instanceof KoopaShellEntity shell
+        if (entity instanceof ShellEntity shell
                 && player.getType().is(TagRegistry.CAN_PICKUP_AND_THROW_SHELLS)) {
             this.throwShell(player.level(), player, shell, stack);
             return InteractionResult.SUCCESS;
@@ -74,41 +72,40 @@ public class KoopaShellItem extends BetterSpawnEggItem {
         return super.interactLivingEntity(stack, player, livingEntity, hand);
     }
 
-    public void throwShell(Level level, LivingEntity entity, KoopaShellEntity shell, ItemStack stack) {
-        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
-        boolean isAutomobile = entity.getRootVehicle().getType() == CompatRegistry.AUTOMOBILE.get()
-                || entity.getRootVehicle().getType() == CompatRegistry.AUTOMOBILITY_HITBOX.get();
-        double minSpeed = 1.25;
-        double spawnDistance = 1.0;
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        return ConfigRegistry.MAX_KOOPA_SHELL_DAMAGE_POINTS.get() > 0 && KoopaShellItem.getBounceCount(stack) > 0;
+    }
 
-        Vec3 look = entity.getLookAngle();
-        double horizontalSpeed = Math.sqrt(entity.getRootVehicle().getDeltaMovement().horizontalDistanceSqr());
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        float maxDamage = ConfigRegistry.MAX_KOOPA_SHELL_DAMAGE_POINTS.get();
+        return Math.round(13.0F - Math.min(KoopaShellItem.getBounceCount(stack), maxDamage) * 13.0F / maxDamage);
+    }
 
-        if (ModList.get().isLoaded("automobility") && isAutomobile)
-            horizontalSpeed = AutomobilityEntityProvider.getHSpeed(entity.getRootVehicle());
-        double speed = Math.max(minSpeed, horizontalSpeed * 3);
+    @Override
+    public int getBarColor(ItemStack stack) {
+        float maxDamage = ConfigRegistry.MAX_KOOPA_SHELL_DAMAGE_POINTS.get();
+        float remaining = Math.max(0.0F, (maxDamage - KoopaShellItem.getBounceCount(stack)) / maxDamage);
+        return Mth.hsvToRgb(remaining / 3.0F, 1.0F, 1.0F);
+    }
 
-        Vec3 spawnPos = entity.position()
-                .add(look.x * spawnDistance, entity.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
+    public void throwShell(Level level, LivingEntity entity, ShellEntity shell, ItemStack stack) {
+        CustomData entityData = stack.get(DataComponents.ENTITY_DATA);
 
-        shell.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
+        if (entityData != null)
+            EntityType.updateCustomEntityTag(level, entity instanceof Player player ? player : null, shell, entityData);
+
+        shell.throwFrom(entity);
         level.addFreshEntity(shell);
-
-        if (look.y >= 0.9) {
-            shell.setDeltaMovement(look.x, minSpeed, look.z);
-            level.playSound(entity, entity.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(),
-                    SoundSource.PLAYERS, 1.0F, pitch);
-        } else {
-            shell.setDeltaMovement(look.x * speed, look.y * Math.max(minSpeed, speed), look.z * speed);
-            level.playSound(entity, entity.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(),
-                    SoundSource.PLAYERS, 1.0F, pitch);
-        }
-
-        shell.hasImpulse = true;
-        shell.setOwner(entity);
-        level.gameEvent(entity, GameEvent.ENTITY_PLACE, spawnPos);
+        level.gameEvent(entity, GameEvent.ENTITY_PLACE, shell.position());
 
         if (!entity.getType().is(TagRegistry.HAS_INFINITE_SHELL_AMMO))
             stack.consume(1, entity);
+    }
+
+    public static int getBounceCount(ItemStack stack) {
+        CustomData entityData = stack.get(DataComponents.ENTITY_DATA);
+        return entityData == null ? 0 : entityData.copyTag().getInt("BounceCount");
     }
 }

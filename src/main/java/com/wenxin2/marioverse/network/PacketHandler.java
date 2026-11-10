@@ -36,6 +36,7 @@ import com.wenxin2.marioverse.network.server_bound.data.PlacementOffsetPayload;
 import com.wenxin2.marioverse.network.server_bound.data.RefillCountdownPayload;
 import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
 import com.wenxin2.marioverse.network.server_bound.data.SquashEntityPayload;
+import com.wenxin2.marioverse.network.server_bound.data.ThrowHeldShellPayload;
 import com.wenxin2.marioverse.network.server_bound.data.TimeUnitPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutSliderPayload;
@@ -61,6 +62,7 @@ import com.wenxin2.marioverse.network.server_bound.handler.PlacementOffsetPacket
 import com.wenxin2.marioverse.network.server_bound.handler.RefillCountdownPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.RenamePipePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.SquashEntityPacket;
+import com.wenxin2.marioverse.network.server_bound.handler.ThrowHeldShellPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.TimeUnitPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.WaterSpoutButtonPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.WaterSpoutSliderPacket;
@@ -110,6 +112,7 @@ public class PacketHandler {
         registrar.playToServer(RefillCountdownPayload.PAYLOAD, RefillCountdownPayload.STREAM_CODEC, RefillCountdownPacket.get()::handle);
         registrar.playToServer(RenamePipePayload.PAYLOAD, RenamePipePayload.STREAM_CODEC, RenamePipePacket.get()::handle);
         registrar.playToServer(SquashEntityPayload.PAYLOAD, SquashEntityPayload.STREAM_CODEC, SquashEntityPacket.get()::handle);
+        registrar.playToServer(ThrowHeldShellPayload.PAYLOAD, ThrowHeldShellPayload.STREAM_CODEC, ThrowHeldShellPacket.get()::handle);
         registrar.playToServer(TimeUnitPayload.PAYLOAD, TimeUnitPayload.STREAM_CODEC, TimeUnitPacket.get()::handle);
         registrar.playToServer(WaterSpoutButtonPayload.PAYLOAD, WaterSpoutButtonPayload.STREAM_CODEC, WaterSpoutButtonPacket.get()::handle);
         registrar.playToServer(WaterSpoutSliderPayload.PAYLOAD, WaterSpoutSliderPayload.STREAM_CODEC, WaterSpoutSliderPacket.get()::handle);

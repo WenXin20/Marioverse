@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
-import com.wenxin2.marioverse.entities.KoopaShellEntity;
+import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.items.KoopaShellItem;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Comparator;
@@ -20,6 +20,7 @@ import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
@@ -99,8 +100,8 @@ public class PickupAndThrowShellGoal extends Goal {
         Level level = this.mob.level();
         AABB searchBox = this.mob.getBoundingBox().inflate(8.0);
 
-        Optional<KoopaShellEntity> entityShell = level.getEntitiesOfClass(KoopaShellEntity.class, searchBox)
-                .stream().filter(e -> e.getDeltaMovement().lengthSqr() < 0.1 && e.isAlive())
+        Optional<ShellEntity> entityShell = level.getEntitiesOfClass(ShellEntity.class, searchBox)
+                .stream().filter(e -> e.getDeltaMovement().lengthSqr() < 0.1 && e.isAlive() && e.isEmptyShell() && !e.isHeld())
                 .min(Comparator.comparingDouble(mob::distanceToSqr));
 
         if (entityShell.isPresent()) return entityShell.get();
@@ -126,8 +127,9 @@ public class PickupAndThrowShellGoal extends Goal {
             this.mob.level().playSound(mob, this.mob.blockPosition(), SoundEvents.ITEM_PICKUP,
                     SoundSource.NEUTRAL, 1.0F, pitch);
             itemEntity.discard();
-        } else if (entity instanceof KoopaShellEntity shell && shell.getPickResult() != null) {
-            ItemStack shellItem = new ItemStack(shell.getPickResult().getItem());
+        } else if (entity instanceof ShellEntity shell && shell.isEmptyShell()
+                && SpawnEggItem.byId(shell.getType()) instanceof SpawnEggItem spawnEggItem) {
+            ItemStack shellItem = ShellEntity.createShellItem(spawnEggItem, shell.getBounceCount());
 
             if (this.hasMainHandSlot(mob) && this.mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())
                 this.mob.setItemInHand(InteractionHand.MAIN_HAND, shellItem);
@@ -148,7 +150,7 @@ public class PickupAndThrowShellGoal extends Goal {
         EntityType<?> type = heldShell.isEmpty() ? shellItem.getType(stack) : shellItem.getType(heldShell);
         Entity entity = type.create(this.mob.level());
 
-        if (entity instanceof KoopaShellEntity shell) {
+        if (entity instanceof ShellEntity shell) {
             shellItem.throwShell(this.mob.level(), mob, shell, stack);
 
             this.mob.yRotO = this.mob.getYRot();
