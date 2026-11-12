@@ -3,6 +3,8 @@
 - Added the ability to pickup shells and throw shells 
   - The koopa will wake up and attack if held too long
   - Shells can be pickup as an item only if the koopa is killed
+- Added the damage type tag `cannot_remove_power_up`. 
+  - Includes fall damage by default
 - Improved koopa shell bouncing
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)

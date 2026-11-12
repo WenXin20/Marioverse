@@ -429,14 +429,14 @@ public class MarioverseEventHandlers {
                     ServerParticleUtils.spawnPoweredUpParticles(ParticleTypes.CRIT, serverWorld, player, 10);
             }
 
-            if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER)) {
+            if (entity.getData(DataAttachmentRegistry.HAS_FIRE_FLOWER) && !source.is(TagRegistry.CANNOT_REMOVE_POWER_UP)) {
                 MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_FIRE_FLOWER, false);
                 level.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),
                         soundSource, 1.0F, pitch);
             }
 
-            if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER)) {
+            if (entity.getData(DataAttachmentRegistry.HAS_ICE_FLOWER) && !source.is(TagRegistry.CANNOT_REMOVE_POWER_UP)) {
                 MaleCostumeItem.resetCostumes(entity);
                 entity.setData(DataAttachmentRegistry.HAS_ICE_FLOWER, false);
                 level.playSound(null, player.blockPosition(), SoundRegistry.DAMAGE_TAKEN.get(),

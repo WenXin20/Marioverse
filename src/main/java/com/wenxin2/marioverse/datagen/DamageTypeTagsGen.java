@@ -54,6 +54,9 @@ public class DamageTypeTagsGen extends DamageTypeTagsProvider {
                 .add(DamageTypes.SONIC_BOOM)
                 .add(DamageTypes.STARVE);
 
+        tag(TagRegistry.CANNOT_REMOVE_POWER_UP)
+                .addTag(DamageTypeTags.IS_FALL);
+
         tag(TagRegistry.HIDES_KOOPA_TROOPA)
                 .addTag(TagRegistry.IS_BONKED)
                 .addTag(TagRegistry.IS_SHRAPNEL)
