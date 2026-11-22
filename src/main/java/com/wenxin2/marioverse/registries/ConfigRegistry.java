@@ -25,6 +25,7 @@ public class ConfigRegistry {
 
     public static final String CATEGORY_ABILITY_BLOCKS = "ability_blocks";
     public static final String CATEGORY_CHECKPOINT_FLAGS = "checkpoint_flags";
+    public static final String CATEGORY_CLEAR_WARP_PIPES = "clear_warp_pipes";
     public static final String CATEGORY_COINS = "coins";
     public static final String CATEGORY_DAISY_ABILITY_BLOCK = "daisy_ability_block";
     public static final String CATEGORY_DECORATED_POTS = "decorated_pots";
@@ -118,6 +119,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue DECORATED_POT_SPAWNS_POWER_UPS;
     public static ModConfigSpec.BooleanValue DISABLE_CHRISTMAS_HATS;
+    public static ModConfigSpec.BooleanValue DISABLE_CLEAR_PIPE_TELEPORTING;
     public static ModConfigSpec.BooleanValue DISABLE_CONSECUTIVE_BOUNCING;
     public static ModConfigSpec.BooleanValue DISABLE_DECORATED_POT_TWEAKS;
     public static ModConfigSpec.BooleanValue DISABLE_DRAMATIC_DOORS_COMPAT;
@@ -713,6 +715,18 @@ public class ConfigRegistry {
                             .define("checkpoint_flag_remove_items", true);
                 BUILDER.pop();
 
+                BUILDER.push(CATEGORY_CLEAR_WARP_PIPES);
+                    ALLOW_FAST_TRAVEL = BUILDER.translation("configuration.marioverse.allow_fast_travel")
+                            .comment("Allow fast travel through Clear Warp Pipes.")
+                            .comment("§9[Default: true]")
+                            .define("allow_fast_travel", true);
+                    DISABLE_CLEAR_PIPE_TELEPORTING = BUILDER.translation("configuration.marioverse.disable_clear_pipe_teleporting")
+                            .comment("Prevent linked Clear Warp Pipes from teleporting entities and contraptions.")
+                            .comment("Travel through connected Clear Warp Pipes still works.")
+                            .comment("§9[Default: false]")
+                            .define("disable_clear_pipe_teleporting", false);
+                BUILDER.pop();
+
                 BUILDER.push(CATEGORY_DECORATED_POTS);
                     DISABLE_DECORATED_POT_TWEAKS = BUILDER.translation("configuration.marioverse.disable_decorated_pot_tweaks")
                             .comment("Disables mob & power up spawning from decorated pots.")
@@ -841,10 +855,6 @@ public class ConfigRegistry {
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PIPES);
-                    ALLOW_FAST_TRAVEL = BUILDER.translation("configuration.marioverse.allow_fast_travel")
-                            .comment("Allow fast travel through Clear Warp Pipes.")
-                            .comment("§9[Default: true]")
-                            .define("allow_fast_travel", true);
                     WARP_PIPE_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_pipe_cooldown")
                             .comment("Cooldown between teleports in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")

@@ -2809,6 +2809,7 @@
 
   "marioverse.configuration.ability_blocks": "Ability Blocks",
   "marioverse.configuration.checkpoint_flags": "Checkpoint Flags",
+  "marioverse.configuration.clear_warp_pipes": "Clear Warp Pipes",
   "marioverse.configuration.coins": "Coins",
   "marioverse.configuration.daisy_ability_block": "Daisy Ability Block",
   "marioverse.configuration.decorated_pots": "Decorated Pots",
@@ -2914,6 +2915,7 @@
   "configuration.marioverse.deep_cave_piranha_plant_max_y_spawn": "Deep Cave Piranha Plant Max Y Spawn Position",
   "configuration.marioverse.deep_cheep_lure_radius": "Lure Radius",
   "configuration.marioverse.disable_christmas_hats": "Disable Christmas Hats",
+  "configuration.marioverse.disable_clear_pipe_teleporting": "Disable Teleporting",
   "configuration.marioverse.disable_consecutive_bouncing": "Disable Consecutive Bouncing",
   "configuration.marioverse.disable_decorated_pot_tweaks": "Disable All Tweaks",
   "configuration.marioverse.disable_dramatic_doors_compat": "Disable Dramatic Doors Compat",

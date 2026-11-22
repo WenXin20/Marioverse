@@ -8,6 +8,7 @@
   - Includes fall damage by default
 - Added the ability for Splunkin Carved Pumpkins & Splunkin O'Lanterns to make Snow & Iron Golems
   - Added the block tag `golem_heads` for easy configuration
+- Added a config to disable teleporting using clear pipes
 - Improved koopa shell bouncing
 - Fixed linking 2x2 clear pipes 
 

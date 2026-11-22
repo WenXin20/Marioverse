@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.utils;
 
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
@@ -219,6 +220,9 @@ public interface BlockWarpEntityHandler {
     }
 
     default void warp(Entity entity, Level level, BlockPos pos, BlockState state, BlockPos warpPos, BaseWarpBlockEntity warpBE) {
+        if (ClearWarpPipeBlock.isTeleportDisabled(state))
+            return;
+
         float pitch = 1.0F + level.random.nextFloat() * 0.2F;
 
         if (SableProvider.isLoaded()) {
@@ -406,7 +410,8 @@ public interface BlockWarpEntityHandler {
         boolean isWarpBlock = state.getBlock() instanceof WarpPipeBlock || WarpDoorBlock.isDoor(state)
                 || state.getBlock() instanceof TrapDoorBlock;
 
-        if (!isWarpBlock || warpBE.preventWarp || !warpBE.hasDestinationPos() || entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0)
+        if (!isWarpBlock || warpBE.preventWarp || !warpBE.hasDestinationPos() || entity.getData(DataAttachmentRegistry.WARP_COOLDOWN) > 0
+                || ClearWarpPipeBlock.isTeleportDisabled(state))
             return false;
         if (state.getBlock() instanceof WarpPipeBlock && (!state.getValue(WarpPipeBlock.ENTRANCE) || state.getValue(WarpPipeBlock.CLOSED)))
             return false;

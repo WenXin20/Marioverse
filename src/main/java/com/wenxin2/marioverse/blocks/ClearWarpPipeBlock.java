@@ -790,6 +790,10 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         return worldMotion.add(0.0, entity.getGravity(), 0.0);
     }
 
+    public static boolean isTeleportDisabled(BlockState state) {
+        return state.getBlock() instanceof ClearWarpPipeBlock && ConfigRegistry.DISABLE_CLEAR_PIPE_TELEPORTING.get();
+    }
+
     private static boolean isSameEntranceGroup(LevelAccessor level, BlockPos pos, Direction direction, Direction facing) {
         if (direction.getAxis() == facing.getAxis())
             return false;

@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.integration.sable_compat;
 
+import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
@@ -311,7 +312,8 @@ public class SubLevelWarpHandler {
         Vec3 center = Vec3.atCenterOf(pos);
 
         if (state.getBlock() instanceof WarpPipeBlock) {
-            if (requireEntrance && (!state.getValue(WarpPipeBlock.ENTRANCE) || state.getValue(WarpPipeBlock.CLOSED)))
+            if (requireEntrance && (!state.getValue(WarpPipeBlock.ENTRANCE) || state.getValue(WarpPipeBlock.CLOSED)
+                    || ClearWarpPipeBlock.isTeleportDisabled(state)))
                 return null;
             facing = state.getValue(WarpPipeBlock.FACING);
             if (!requireEntrance) {
