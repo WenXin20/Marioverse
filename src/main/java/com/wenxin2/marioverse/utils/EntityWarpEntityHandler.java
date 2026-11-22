@@ -105,6 +105,8 @@ public interface EntityWarpEntityHandler {
                 xpDestination = warpLinkableEntity.mv$getDestinationPos();
 
             Vec3 enteredPos = warpLinkableEntity instanceof Entity enteredWarp ? enteredWarp.position() : entity.position();
+            if (WarpLinkPathing.isAccidentalWarp(entity, BlockPos.containing(enteredPos), xpDestination))
+                return;
             boolean isWarpPainting = EntityWarpEntityHandler.isWarpPainting(warpLinkableEntity);
             WarpCost.Cost warpCost = WarpCost.getEntityCost(world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting);
             Vec3 startPos = entity.position();

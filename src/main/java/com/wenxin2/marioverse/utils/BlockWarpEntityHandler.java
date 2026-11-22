@@ -267,6 +267,8 @@ public interface BlockWarpEntityHandler {
                 && (paintingWarp != null || !serverLevel.areEntitiesLoaded(ChunkPos.asLong(warpPos)));
 
         if (linkedEntity != null || useSavedTarget) {
+            if (WarpLinkPathing.isAccidentalWarp(entity, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos))
+                return;
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos, state);
             Vec3 startPos = entity.position();
 
@@ -294,6 +296,8 @@ public interface BlockWarpEntityHandler {
 
         if (warpPos != null && level.getBlockEntity(warpPos) instanceof BaseWarpBlockEntity) {
             BlockState warpState = level.getBlockState(warpPos);
+            if (WarpLinkPathing.isAccidentalWarp(entity, pos, warpPos))
+                return;
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
             Vec3 startPos = entity.position();
 
@@ -318,6 +322,8 @@ public interface BlockWarpEntityHandler {
                 && BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID(), level, pos) != null) {
             warpPos = BaseWarpBlockEntity.findMatchingUUID(warpBE.getUUID(), level, pos);
             BlockState warpState = level.getBlockState(warpPos);
+            if (WarpLinkPathing.isAccidentalWarp(entity, pos, warpPos))
+                return;
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
             Vec3 startPos = entity.position();
 

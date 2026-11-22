@@ -38,7 +38,7 @@ public abstract class WalkNodeEvaluatorMixin extends NodeEvaluator implements Pi
         BlockPos approach = node.asBlockPos();
         int added = 0;
 
-        if (WarpLinkPathing.canPathThroughWarps(this.mob)) {
+        if (WarpLinkPathing.canUseWarpsNow(this.mob)) {
             for (WarpLinkPathing.WarpLink link : WarpLinkPathing.getWarpLinks(level, approach, this.mob)) {
                 if (count >= neighbors.length || added >= MAX_PIPE_LINKS)
                     break;

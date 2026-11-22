@@ -3,7 +3,6 @@ package com.wenxin2.marioverse.entities.ai.goals;
 import com.wenxin2.marioverse.mixin.MobAccessor;
 import com.wenxin2.marioverse.mixin.PathNavigationAccessor;
 import com.wenxin2.marioverse.utils.WarpLinkPathing;
-import com.wenxin2.marioverse.utils.WarpReturn;
 import java.util.EnumSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.PathfinderMob;
@@ -32,7 +31,7 @@ public class UseWarpLinkGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (!WarpLinkPathing.canPathThroughWarps(this.mob))
+        if (!WarpLinkPathing.canUseWarpsNow(this.mob))
             return false;
 
         this.link = WarpLinkPathing.findWarpStep(this.mob.level(), this.mob.getNavigation().getPath(), this.mob);
@@ -47,7 +46,7 @@ public class UseWarpLinkGoal extends Goal {
         this.destination = path != null ? path.getTarget() : null;
         this.speed = ((PathNavigationAccessor) navigation).mv$getSpeedModifier();
         this.waitTicks = 0;
-        this.mob.getPersistentData().putBoolean(WarpReturn.WARP_INTENT, true);
+        WarpLinkPathing.setIntent(this.mob, this.link);
         navigation.stop();
     }
 
@@ -71,7 +70,7 @@ public class UseWarpLinkGoal extends Goal {
         WarpLinkPathing.openDoor(this.mob.level(), this.mob, this.link);
 
         Vec3 trigger = Vec3.atBottomCenterOf(this.link.trigger());
-        this.mob.getMoveControl().setWantedPosition(trigger.x, trigger.y, trigger.z, this.speed);
+        WarpLinkPathing.moveToTrigger(this.mob, trigger, this.speed);
 
         if (this.link.jump() && this.mob.onGround() && this.mob.position().subtract(trigger).horizontalDistanceSqr() < JUMP_ALIGN_DISTANCE * JUMP_ALIGN_DISTANCE)
             this.mob.getJumpControl().jump();
@@ -79,7 +78,7 @@ public class UseWarpLinkGoal extends Goal {
 
     @Override
     public void stop() {
-        this.mob.getPersistentData().remove(WarpReturn.WARP_INTENT);
+        WarpLinkPathing.clearIntent(this.mob);
 
         if (this.hasArrived() && this.destination != null)
             this.mob.getNavigation().moveTo(this.destination.getX() + 0.5, this.destination.getY(), this.destination.getZ() + 0.5, this.speed);

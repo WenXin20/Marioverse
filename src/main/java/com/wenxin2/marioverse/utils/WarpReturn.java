@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,7 +18,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class WarpReturn {
-    public static final String WARP_INTENT = "WarpLinkIntent";
     private static final String RETURN_FROM = "WarpReturnFrom";
     private static final String RETURN_TARGET = "WarpReturnTarget";
     private static final String RETURNING = "WarpReturning";
@@ -39,7 +39,7 @@ public class WarpReturn {
             return;
         }
 
-        if (tag.getBoolean(WARP_INTENT) || tag.contains(RETURN_FROM))
+        if (WarpLinkPathing.hasIntent(mob) || tag.contains(RETURN_FROM))
             return;
 
         BlockPos target = WarpReturn.getPathTarget(mob);
@@ -52,6 +52,16 @@ public class WarpReturn {
 
     public static boolean needsReturn(Mob mob) {
         return mob.getPersistentData().contains(RETURN_FROM);
+    }
+
+    public static boolean canReturn(Level level, Mob mob) {
+        BlockPos returnBlock = WarpReturn.getReturnBlock(mob);
+        return returnBlock != null && level.getBlockEntity(returnBlock) instanceof BaseWarpBlockEntity warpBE
+                && !warpBE.preventWarp && warpBE.hasDestinationPos() && warpBE.destinationPos != null;
+    }
+
+    public static boolean isReturning(Mob mob) {
+        return mob.getPersistentData().getBoolean(RETURNING);
     }
 
     public static void startReturning(Mob mob) {

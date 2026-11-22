@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.entities.ai.behaviors;
 
 import com.google.common.collect.ImmutableMap;
 import com.wenxin2.marioverse.utils.WarpLinkPathing;
-import com.wenxin2.marioverse.utils.WarpReturn;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
@@ -31,7 +30,7 @@ public class UseWarpLink extends Behavior<Mob> {
 
     @Override
     protected boolean checkExtraStartConditions(ServerLevel level, Mob mob) {
-        if (!WarpLinkPathing.canPathThroughWarps(mob))
+        if (!WarpLinkPathing.canUseWarpsNow(mob))
             return false;
 
         Path path = mob.getBrain().getMemory(MemoryModuleType.PATH).orElse(null);
@@ -47,7 +46,7 @@ public class UseWarpLink extends Behavior<Mob> {
         this.savedWalkTarget = brain.getMemory(MemoryModuleType.WALK_TARGET).orElse(null);
         this.speed = this.savedWalkTarget != null ? this.savedWalkTarget.getSpeedModifier() : 0.5F;
         this.waitTicks = 0;
-        mob.getPersistentData().putBoolean(WarpReturn.WARP_INTENT, true);
+        WarpLinkPathing.setIntent(mob, this.link);
 
         brain.eraseMemory(MemoryModuleType.WALK_TARGET);
         brain.eraseMemory(MemoryModuleType.PATH);
@@ -71,7 +70,7 @@ public class UseWarpLink extends Behavior<Mob> {
             WarpLinkPathing.openDoor(level, mob, this.link);
 
             Vec3 trigger = Vec3.atBottomCenterOf(this.link.trigger());
-            mob.getMoveControl().setWantedPosition(trigger.x, trigger.y, trigger.z, this.speed);
+            WarpLinkPathing.moveToTrigger(mob, trigger, this.speed);
 
             if (this.link.jump() && mob.onGround() && mob.position().subtract(trigger).horizontalDistanceSqr() < JUMP_ALIGN_DISTANCE * JUMP_ALIGN_DISTANCE)
                 mob.getJumpControl().jump();
@@ -80,7 +79,7 @@ public class UseWarpLink extends Behavior<Mob> {
 
     @Override
     protected void stop(ServerLevel level, Mob mob, long gameTime) {
-        mob.getPersistentData().remove(WarpReturn.WARP_INTENT);
+        WarpLinkPathing.clearIntent(mob);
 
         if (this.savedWalkTarget != null && !mob.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET))
             mob.getBrain().setMemory(MemoryModuleType.WALK_TARGET, this.savedWalkTarget);

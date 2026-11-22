@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.ai.behaviors;
 
 import com.google.common.collect.ImmutableMap;
+import com.wenxin2.marioverse.utils.WarpLinkPathing;
 import com.wenxin2.marioverse.utils.WarpReturn;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +24,11 @@ public class ReturnThroughWarp extends Behavior<Mob> {
 
     @Override
     protected boolean checkExtraStartConditions(ServerLevel level, Mob mob) {
-        return WarpReturn.needsReturn(mob);
+        if (!WarpReturn.canReturn(level, mob)) {
+            WarpReturn.clear(mob);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -51,7 +56,7 @@ public class ReturnThroughWarp extends Behavior<Mob> {
             return;
 
         Vec3 trigger = WarpReturn.getTriggerSpot(level, returnBlock);
-        mob.getMoveControl().setWantedPosition(trigger.x, trigger.y, trigger.z, RETURN_SPEED);
+        WarpLinkPathing.moveToTrigger(mob, trigger, RETURN_SPEED);
 
         if (WarpReturn.needsJump(level, returnBlock) && mob.onGround()
                 && mob.position().subtract(trigger).horizontalDistanceSqr() < JUMP_ALIGN_DISTANCE * JUMP_ALIGN_DISTANCE)

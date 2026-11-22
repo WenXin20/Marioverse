@@ -678,8 +678,6 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         return WarpPipeBlock.collectEntranceGroup(level, start, startState);
     }
 
-    // Like getEntranceGroup, but clear pipe entrances also form groups, matching ClearPipeNetwork. Used for outlines,
-    // warp particles and exit positions; linking still treats clear pipes as single blocks.
     public static List<BlockPos> getWarpFaceGroup(Level level, BlockPos start, BlockState startState) {
         return WarpPipeBlock.collectEntranceGroup(level, start, startState);
     }

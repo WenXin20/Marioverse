@@ -10,7 +10,8 @@
   - Added the block tag `golem_heads` for easy configuration
 - Added a config to disable teleporting using clear pipes
 - Improved koopa shell bouncing
-- Fixed linking 2x2 clear pipes 
+- Improved pathfinding through warp blocks & paintings
+- Fixed linking 2x2 clear pipes
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

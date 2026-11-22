@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.entities.ai.goals;
 
 import com.wenxin2.marioverse.mixin.MobAccessor;
+import com.wenxin2.marioverse.utils.WarpLinkPathing;
 import com.wenxin2.marioverse.utils.WarpReturn;
 import java.util.EnumSet;
 import net.minecraft.core.BlockPos;
@@ -23,7 +24,11 @@ public class ReturnThroughWarpGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return WarpReturn.needsReturn(this.mob);
+        if (!WarpReturn.canReturn(this.mob.level(), this.mob)) {
+            WarpReturn.clear(this.mob);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -52,7 +57,7 @@ public class ReturnThroughWarpGoal extends Goal {
             return;
 
         Vec3 trigger = WarpReturn.getTriggerSpot(this.mob.level(), returnBlock);
-        this.mob.getMoveControl().setWantedPosition(trigger.x, trigger.y, trigger.z, RETURN_SPEED);
+        WarpLinkPathing.moveToTrigger(this.mob, trigger, RETURN_SPEED);
 
         if (WarpReturn.needsJump(this.mob.level(), returnBlock) && this.mob.onGround()
                 && this.mob.position().subtract(trigger).horizontalDistanceSqr() < JUMP_ALIGN_DISTANCE * JUMP_ALIGN_DISTANCE)
