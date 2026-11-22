@@ -6,7 +6,7 @@
   - Shells can be pickup as an item only if the koopa is killed
 - Added the damage type tag `cannot_remove_power_up`. 
   - Includes fall damage by default
-- Added the ability for Splunkin Carved Pumpkins & Splunkin O'Lanterns to make Snow & Iron Golems
+- Added the ability for Splunkin Carved Pumpkins & Splunkin O'Lanterns to make Snow Golems & Iron Golems
   - Added the block tag `golem_heads` for easy configuration
 - Improved koopa shell bouncing
 
