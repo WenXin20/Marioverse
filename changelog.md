@@ -2,9 +2,12 @@
 - Added the ability for water spouts to face any direction
 - Added the ability to pickup shells and throw shells 
   - The koopa will wake up and attack if held too long
+  - Shift-right-click to place the shell down to reset the wake up timer
   - Shells can be pickup as an item only if the koopa is killed
 - Added the damage type tag `cannot_remove_power_up`. 
   - Includes fall damage by default
+- Added the ability for Splunkin Carved Pumpkins & Splunkin O'Lanterns to make Snow & Iron Golems
+  - Added the block tag `golem_heads` for easy configuration
 - Improved koopa shell bouncing
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
