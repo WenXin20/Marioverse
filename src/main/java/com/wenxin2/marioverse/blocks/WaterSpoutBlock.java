@@ -285,9 +285,22 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         Direction facing = state.getValue(FACING);
         BlockPos sourcePos = pos.relative(facing.getOpposite());
         int spoutHeight = serverWorld.getBlockEntity(sourcePos) instanceof WarpPipeBlockEntity pipeBlockEntity
-                && pipeBlockEntity.hasWaterSpout() ? pipeBlockEntity.spoutHeight : 0;
+                && pipeBlockEntity.canGrowWaterSpout(pos, facing) ? pipeBlockEntity.spoutHeight : 0;
 
         WaterSpoutBlock.repeatColumn(serverWorld, pos, serverWorld.getBlockState(sourcePos), facing, spoutHeight);
+    }
+
+    public static boolean isColumnComplete(LevelAccessor worldAccessor, BlockPos pos, Direction facing, int spoutHeight) {
+        BlockPos.MutableBlockPos mutablePos = pos.mutable();
+
+        for (int i = 0; i < spoutHeight; i++) {
+            BlockState state = worldAccessor.getBlockState(mutablePos);
+
+            if (!state.is(BlockRegistry.WATER_SPOUT.get()) || state.getValue(FACING) != facing)
+                return !WaterSpoutBlock.canExistIn(worldAccessor, mutablePos, facing);
+            mutablePos.move(facing);
+        }
+        return true;
     }
 
     public static void repeatColumn(LevelAccessor worldAccessor, BlockPos pos, BlockState sourceState, Direction facing, int spoutHeight) {

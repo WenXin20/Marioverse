@@ -29,6 +29,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -85,6 +86,7 @@ import org.joml.Vector3f;
 
 public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     public static final int MAX_ENTRANCE_GROUP_SIZE = 64;
+    public static final int MAX_WATER_SEARCH_SIZE = 512;
     public static final MapCodec<WarpPipeBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(DyeColor.CODEC.optionalFieldOf("color")
                             .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
@@ -474,10 +476,19 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                 BaseWarpBlockEntity.registerWarpLocation(uuid, serverWorld, pos);
             }
 
-            if (pipeBE.hasWaterSpout() && serverWorld.dimension() != Level.NETHER) {
-                WaterSpoutBlock.repeatColumn(serverWorld, pos.relative(state.getValue(FACING)), state,
-                        state.getValue(FACING), pipeBE.spoutHeight);
-                serverWorld.scheduleTick(pos, this, 3);
+            if (pipeBE.hasWaterSpout()) {
+                if (serverWorld.dimensionType().ultraWarm())
+                    pipeBE.sizzleWaterSpout(serverWorld);
+                else {
+                    BlockPos spoutPos = pos.relative(state.getValue(FACING));
+
+                    if (!pipeBE.hasSpoutWaterSource()) {
+                        if (serverWorld.getBlockState(spoutPos).getBlock() instanceof WaterSpoutBlock)
+                            serverWorld.destroyBlock(spoutPos, false);
+                    } else if (pipeBE.isSpoutReady(spoutPos, state.getValue(FACING)))
+                        WaterSpoutBlock.repeatColumn(serverWorld, spoutPos, state, state.getValue(FACING), pipeBE.spoutHeight);
+                    serverWorld.scheduleTick(pos, this, 3);
+                }
             }
 
             if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.UP) {
@@ -666,6 +677,57 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
     public static boolean hasBubbles(BlockGetter blockGetter, BlockPos pos) {
         return blockGetter.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && pipeBE.hasBubbles();
+    }
+
+    public static boolean isConnectedToWater(Level level, BlockPos start) {
+        Set<BlockPos> visited = new HashSet<>(Set.of(start));
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>(List.of(start));
+
+        while (!queue.isEmpty()) {
+            BlockPos pos = queue.poll();
+            BlockState state = level.getBlockState(pos);
+
+            if (WarpPipeBlock.isColoredPipe(state) && state.getValue(ENTRANCE) && WarpPipeBlock.isOpeningInWater(level, pos, state))
+                return true;
+
+            for (Direction direction : Direction.values()) {
+                BlockPos next = pos.relative(direction);
+                if (visited.size() < MAX_WATER_SEARCH_SIZE && !visited.contains(next)
+                        && WarpPipeBlock.isPipeConnection(state, direction, level.getBlockState(next))) {
+                    visited.add(next);
+                    queue.add(next);
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isColoredPipe(BlockState state) {
+        return state.getBlock() instanceof WarpPipeBlock && !(state.getBlock() instanceof ClearWarpPipeBlock);
+    }
+
+    private static boolean isPipeNode(BlockState state) {
+        return WarpPipeBlock.isColoredPipe(state) || state.is(TagRegistry.PIPE_JUNCTION_BLOCKS);
+    }
+
+    private static boolean isPipeConnection(BlockState state, Direction direction, BlockState nextState) {
+        if (!WarpPipeBlock.isPipeNode(state) || !WarpPipeBlock.isPipeNode(nextState))
+            return false;
+        if (!WarpPipeBlock.isColoredPipe(state) && !WarpPipeBlock.isColoredPipe(nextState))
+            return true;
+        return WarpPipeBlock.isPipeEnd(state, direction, nextState) || WarpPipeBlock.isPipeEnd(nextState, direction.getOpposite(), state);
+    }
+
+    private static boolean isPipeEnd(BlockState pipeState, Direction direction, BlockState otherState) {
+        if (!WarpPipeBlock.isColoredPipe(pipeState))
+            return false;
+
+        Direction facing = pipeState.getValue(FACING);
+        return facing == direction || (facing == direction.getOpposite() && otherState.is(TagRegistry.PIPE_JUNCTION_BLOCKS));
+    }
+
+    private static boolean isOpeningInWater(Level level, BlockPos pos, BlockState state) {
+        return level.getFluidState(pos.relative(state.getValue(FACING))).is(FluidTags.WATER);
     }
 
     public static boolean hasWaterSpout(BlockGetter blockGetter, BlockPos pos) {

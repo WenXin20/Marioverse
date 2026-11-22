@@ -185,6 +185,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue WARP_COOLDOWN_MESSAGE_TICKS;
     public static ModConfigSpec.BooleanValue WARP_PIPE_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue WATER_SPOUTS_BUCKETABLE;
+    public static ModConfigSpec.BooleanValue WATER_SPOUTS_REQUIRE_WATER;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_BUBBLES;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_CLOSING;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_RENAMING;
@@ -286,6 +287,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue WARP_TRAPDOOR_XP_COST_MULTIPLIER;
 
     public static ModConfigSpec.IntValue BOO_LIGHT_SENSITIVITY;
+    public static ModConfigSpec.IntValue WATER_SPOUT_REGROW_DELAY;
     public static ModConfigSpec.IntValue BOO_SUN_EXPOSURE_LIMIT;
     public static ModConfigSpec.IntValue CAVE_PIRANHA_PLANT_MAX_Y_SPAWN;
     public static ModConfigSpec.IntValue CHECKPOINT_FLAG_FOOD_AMT;
@@ -921,6 +923,16 @@ public class ConfigRegistry {
                             .comment("Allow players to bucket water spouts.")
                             .comment("§9[Default: true]")
                             .define("water_spouts_bucketable", true);
+                    WATER_SPOUT_REGROW_DELAY = BUILDER.translation("configuration.marioverse.water_spout_regrow_delay")
+                            .comment("Ticks a pipe waits each time before it places its water spout.")
+                            .comment("§6[20 ticks = 1 second]")
+                            .comment("§9[Default: 100]§b")
+                            .defineInRange("water_spout_regrow_delay", 100, 0, 72000);
+                    WATER_SPOUTS_REQUIRE_WATER = BUILDER.translation("configuration.marioverse.water_spouts_require_water")
+                            .comment("Water spouts only flow when a connected pipe entrance opens into water.")
+                            .comment("Clear Warp Pipes need their water spout entrance to be waterlogged.")
+                            .comment("§9[Default: false]")
+                            .define("water_spouts_require_water", false);
                 BUILDER.pop();
 
             BUILDER.pop();
