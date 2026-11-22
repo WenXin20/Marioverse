@@ -103,6 +103,7 @@ public class TagRegistry {
     public static final TagKey<Block> FLOATY = blockTags("sable/floaty");
     public static final TagKey<Block> FREEZES_INTO_PACKED_ICE = blockTags("freezes_into_packed_ice");
     public static final TagKey<Block> GOAL_POLE_BLOCKS = blockTags("goal_poles");
+    public static final TagKey<Block> GOLEM_HEADS = blockTags("golem_heads");
     public static final TagKey<Block> GRASSY_BLOCKS = blockTags("grassy");
     public static final TagKey<Block> GRASSY_DIRTS = blockTags("grassy/dirt");
     public static final TagKey<Block> GRASSY_STONES = blockTags("grassy/stone");

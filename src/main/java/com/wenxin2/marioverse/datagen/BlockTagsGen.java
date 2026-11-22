@@ -701,6 +701,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_GOAL_POLE_BLOCKS)
                 .add(BlockRegistry.CLASSIC_GOAL_POLE.get());
 
+        tag(TagRegistry.GOLEM_HEADS)
+                .add(BlockRegistry.SPLUNKIN_CARVED_PUMPKIN.get())
+                .add(BlockRegistry.SPLUNKIN_O_LANTERN.get());
+
         tag(TagRegistry.GRASSY_BLOCKS)
                 .addTag(TagRegistry.GRASSY_DIRTS)
                 .addTag(TagRegistry.GRASSY_STONES);

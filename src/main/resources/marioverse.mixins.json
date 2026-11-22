@@ -11,6 +11,7 @@
     "BeePollinateGoalMixin",
     "BlockMixin",
     "BlockStateBaseMixin",
+    "CarvedPumpkinBlockMixin",
     "ContainersMixin",
     "DecoratedPotPatternsMixin",
     "EntityMixin",
@@ -26,6 +27,7 @@
     "ProjectileMixin",
     "RecipeManagerMixin",
     "ServerPlayerMixin",
+    "SnowGolemMixin",
     "StructureStartMixin",
     "StructureTemplateMixin",
     "VillagerGoalPackagesMixin",
@@ -50,6 +52,7 @@
     "LivingEntityRendererAccessor",
     "LivingEntityRendererMixin",
     "PaintingRendererMixin",
+    "SnowGolemHeadLayerMixin",
     "twilightforest.MagicPaintingRendererMixin"
   ],
   "injectors": {
