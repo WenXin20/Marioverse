@@ -1,6 +1,5 @@
 package com.wenxin2.marioverse.utils;
 
-import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.integration.fast_paintings_compat.FastPaintingsCompat;
@@ -65,7 +64,7 @@ public class WarpLinkParticles {
         }
 
         Direction facing = state.getValue(WarpPipeBlock.FACING);
-        List<BlockPos> blocks = state.getBlock() instanceof ClearWarpPipeBlock ? List.of(pos) : WarpPipeBlock.getEntranceGroup(level, pos, state);
+        List<BlockPos> blocks = WarpPipeBlock.getWarpFaceGroup(level, pos, state);
         if (blocks.isEmpty())
             blocks = List.of(pos);
 
@@ -160,7 +159,7 @@ public class WarpLinkParticles {
 
         if (state.getBlock() instanceof WarpPipeBlock) {
             facing = state.getValue(WarpPipeBlock.FACING);
-            List<BlockPos> group = state.getBlock() instanceof ClearWarpPipeBlock ? List.of(pos) : WarpPipeBlock.getEntranceGroup(level, pos, state);
+            List<BlockPos> group = WarpPipeBlock.getWarpFaceGroup(level, pos, state);
 
             if (!group.isEmpty())
                 blocks = group;

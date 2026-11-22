@@ -673,10 +673,23 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     }
 
     public static List<BlockPos> getEntranceGroup(Level level, BlockPos start, BlockState startState) {
+        if (startState.getBlock() instanceof ClearWarpPipeBlock)
+            return new ArrayList<>();
+        return WarpPipeBlock.collectEntranceGroup(level, start, startState);
+    }
+
+    // Like getEntranceGroup, but clear pipe entrances also form groups, matching ClearPipeNetwork. Used for outlines,
+    // warp particles and exit positions; linking still treats clear pipes as single blocks.
+    public static List<BlockPos> getWarpFaceGroup(Level level, BlockPos start, BlockState startState) {
+        return WarpPipeBlock.collectEntranceGroup(level, start, startState);
+    }
+
+    private static List<BlockPos> collectEntranceGroup(Level level, BlockPos start, BlockState startState) {
         List<BlockPos> group = new ArrayList<>();
-        if (!(startState.getBlock() instanceof WarpPipeBlock) || startState.getBlock() instanceof ClearWarpPipeBlock)
+        if (!(startState.getBlock() instanceof WarpPipeBlock))
             return group;
 
+        boolean clear = startState.getBlock() instanceof ClearWarpPipeBlock;
         Direction facing = startState.getValue(WarpPipeBlock.FACING);
         Set<BlockPos> visited = new HashSet<>(Set.of(start));
         ArrayDeque<BlockPos> queue = new ArrayDeque<>(List.of(start));
@@ -685,7 +698,9 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             BlockPos pos = queue.poll();
             BlockState state = level.getBlockState(pos);
 
-            if (state.getBlock() != startState.getBlock() || state.getValue(WarpPipeBlock.FACING) != facing || !state.getValue(WarpPipeBlock.ENTRANCE)
+            boolean sameKind = clear ? state.getBlock() instanceof ClearWarpPipeBlock : state.getBlock() == startState.getBlock();
+
+            if (!sameKind || state.getValue(WarpPipeBlock.FACING) != facing || !state.getValue(WarpPipeBlock.ENTRANCE)
                     || !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity))
                 continue;
 

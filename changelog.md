@@ -1,5 +1,5 @@
 ## Update 1.12.3
-- Added the ability for water spouts to face any direction
+- Changed water spouts to face any direction
 - Added the ability to pickup shells and throw shells 
   - The koopa will wake up and attack if held too long
   - Shift-right-click to place the shell down to reset the wake up timer
@@ -9,6 +9,7 @@
 - Added the ability for Splunkin Carved Pumpkins & Splunkin O'Lanterns to make Snow & Iron Golems
   - Added the block tag `golem_heads` for easy configuration
 - Improved koopa shell bouncing
+- Fixed linking 2x2 clear pipes 
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

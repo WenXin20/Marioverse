@@ -762,7 +762,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         float pitch = 1.0F + level.random.nextFloat() * 0.2F;
         Entity passengerEntity = entity.getControllingPassenger();
         Entity vehicle = entity.getVehicle();
-        List<BlockPos> entranceGroup = WarpPipeBlock.getEntranceGroup(level, warpPos, level.getBlockState(warpPos));
+        List<BlockPos> entranceGroup = WarpPipeBlock.getWarpFaceGroup(level, warpPos, level.getBlockState(warpPos));
         Vec3 groupCorner = WarpPipeBlock.getEntranceGroupCorner(warpPos, entranceGroup);
         double x = groupCorner.x;
         double y = warpPos.getY();

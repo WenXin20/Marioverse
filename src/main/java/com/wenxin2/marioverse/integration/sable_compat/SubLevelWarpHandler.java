@@ -315,7 +315,7 @@ public class SubLevelWarpHandler {
                 return null;
             facing = state.getValue(WarpPipeBlock.FACING);
             if (!requireEntrance) {
-                List<BlockPos> entranceGroup = WarpPipeBlock.getEntranceGroup(level, pos, state);
+                List<BlockPos> entranceGroup = WarpPipeBlock.getWarpFaceGroup(level, pos, state);
                 Vec3 groupCorner = WarpPipeBlock.getEntranceGroupCorner(pos, entranceGroup);
                 center = new Vec3(groupCorner.x + 0.5, center.y, groupCorner.z + 0.5);
             }
