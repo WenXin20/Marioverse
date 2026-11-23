@@ -17,7 +17,8 @@
 - Improved koopa shell bouncing
 - Improved pathfinding through warp blocks & paintings
 - Fixed linking 2x2 clear pipes
-- Fixed structure files using old states
+- Fixed structure files using old warp pipe states
+- Fixed costumes having a missing texture with modded trim materials 
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

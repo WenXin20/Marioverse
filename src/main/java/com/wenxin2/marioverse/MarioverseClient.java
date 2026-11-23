@@ -7,6 +7,7 @@ import com.wenxin2.marioverse.blocks.client.QuestionBlockScreen;
 import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.client.ArrowAtlas;
+import com.wenxin2.marioverse.client.TrimPaletteSpriteSource;
 import com.wenxin2.marioverse.client.particles.GlowingSuspendedTownParticle;
 import com.wenxin2.marioverse.client.particles.GravityParticle;
 import com.wenxin2.marioverse.client.particles.LargeRewardParticle;
@@ -111,6 +112,7 @@ import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+import net.neoforged.neoforge.client.event.RegisterSpriteSourceTypesEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -334,6 +336,11 @@ public class MarioverseClient {
     @SubscribeEvent
     private static void registerReloadListeners(final RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(ArrowAtlas.get());
+    }
+
+    @SubscribeEvent
+    private static void registerSpriteSourceTypes(final RegisterSpriteSourceTypesEvent event) {
+        event.register(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "trim_palettes"), TrimPaletteSpriteSource.TYPE);
     }
 
     @SubscribeEvent
