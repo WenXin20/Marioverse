@@ -128,6 +128,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public static final String WATER_SPOUT = "WaterSpout";
     public static final String SPOUT_REGROW_TIME = "SpoutRegrowTime";
     public static final String SPOUT_SIZZLED = "SpoutSizzled";
+    public static final String SPOUT_BUCKETED = "SpoutBucketed";
+    public static final String SPOUT_RETRACTING = "SpoutRetracting";
+    private static final int SPOUT_RETRACT_TICKS = 5;
     private static final int SPOUT_WATER_CHECK_TICKS = 20;
     public static final String DISPLAY_TEXT_NORTH = "displayTextNorth";
     public static final String DISPLAY_TEXT_SOUTH = "displayTextSouth";
@@ -174,7 +177,10 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     private boolean waterSpout = true;
     private long spoutRegrowTime;
     private boolean hasSpoutSizzled;
-    private long spoutWaterCheckTime = Long.MIN_VALUE;
+    private boolean isSpoutBucketed;
+    private boolean isSpoutRetracting;
+    private long spoutRetractTime;
+    private long nextSpoutWaterCheckTime;
     private boolean hasSpoutWater;
     public int spawnItemDelay = 20;
     public boolean displayTextNorth;
@@ -240,6 +246,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         tag.putBoolean(WATER_SPOUT, this.waterSpout);
         tag.putLong(SPOUT_REGROW_TIME, this.spoutRegrowTime);
         tag.putBoolean(SPOUT_SIZZLED, this.hasSpoutSizzled);
+        tag.putBoolean(SPOUT_BUCKETED, this.isSpoutBucketed);
+        tag.putBoolean(SPOUT_RETRACTING, this.isSpoutRetracting);
         tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
         tag.putBoolean(DISPLAY_TEXT_SOUTH, this.displayTextSouth);
         tag.putBoolean(DISPLAY_TEXT_EAST, this.displayTextEast);
@@ -270,6 +278,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.waterSpout = tag.getBoolean(WATER_SPOUT);
         this.spoutRegrowTime = tag.getLong(SPOUT_REGROW_TIME);
         this.hasSpoutSizzled = tag.getBoolean(SPOUT_SIZZLED);
+        this.isSpoutBucketed = tag.getBoolean(SPOUT_BUCKETED);
+        this.isSpoutRetracting = tag.getBoolean(SPOUT_RETRACTING);
         this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
         this.displayTextSouth = tag.getBoolean(DISPLAY_TEXT_SOUTH);
         this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
@@ -613,6 +623,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             BlockPos menuPos = ((WarpPipeMenu) player.containerMenu).getBlockPos();
             if (this.level.getBlockEntity(menuPos) instanceof WarpPipeBlockEntity pipeBlockEntity) {
                 if (pipeBlockEntity.hasWaterSpout()) {
+                    pipeBlockEntity.setSpoutRetracting(true);
                     pipeBlockEntity.setWaterSpout(false);
                     this.level.scheduleTick(menuPos, state.getBlock(), 3);
                     this.playSound(this.level, menuPos, SoundRegistry.WATER_SPOUT_BREAK.get(), SoundSource.BLOCKS, 1.0F, pitchLow);
@@ -631,36 +642,93 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
     public void setWaterSpout(boolean waterSpout) {
         this.waterSpout = waterSpout;
-        if (waterSpout)
+        if (waterSpout) {
             this.hasSpoutSizzled = false;
+            this.isSpoutBucketed = false;
+            this.isSpoutRetracting = false;
+        }
         this.updateColumns();
     }
 
-    public boolean isSpoutReady(BlockPos spoutPos, Direction facing) {
+    public int getSpoutGrowHeight(BlockPos spoutPos, Direction facing) {
         if (this.level == null)
-            return false;
+            return 0;
 
-        if (WaterSpoutBlock.isColumnComplete(this.level, spoutPos, facing, this.spoutHeight)) {
+        int length = WaterSpoutBlock.getColumnLength(this.level, spoutPos, facing, this.spoutHeight);
+        boolean isBlocked = !WaterSpoutBlock.canExistIn(this.level, spoutPos.relative(facing, length), facing);
+
+        if (length >= this.spoutHeight || isBlocked) {
             this.setSpoutRegrowTime(0L);
-            return true;
+            this.setSpoutBucketed(false);
+            return length;
         }
 
         int delay = ConfigRegistry.WATER_SPOUT_REGROW_DELAY.get();
         long gameTime = this.level.getGameTime();
 
+        if (length == 0 && !this.isSpoutBucketed && delay > 0) {
+            this.setSpoutRegrowTime(1 < this.spoutHeight ? gameTime + delay : 0L);
+            return 1;
+        }
+
         if (delay <= 0) {
             this.setSpoutRegrowTime(0L);
-            return true;
+            return this.spoutHeight;
         }
         if (this.spoutRegrowTime <= 0L || this.spoutRegrowTime > gameTime + delay) {
             this.setSpoutRegrowTime(gameTime + delay);
-            return false;
+            return length;
         }
         if (gameTime < this.spoutRegrowTime)
-            return false;
+            return length;
 
-        this.setSpoutRegrowTime(0L);
-        return true;
+        this.setSpoutRegrowTime(length + 1 < this.spoutHeight ? gameTime + delay : 0L);
+        this.setSpoutBucketed(false);
+        return length + 1;
+    }
+
+    public boolean isSpoutRetracting() {
+        return this.isSpoutRetracting;
+    }
+
+    public void setSpoutRetracting(boolean isSpoutRetracting) {
+        if (this.isSpoutRetracting != isSpoutRetracting) {
+            this.isSpoutRetracting = isSpoutRetracting;
+            this.spoutRetractTime = 0L;
+            this.setChanged();
+        }
+    }
+
+    public void retractWaterSpout(ServerLevel level, BlockPos spoutPos, Direction facing) {
+        int length = WaterSpoutBlock.getColumnLength(level, spoutPos, facing, this.spoutHeight);
+        if (length == 0) {
+            this.spoutRetractTime = 0L;
+            this.setSpoutRetracting(false);
+            return;
+        }
+
+        long gameTime = level.getGameTime();
+        if (this.spoutRetractTime <= 0L || this.spoutRetractTime > gameTime + SPOUT_RETRACT_TICKS) {
+            this.spoutRetractTime = gameTime + SPOUT_RETRACT_TICKS;
+            return;
+        }
+        if (gameTime < this.spoutRetractTime)
+            return;
+
+        level.destroyBlock(spoutPos.relative(facing, length - 1), false);
+        if (length > 1)
+            this.spoutRetractTime = gameTime + SPOUT_RETRACT_TICKS;
+        else {
+            this.spoutRetractTime = 0L;
+            this.setSpoutRetracting(false);
+        }
+    }
+
+    public void setSpoutBucketed(boolean isSpoutBucketed) {
+        if (this.isSpoutBucketed != isSpoutBucketed) {
+            this.isSpoutBucketed = isSpoutBucketed;
+            this.setChanged();
+        }
     }
 
     private void setSpoutRegrowTime(long spoutRegrowTime) {
@@ -670,8 +738,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         }
     }
 
-    public boolean canGrowWaterSpout(BlockPos spoutPos, Direction facing) {
-        return this.waterSpout && this.hasSpoutWaterSource() && this.isSpoutReady(spoutPos, facing);
+    public int getWaterSpoutHeight(BlockPos spoutPos, Direction facing) {
+        return this.waterSpout && this.hasSpoutWaterSource() ? this.getSpoutGrowHeight(spoutPos, facing) : 0;
     }
 
     public boolean hasSpoutWaterSource() {
@@ -687,9 +755,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             return true;
 
         long gameTime = this.level.getGameTime();
-        if (gameTime - this.spoutWaterCheckTime >= SPOUT_WATER_CHECK_TICKS || gameTime < this.spoutWaterCheckTime) {
+        if (gameTime >= this.nextSpoutWaterCheckTime || this.nextSpoutWaterCheckTime - gameTime > SPOUT_WATER_CHECK_TICKS) {
             this.hasSpoutWater = WarpPipeBlock.isConnectedToWater(this.level, this.worldPosition);
-            this.spoutWaterCheckTime = gameTime;
+            this.nextSpoutWaterCheckTime = gameTime + SPOUT_WATER_CHECK_TICKS;
         }
         return this.hasSpoutWater;
     }

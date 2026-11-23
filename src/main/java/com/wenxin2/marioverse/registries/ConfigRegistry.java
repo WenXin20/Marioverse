@@ -935,13 +935,12 @@ public class ConfigRegistry {
                             .comment("§9[Default: true]")
                             .define("water_spouts_bucketable", true);
                     WATER_SPOUT_REGROW_DELAY = BUILDER.translation("configuration.marioverse.water_spout_regrow_delay")
-                            .comment("Ticks a pipe waits each time before it places its water spout.")
+                            .comment("Ticks between each block a water spout grows.")
                             .comment("§6[20 ticks = 1 second]")
-                            .comment("§9[Default: 100]§b")
-                            .defineInRange("water_spout_regrow_delay", 100, 0, 72000);
+                            .comment("§9[Default: 5]§b")
+                            .defineInRange("water_spout_regrow_delay", 5, 0, 72000);
                     WATER_SPOUTS_REQUIRE_WATER = BUILDER.translation("configuration.marioverse.water_spouts_require_water")
                             .comment("Water spouts only flow when a connected pipe entrance opens into water.")
-                            .comment("Clear Warp Pipes need their water spout entrance to be waterlogged.")
                             .comment("§9[Default: false]")
                             .define("water_spouts_require_water", false);
                 BUILDER.pop();

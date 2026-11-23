@@ -13,6 +13,8 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
@@ -54,6 +56,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class WaterSpoutBlock extends Block implements BucketPickup {
+    private static final int MAX_LAYER_SIZE = 256;
+    private static final int SPLASH_PARTICLES = 24;
+    private static final double SPLASH_SPEED = 0.15;
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty TOP = BlockStatePropertyRegistry.TOP;
     public static final BooleanProperty NORTH = PipeBlock.NORTH;
@@ -132,7 +137,7 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
             return sourceState.getValue(FACING) == facing;
         else if (sourceState.getBlock() instanceof ClearWarpPipeBlock)
             return sourceState.getValue(WarpPipeBlock.FACING) == facing && !sourceState.getValue(WarpPipeBlock.CLOSED)
-                    && sourceState.getValue(ClearWarpPipeBlock.WATERLOGGED) && WarpPipeBlock.hasWaterSpout(worldReader, sourcePos);
+                    && WarpPipeBlock.hasWaterSpout(worldReader, sourcePos);
         else if (sourceState.getBlock() instanceof WarpPipeBlock)
             return sourceState.getValue(WarpPipeBlock.FACING) == facing && !sourceState.getValue(WarpPipeBlock.CLOSED)
                     && WarpPipeBlock.hasWaterSpout(worldReader, sourcePos);
@@ -285,22 +290,71 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
         Direction facing = state.getValue(FACING);
         BlockPos sourcePos = pos.relative(facing.getOpposite());
         int spoutHeight = serverWorld.getBlockEntity(sourcePos) instanceof WarpPipeBlockEntity pipeBlockEntity
-                && pipeBlockEntity.canGrowWaterSpout(pos, facing) ? pipeBlockEntity.spoutHeight : 0;
+                ? pipeBlockEntity.getWaterSpoutHeight(pos, facing) : 0;
 
         WaterSpoutBlock.repeatColumn(serverWorld, pos, serverWorld.getBlockState(sourcePos), facing, spoutHeight);
     }
 
-    public static boolean isColumnComplete(LevelAccessor worldAccessor, BlockPos pos, Direction facing, int spoutHeight) {
-        BlockPos.MutableBlockPos mutablePos = pos.mutable();
+    public static List<BlockPos> getConnectedLayer(LevelAccessor worldAccessor, BlockPos start, Direction facing) {
+        List<BlockPos> layer = new ArrayList<>(List.of(start.immutable()));
+        Set<BlockPos> visited = new HashSet<>(layer);
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>(layer);
 
-        for (int i = 0; i < spoutHeight; i++) {
-            BlockState state = worldAccessor.getBlockState(mutablePos);
-
-            if (!state.is(BlockRegistry.WATER_SPOUT.get()) || state.getValue(FACING) != facing)
-                return !WaterSpoutBlock.canExistIn(worldAccessor, mutablePos, facing);
-            mutablePos.move(facing);
+        while (!queue.isEmpty() && layer.size() < MAX_LAYER_SIZE) {
+            BlockPos pos = queue.poll();
+            for (Direction direction : Direction.values()) {
+                BlockPos next = pos.relative(direction);
+                if (direction.getAxis() != facing.getAxis() && visited.add(next) && WaterSpoutBlock.isSpoutFacing(worldAccessor, next, facing)) {
+                    layer.add(next);
+                    queue.add(next);
+                }
+            }
         }
-        return true;
+        return layer;
+    }
+
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if (!level.isClientSide && !newState.is(this)) {
+            Direction facing = state.getValue(FACING);
+
+            if (level instanceof ServerLevel serverLevel)
+                WaterSpoutBlock.splash(serverLevel, pos);
+
+            for (Direction direction : Direction.values()) {
+                BlockPos neighborPos = pos.relative(direction);
+                if (direction.getAxis() != facing.getAxis() && WaterSpoutBlock.isSpoutFacing(level, neighborPos, facing))
+                    level.removeBlock(neighborPos, false);
+            }
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    private static void splash(ServerLevel level, BlockPos pos) {
+        Vec3 center = Vec3.atCenterOf(pos);
+
+        for (int i = 0; i < SPLASH_PARTICLES; i++) {
+            double angle = level.random.nextDouble() * Math.PI * 2.0;
+            double x = Math.cos(angle);
+            double z = Math.sin(angle);
+            double y = center.y + (level.random.nextDouble() - 0.5) * 0.8;
+
+            level.sendParticles(ParticleTypes.SPLASH, center.x + x * 0.4, y, center.z + z * 0.4, 0, x, 0.0, z, SPLASH_SPEED);
+        }
+    }
+
+    public static int getColumnLength(LevelAccessor worldAccessor, BlockPos pos, Direction facing, int spoutHeight) {
+        BlockPos.MutableBlockPos mutablePos = pos.mutable();
+        int length = 0;
+
+        while (length < spoutHeight) {
+            BlockState state = worldAccessor.getBlockState(mutablePos);
+            if (!state.is(BlockRegistry.WATER_SPOUT.get()) || state.getValue(FACING) != facing)
+                break;
+            mutablePos.move(facing);
+            length++;
+        }
+        return length;
     }
 
     public static void repeatColumn(LevelAccessor worldAccessor, BlockPos pos, BlockState sourceState, Direction facing, int spoutHeight) {
@@ -315,8 +369,9 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
             // Used 4 - 1 since this somehow places one more block than intended
             while (WaterSpoutBlock.canExistIn(worldAccessor, mutablePos, facing) && initialDistance < spoutHeight - 1) {
                 pipeColumnState = WaterSpoutBlock.setBlockState(pipeColumnState, worldAccessor, mutablePos, facing);
+                BlockState newState = WaterSpoutBlock.keepExistingConnections(pipeColumnState, worldAccessor, mutablePos);
 
-                if (!worldAccessor.setBlock(mutablePos, WaterSpoutBlock.keepExistingConnections(pipeColumnState, worldAccessor, mutablePos), 2)) {
+                if (!worldAccessor.getBlockState(mutablePos).equals(newState) && !worldAccessor.setBlock(mutablePos, newState, 2)) {
                     return;
                 }
                 mutablePos.move(facing);
@@ -328,6 +383,14 @@ public class WaterSpoutBlock extends Block implements BucketPickup {
     @NotNull
     @Override
     public ItemStack pickupBlock(@Nullable Player player, LevelAccessor worldAccessor, BlockPos pos, BlockState state) {
+        if (ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get()) {
+            for (BlockPos layerPos : WaterSpoutBlock.getConnectedLayer(worldAccessor, pos, state.getValue(FACING))) {
+                if (worldAccessor.getBlockEntity(layerPos.relative(state.getValue(FACING).getOpposite())) instanceof WarpPipeBlockEntity pipeBlockEntity)
+                    pipeBlockEntity.setSpoutBucketed(true);
+                if (!layerPos.equals(pos))
+                    worldAccessor.setBlock(layerPos, Blocks.AIR.defaultBlockState(), 3);
+            }
+        }
         if (ConfigRegistry.WATER_SPOUTS_BUCKETABLE.get() && player != null
                 && player.getItemInHand(player.getUsedItemHand()).getItem() instanceof BucketItem) {
             worldAccessor.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);

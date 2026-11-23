@@ -494,13 +494,15 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                 else {
                     BlockPos spoutPos = pos.relative(state.getValue(FACING));
 
-                    if (!pipeBE.hasSpoutWaterSource()) {
-                        if (serverWorld.getBlockState(spoutPos).getBlock() instanceof WaterSpoutBlock)
-                            serverWorld.destroyBlock(spoutPos, false);
-                    } else if (pipeBE.isSpoutReady(spoutPos, state.getValue(FACING)))
-                        WaterSpoutBlock.repeatColumn(serverWorld, spoutPos, state, state.getValue(FACING), pipeBE.spoutHeight);
+                    if (!pipeBE.hasSpoutWaterSource())
+                        pipeBE.retractWaterSpout(serverWorld, spoutPos, state.getValue(FACING));
+                    else WaterSpoutBlock.repeatColumn(serverWorld, spoutPos, state, state.getValue(FACING),
+                            pipeBE.getSpoutGrowHeight(spoutPos, state.getValue(FACING)));
                     serverWorld.scheduleTick(pos, this, 3);
                 }
+            } else if (pipeBE.isSpoutRetracting()) {
+                pipeBE.retractWaterSpout(serverWorld, pos.relative(state.getValue(FACING)), state.getValue(FACING));
+                serverWorld.scheduleTick(pos, this, 3);
             }
 
             if (pipeBE.hasBubbles() && state.getValue(FACING) == Direction.UP) {
@@ -692,6 +694,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     }
 
     public static boolean isConnectedToWater(Level level, BlockPos start) {
+        BlockState startState = level.getBlockState(start);
         Set<BlockPos> visited = new HashSet<>(Set.of(start));
         ArrayDeque<BlockPos> queue = new ArrayDeque<>(List.of(start));
 
@@ -705,6 +708,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             for (Direction direction : Direction.values()) {
                 BlockPos next = pos.relative(direction);
                 if (visited.size() < MAX_WATER_SEARCH_SIZE && !visited.contains(next)
+                        && WarpPipeBlock.isSamePipeNetwork(startState, state, level.getBlockState(next))
                         && WarpPipeBlock.isPipeConnection(state, direction, level.getBlockState(next))) {
                     visited.add(next);
                     queue.add(next);
@@ -831,7 +835,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     }
 
     public static boolean hasWaterSpout(BlockGetter blockGetter, BlockPos pos) {
-        return blockGetter.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && pipeBE.hasWaterSpout();
+        return blockGetter.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && (pipeBE.hasWaterSpout() || pipeBE.isSpoutRetracting());
     }
 
     public static List<BlockPos> getEntranceGroup(Level level, BlockPos start, BlockState startState) {

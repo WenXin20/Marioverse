@@ -542,9 +542,11 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         WarpPipeBlockEntity pipeBlockEntity = (WarpPipeBlockEntity) serverWorld.getBlockEntity(pos);
 
         if (pipeBlockEntity != null && pipeBlockEntity.hasWaterSpout() && state.getValue(WATERLOGGED)) {
-            if (pipeBlockEntity.isSpoutReady(pos.relative(state.getValue(FACING)), state.getValue(FACING)))
-                WaterSpoutBlock.repeatColumn(serverWorld, pos.relative(state.getValue(FACING)), state,
-                        state.getValue(FACING), pipeBlockEntity.spoutHeight);
+            WaterSpoutBlock.repeatColumn(serverWorld, pos.relative(state.getValue(FACING)), state, state.getValue(FACING),
+                    pipeBlockEntity.getSpoutGrowHeight(pos.relative(state.getValue(FACING)), state.getValue(FACING)));
+            serverWorld.scheduleTick(pos, this, 3);
+        } else if (pipeBlockEntity != null && (pipeBlockEntity.hasWaterSpout() || pipeBlockEntity.isSpoutRetracting())) {
+            pipeBlockEntity.retractWaterSpout(serverWorld, pos.relative(state.getValue(FACING)), state.getValue(FACING));
             serverWorld.scheduleTick(pos, this, 3);
         }
 
