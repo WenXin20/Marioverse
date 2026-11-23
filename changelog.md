@@ -8,11 +8,11 @@
   - Disabled by default
   - Pipes connected to the destination pipe must be the same color
   - Pipe Junction blocks can be used to change the color of the pipes connected
+- Added a config to disable teleporting using clear pipes
 - Added the damage type tag `cannot_remove_power_up`. 
   - Includes fall damage by default
 - Added the ability for Splunkin Carved Pumpkins & Splunkin O'Lanterns to make Snow & Iron Golems
   - Added the block tag `golem_heads` for easy configuration
-- Added a config to disable teleporting using clear pipes
 - Improved koopa shell bouncing
 - Improved pathfinding through warp blocks & paintings
 - Fixed linking 2x2 clear pipes

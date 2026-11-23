@@ -11,11 +11,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_pipe_junction_blocks": {
+    "has_dyed_pipe_junctions": {
       "conditions": {
         "items": [
           {
-            "items": "#marioverse:pipe_junction_blocks"
+            "items": "#marioverse:dyed_pipe_junctions"
           }
         ]
       },
@@ -32,7 +32,7 @@
     [
       "has_the_recipe",
       "has_dyes/light_blue",
-      "has_pipe_junction_blocks"
+      "has_dyed_pipe_junctions"
     ]
   ],
   "rewards": {
