@@ -1,5 +1,6 @@
 ## Update 1.12.3
 - Changed water spouts to face any direction
+- Added a config to require water near a connected pipe for water spouts to place. Default false.
 - Added the ability to pickup shells and throw shells 
   - The koopa will wake up and attack if held too long
   - Shift-right-click to place the shell down to reset the wake up timer
