@@ -81,7 +81,30 @@ public class BlockTagsGen extends BlockTagsProvider {
         BlockRegistry.PARKOUR_BLOCKS.values().forEach(block -> tag(TagRegistry.NORMAL_PARKOUR_BLOCKS).add(block.get()));
         BlockRegistry.PICKET_FENCES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCES).add(block.get()));
         BlockRegistry.PICKET_FENCE_GATES.values().forEach(block -> tag(TagRegistry.DYED_PICKET_FENCE_GATES).add(block.get()));
-        BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.PIPE_JUNCTION_BLOCKS).add(block.get()));
+        BlockRegistry.PIPE_JUNCTION.values().forEach(block -> tag(TagRegistry.DYED_PIPE_JUNCTION_BLOCKS).add(block.get()));
+        tag(TagRegistry.PIPE_JUNCTION_BLOCKS)
+                .addTag(TagRegistry.DYED_PIPE_JUNCTION_BLOCKS)
+                .add(Blocks.COPPER_BLOCK)
+                .add(Blocks.EXPOSED_COPPER)
+                .add(Blocks.WEATHERED_COPPER)
+                .add(Blocks.OXIDIZED_COPPER)
+                .add(Blocks.WAXED_COPPER_BLOCK)
+                .add(Blocks.WAXED_EXPOSED_COPPER)
+                .add(Blocks.WAXED_WEATHERED_COPPER)
+                .add(Blocks.WAXED_OXIDIZED_COPPER)
+                .add(Blocks.DIAMOND_BLOCK)
+                .add(Blocks.EMERALD_BLOCK)
+                .add(Blocks.GOLD_BLOCK)
+                .add(Blocks.IRON_BLOCK)
+                .add(Blocks.LAPIS_BLOCK)
+                .add(Blocks.NETHERITE_BLOCK)
+                .add(Blocks.POLISHED_ANDESITE)
+                .add(Blocks.POLISHED_BLACKSTONE)
+                .add(Blocks.POLISHED_DEEPSLATE)
+                .add(Blocks.POLISHED_DIORITE)
+                .add(Blocks.POLISHED_GRANITE)
+                .add(Blocks.POLISHED_TUFF)
+                .add(Blocks.SMOOTH_STONE);
         BlockRegistry.POLISHED_CALCITE.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE_SLABS.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_SLAB_BLOCKS).add(block.get()));
         BlockRegistry.POLISHED_CALCITE_STAIRS.values().forEach(block -> tag(TagRegistry.POLISHED_CALCITE_STAIR_BLOCKS).add(block.get()));
@@ -1572,7 +1595,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.DYEABLE_WARP_PIPE_BLOCKS)
                 .addTag(TagRegistry.HARD_BLOCKS)
                 .addTag(TagRegistry.PARKOUR_BLOCKS)
-                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS);
+                .addTag(TagRegistry.DYED_PIPE_JUNCTION_BLOCKS);
 
         tag(BlockTags.PARROTS_SPAWNABLE_ON)
                 .addTag(TagRegistry.GRASSY_STONES)
@@ -1880,7 +1903,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 .addTag(TagRegistry.GRASSY_STONES)
                 .addTag(TagRegistry.INVISIBLE_QUESTION_BLOCKS)
                 .addTag(TagRegistry.PARKOUR_BLOCKS)
-                .addTag(TagRegistry.PIPE_JUNCTION_BLOCKS)
+                .addTag(TagRegistry.DYED_PIPE_JUNCTION_BLOCKS)
                 .addTag(TagRegistry.POLISHED_CALCITE_BLOCKS)
                 .addTag(TagRegistry.QUESTION_BLOCKS)
                 .addTag(TagRegistry.QUESTION_PANEL_BLOCKS)

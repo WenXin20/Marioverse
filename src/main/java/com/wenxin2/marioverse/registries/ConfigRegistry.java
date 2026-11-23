@@ -185,6 +185,8 @@ public class ConfigRegistry {
     public static ModConfigSpec.BooleanValue WARP_COOLDOWN_MESSAGE_TICKS;
     public static ModConfigSpec.BooleanValue WARP_PIPE_SPAWNS_MOBS;
     public static ModConfigSpec.BooleanValue WATER_SPOUTS_BUCKETABLE;
+    public static ModConfigSpec.BooleanValue REQUIRE_CONNECTED_PIPES;
+    public static ModConfigSpec.BooleanValue REQUIRE_CONNECTED_CLEAR_PIPES;
     public static ModConfigSpec.BooleanValue WATER_SPOUTS_REQUIRE_WATER;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_BUBBLES;
     public static ModConfigSpec.BooleanValue WAX_DISABLES_CLOSING;
@@ -727,6 +729,11 @@ public class ConfigRegistry {
                             .comment("Travel through connected Clear Warp Pipes still works.")
                             .comment("§9[Default: false]")
                             .define("disable_clear_pipe_teleporting", false);
+                    REQUIRE_CONNECTED_CLEAR_PIPES = BUILDER.translation("configuration.marioverse.require_connected_clear_pipes")
+                            .comment("Only teleport to a linked clear pipe connected to the destination pipe.")
+                            .comment("Links between Clear Warp Pipes and other warps stop working.")
+                            .comment("§9[Default: false]")
+                            .define("require_connected_clear_pipes", false);
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_DECORATED_POTS);
@@ -857,6 +864,10 @@ public class ConfigRegistry {
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_WARP_PIPES);
+                    REQUIRE_CONNECTED_PIPES = BUILDER.translation("configuration.marioverse.require_connected_pipes")
+                            .comment("Only teleport to a linked warp pipe connected to the destination pipe by pipes of the same color. Pipe Junctions can connect pipes of different colors. Links between pipes and doors, trapdoors, or paintings stop working.")
+                            .comment("§9[Default: false]")
+                            .define("require_connected_pipes", false);
                     WARP_PIPE_COOLDOWN = BUILDER.translation("configuration.marioverse.warp_pipe_cooldown")
                             .comment("Cooldown between teleports in ticks.")
                             .comment("§6[20 ticks = 1 second]§b")

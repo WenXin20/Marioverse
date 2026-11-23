@@ -149,7 +149,7 @@ public class WarpLinkPathing {
             return;
 
         BaseWarpBlockEntity warpBE = WarpLinkPathing.getUsableWarpBlockEntity(level, pipe);
-        if (warpBE == null)
+        if (warpBE == null || !WarpPipeBlock.arePipesConnected(level, pipe, warpBE.destinationPos))
             return;
 
         BlockState destinationState = level.getBlockState(warpBE.destinationPos);
@@ -171,7 +171,7 @@ public class WarpLinkPathing {
             return;
 
         BaseWarpBlockEntity warpBE = WarpLinkPathing.getUsableWarpBlockEntity(level, trigger);
-        if (warpBE != null)
+        if (warpBE != null && WarpPipeBlock.arePipesConnected(level, trigger, warpBE.destinationPos))
             links.add(new WarpLink(trigger.immutable(), warpBE.destinationPos.immutable(), false, trigger.immutable()));
     }
 
@@ -185,7 +185,7 @@ public class WarpLinkPathing {
             return;
 
         BaseWarpBlockEntity warpBE = WarpLinkPathing.getUsableWarpBlockEntity(level, trigger);
-        if (warpBE != null)
+        if (warpBE != null && WarpPipeBlock.arePipesConnected(level, trigger, warpBE.destinationPos))
             links.add(new WarpLink(trigger.immutable(), warpBE.destinationPos.immutable(), false, null));
     }
 

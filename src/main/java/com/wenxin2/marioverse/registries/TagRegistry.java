@@ -138,6 +138,7 @@ public class TagRegistry {
     public static final TagKey<Block> RHOMBUS_PARKOUR_BLOCKS = blockTags("parkour_blocks/rhombus");
     public static final TagKey<Block> PICKET_FENCES = blockTags("picket_fences");
     public static final TagKey<Block> PICKET_FENCE_GATES = blockTags("picket_fence_gates");
+    public static final TagKey<Block> DYED_PIPE_JUNCTION_BLOCKS = blockTags("dyed_pipe_junctions");
     public static final TagKey<Block> PIPE_JUNCTION_BLOCKS = blockTags("pipe_junction_blocks");
     public static final TagKey<Block> PIRANHA_PLANTS_CANNOT_ATTACH = blockTags("piranha_plants_cannot_attach");
     public static final TagKey<Block> PIRANHA_PLANTS_CAN_HIDE = blockTags("piranha_plants_can_hide");
@@ -312,6 +313,7 @@ public class TagRegistry {
     public static final TagKey<Item> RHOMBUS_PARKOUR_BLOCK_ITEMS = itemTags("parkour_blocks/rhombus");
     public static final TagKey<Item> PICKET_FENCE_ITEMS = itemTags("picket_fences");
     public static final TagKey<Item> PICKET_FENCE_GATE_ITEMS = itemTags("picket_fence_gates");
+    public static final TagKey<Item> DYED_PIPE_JUNCTION_ITEMS = itemTags("dyed_pipe_junctions");
     public static final TagKey<Item> PIPE_JUNCTION_BLOCK_ITEMS = itemTags("pipe_junction_blocks");
     public static final TagKey<Item> PIRANHA_PLANT_FOOD = itemTags("piranha_plant_food");
     public static final TagKey<Item> PLATFORM_ITEMS = itemTags("platforms");

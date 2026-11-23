@@ -301,7 +301,8 @@ public class SubLevelWarpHandler {
         }
 
         if (destination == null || !(level.getBlockEntity(destination) instanceof BaseWarpBlockEntity)
-                || SubLevelWarpHandler.isOnSubLevel(level, destination, sub))
+                || SubLevelWarpHandler.isOnSubLevel(level, destination, sub)
+                || !WarpPipeBlock.arePipesConnected(level, warpBE.getBlockPos(), destination))
             return null;
         return SubLevelWarpHandler.getBlockWarpPoint(level, destination, level.getBlockState(destination), false);
     }

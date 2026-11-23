@@ -2733,6 +2733,7 @@
 
   "display.marioverse.doors_cannot_teleport_players": "§cWarp Doors cannot teleport Players!",
   "display.marioverse.paintings_cannot_teleport_players": "§cWarp Paintings cannot teleport Players!",
+  "display.marioverse.pipes_not_connected": "§cPipe is not connected to the destination pipe!",
   "display.marioverse.pipes_cannot_teleport_players": "§cWarp Pipes cannot teleport Players!",
   "display.marioverse.trapdoors_cannot_teleport_players": "§cWarp Trapdoors cannot teleport Players!",
 
@@ -3080,6 +3081,8 @@
   "configuration.marioverse.super_star_duration": "Duration",
   "configuration.marioverse.super_star_powers_all_mobs": "Powers All Mobs",
   "configuration.marioverse.super_star_speed_duration": "Speed Duration",
+  "configuration.marioverse.require_connected_clear_pipes": "Require Connected Pipes",
+  "configuration.marioverse.require_connected_pipes": "Require Connected Pipes",
   "configuration.marioverse.teleport_contraptions": "Teleport Contraptions",
   "configuration.marioverse.teleport_mobs": "Teleport Mobs",
   "configuration.marioverse.teleport_non_mobs": "Teleport Non-Living Entities",

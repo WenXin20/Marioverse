@@ -269,6 +269,11 @@ public interface BlockWarpEntityHandler {
         if (linkedEntity != null || useSavedTarget) {
             if (WarpLinkPathing.isAccidentalWarp(entity, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos))
                 return;
+            if (!WarpPipeBlock.arePipesConnected(level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos)) {
+                if (!level.isClientSide && entity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.pipes_not_connected"), true);
+                return;
+            }
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos, state);
             Vec3 startPos = entity.position();
 
@@ -298,6 +303,11 @@ public interface BlockWarpEntityHandler {
             BlockState warpState = level.getBlockState(warpPos);
             if (WarpLinkPathing.isAccidentalWarp(entity, pos, warpPos))
                 return;
+            if (!WarpPipeBlock.arePipesConnected(level, pos, warpPos)) {
+                if (!level.isClientSide && entity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.pipes_not_connected"), true);
+                return;
+            }
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
             Vec3 startPos = entity.position();
 
@@ -324,6 +334,11 @@ public interface BlockWarpEntityHandler {
             BlockState warpState = level.getBlockState(warpPos);
             if (WarpLinkPathing.isAccidentalWarp(entity, pos, warpPos))
                 return;
+            if (!WarpPipeBlock.arePipesConnected(level, pos, warpPos)) {
+                if (!level.isClientSide && entity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.pipes_not_connected"), true);
+                return;
+            }
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
             Vec3 startPos = entity.position();
 

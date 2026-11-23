@@ -173,9 +173,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     private boolean bubbles = true;
     private boolean waterSpout = true;
     private long spoutRegrowTime;
-    private boolean spoutSizzled;
+    private boolean hasSpoutSizzled;
     private long spoutWaterCheckTime = Long.MIN_VALUE;
-    private boolean spoutHasWater;
+    private boolean hasSpoutWater;
     public int spawnItemDelay = 20;
     public boolean displayTextNorth;
     public boolean displayTextSouth;
@@ -239,7 +239,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         tag.putBoolean(BUBBLES, this.bubbles);
         tag.putBoolean(WATER_SPOUT, this.waterSpout);
         tag.putLong(SPOUT_REGROW_TIME, this.spoutRegrowTime);
-        tag.putBoolean(SPOUT_SIZZLED, this.spoutSizzled);
+        tag.putBoolean(SPOUT_SIZZLED, this.hasSpoutSizzled);
         tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
         tag.putBoolean(DISPLAY_TEXT_SOUTH, this.displayTextSouth);
         tag.putBoolean(DISPLAY_TEXT_EAST, this.displayTextEast);
@@ -269,7 +269,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.bubbles = !tag.contains(BUBBLES) || tag.getBoolean(BUBBLES);
         this.waterSpout = tag.getBoolean(WATER_SPOUT);
         this.spoutRegrowTime = tag.getLong(SPOUT_REGROW_TIME);
-        this.spoutSizzled = tag.getBoolean(SPOUT_SIZZLED);
+        this.hasSpoutSizzled = tag.getBoolean(SPOUT_SIZZLED);
         this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
         this.displayTextSouth = tag.getBoolean(DISPLAY_TEXT_SOUTH);
         this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
@@ -632,7 +632,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public void setWaterSpout(boolean waterSpout) {
         this.waterSpout = waterSpout;
         if (waterSpout)
-            this.spoutSizzled = false;
+            this.hasSpoutSizzled = false;
         this.updateColumns();
     }
 
@@ -688,22 +688,22 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
         long gameTime = this.level.getGameTime();
         if (gameTime - this.spoutWaterCheckTime >= SPOUT_WATER_CHECK_TICKS || gameTime < this.spoutWaterCheckTime) {
-            this.spoutHasWater = WarpPipeBlock.isConnectedToWater(this.level, this.worldPosition);
+            this.hasSpoutWater = WarpPipeBlock.isConnectedToWater(this.level, this.worldPosition);
             this.spoutWaterCheckTime = gameTime;
         }
-        return this.spoutHasWater;
+        return this.hasSpoutWater;
     }
 
     public void sizzleWaterSpout(ServerLevel level) {
         BlockState state = this.getBlockState();
-        if (this.spoutSizzled || !this.waterSpout || !(state.getBlock() instanceof WarpPipeBlock) || state.getValue(WarpPipeBlock.CLOSED))
+        if (this.hasSpoutSizzled || !this.waterSpout || !(state.getBlock() instanceof WarpPipeBlock) || state.getValue(WarpPipeBlock.CLOSED))
             return;
 
         BlockPos spoutPos = this.worldPosition.relative(state.getValue(WarpPipeBlock.FACING));
         if (!level.getBlockState(spoutPos).isAir())
             return;
 
-        this.spoutSizzled = true;
+        this.hasSpoutSizzled = true;
         this.setChanged();
         level.playSound(null, spoutPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F,
                 2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);

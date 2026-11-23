@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import com.wenxin2.marioverse.registries.BlockRegistry;
+import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataComponentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
@@ -14,10 +15,13 @@ import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.UUID;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.gui.screens.Screen;
@@ -87,6 +91,14 @@ import org.joml.Vector3f;
 public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     public static final int MAX_ENTRANCE_GROUP_SIZE = 64;
     public static final int MAX_WATER_SEARCH_SIZE = 512;
+    public static final int MAX_CONNECTION_SEARCH_SIZE = 4096;
+    private static final int MAX_CONNECTION_CACHE_SIZE = 1024;
+    private static final int CONNECTION_CACHE_TICKS = 40;
+    private static final Map<Level, Map<PipeConnection, CachedConnection>> CONNECTION_CACHE = new WeakHashMap<>();
+
+    private record PipeConnection(BlockPos from, BlockPos to) {}
+
+    private record CachedConnection(boolean isConnected, long expiry) {}
     public static final MapCodec<WarpPipeBlock> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(DyeColor.CODEC.optionalFieldOf("color")
                             .forGetter(flagBlock -> Optional.ofNullable(flagBlock.color)), propertiesCodec())
@@ -702,6 +714,94 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         return false;
     }
 
+    public static boolean arePipesConnected(Level level, BlockPos from, BlockPos to) {
+        BlockState fromState = level.getBlockState(from);
+        BlockState toState = level.getBlockState(to);
+        boolean isFromPipe = fromState.getBlock() instanceof WarpPipeBlock;
+        boolean isToPipe = toState.getBlock() instanceof WarpPipeBlock;
+
+        if (!WarpPipeBlock.requiresConnection(fromState) && !WarpPipeBlock.requiresConnection(toState))
+            return true;
+        if (!isFromPipe || !isToPipe || !WarpPipeBlock.isSamePipeType(fromState, toState))
+            return false;
+
+        Map<PipeConnection, CachedConnection> cache = CONNECTION_CACHE.computeIfAbsent(level, key -> new HashMap<>());
+        PipeConnection key = new PipeConnection(from.immutable(), to.immutable());
+        CachedConnection cached = cache.get(key);
+        long gameTime = level.getGameTime();
+
+        if (cached != null && cached.expiry() >= gameTime)
+            return cached.isConnected();
+        if (cache.size() > MAX_CONNECTION_CACHE_SIZE)
+            cache.clear();
+
+        boolean isConnected = WarpPipeBlock.searchConnection(level, from, to, fromState);
+        cache.put(key, new CachedConnection(isConnected, gameTime + CONNECTION_CACHE_TICKS));
+        cache.put(new PipeConnection(key.to(), key.from()), new CachedConnection(isConnected, gameTime + CONNECTION_CACHE_TICKS));
+        return isConnected;
+    }
+
+    private static boolean requiresConnection(BlockState state) {
+        if (state.getBlock() instanceof ClearWarpPipeBlock)
+            return ConfigRegistry.REQUIRE_CONNECTED_CLEAR_PIPES.get();
+        return state.getBlock() instanceof WarpPipeBlock && ConfigRegistry.REQUIRE_CONNECTED_PIPES.get();
+    }
+
+    private static boolean searchConnection(Level level, BlockPos from, BlockPos to, BlockState startState) {
+        Set<BlockPos> visited = new HashSet<>(Set.of(from));
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>(List.of(from));
+
+        while (!queue.isEmpty()) {
+            BlockPos pos = queue.poll();
+            if (pos.equals(to))
+                return true;
+
+            BlockState state = level.getBlockState(pos);
+            for (Direction direction : Direction.values()) {
+                BlockPos next = pos.relative(direction);
+                if (visited.size() >= MAX_CONNECTION_SEARCH_SIZE || visited.contains(next) || !level.isLoaded(next))
+                    continue;
+
+                BlockState nextState = level.getBlockState(next);
+                if (WarpPipeBlock.isSamePipeNetwork(startState, state, nextState) && WarpPipeBlock.isNetworkConnection(state, direction, nextState)) {
+                    visited.add(next);
+                    queue.add(next);
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isSamePipeType(BlockState state, BlockState otherState) {
+        boolean isClear = state.getBlock() instanceof ClearWarpPipeBlock;
+        if (isClear != otherState.getBlock() instanceof ClearWarpPipeBlock)
+            return false;
+        return !isClear || WarpPipeBlock.getPipeColor(state) == WarpPipeBlock.getPipeColor(otherState);
+    }
+
+    private static boolean isSamePipeNetwork(BlockState startState, BlockState state, BlockState nextState) {
+        if (startState.getBlock() instanceof ClearWarpPipeBlock)
+            return nextState.getBlock() instanceof ClearWarpPipeBlock && WarpPipeBlock.getPipeColor(nextState) == WarpPipeBlock.getPipeColor(startState);
+        if (nextState.is(TagRegistry.PIPE_JUNCTION_BLOCKS))
+            return true;
+        if (!WarpPipeBlock.isColoredPipe(nextState))
+            return false;
+        return state.is(TagRegistry.PIPE_JUNCTION_BLOCKS) || WarpPipeBlock.getPipeColor(nextState) == WarpPipeBlock.getPipeColor(state);
+    }
+
+    private static boolean isNetworkConnection(BlockState state, Direction direction, BlockState nextState) {
+        if (state.getBlock() instanceof ClearWarpPipeBlock)
+            return nextState.getBlock() instanceof ClearWarpPipeBlock && state.getValue(ClearWarpPipeBlock.PROPERTY_BY_DIRECTION.get(direction));
+        return WarpPipeBlock.isPipeConnection(state, direction, nextState);
+    }
+
+    @Nullable
+    public static DyeColor getPipeColor(BlockState state) {
+        if (state.getBlock() instanceof WarpPipeBlock pipeBlock)
+            return pipeBlock.getColor();
+        return null;
+    }
+
     private static boolean isColoredPipe(BlockState state) {
         return state.getBlock() instanceof WarpPipeBlock && !(state.getBlock() instanceof ClearWarpPipeBlock);
     }
@@ -713,17 +813,17 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     private static boolean isPipeConnection(BlockState state, Direction direction, BlockState nextState) {
         if (!WarpPipeBlock.isPipeNode(state) || !WarpPipeBlock.isPipeNode(nextState))
             return false;
-        if (!WarpPipeBlock.isColoredPipe(state) && !WarpPipeBlock.isColoredPipe(nextState))
-            return true;
-        return WarpPipeBlock.isPipeEnd(state, direction, nextState) || WarpPipeBlock.isPipeEnd(nextState, direction.getOpposite(), state);
+        boolean isPipe = WarpPipeBlock.isColoredPipe(state);
+        boolean isNextPipe = WarpPipeBlock.isColoredPipe(nextState);
+
+        if (isPipe && isNextPipe)
+            return WarpPipeBlock.isAlongPipe(state, direction) || WarpPipeBlock.isAlongPipe(nextState, direction)
+                    || state.getValue(FACING) == nextState.getValue(FACING);
+        return true;
     }
 
-    private static boolean isPipeEnd(BlockState pipeState, Direction direction, BlockState otherState) {
-        if (!WarpPipeBlock.isColoredPipe(pipeState))
-            return false;
-
-        Direction facing = pipeState.getValue(FACING);
-        return facing == direction || (facing == direction.getOpposite() && otherState.is(TagRegistry.PIPE_JUNCTION_BLOCKS));
+    private static boolean isAlongPipe(BlockState state, Direction direction) {
+        return state.getValue(FACING).getAxis() == direction.getAxis();
     }
 
     private static boolean isOpeningInWater(Level level, BlockPos pos, BlockState state) {
@@ -749,7 +849,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         if (!(startState.getBlock() instanceof WarpPipeBlock))
             return group;
 
-        boolean clear = startState.getBlock() instanceof ClearWarpPipeBlock;
+        boolean isClear = startState.getBlock() instanceof ClearWarpPipeBlock;
         Direction facing = startState.getValue(WarpPipeBlock.FACING);
         Set<BlockPos> visited = new HashSet<>(Set.of(start));
         ArrayDeque<BlockPos> queue = new ArrayDeque<>(List.of(start));
@@ -758,9 +858,9 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
             BlockPos pos = queue.poll();
             BlockState state = level.getBlockState(pos);
 
-            boolean sameKind = clear ? state.getBlock() instanceof ClearWarpPipeBlock : state.getBlock() == startState.getBlock();
+            boolean isSameKind = isClear ? state.getBlock() instanceof ClearWarpPipeBlock : state.getBlock() == startState.getBlock();
 
-            if (!sameKind || state.getValue(WarpPipeBlock.FACING) != facing || !state.getValue(WarpPipeBlock.ENTRANCE)
+            if (!isSameKind || state.getValue(WarpPipeBlock.FACING) != facing || !state.getValue(WarpPipeBlock.ENTRANCE)
                     || !(level.getBlockEntity(pos) instanceof BaseWarpBlockEntity))
                 continue;
 

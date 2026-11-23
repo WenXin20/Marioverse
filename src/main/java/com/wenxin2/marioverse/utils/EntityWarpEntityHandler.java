@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.utils;
 
+import com.wenxin2.marioverse.blocks.WarpPipeBlock;
 import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
 import com.wenxin2.marioverse.entities.WarpLinkableEntity;
 import com.wenxin2.marioverse.integration.CompatRegistry;
@@ -107,6 +108,11 @@ public interface EntityWarpEntityHandler {
             Vec3 enteredPos = warpLinkableEntity instanceof Entity enteredWarp ? enteredWarp.position() : entity.position();
             if (WarpLinkPathing.isAccidentalWarp(entity, BlockPos.containing(enteredPos), xpDestination))
                 return;
+            if (xpDestination != null && !WarpPipeBlock.arePipesConnected(world, BlockPos.containing(enteredPos), xpDestination)) {
+                if (entity instanceof Player player)
+                    player.displayClientMessage(Component.translatable("display.marioverse.pipes_not_connected"), true);
+                return;
+            }
             boolean isWarpPainting = EntityWarpEntityHandler.isWarpPainting(warpLinkableEntity);
             WarpCost.Cost warpCost = WarpCost.getEntityCost(world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting);
             Vec3 startPos = entity.position();

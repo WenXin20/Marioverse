@@ -4,6 +4,10 @@
   - The koopa will wake up and attack if held too long
   - Shift-right-click to place the shell down to reset the wake up timer
   - Shells can be pickup as an item only if the koopa is killed
+- Added a config option to require pipes be connected to the destination pipe to teleport.
+  - Disabled by default
+  - Pipes connected to the destination pipe must be the same color
+  - Pipe Junction blocks can be used to change the color of the pipes connected
 - Added the damage type tag `cannot_remove_power_up`. 
   - Includes fall damage by default
 - Added the ability for Splunkin Carved Pumpkins & Splunkin O'Lanterns to make Snow & Iron Golems
