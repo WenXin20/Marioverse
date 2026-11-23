@@ -16,6 +16,7 @@
 - Improved koopa shell bouncing
 - Improved pathfinding through warp blocks & paintings
 - Fixed linking 2x2 clear pipes
+- Fixed structure files using old states
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
