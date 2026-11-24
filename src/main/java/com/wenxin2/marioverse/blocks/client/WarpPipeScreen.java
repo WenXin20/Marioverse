@@ -147,7 +147,6 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         this.waterSourceCheckbox = this.addRenderableWidget(new StateImageButton(x + 155, y + 26, 10, 8,
                 () -> this.menu.isWaxed() ? CHECKBOX_WAXED_SPRITES : CHECKBOX_SPRITES, () -> !this.menu.requiresWaterSource() && !this.isWaterSourceForced(),
                 button -> this.waterSourceCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox.tooltip")));
-        this.waterSourceCheckbox.visible = !this.menu.isClearPipe();
         this.waterSourceCheckbox.active = !this.isWaterSourceForced();
 
         this.connectionCheckbox = this.addRenderableWidget(new StateImageButton(x + 155, y + 53, 10, 8,
@@ -243,7 +242,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         else tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_slider.tooltip");
         this.bubblesSlider.setTooltip(Tooltip.create(tooltip));
 
-        if (this.isWaterSourceForced())
+        if (this.menu.isClearPipe())
+            tooltip = Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox_clear.tooltip");
+        else if (this.isWaterSourceForced())
             tooltip = Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox_config.tooltip");
         else if (this.menu.isWaxed())
             tooltip = Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox_waxed.tooltip");
@@ -419,7 +420,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     }
 
     private boolean isWaterSourceForced() {
-        return ConfigRegistry.WATER_SPOUTS_REQUIRE_WATER.get();
+        return this.menu.isClearPipe() || ConfigRegistry.WATER_SPOUTS_REQUIRE_WATER.get();
     }
 
     private boolean isConnectionForced() {
