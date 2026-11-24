@@ -37,6 +37,7 @@ import org.lwjgl.glfw.GLFW;
 public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu> {
     public static ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/block_spawner.png");
     private boolean showLine;
+    private boolean showLine2;
     private boolean showDisguiseIcon;
     private int lastMenuType = -1;
     private String blockSpawnerName = "";
@@ -138,6 +139,9 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
 
         if (this.showLine)
             graphics.blit(GUI, this.leftPos + 26, this.topPos + 16, 240, 34, 2, 70);
+
+        if (this.showLine2)
+            graphics.blit(GUI, this.leftPos + 146, this.topPos + 16, 240, 34, 2, 70);
 
         if (this.showDisguiseIcon) {
             graphics.blit(GUI, this.leftPos + 61, this.topPos + 42, 219, 97, 18, 18);
@@ -572,7 +576,8 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             this.interactableCheckbox.visible = menuType == 1;
             this.rightClickableCheckbox.visible = menuType == 1;
             this.unbreakableCheckbox.visible = menuType == 1;
-            this.showLine = menuType == 1;
+            this.showLine = true;
+            this.showLine2 = true;
 
             this.faceNorthButton.visible = menuType == 2;
             this.faceSouthButton.visible = menuType == 2;
@@ -594,7 +599,6 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     @Override
     // Draws the screen and all the components in it.
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks) {
-        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(graphics, mouseX, mouseY);
     }
