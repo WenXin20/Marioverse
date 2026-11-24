@@ -659,6 +659,15 @@ public class ClearWarpPipeBlock extends WarpPipeBlock implements EntityBlock, Si
         boolean openEntrance = state.hasProperty(ENTRANCE) && state.getValue(ENTRANCE)
                 && state.hasProperty(CLOSED) && !state.getValue(CLOSED);
         boolean continuingRoute = tag.contains(PIPE_DIRECTION) && gameTime - tag.getLong(PIPE_ROUTE_TIME) <= PIPE_ROUTE_TIMEOUT;
+
+        if (continuingRoute && openEntrance && state.getValue(FACING).getAxis().isHorizontal()
+                && Direction.from3DDataValue(tag.getInt(PIPE_DIRECTION)) == state.getValue(FACING)) {
+            Direction facing = state.getValue(FACING);
+            Vec3 approach = onSubLevel ? SableProvider.toLocalDirection(entity.level(), pos, entity.getDeltaMovement()) : entity.getDeltaMovement();
+
+            if (approach.x * facing.getStepX() + approach.z * facing.getStepZ() < -0.05)
+                continuingRoute = false;
+        }
         Direction direction;
         Direction previousDirection = null;
         Direction entryDirection;
