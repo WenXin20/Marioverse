@@ -5,6 +5,7 @@
   - The koopa will wake up and attack if held too long
   - Shift-right-click to place the shell down to reset the wake up timer
   - Shells can be pickup as an item only if the koopa is killed
+  - Dry Bones' shell can now be thrown too
 - Added a config option to require pipes be connected to the destination pipe to teleport.
   - Disabled by default
   - Pipes connected to the destination pipe must be the same color
@@ -19,6 +20,7 @@
 - Fixed linking 2x2 clear pipes
 - Fixed structure files using old warp pipe states
 - Fixed costumes having a missing texture with modded trim materials 
+- Fixed shells not dropping any loot when it shatters
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

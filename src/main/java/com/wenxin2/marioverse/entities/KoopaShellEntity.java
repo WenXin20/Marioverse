@@ -1,20 +1,22 @@
 package com.wenxin2.marioverse.entities;
 
+import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.particles.EntityShatterParticleOption;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
-import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.Map;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
@@ -146,8 +148,22 @@ public class KoopaShellEntity extends ShellEntity {
 
     @NotNull
     @Override
-    public SimpleParticleType getShatterParticle() {
-        return ParticleRegistry.GREEN_KOOPA_SHELL_SHATTER.get();
+    public ParticleOptions getShatterParticle() {
+        String crackiness = switch (this.getCrackiness()) {
+            case LOW -> "_crackiness_low";
+            case MEDIUM -> "_crackiness_medium";
+            case HIGH -> "_crackiness_high";
+            default -> "";
+        };
+
+        return new EntityShatterParticleOption(
+                ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "geo/entity/koopa_shell/koopa_shell.geo.json"),
+                ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID,
+                        "textures/entity/koopa_troopa/" + this.getShellTextureName() + crackiness + ".png"), "shell");
+    }
+
+    public String getShellTextureName() {
+        return "green_koopa_troopa";
     }
 
     @Override

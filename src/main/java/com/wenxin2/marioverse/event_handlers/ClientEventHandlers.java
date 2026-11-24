@@ -26,7 +26,7 @@ import com.wenxin2.marioverse.client.models.loaders.SolidBucketModelLoader;
 import com.wenxin2.marioverse.client.renderers.PaintingBlockRippleRenderer;
 import com.wenxin2.marioverse.client.renderers.SuperStarGlowRenderer;
 import com.wenxin2.marioverse.client.renderers.SuperStarRenderType;
-import com.wenxin2.marioverse.entities.ShellEntity;
+import com.wenxin2.marioverse.entities.HoldableEntity;
 import com.wenxin2.marioverse.entities.variants.CheepCheepVariants;
 import com.wenxin2.marioverse.entities.variants.PiranhaPlantVariants;
 import com.wenxin2.marioverse.entities.variants.PorcupufferVariants;
@@ -468,7 +468,7 @@ public class ClientEventHandlers {
             Level level = player.level();
             Vec3 motion = player.getDeltaMovement();
             double minY = player.getBoundingBox().minY;
-            ShellEntity heldShell = ShellEntity.getHeldShell(player);
+            HoldableEntity heldShell = HoldableEntity.getHeldEntity(player);
 
             if (heldShell != null && heldShell.getHeldSlot() >= 0
                     && player.getInventory().selected != heldShell.getHeldSlot())
@@ -572,7 +572,7 @@ public class ClientEventHandlers {
 
     @SubscribeEvent
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        if (ShellEntity.getHeldShell(event.getEntity()) == null)
+        if (HoldableEntity.getHeldEntity(event.getEntity()) == null)
             return;
 
         PlayerModel<AbstractClientPlayer> model = event.getRenderer().getModel();
@@ -584,7 +584,7 @@ public class ClientEventHandlers {
     public static void onRenderHand(RenderHandEvent event) {
         LocalPlayer player = Minecraft.getInstance().player;
 
-        if (player == null || ShellEntity.getHeldShell(player) == null)
+        if (player == null || HoldableEntity.getHeldEntity(player) == null)
             return;
 
         event.setCanceled(true);
@@ -605,7 +605,7 @@ public class ClientEventHandlers {
     public static void onMouseScroll(InputEvent.MouseScrollingEvent event) {
         Player player = Minecraft.getInstance().player;
 
-        if (player != null && !player.isSpectator() && ShellEntity.getHeldShell(player) != null)
+        if (player != null && !player.isSpectator() && HoldableEntity.getHeldEntity(player) != null)
             event.setCanceled(true);
     }
 
@@ -616,7 +616,7 @@ public class ClientEventHandlers {
         if (player == null || !event.isUseItem())
             return;
 
-        ShellEntity heldShell = ShellEntity.getHeldShell(player);
+        HoldableEntity heldShell = HoldableEntity.getHeldEntity(player);
 
         if (heldShell == null)
             return;
@@ -624,7 +624,7 @@ public class ClientEventHandlers {
         event.setCanceled(true);
         event.setSwingHand(false);
 
-        if (heldShell.getHoldTicks() < ShellEntity.THROW_DELAY_TICKS)
+        if (heldShell.getHoldTicks() < HoldableEntity.THROW_DELAY_TICKS)
             return;
 
         if (!player.isShiftKeyDown()) {

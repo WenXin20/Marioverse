@@ -102,6 +102,7 @@ public class MarioverseCreativeTabs {
             add(event, ItemRegistry.GREEN_KOOPA_SHELL);
             add(event, ItemRegistry.RED_KOOPA_SHELL);
             add(event, ItemRegistry.GOLD_KOOPA_SHELL);
+            add(event, ItemRegistry.DRY_BONES_SHELL);
             add(event, ItemRegistry.LARGE_SNOWBALL);
             add(event, ItemRegistry.PLASTIC_BUCKET);
             add(event, ItemRegistry.PLASTIC_WATER_BUCKET);
@@ -1682,6 +1683,7 @@ public class MarioverseCreativeTabs {
                 addAfter(event, ItemRegistry.SUPER_STAR, ItemRegistry.GREEN_KOOPA_SHELL);
                 addAfter(event, ItemRegistry.GREEN_KOOPA_SHELL, ItemRegistry.RED_KOOPA_SHELL);
                 addAfter(event, ItemRegistry.RED_KOOPA_SHELL, ItemRegistry.GOLD_KOOPA_SHELL);
+                addAfter(event, ItemRegistry.GOLD_KOOPA_SHELL, ItemRegistry.DRY_BONES_SHELL);
 
                 addAfter(event, Items.TURTLE_HELMET, ItemRegistry.HAT);
                 addAfter(event, ItemRegistry.HAT, ItemRegistry.SHIRT);

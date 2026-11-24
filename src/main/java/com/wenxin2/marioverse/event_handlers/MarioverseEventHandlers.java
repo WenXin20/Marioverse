@@ -19,6 +19,7 @@ import com.wenxin2.marioverse.blocks.entities.DisguisedBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.PottedPiranhaPlantBlockEntity;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
 import com.wenxin2.marioverse.entities.FireGoombaEntity;
+import com.wenxin2.marioverse.entities.HoldableEntity;
 import com.wenxin2.marioverse.entities.IceCubeEntity;
 import com.wenxin2.marioverse.entities.KoopaTroopaEntity;
 import com.wenxin2.marioverse.entities.PorcupufferEntity;
@@ -1083,7 +1084,7 @@ public class MarioverseEventHandlers {
 
     @SubscribeEvent
     public static void onSwapHands(LivingSwapItemsEvent.Hands event) {
-        if (ShellEntity.getHeldShell(event.getEntity()) != null)
+        if (HoldableEntity.getHeldEntity(event.getEntity()) != null)
             event.setCanceled(true);
     }
 

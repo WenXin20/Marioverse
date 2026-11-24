@@ -3,8 +3,6 @@ package com.wenxin2.marioverse.entities;
 import com.google.common.base.MoreObjects;
 import com.wenxin2.marioverse.entities.part_entities.PiranhaPlantPart;
 import com.wenxin2.marioverse.entities.power_ups.OneUpMushroomEntity;
-import com.wenxin2.marioverse.integration.CompatRegistry;
-import com.wenxin2.marioverse.integration.automobility_compat.AutomobilityEntityProvider;
 import com.wenxin2.marioverse.registries.AttributesRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DamageSourceRegistry;
@@ -20,8 +18,8 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -61,7 +59,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoAnimatable;
@@ -75,7 +72,7 @@ import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public abstract class ShellEntity extends Monster implements CrackableEntity, GeoEntity, TraceableEntity {
+public abstract class ShellEntity extends Monster implements CrackableEntity, GeoEntity, HoldableEntity, TraceableEntity {
     private static final EntityDataAccessor<Integer> DATA_BOUNCE_COUNT = SynchedEntityData.defineId(ShellEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_KILL_COUNT = SynchedEntityData.defineId(ShellEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_HELD_SLOT = SynchedEntityData.defineId(ShellEntity.class, EntityDataSerializers.INT);
@@ -84,7 +81,6 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
     public static final RawAnimation IDLE = RawAnimation.begin().thenLoop("misc.idle");
     public static final RawAnimation SPIN = RawAnimation.begin().thenLoop("move.spin");
     public static final RawAnimation WALK = RawAnimation.begin().thenLoop("move.walk");
-    public static final int THROW_DELAY_TICKS = 10;
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public final Set<UUID> entityCollided = new HashSet<>();
@@ -95,6 +91,8 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
     private boolean leftOwner;
     private int holdTicks;
     private int lastBounceDamageTick = -1;
+    private int lastWallBounceTick = -1;
+    private Vec3 lastWallNormal = Vec3.ZERO;
 
     public ShellEntity(EntityType<? extends ShellEntity> type, Level world) {
         super(type, world);
@@ -194,8 +192,7 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
             this.leftOwner = this.checkLeftOwner();
 
         if (this.getBounceCount() >= ConfigRegistry.MAX_KOOPA_SHELL_DAMAGE_POINTS.get().floatValue()) {
-            this.playDeathAnimation(this);
-            this.discard();
+            this.shatter();
         }
 
         if (this.isDeadOrDying())
@@ -221,7 +218,7 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
 
         if (this.isEmptyShell())
             return this.pickUpAsItem(player);
-        else if (player.getMainHandItem().isEmpty() && ShellEntity.getHeldShell(player) == null) {
+        else if (player.getMainHandItem().isEmpty() && HoldableEntity.getHeldEntity(player) == null) {
             this.startHolding(player);
             return InteractionResult.SUCCESS;
         }
@@ -333,7 +330,8 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
                         blockedZ ? -this.slidingMovement.z : this.slidingMovement.z);
                 this.setDeltaMovement(this.slidingMovement.x * fluidScale, result.y, this.slidingMovement.z * fluidScale);
                 this.hasImpulse = true;
-                this.onWallBounce();
+                this.onWallBounce(new Vec3(blockedX ? Math.signum(this.slidingMovement.x) : 0.0, 0.0,
+                        blockedZ ? Math.signum(this.slidingMovement.z) : 0.0));
             }
         }
     }
@@ -409,7 +407,7 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
     }
 
     @NotNull
-    public abstract SimpleParticleType getShatterParticle();
+    public abstract ParticleOptions getShatterParticle();
 
     public abstract TagKey<EntityType<?>> getInstaKillEntityTag();
 
@@ -469,22 +467,19 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         return this.entityData.get(DATA_KILL_COUNT);
     }
 
+    @Override
+    public int getHolderId() {
+        return this.entityData.get(DATA_HOLDER_ID);
+    }
+
+    @Override
     public int getHeldSlot() {
         return this.entityData.get(DATA_HELD_SLOT);
     }
 
+    @Override
     public int getHoldTicks() {
         return this.holdTicks;
-    }
-
-    public boolean isHeld() {
-        return this.entityData.get(DATA_HOLDER_ID) != -1;
-    }
-
-    @Nullable
-    public LivingEntity getHolder() {
-        int holderId = this.entityData.get(DATA_HOLDER_ID);
-        return holderId != -1 && this.level().getEntity(holderId) instanceof LivingEntity holder ? holder : null;
     }
 
     @Nullable
@@ -540,19 +535,6 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         this.addBounceDamage();
     }
 
-    @Nullable
-    public static ShellEntity getHeldShell(Entity holder) {
-        List<ShellEntity> shells = holder.level().getEntitiesOfClass(ShellEntity.class, holder.getBoundingBox().inflate(4.0),
-                shell -> shell.entityData.get(DATA_HOLDER_ID) == holder.getId());
-        return shells.isEmpty() ? null : shells.getFirst();
-    }
-
-    public static float getHolderYaw(Entity holder, float partialTick) {
-        if (holder instanceof LivingEntity livingHolder && !(holder instanceof Player))
-            return Mth.rotLerp(partialTick, livingHolder.yBodyRotO, livingHolder.yBodyRot);
-        return holder.getViewYRot(partialTick);
-    }
-
     public static ItemStack createShellItem(SpawnEggItem item, int bounceCount) {
         ItemStack stack = new ItemStack(item);
 
@@ -563,17 +545,6 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
             stack.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
         }
         return stack;
-    }
-
-    public Vec3 getHoldPosition(Entity holder, float partialTick) {
-        float xRot = holder.getViewXRot(partialTick);
-        float yRot = ShellEntity.getHolderYaw(holder, partialTick);
-        Vec3 look = Vec3.directionFromRotation(xRot, yRot);
-        Vec3 up = Vec3.directionFromRotation(xRot - 90.0F, yRot);
-        double distance = holder.getBbWidth() * 0.5 + this.getBbWidth() * 0.5 + 0.35;
-
-        return holder.getEyePosition(partialTick).add(look.scale(distance)).add(up.scale(-0.45))
-                .subtract(0.0, this.getBbHeight() * 0.5, 0.0);
     }
 
     public void kick(Vec3 direction, @Nullable Entity kicker) {
@@ -607,6 +578,7 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         return kicker.getLookAngle();
     }
 
+    @Override
     public void startHolding(LivingEntity holder) {
         float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
         Vec3 holdPos = this.getHoldPosition(holder, 1.0F);
@@ -622,6 +594,7 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         this.level().playSound(null, holder.blockPosition(), SoundEvents.ITEM_PICKUP, holder.getSoundSource(), 1.0F, pitch);
     }
 
+    @Override
     public void releaseHold() {
         LivingEntity holder = this.getHolder();
 
@@ -658,68 +631,35 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         this.holdTicks++;
         this.setDeltaMovement(Vec3.ZERO);
         this.setPos(holdPos.x, holdPos.y, holdPos.z);
-        float holderYaw = ShellEntity.getHolderYaw(holder, 1.0F);
+        float holderYaw = HoldableEntity.getHolderYaw(holder, 1.0F);
         this.setYRot(holderYaw);
         this.yBodyRot = holderYaw;
         this.setYHeadRot(holderYaw);
 
-        if (!this.level().isClientSide && (!holder.isAlive() || holder.isSpectator() || !this.canStayHeld()
-                || (holder instanceof Player player && player.getInventory().selected != this.getHeldSlot())))
+        if (!this.level().isClientSide && (this.shouldReleaseHold(holder) || !this.canStayHeld()))
             this.releaseHold();
     }
 
+    @Override
     public void throwFrom(LivingEntity thrower) {
-        Level level = thrower.level();
-        float pitch = 0.9F + level.random.nextFloat() * 0.2F;
-        Entity rootVehicle = thrower.getRootVehicle();
-        boolean isAutomobile = rootVehicle.getType() == CompatRegistry.AUTOMOBILE.get()
-                || rootVehicle.getType() == CompatRegistry.AUTOMOBILITY_HITBOX.get();
-        double minSpeed = 1.25;
-        double spawnDistance = 1.0;
-
         if (this.isHeld())
             this.releaseHold();
 
-        Vec3 look = thrower.getLookAngle();
-        double horizontalSpeed = Math.sqrt(rootVehicle.getDeltaMovement().horizontalDistanceSqr());
-
-        if (ModList.get().isLoaded("automobility") && isAutomobile)
-            horizontalSpeed = AutomobilityEntityProvider.getHSpeed(rootVehicle);
-        double speed = Math.max(minSpeed, horizontalSpeed * 3);
-
-        Vec3 spawnPos = thrower.position()
-                .add(look.x * spawnDistance, thrower.getEyeHeight() - 0.6 + look.y * spawnDistance, look.z * spawnDistance);
-
-        this.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
-
-        if (look.y >= 0.9) {
-            this.setDeltaMovement(look.x, minSpeed, look.z);
-            level.playSound(null, thrower.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN_UP.get(),
-                    SoundSource.PLAYERS, 1.0F, pitch);
-        } else {
-            this.setDeltaMovement(look.x * speed, look.y * Math.max(minSpeed, speed), look.z * speed);
-            level.playSound(null, thrower.blockPosition(), SoundRegistry.KOOPA_SHELL_THROWN.get(),
-                    SoundSource.PLAYERS, 1.0F, pitch);
-        }
-
-        Vec3 thrownMotion = this.getDeltaMovement();
-        this.slidingMovement = thrownMotion.horizontalDistanceSqr() > 0.0025
-                ? new Vec3(thrownMotion.x, 0.0, thrownMotion.z) : Vec3.ZERO;
+        this.slidingMovement = HoldableEntity.launch(this, thrower);
         this.onStartMoving();
-        this.hasImpulse = true;
         this.setOwner(thrower);
         this.leftOwner = false;
     }
 
+    @Override
     public boolean placeAt(LivingEntity placer, BlockPos pos) {
-        Vec3 placePos = Vec3.atBottomCenterOf(pos);
-        AABB placeBox = this.getDimensions(this.getPose()).makeBoundingBox(placePos);
+        Vec3 placePos = HoldableEntity.getPlacePosition(this, placer, pos);
 
-        if (!this.level().noCollision(this, placeBox) || placeBox.intersects(placer.getBoundingBox()))
+        if (placePos == null)
             return false;
 
         float pitch = 0.9F + this.level().random.nextFloat() * 0.2F;
-        float placerYaw = ShellEntity.getHolderYaw(placer, 1.0F);
+        float placerYaw = HoldableEntity.getHolderYaw(placer, 1.0F);
 
         this.releaseHold();
         this.setPos(placePos.x, placePos.y, placePos.z);
@@ -747,8 +687,11 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
         return InteractionResult.SUCCESS;
     }
 
-    protected void onWallBounce() {
+    protected void onWallBounce(Vec3 wallNormal) {
         float pitch = 0.8F + this.level().random.nextFloat() * 0.3F;
+
+        this.lastWallBounceTick = this.tickCount;
+        this.lastWallNormal = wallNormal;
 
         if (this.level() instanceof ServerLevel server) {
             Vec3 direction = this.slidingMovement.normalize().scale(-this.getBbWidth() * 0.5);
@@ -791,18 +734,15 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
                                 this.setKillCount(this.getKillCount() + 1);
 
                             if (!entityHit.isAlive()) {
-                                this.playDeathAnimation(this);
-                                this.discard();
+                                this.shatter();
                             }
                         }
                     }
                 }
 
                 if (entityHit instanceof ShellEntity shell && entityHitSpeed >= 0.1 && shell.isAlive()) {
-                    this.playDeathAnimation(this);
-                    this.discard();
-                    shell.playDeathAnimation(shell);
-                    shell.discard();
+                    this.shatter();
+                    shell.shatter();
                     return;
                 }
 
@@ -846,18 +786,15 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
                             this.setKillCount(this.getKillCount() + 1);
 
                         if (!entity.isAlive()) {
-                            this.playDeathAnimation(this);
-                            this.discard();
+                            this.shatter();
                         }
                     }
                 }
             }
 
             if (entity instanceof ShellEntity shell && entityHitSpeed >= 0.1 && shell.isAlive()) {
-                this.playDeathAnimation(this);
-                this.discard();
-                shell.playDeathAnimation(shell);
-                shell.discard();
+                this.shatter();
+                shell.shatter();
                 return;
             }
 
@@ -933,8 +870,7 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
             if (!entityHit.getType().is(getInstaKillEntityTag())) {
                 if ((this.getOwner() != null && this.leftOwner)
                         || this.getOwner() == null) {
-                    this.playDeathAnimation(this);
-                    this.discard();
+                    this.shatter();
                 }
             }
         }
@@ -943,6 +879,17 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
     private void getDamageFromKills() {
         if (this.getBounceCount() != -1)
             this.setBounceCount(this.getBounceCount() + ConfigRegistry.KOOPA_SHELL_DAMAGE_FROM_KILLS.get());
+    }
+
+    public void shatter() {
+        if (this.isRemoved())
+            return;
+
+        this.playDeathAnimation(this);
+
+        if (this.level() instanceof ServerLevel serverLevel)
+            this.dropAllDeathLoot(serverLevel, this.damageSources().generic());
+        this.discard();
     }
 
     public void playDeathAnimation(Entity entity) {
@@ -958,11 +905,20 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
             if (this.getBbHeight() >= this.getBbWidth() * 3)
                 width *= 2.0F;
 
-            float scaleFactor = height * width * 1.2F;
-            int numParticles = (int) (scaleFactor * 15);
-            for (int i = 0; i < numParticles; ++i)
-                ServerParticleUtils.spawnEntityBreakParticles(this.getShatterParticle(), serverWorld,
-                        entity, height * 1.55F + 0.1F, width * 1.55F);
+            float area = height * width;
+
+            if (this.lastWallBounceTick == this.tickCount && this.lastWallNormal.lengthSqr() > 1.0E-6) {
+                Vec3 direction = this.lastWallNormal.normalize();
+                Vec3 impact = entity.position().add(direction.scale(-this.getBbWidth() * 0.5)).add(0.0, this.getBbHeight() * 0.5, 0.0);
+                ServerParticleUtils.spawnSplashParticles(this.getShatterParticle(), serverWorld, impact, direction,
+                        Math.max(8, Math.round(area * 61.25F)));
+            } else {
+                int numParticles = Math.max(8, (int) (area * 40));
+
+                for (int i = 0; i < numParticles; ++i)
+                    ServerParticleUtils.spawnEntityBurstParticles(this.getShatterParticle(), serverWorld,
+                            entity, height * 1.55F + 0.1F, width * 1.55F);
+            }
         }
 
         if (this.getDeathSound() != null)

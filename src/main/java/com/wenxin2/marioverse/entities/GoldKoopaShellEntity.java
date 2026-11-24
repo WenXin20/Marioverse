@@ -7,7 +7,6 @@ import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -60,8 +59,7 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
         }
 
         if (coinCount >= ConfigRegistry.MAX_GOLD_KOOPA_SHELL_TRAIL_COINS.get()) {
-            this.playDeathAnimation(this);
-            this.discard();
+            this.shatter();
         }
     }
 
@@ -77,10 +75,9 @@ public class GoldKoopaShellEntity extends KoopaShellEntity implements CrackableE
         this.coinCount = tag.getInt("CoinCount");
     }
 
-    @NotNull
     @Override
-    public SimpleParticleType getShatterParticle() {
-        return ParticleRegistry.GOLD_KOOPA_SHELL_SHATTER.get();
+    public String getShellTextureName() {
+        return "gold_koopa_troopa";
     }
 
     @NotNull

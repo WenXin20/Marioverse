@@ -1,6 +1,6 @@
 package com.wenxin2.marioverse.network.server_bound.handler;
 
-import com.wenxin2.marioverse.entities.ShellEntity;
+import com.wenxin2.marioverse.entities.HoldableEntity;
 import com.wenxin2.marioverse.network.server_bound.data.ThrowHeldShellPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -19,9 +19,9 @@ public class ThrowHeldShellPacket {
                 if (!(context.player() instanceof ServerPlayer player))
                     return;
 
-                ShellEntity shell = ShellEntity.getHeldShell(player);
+                HoldableEntity shell = HoldableEntity.getHeldEntity(player);
 
-                if (shell == null || shell.getHoldTicks() < ShellEntity.THROW_DELAY_TICKS)
+                if (shell == null || shell.getHoldTicks() < HoldableEntity.THROW_DELAY_TICKS)
                     return;
 
                 if (payload.place()) {

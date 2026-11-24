@@ -5,12 +5,14 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.wenxin2.marioverse.client.models.entities.DryBonesPartModel;
 import com.wenxin2.marioverse.entities.DryBonesPartEntity;
+import com.wenxin2.marioverse.entities.HoldableEntity;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -18,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.block.AbstractSkullBlock;
 import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -153,6 +156,30 @@ public class DryBonesPartRenderer extends GeoEntityRenderer<DryBonesPartEntity> 
                 super.renderStackForBone(poseStack, bone, stack, animatable, bufferSource, partialTick, packedLight, packedOverlay);
             }
         });
+    }
+
+    @Override
+    public void render(DryBonesPartEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
+                       MultiBufferSource bufferSource, int packedLight) {
+        LivingEntity holder = entity.getHolder();
+
+        if (holder == null) {
+            super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+            return;
+        }
+
+        float holderYaw = HoldableEntity.getHolderYaw(holder, partialTick);
+        Vec3 offset = entity.getHoldPosition(holder, partialTick).subtract(entity.getPosition(partialTick));
+
+        entity.yBodyRotO = holderYaw;
+        entity.yBodyRot = holderYaw;
+        entity.yHeadRotO = holderYaw;
+        entity.yHeadRot = holderYaw;
+
+        poseStack.pushPose();
+        poseStack.translate(offset.x, offset.y, offset.z);
+        super.render(entity, holderYaw, partialTick, poseStack, bufferSource, packedLight);
+        poseStack.popPose();
     }
 
     @Override

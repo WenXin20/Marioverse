@@ -2,10 +2,8 @@ package com.wenxin2.marioverse.entities;
 
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
-import com.wenxin2.marioverse.registries.ParticleRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.List;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -48,10 +46,9 @@ public class RedKoopaShellEntity extends KoopaShellEntity implements CrackableEn
             this.kill();
     }
 
-    @NotNull
     @Override
-    public SimpleParticleType getShatterParticle() {
-        return ParticleRegistry.RED_KOOPA_SHELL_SHATTER.get();
+    public String getShellTextureName() {
+        return "red_koopa_troopa";
     }
 
     @NotNull

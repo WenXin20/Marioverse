@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.registries;
 
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.items.ArrowSignItem;
+import com.wenxin2.marioverse.items.DryBonesShellItem;
 import com.wenxin2.marioverse.items.LargeArrowSignItem;
 import com.wenxin2.marioverse.items.FireFlowerItem;
 import com.wenxin2.marioverse.items.IceFlowerItem;
@@ -89,6 +90,7 @@ public class ItemRegistry {
     public static final DeferredItem<Item> DEEP_CHEEP_BUCKET;
     public static final DeferredItem<Item> DEEP_CHEEP_SPAWN_EGG;
     public static final DeferredItem<Item> DRESS;
+    public static final DeferredItem<Item> DRY_BONES_SHELL;
     public static final DeferredItem<Item> DRY_BONES_SPAWN_EGG;
     public static final DeferredItem<Item> EEP_CHEEP;
     public static final DeferredItem<Item> EEP_CHEEP_BUCKET;
@@ -457,6 +459,8 @@ public class ItemRegistry {
 
         LARGE_SNOWBALL = registerItem("large_snowball",
                 () -> new LargeSnowballItem(new Item.Properties().stacksTo(16)));
+        DRY_BONES_SHELL = registerItem("dry_bones_shell",
+                () -> new DryBonesShellItem(new Item.Properties().stacksTo(16)));
         GOLD_KOOPA_SHELL = registerItem("gold_koopa_shell",
                 () -> new KoopaShellItem(3, EntityRegistry.GOLD_KOOPA_SHELL, 0xFFFFFF, 0xFFFFFF, new Item.Properties().stacksTo(16)));
         GREEN_KOOPA_SHELL = registerItem("green_koopa_shell",

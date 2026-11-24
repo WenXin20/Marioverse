@@ -1632,6 +1632,7 @@
   "item.marioverse.dash_mushroom": "Dash Mushroom",
   "item.marioverse.deep_cheep": "Deep Cheep",
   "item.marioverse.deep_cheep_bucket": "Bucket of Deep Cheep",
+  "item.marioverse.dry_bones_shell": "Dry Bones Shell",
   "item.marioverse.eep_cheep": "Eep Cheep",
   "item.marioverse.eep_cheep_bucket": "Bucket of Eep Cheep",
   "item.marioverse.fire_flower": "Fire Flower",
@@ -2030,6 +2031,10 @@
   "item.marioverse.dash_mushroom.tooltip.line4": " §7• Boosts the user's speed",
   "item.marioverse.dash_mushroom.tooltip.line5": " §7• Heals",
   "item.marioverse.dash_mushroom.tooltip.line5.hearts": " %1$s §chearts",
+
+  "item.marioverse.dry_bones_shell.tooltip": "§e§o[Shift for §9ℹ§e§o]",
+  "item.marioverse.dry_bones_shell.tooltip.line1": "§9Ability:",
+  "item.marioverse.dry_bones_shell.tooltip.line2": " §7• Shatters on impact",
 
   "item.marioverse.female_costume.tooltip": "§e§o[Shift for §9ℹ§e§o]",
   "item.marioverse.female_costume.tooltip.line1": "§9Ability:",

@@ -6,6 +6,8 @@ import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.EntityRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import software.bernie.geckolib.animation.AnimationState;
+import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.model.GeoModel;
 
 public class DryBonesPartModel extends GeoModel<DryBonesPartEntity> {
@@ -45,5 +47,14 @@ public class DryBonesPartModel extends GeoModel<DryBonesPartEntity> {
     @Override
     public ResourceLocation getAnimationResource(DryBonesPartEntity animatable) {
         return ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "animations/entity/dry_bones/dry_bones_head.animation.json");
+    }
+
+    @Override
+    public void setCustomAnimations(DryBonesPartEntity animatable, long instanceId, AnimationState<DryBonesPartEntity> animationState) {
+        super.setCustomAnimations(animatable, instanceId, animationState);
+        GeoBone root = this.getAnimationProcessor().getBone("root");
+
+        if (root != null && animatable.isSliding())
+            root.setRotY((animatable.tickCount + animationState.getPartialTick()) * 0.9F);
     }
 }

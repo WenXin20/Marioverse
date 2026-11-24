@@ -194,6 +194,33 @@ public class ServerParticleUtils {
         }
     }
 
+    public static void spawnEntityBurstParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, float height, float width) {
+        RandomSource rand = serverWorld.random;
+        double offsetX = rand.nextDouble() * width - (width / 2);
+        double offsetY = rand.nextDouble() * height;
+        double offsetZ = rand.nextDouble() * width - (width / 2);
+        Vec3 outward = new Vec3(offsetX, 0.0, offsetZ);
+        Vec3 direction = outward.lengthSqr() > 1.0E-6 ? outward.normalize()
+                : Vec3.directionFromRotation(0.0F, rand.nextFloat() * 360.0F);
+        Vec3 velocity = direction.scale(0.05 + rand.nextDouble() * 0.15).add(0.0, 0.05 + rand.nextDouble() * 0.2, 0.0);
+
+        serverWorld.sendParticles(particleOptions, entity.getX() + offsetX, entity.getY() + offsetY, entity.getZ() + offsetZ,
+                0, velocity.x, velocity.y, velocity.z, 1.0);
+    }
+
+    public static void spawnSplashParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Vec3 origin, Vec3 normal, int amount) {
+        RandomSource rand = serverWorld.random;
+        Vec3 direction = normal.normalize();
+        Vec3 tangent = new Vec3(-direction.z, 0.0, direction.x);
+
+        for (int i = 0; i < amount; i++) {
+            Vec3 velocity = direction.scale(0.075 + rand.nextDouble() * 0.125)
+                    .add(tangent.scale((rand.nextDouble() - 0.5) * 0.25))
+                    .add(0.0, 0.05 + rand.nextDouble() * 0.15, 0.0);
+            serverWorld.sendParticles(particleOptions, origin.x, origin.y, origin.z, 0, velocity.x, velocity.y, velocity.z, 1.0);
+        }
+    }
+
     public static void spawnEntityBreakParticles(ParticleOptions particleOptions, ServerLevel serverWorld, Entity entity, float height, float width) {
         RandomSource rand = RandomSource.create();
         double offsetX = rand.nextDouble() * width - (width / 2);

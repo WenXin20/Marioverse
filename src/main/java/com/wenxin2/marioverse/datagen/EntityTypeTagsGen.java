@@ -74,6 +74,7 @@ public class EntityTypeTagsGen extends EntityTypeTagsProvider {
                 .add(EntityRegistry.SNOW_POKEY_BODY.get());
 
         tag(EntityTypeTags.IMPACT_PROJECTILES)
+                .add(EntityRegistry.DRY_BONES_SHELL.get())
                 .addTag(TagRegistry.KOOPA_SHELL_ENTITIES)
                 .add(EntityRegistry.BOUNCING_FIREBALL.get())
                 .add(EntityRegistry.BOUNCING_ICE_BALL.get())

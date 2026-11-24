@@ -8,6 +8,7 @@ import com.wenxin2.marioverse.blocks.QuestionBlock;
 import com.wenxin2.marioverse.blocks.SmashableBrickBlock;
 import com.wenxin2.marioverse.blocks.StorageBrickBlock;
 import com.wenxin2.marioverse.blocks.entities.QuestionBlockEntity;
+import com.wenxin2.marioverse.entities.DryBonesPartEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.items.MaleCostumeItem;
 import com.wenxin2.marioverse.items.MegaMushroomItem;
@@ -263,7 +264,8 @@ public class TickEventHandlers {
     }
 
     private static void collideWithBlocks(Level level, Entity entity) {
-        if (level.isClientSide || entity.isSpectator() || entity instanceof AbstractWindCharge)
+        if (level.isClientSide || entity.isSpectator() || entity instanceof AbstractWindCharge
+                || (entity instanceof DryBonesPartEntity part && !part.isThrown()))
             return;
 
         EntityType<?> type = entity.getType();

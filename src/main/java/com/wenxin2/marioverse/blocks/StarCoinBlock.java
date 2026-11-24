@@ -2,6 +2,7 @@ package com.wenxin2.marioverse.blocks;
 
 import com.wenxin2.marioverse.blocks.entities.StarCoinBlockEntity;
 import com.wenxin2.marioverse.blocks.states.QuadrantBlockStates;
+import com.wenxin2.marioverse.entities.DryBonesPartEntity;
 import com.wenxin2.marioverse.entities.ShellEntity;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.ParticleRegistry;
@@ -166,6 +167,9 @@ public class StarCoinBlock extends CoinBlock implements SimpleWaterloggedBlock, 
         if (entity instanceof ShellEntity koopaShell && koopaShell.getOwner() != null
                 && koopaShell.getOwner().getType().is(TagRegistry.CAN_COLLECT_STAR_COINS))
             StarCoinBlock.collectCoin(this, world, state, pos, koopaShell.getOwner(), coinItem);
+        else if (entity instanceof DryBonesPartEntity shell && shell.isThrown() && shell.getThrower() != null
+                && shell.getThrower().getType().is(TagRegistry.CAN_COLLECT_STAR_COINS))
+            StarCoinBlock.collectCoin(this, world, state, pos, shell.getThrower(), coinItem);
         else if (entity instanceof Projectile projectile && projectile.getOwner() != null)
             StarCoinBlock.collectCoin(this, world, state, pos, projectile.getOwner(), coinItem);
         else if (entity.getType().is(TagRegistry.CAN_COLLECT_STAR_COINS) && ConfigRegistry.STAR_COINS_COLLECTED_ON_COLLISION.get()) {
