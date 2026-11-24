@@ -737,7 +737,7 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, HoldableEn
         }
 
         boolean instaKill = target.getType().is(TagRegistry.GREEN_KOOPA_SHELL_CAN_INSTAKILL);
-        float damage = instaKill ? target.getHealth() * 1.25F : ConfigRegistry.GREEN_KOOPA_SHELL_DAMAGE.get().floatValue();
+        float damage = instaKill ? target.getHealth() * 1.25F : ConfigRegistry.DRY_BONES_SHELL_DAMAGE.get().floatValue();
 
         target.hurt(DamageSourceRegistry.spinningShell(target, thrower != null ? thrower : this), damage);
 

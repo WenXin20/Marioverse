@@ -56,6 +56,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_CHEEP_CHEEP = "cheep_cheep";
     public static final String CATEGORY_CHEEP_CHEEPS = "cheep_cheeps";
     public static final String CATEGORY_DRY_BONES = "dry_bones";
+    public static final String CATEGORY_DRY_BONES_SHELL = "dry_bones_shell";
     public static final String CATEGORY_DEEP_CHEEP = "deep_cheep";
     public static final String CATEGORY_EEP_CHEEP = "eep_cheep";
     public static final String CATEGORY_GOLD_KOOPA_SHELL = "gold_koopa_shell";
@@ -64,7 +65,6 @@ public class ConfigRegistry {
     public static final String CATEGORY_GREEN_KOOPA_SHELL = "green_koopa_shell";
     public static final String CATEGORY_GREEN_KOOPA_TROOPA = "green_koopa_troopa";
     public static final String CATEGORY_HEFTY_GOOMBA = "hefty_goomba";
-    public static final String CATEGORY_KOOPA_SHELLS = "koopa_shells";
     public static final String CATEGORY_KOOPA_TROOPAS = "koopa_troopas";
     public static final String CATEGORY_MEGA_GOOMBA = "mega_goomba";
     public static final String CATEGORY_MINI_GOOMBA = "mini_goomba";
@@ -73,6 +73,7 @@ public class ConfigRegistry {
     public static final String CATEGORY_PORCUPUFFER = "porcupuffer";
     public static final String CATEGORY_RED_KOOPA_SHELL = "red_koopa_shell";
     public static final String CATEGORY_RED_KOOPA_TROOPA = "red_koopa_troopa";
+    public static final String CATEGORY_SHELLS = "shells";
     public static final String CATEGORY_SNOW_POKEY = "snow_pokey";
     public static final String CATEGORY_SPINY_CHEEP_CHEEP = "spiny_cheep_cheep";
 
@@ -205,6 +206,7 @@ public class ConfigRegistry {
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_BOOST_STRENGTH;
     public static ModConfigSpec.DoubleValue DASH_MUSHROOM_HEALTH_HEALED;
     public static ModConfigSpec.DoubleValue DEEP_CHEEP_LURE_RADIUS;
+    public static ModConfigSpec.DoubleValue DRY_BONES_SHELL_DAMAGE;
     public static ModConfigSpec.DoubleValue EEP_CHEEP_LURE_RADIUS;
     public static ModConfigSpec.DoubleValue FIREBALL_DAMAGE;
     public static ModConfigSpec.DoubleValue GOLD_KOOPA_SHELL_DAMAGE;
@@ -1138,56 +1140,6 @@ public class ConfigRegistry {
                             .defineInRange("dry_bones_reassemble_duration", 600, 0, 999);
                 BUILDER.pop();
 
-                BUILDER.push(CATEGORY_KOOPA_SHELLS);
-
-                    BUILDER.push(CATEGORY_GOLD_KOOPA_SHELL);
-                        GOLD_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.gold_koopa_shell_damage")
-                                .comment("Amount of damage gold koopa shells cause.")
-                                .comment("§6[1 point = 1/2 Heart]§b")
-                                .defineInRange("gold_koopa_shell_damage", 6.0, 0.0, 16.0);
-                        MAX_GOLD_KOOPA_SHELL_TRAIL_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_trail_coins")
-                                .comment("Max amount of coins gold koopa shells can place§b")
-                                .defineInRange("max_gold_koopa_shell_trail_coins", 16, 0, 64);
-                        MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_circle_coins")
-                                .comment("Max amount of coins gold koopa shells can place in a circle§b")
-                                .defineInRange("max_gold_koopa_shell_circle_coins", 8, 0, 64);
-                        GOLD_KOOPA_SHELL_COIN_CIRCLE_RADIUS = BUILDER.translation("configuration.marioverse.gold_koopa_shell_coin_circle_radius")
-                                .comment("Max amount of coins gold koopa shells can place in a circle§b")
-                                .defineInRange("gold_koopa_shell_coin_circle_radius", 3, 0, 16);
-                    BUILDER.pop();
-
-                    BUILDER.push(CATEGORY_GREEN_KOOPA_SHELL);
-                        GREEN_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.green_koopa_shell_damage")
-                                .comment("Amount of damage green koopa shells cause.")
-                                .comment("§6[1 point = 1/2 Heart]§b")
-                                .defineInRange("green_koopa_shell_damage", 6.0, 0.0, 16.0);
-                    BUILDER.pop();
-
-                    BUILDER.push(CATEGORY_RED_KOOPA_SHELL);
-                        RED_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.red_koopa_shell_damage")
-                                .comment("Amount of damage red koopa shells cause.")
-                                .comment("§6[1 point = 1/2 Heart]§b")
-                                .defineInRange("red_koopa_shell_damage", 4.0, 0.0, 16.0);
-                        RED_KOOPA_SHELL_MOB_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_mob_detection_radius")
-                                .comment("Mob detection radius of red koopa shells.§b")
-                                .comment("§6A radius of 0 will disable the shell tracking.§b")
-                                .defineInRange("red_koopa_shell_mob_detection_radius", 10, 0, 50);
-                        RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_player_detection_radius")
-                                .comment("Player detection radius of red koopa shells.§b")
-                                .comment("§6A radius of 0 will disable the shell tracking.§b")
-                                .defineInRange("red_koopa_shell_player_detection_radius", 15, 0, 50);
-                    BUILDER.pop();
-
-                    KOOPA_SHELL_DAMAGE_FROM_KILLS = BUILDER.translation("configuration.marioverse.koopa_shell_damage_from_kills")
-                            .comment("Damage koopa shells take when insta-killing mobs.§b")
-                            .defineInRange("koopa_shell_damage_from_kills", 20, 0, 999);
-                    MAX_KOOPA_SHELL_DAMAGE_POINTS = BUILDER.translation("configuration.marioverse.max_koopa_shell_damage_points")
-                            .comment("Max amount of damage a shell can take before shattering.")
-                            .comment("§6Set to -1 to never break.§b")
-                            .defineInRange("max_koopa_shell_damage_points", 200, -1, 999);
-
-                BUILDER.pop();
-
                 BUILDER.push(CATEGORY_KOOPA_TROOPAS);
 
                     BUILDER.push(CATEGORY_GOLD_KOOPA_TROOPA);
@@ -1295,6 +1247,63 @@ public class ConfigRegistry {
                             .comment("The amount of health Porcupuffers heal after swallowing a mob or player.")
                             .comment("§6[1 point = 1/2 Heart]§b")
                             .defineInRange("porcupuffer_health_healed", 2.0, 0.0, 40.0);
+                BUILDER.pop();
+
+                BUILDER.push(CATEGORY_SHELLS);
+
+                    BUILDER.push(CATEGORY_DRY_BONES_SHELL);
+                        DRY_BONES_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.dry_bones_shell_damage")
+                                .comment("Amount of damage dry bones shells cause.")
+                                .comment("§6[1 point = 1/2 Heart]§b")
+                                .defineInRange("dry_bones_shell_damage", 7.0, 0.0, 16.0);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_GOLD_KOOPA_SHELL);
+                        GOLD_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.gold_koopa_shell_damage")
+                                .comment("Amount of damage gold koopa shells cause.")
+                                .comment("§6[1 point = 1/2 Heart]§b")
+                                .defineInRange("gold_koopa_shell_damage", 6.0, 0.0, 16.0);
+                        MAX_GOLD_KOOPA_SHELL_TRAIL_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_trail_coins")
+                                .comment("Max amount of coins gold koopa shells can place§b")
+                                .defineInRange("max_gold_koopa_shell_trail_coins", 16, 0, 64);
+                        MAX_GOLD_KOOPA_SHELL_CIRCLE_COINS = BUILDER.translation("configuration.marioverse.max_gold_koopa_shell_circle_coins")
+                                .comment("Max amount of coins gold koopa shells can place in a circle§b")
+                                .defineInRange("max_gold_koopa_shell_circle_coins", 8, 0, 64);
+                        GOLD_KOOPA_SHELL_COIN_CIRCLE_RADIUS = BUILDER.translation("configuration.marioverse.gold_koopa_shell_coin_circle_radius")
+                                .comment("Max amount of coins gold koopa shells can place in a circle§b")
+                                .defineInRange("gold_koopa_shell_coin_circle_radius", 3, 0, 16);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_GREEN_KOOPA_SHELL);
+                        GREEN_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.green_koopa_shell_damage")
+                                .comment("Amount of damage green koopa shells cause.")
+                                .comment("§6[1 point = 1/2 Heart]§b")
+                                .defineInRange("green_koopa_shell_damage", 6.0, 0.0, 16.0);
+                    BUILDER.pop();
+
+                    BUILDER.push(CATEGORY_RED_KOOPA_SHELL);
+                        RED_KOOPA_SHELL_DAMAGE = BUILDER.translation("configuration.marioverse.red_koopa_shell_damage")
+                                .comment("Amount of damage red koopa shells cause.")
+                                .comment("§6[1 point = 1/2 Heart]§b")
+                                .defineInRange("red_koopa_shell_damage", 4.0, 0.0, 16.0);
+                        RED_KOOPA_SHELL_MOB_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_mob_detection_radius")
+                                .comment("Mob detection radius of red koopa shells.§b")
+                                .comment("§6A radius of 0 will disable the shell tracking.§b")
+                                .defineInRange("red_koopa_shell_mob_detection_radius", 10, 0, 50);
+                        RED_KOOPA_SHELL_PLAYER_DETECTION_RADIUS = BUILDER.translation("configuration.marioverse.red_koopa_shell_player_detection_radius")
+                                .comment("Player detection radius of red koopa shells.§b")
+                                .comment("§6A radius of 0 will disable the shell tracking.§b")
+                                .defineInRange("red_koopa_shell_player_detection_radius", 15, 0, 50);
+                    BUILDER.pop();
+
+                    KOOPA_SHELL_DAMAGE_FROM_KILLS = BUILDER.translation("configuration.marioverse.koopa_shell_damage_from_kills")
+                            .comment("Damage koopa shells take when insta-killing mobs.§b")
+                            .defineInRange("koopa_shell_damage_from_kills", 20, 0, 999);
+                    MAX_KOOPA_SHELL_DAMAGE_POINTS = BUILDER.translation("configuration.marioverse.max_koopa_shell_damage_points")
+                            .comment("Max amount of damage a shell can take before shattering.")
+                            .comment("§6Set to -1 to never break.§b")
+                            .defineInRange("max_koopa_shell_damage_points", 200, -1, 999);
+
                 BUILDER.pop();
 
                 BUILDER.push(CATEGORY_SNOW_POKEY);
