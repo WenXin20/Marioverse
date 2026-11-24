@@ -42,8 +42,11 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
     private String blockSpawnerName = "";
 
     private static final WidgetSprites[] CLOCK_SPRITES = clockSprites();
-    private static final WidgetSprites CHECKBOX_SPRITES = new WidgetSprites(sprite("checkbox"), sprite("checkbox_selected"),
-            sprite("checkbox_highlighted"), sprite("checkbox_selected_highlighted"));
+    private static final WidgetSprites CHECKBOX_SPRITES = new WidgetSprites(
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_highlighted"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_highlighted"));
     private static final WidgetSprites CONFIRM_SPRITES = sprites("confirm");
     private static final WidgetSprites REPLACE_SPRITES = selectableSprites("replace");
     private static final WidgetSprites PLACEMENT_SPRITES = selectableSprites("placement");
