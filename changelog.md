@@ -22,6 +22,7 @@
 - Fixed costumes having a missing texture with modded trim materials 
 - Fixed shells not dropping any loot when it shatters
 - Fixed thrown shells not entering clear pipes
+- Fixed gui background being too dark
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
