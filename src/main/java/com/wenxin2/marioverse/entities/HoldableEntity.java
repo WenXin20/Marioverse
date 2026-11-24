@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -32,6 +33,8 @@ public interface HoldableEntity {
     void throwFrom(LivingEntity thrower);
 
     boolean placeAt(LivingEntity placer, BlockPos pos);
+
+    boolean canEnterClearPipes();
 
     default boolean isHeld() {
         return this.getHolderId() != -1;
@@ -106,6 +109,16 @@ public interface HoldableEntity {
         thrown.hasImpulse = true;
         Vec3 thrownMotion = thrown.getDeltaMovement();
         return thrownMotion.horizontalDistanceSqr() > 0.0025 ? new Vec3(thrownMotion.x, 0.0, thrownMotion.z) : Vec3.ZERO;
+    }
+
+    static Vec3 travelInClearPipe(Entity entity, Vec3 slidingMovement, double slideSpeed) {
+        Vec3 motion = entity.getDeltaMovement();
+
+        entity.move(MoverType.SELF, motion);
+
+        if (motion.horizontalDistanceSqr() > 0.01)
+            return new Vec3(motion.x, 0.0, motion.z).normalize().scale(slideSpeed);
+        return slidingMovement;
     }
 
     @Nullable

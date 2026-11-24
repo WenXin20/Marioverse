@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.blocks.ClearWarpPipeBlock;
+import com.wenxin2.marioverse.entities.HoldableEntity;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -87,7 +88,8 @@ public class ClearPipeNetwork {
     }
 
     public static boolean isEnteringPipe(Entity entity) {
-        return entity.getPersistentData().contains(TRAVEL_EXIT) || ClearPipeNetwork.isTravelingInPipe(entity);
+        return entity.getPersistentData().contains(TRAVEL_EXIT) || ClearPipeNetwork.isTravelingInPipe(entity)
+                || (entity instanceof HoldableEntity holdable && holdable.canEnterClearPipes());
     }
 
     @Nullable

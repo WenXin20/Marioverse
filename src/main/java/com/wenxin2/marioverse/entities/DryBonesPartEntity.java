@@ -11,6 +11,7 @@ import com.wenxin2.marioverse.registries.EntityRegistry;
 import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ClearPipeNetwork;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.List;
 import java.util.Map;
@@ -237,6 +238,11 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, HoldableEn
             return;
         }
 
+        if (ClearPipeNetwork.isTravelingInPipe(this)) {
+            this.slidingMovement = HoldableEntity.travelInClearPipe(this, this.slidingMovement, SLIDE_SPEED);
+            return;
+        }
+
         Vec3 motion = this.getDeltaMovement();
         boolean inFluid = !this.level().getFluidState(this.blockPosition()).isEmpty();
         double fluidScale = inFluid ? 0.5 : 1.0;
@@ -442,6 +448,11 @@ public class DryBonesPartEntity extends Monster implements GeoEntity, HoldableEn
                 this.setPos(holdPos.x, holdPos.y, holdPos.z);
             else this.setPos(holder.getX(), holder.getY(), holder.getZ());
         }
+    }
+
+    @Override
+    public boolean canEnterClearPipes() {
+        return this.isThrown() && this.isMovingShell() && this.isAlive();
     }
 
     @Override

@@ -21,6 +21,7 @@
 - Fixed structure files using old warp pipe states
 - Fixed costumes having a missing texture with modded trim materials 
 - Fixed shells not dropping any loot when it shatters
+- Fixed thrown shells not entering clear pipes
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 

@@ -9,6 +9,7 @@ import com.wenxin2.marioverse.registries.DamageSourceRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.registries.SoundRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
+import com.wenxin2.marioverse.utils.ClearPipeNetwork;
 import com.wenxin2.marioverse.utils.ServerParticleUtils;
 import java.util.HashSet;
 import java.util.List;
@@ -290,6 +291,11 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
 
         if (this.isNoAi()) {
             super.travel(vec3);
+            return;
+        }
+
+        if (ClearPipeNetwork.isTravelingInPipe(this)) {
+            this.slidingMovement = HoldableEntity.travelInClearPipe(this, this.slidingMovement, this.getSlideSpeed());
             return;
         }
 
@@ -638,6 +644,11 @@ public abstract class ShellEntity extends Monster implements CrackableEntity, Ge
 
         if (!this.level().isClientSide && (this.shouldReleaseHold(holder) || !this.canStayHeld()))
             this.releaseHold();
+    }
+
+    @Override
+    public boolean canEnterClearPipes() {
+        return this.isMovingShell() && !this.isHeld() && this.isAlive();
     }
 
     @Override
