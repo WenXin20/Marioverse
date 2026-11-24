@@ -2738,7 +2738,7 @@
 
   "display.marioverse.doors_cannot_teleport_players": "§cWarp Doors cannot teleport Players!",
   "display.marioverse.paintings_cannot_teleport_players": "§cWarp Paintings cannot teleport Players!",
-  "display.marioverse.pipes_not_connected": "§cPipe is not connected to the destination pipe!",
+  "display.marioverse.pipes_not_connected": "§c%1$s is not connected to the destination %2$s!",
   "display.marioverse.pipes_cannot_teleport_players": "§cWarp Pipes cannot teleport Players!",
   "display.marioverse.trapdoors_cannot_teleport_players": "§cWarp Trapdoors cannot teleport Players!",
 

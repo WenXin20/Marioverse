@@ -271,7 +271,7 @@ public interface BlockWarpEntityHandler {
                 return;
             if (!WarpPipeBlock.arePipesConnected(level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos)) {
                 if (!level.isClientSide && entity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.pipes_not_connected"), true);
+                    BlockWarpEntityHandler.displayPipesNotConnectedMessage(player, level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos);
                 return;
             }
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos, state);
@@ -305,7 +305,7 @@ public interface BlockWarpEntityHandler {
                 return;
             if (!WarpPipeBlock.arePipesConnected(level, pos, warpPos)) {
                 if (!level.isClientSide && entity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.pipes_not_connected"), true);
+                    BlockWarpEntityHandler.displayPipesNotConnectedMessage(player, level, pos, warpPos);
                 return;
             }
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
@@ -336,7 +336,7 @@ public interface BlockWarpEntityHandler {
                 return;
             if (!WarpPipeBlock.arePipesConnected(level, pos, warpPos)) {
                 if (!level.isClientSide && entity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.pipes_not_connected"), true);
+                    BlockWarpEntityHandler.displayPipesNotConnectedMessage(player, level, pos, warpPos);
                 return;
             }
             WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
@@ -443,6 +443,12 @@ public interface BlockWarpEntityHandler {
 
     static void displayDestinationMissingMessage(Player player) {
         player.displayClientMessage(Component.translatable("display.marioverse.warp_destination_missing"), true);
+    }
+
+    static void displayPipesNotConnectedMessage(Player player, Level level, BlockPos from, BlockPos to) {
+        Component fromName = level.getBlockState(from).getBlock().getName();
+        Component toName = level.getBlockState(to).getBlock().getName();
+        player.displayClientMessage(Component.translatable("display.marioverse.pipes_not_connected", fromName, toName), true);
     }
 
     static boolean isOnLoweredFloor(double feetY) {

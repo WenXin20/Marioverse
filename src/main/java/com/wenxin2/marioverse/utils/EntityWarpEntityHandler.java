@@ -110,7 +110,7 @@ public interface EntityWarpEntityHandler {
                 return;
             if (xpDestination != null && !WarpPipeBlock.arePipesConnected(world, BlockPos.containing(enteredPos), xpDestination)) {
                 if (entity instanceof Player player)
-                    player.displayClientMessage(Component.translatable("display.marioverse.pipes_not_connected"), true);
+                    BlockWarpEntityHandler.displayPipesNotConnectedMessage(player, world, BlockPos.containing(enteredPos), xpDestination);
                 return;
             }
             boolean isWarpPainting = EntityWarpEntityHandler.isWarpPainting(warpLinkableEntity);
