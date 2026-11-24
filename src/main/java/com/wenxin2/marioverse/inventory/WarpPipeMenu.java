@@ -12,7 +12,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 public class WarpPipeMenu extends AbstractContainerMenu {
-    public static final int DATA_COUNT = 7;
+    public static final int DATA_COUNT = 10;
     private final ContainerLevelAccess access;
     private final ContainerData data;
 
@@ -82,5 +82,17 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     public boolean needsWaterlogging() {
         return this.data.get(6) == 1;
+    }
+
+    public boolean requiresWaterSource() {
+        return this.data.get(7) == 1;
+    }
+
+    public boolean requiresConnection() {
+        return this.data.get(8) == 1;
+    }
+
+    public boolean isClearPipe() {
+        return this.data.get(9) == 1;
     }
 }

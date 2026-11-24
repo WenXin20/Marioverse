@@ -5,6 +5,8 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.BubblesSlider;
 import com.wenxin2.marioverse.client.StateImageButton;
 import com.wenxin2.marioverse.client.WaterSpoutSlider;
+import com.wenxin2.marioverse.network.server_bound.data.ConnectedPipesCheckboxPayload;
+import com.wenxin2.marioverse.network.server_bound.data.WaterSourceCheckboxPayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.network.PacketHandler;
@@ -36,6 +38,8 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     Button renameButton;
     Button waterSpoutButton;
     EditBox renameBox;
+    Button waterSourceCheckbox;
+    Button connectionCheckbox;
     Inventory inventory;
 
     public ExtendedSlider waterSpoutSlider;
@@ -51,6 +55,16 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     private static final WidgetSprites WATER_SPOUT_ON_SPRITES = sprites("water_spout_on");
     private static final WidgetSprites BUBBLES_OFF_SPRITES = sprites("bubbles_off");
     private static final WidgetSprites BUBBLES_ON_SPRITES = sprites("bubbles_on");
+    private static final WidgetSprites CHECKBOX_SPRITES = new WidgetSprites(
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_highlighted"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_highlighted"));
+    private static final WidgetSprites CHECKBOX_WAXED_SPRITES = new WidgetSprites(
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_waxed"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_waxed"));
 
     public WarpPipeScreen(WarpPipeMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -117,7 +131,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         this.lastSpoutHeight = this.menu.getSpoutHeight();
         final Component height = Component.translatable("menu.marioverse.warp_pipe.water_spout_slider.height");
-        this.waterSpoutSlider = this.addRenderableWidget(new WaterSpoutSlider(x + 61, y + 18, 108, 24,
+        this.waterSpoutSlider = this.addRenderableWidget(new WaterSpoutSlider(x + 61, y + 18, 90, 24,
                 height, Component.literal(""), 0D, 16D, this.lastSpoutHeight, 1D, 0, true, this.menu::isWaxed));
 
         this.bubblesButton = this.addRenderableWidget(new StateImageButton(x + 34, y + 45, 24, 24,
@@ -127,8 +141,19 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         this.lastBubblesDistance = this.menu.getBubblesDistance();
         final Component distance = Component.translatable("menu.marioverse.warp_pipe.bubbles_slider.distance");
-        this.bubblesSlider = this.addRenderableWidget(new BubblesSlider(x + 61, y + 45, 108, 24,
+        this.bubblesSlider = this.addRenderableWidget(new BubblesSlider(x + 61, y + 45, 90, 24,
                 distance, Component.literal(""), 0D, 16D, this.lastBubblesDistance, 1D, 0, true, this.menu::isWaxed));
+
+        this.waterSourceCheckbox = this.addRenderableWidget(new StateImageButton(x + 155, y + 26, 10, 8,
+                () -> this.menu.isWaxed() ? CHECKBOX_WAXED_SPRITES : CHECKBOX_SPRITES, () -> !this.menu.requiresWaterSource() && !this.isWaterSourceForced(),
+                button -> this.waterSourceCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox.tooltip")));
+        this.waterSourceCheckbox.visible = !this.menu.isClearPipe();
+        this.waterSourceCheckbox.active = !this.isWaterSourceForced();
+
+        this.connectionCheckbox = this.addRenderableWidget(new StateImageButton(x + 155, y + 53, 10, 8,
+                () -> this.menu.isWaxed() ? CHECKBOX_WAXED_SPRITES : CHECKBOX_SPRITES, () -> !this.menu.requiresConnection() && !this.isConnectionForced(),
+                button -> this.connectionCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.tooltip")));
+        this.connectionCheckbox.active = !this.isConnectionForced();
     }
 
     @Override
@@ -217,6 +242,20 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_slider_waxed.tooltip");
         else tooltip = Component.translatable("menu.marioverse.warp_pipe.bubbles_slider.tooltip");
         this.bubblesSlider.setTooltip(Tooltip.create(tooltip));
+
+        if (this.isWaterSourceForced())
+            tooltip = Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox_config.tooltip");
+        else if (this.menu.isWaxed())
+            tooltip = Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox_waxed.tooltip");
+        else tooltip = Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox.tooltip");
+        this.waterSourceCheckbox.setTooltip(Tooltip.create(tooltip));
+
+        if (this.isConnectionForced())
+            tooltip = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox_config.tooltip");
+        else if (this.menu.isWaxed())
+            tooltip = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox_waxed.tooltip");
+        else tooltip = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.tooltip");
+        this.connectionCheckbox.setTooltip(Tooltip.create(tooltip));
     }
 
     @Override
@@ -361,6 +400,30 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             int spoutHeight = waterSpoutSlider.getValueInt();
             PacketHandler.sendToServer(new WaterSpoutSliderPayload(this.menu.containerId, spoutHeight));
         }
+    }
+
+    public void waterSourceCheckboxOnPress() {
+        Player player = this.inventory.player;
+
+        if (this.menu.isWaxed())
+            player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
+        else PacketHandler.sendToServer(new WaterSourceCheckboxPayload(this.menu.containerId, !this.menu.requiresWaterSource()));
+    }
+
+    public void connectionCheckboxOnPress() {
+        Player player = this.inventory.player;
+
+        if (this.menu.isWaxed())
+            player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
+        else PacketHandler.sendToServer(new ConnectedPipesCheckboxPayload(this.menu.containerId, !this.menu.requiresConnection()));
+    }
+
+    private boolean isWaterSourceForced() {
+        return ConfigRegistry.WATER_SPOUTS_REQUIRE_WATER.get();
+    }
+
+    private boolean isConnectionForced() {
+        return this.menu.isClearPipe() ? ConfigRegistry.REQUIRE_CONNECTED_CLEAR_PIPES.get() : ConfigRegistry.REQUIRE_CONNECTED_PIPES.get();
     }
 
     private boolean isWaxLocked(boolean waxDisables) {

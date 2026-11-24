@@ -43,6 +43,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -130,6 +131,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public static final String SPOUT_SIZZLED = "SpoutSizzled";
     public static final String SPOUT_BUCKETED = "SpoutBucketed";
     public static final String SPOUT_RETRACTING = "SpoutRetracting";
+    public static final String REQUIRES_WATER_SOURCE = "RequiresWaterSource";
+    public static final String REQUIRES_CONNECTION = "RequiresConnection";
     private static final int SPOUT_RETRACT_TICKS = 5;
     private static final int SPOUT_WATER_CHECK_TICKS = 20;
     public static final String DISPLAY_TEXT_NORTH = "displayTextNorth";
@@ -158,6 +161,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 case 4 -> WarpPipeBlockEntity.this.getSpoutHeight();
                 case 5 -> WarpPipeBlockEntity.this.getBubblesDistance();
                 case 6 -> state.getBlock() instanceof ClearWarpPipeBlock && !state.getValue(ClearWarpPipeBlock.WATERLOGGED) ? 1 : 0;
+                case 7 -> WarpPipeBlockEntity.this.requiresWaterSource() ? 1 : 0;
+                case 8 -> WarpPipeBlockEntity.this.requiresConnection() ? 1 : 0;
+                case 9 -> state.getBlock() instanceof ClearWarpPipeBlock ? 1 : 0;
                 default -> 0;
             };
         }
@@ -182,6 +188,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     private long spoutRetractTime;
     private long nextSpoutWaterCheckTime;
     private boolean hasSpoutWater;
+    private boolean requiresWaterSource;
+    private boolean requiresConnection;
     public int spawnItemDelay = 20;
     public boolean displayTextNorth;
     public boolean displayTextSouth;
@@ -248,6 +256,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         tag.putBoolean(SPOUT_SIZZLED, this.hasSpoutSizzled);
         tag.putBoolean(SPOUT_BUCKETED, this.isSpoutBucketed);
         tag.putBoolean(SPOUT_RETRACTING, this.isSpoutRetracting);
+        tag.putBoolean(REQUIRES_WATER_SOURCE, this.requiresWaterSource);
+        tag.putBoolean(REQUIRES_CONNECTION, this.requiresConnection);
         tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
         tag.putBoolean(DISPLAY_TEXT_SOUTH, this.displayTextSouth);
         tag.putBoolean(DISPLAY_TEXT_EAST, this.displayTextEast);
@@ -280,6 +290,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.hasSpoutSizzled = tag.getBoolean(SPOUT_SIZZLED);
         this.isSpoutBucketed = tag.getBoolean(SPOUT_BUCKETED);
         this.isSpoutRetracting = tag.getBoolean(SPOUT_RETRACTING);
+        this.requiresWaterSource = tag.getBoolean(REQUIRES_WATER_SOURCE);
+        this.requiresConnection = tag.getBoolean(REQUIRES_CONNECTION);
         this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
         this.displayTextSouth = tag.getBoolean(DISPLAY_TEXT_SOUTH);
         this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
@@ -751,7 +763,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             return false;
         if (state.getBlock() instanceof ClearWarpPipeBlock)
             return state.getValue(ClearWarpPipeBlock.WATERLOGGED);
-        if (!ConfigRegistry.WATER_SPOUTS_REQUIRE_WATER.get())
+        if (!ConfigRegistry.WATER_SPOUTS_REQUIRE_WATER.get() && !this.requiresWaterSource)
             return true;
 
         long gameTime = this.level.getGameTime();
@@ -777,6 +789,45 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);
         level.sendParticles(ParticleTypes.LARGE_SMOKE, spoutPos.getX() + 0.5, spoutPos.getY() + 0.5, spoutPos.getZ() + 0.5,
                 8, 0.25, 0.25, 0.25, 0.0);
+    }
+
+    public boolean requiresWaterSource() {
+        return this.requiresWaterSource;
+    }
+
+    public void setRequiresWaterSource(boolean requiresWaterSource) {
+        if (this.requiresWaterSource != requiresWaterSource) {
+            this.requiresWaterSource = requiresWaterSource;
+            this.nextSpoutWaterCheckTime = 0;
+            this.setChanged();
+        }
+    }
+
+    public boolean requiresConnection() {
+        return this.requiresConnection;
+    }
+
+    public void setRequiresConnection(boolean requiresConnection) {
+        if (this.requiresConnection != requiresConnection) {
+            this.requiresConnection = requiresConnection;
+            this.setChanged();
+        }
+    }
+
+    public void updateRequiresConnection(boolean requiresConnection) {
+        this.setRequiresConnection(requiresConnection);
+        this.sendData();
+
+        BlockPos destinationPos = this.getDestinationPos();
+        ResourceKey<Level> destinationDim = this.getDestinationDim();
+        if (this.level == null || destinationPos == null || !this.level.isLoaded(destinationPos)
+                || (destinationDim != null && !destinationDim.equals(this.level.dimension())))
+            return;
+
+        if (this.level.getBlockEntity(destinationPos) instanceof WarpPipeBlockEntity destinationBE && !destinationBE.isWaxed()) {
+            destinationBE.setRequiresConnection(requiresConnection);
+            destinationBE.sendData();
+        }
     }
 
     public boolean hasBubbles() {

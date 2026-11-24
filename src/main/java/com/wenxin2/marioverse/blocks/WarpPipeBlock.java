@@ -724,7 +724,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         boolean isFromPipe = fromState.getBlock() instanceof WarpPipeBlock;
         boolean isToPipe = toState.getBlock() instanceof WarpPipeBlock;
 
-        if (!WarpPipeBlock.requiresConnection(fromState) && !WarpPipeBlock.requiresConnection(toState))
+        if (!WarpPipeBlock.requiresConnection(level, from, fromState) && !WarpPipeBlock.requiresConnection(level, to, toState))
             return true;
         if (!isFromPipe || !isToPipe || !WarpPipeBlock.isSamePipeType(fromState, toState))
             return false;
@@ -745,10 +745,14 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
         return isConnected;
     }
 
-    private static boolean requiresConnection(BlockState state) {
+    private static boolean requiresConnection(Level level, BlockPos pos, BlockState state) {
+        if (!(state.getBlock() instanceof WarpPipeBlock))
+            return false;
+        if (level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && pipeBE.requiresConnection())
+            return true;
         if (state.getBlock() instanceof ClearWarpPipeBlock)
             return ConfigRegistry.REQUIRE_CONNECTED_CLEAR_PIPES.get();
-        return state.getBlock() instanceof WarpPipeBlock && ConfigRegistry.REQUIRE_CONNECTED_PIPES.get();
+        return ConfigRegistry.REQUIRE_CONNECTED_PIPES.get();
     }
 
     private static boolean searchConnection(Level level, BlockPos from, BlockPos to, BlockState startState) {
