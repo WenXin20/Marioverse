@@ -229,6 +229,27 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     }
 
     @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        if (this.isDragging() && button == GLFW.GLFW_MOUSE_BUTTON_LEFT && this.getFocused() instanceof ExtendedSlider slider)
+            return slider.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (this.waterSpoutSlider.isMouseOver(mouseX, mouseY) && this.waterSpoutSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+            this.waterSpoutSliderOnPress();
+            return true;
+        }
+
+        if (this.bubblesSlider.isMouseOver(mouseX, mouseY) && this.bubblesSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+            this.bubblesSliderOnPress();
+            return true;
+        }
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+    }
+
+    @Override
     public boolean keyPressed(final int keyCode, final int b, final int c) {
         if (waterSpoutSlider.isFocused() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
             waterSpoutSliderOnPress();
@@ -308,7 +329,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             player.displayClientMessage(Component.translatable("display.marioverse.pipe_bubbles.requires_creative").withStyle(ChatFormatting.RED), true);
         else if (this.isWaxLocked(ConfigRegistry.WAX_DISABLES_BUBBLES.get()))
             player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
-        else if (bubblesSlider.isFocused()) {
+        else {
             int bubblesDistance = bubblesSlider.getValueInt();
             PacketHandler.sendToServer(new PipeBubblesSliderPayload(this.menu.containerId, bubblesDistance));
         }
@@ -336,7 +357,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             player.displayClientMessage(Component.translatable("display.marioverse.water_spouts.requires_creative").withStyle(ChatFormatting.RED), true);
         else if (this.isWaxLocked(ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get()))
             player.displayClientMessage(Component.translatable("display.marioverse.rename_pipes.pipe_waxed").withStyle(ChatFormatting.RED), true);
-        else if (waterSpoutSlider.isFocused()) {
+        else {
             int spoutHeight = waterSpoutSlider.getValueInt();
             PacketHandler.sendToServer(new WaterSpoutSliderPayload(this.menu.containerId, spoutHeight));
         }

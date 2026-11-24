@@ -44,6 +44,15 @@ public class TexturedSlider extends ExtendedSlider {
         renderScrollingString(guiGraphics, mc.font, 2, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
     }
 
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (!this.active || !this.visible || scrollY == 0)
+            return false;
+        double step = this.stepSize > 0 ? this.stepSize : (this.maxValue - this.minValue) / 100;
+        this.setValue(this.getValue() + Math.signum(scrollY) * step);
+        return true;
+    }
+
     public int getHandleTextureY() {
         int i = !this.isHovered && !this.canChangeValue ? 2 : 3;
         return i * 24;
