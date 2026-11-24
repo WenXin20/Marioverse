@@ -11,7 +11,9 @@
   - Pipe Junction blocks can be used to change the color of the pipes connected
 - Added a config to require water near a connected pipe for water spouts to place. Default false.
 - Added a config to disable teleporting using clear pipes
-- Added checkmark boxes to the pipe gui to enable the above. Waxing prevents changing it
+- Added checkmark boxes to the pipe gui to enable the above.
+  - Waxing prevents changing it
+  - The config still overrides this
 - Added the damage type tag `cannot_remove_power_up`. 
   - Includes fall damage by default
 - Added the ability for Splunkin Carved Pumpkins & Splunkin O'Lanterns to make Snow & Iron Golems
