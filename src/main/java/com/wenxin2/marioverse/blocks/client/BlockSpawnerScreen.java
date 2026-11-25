@@ -647,14 +647,14 @@ public class BlockSpawnerScreen extends AbstractContainerScreen<BlockSpawnerMenu
             }
         }
 
-        if (this.countdownBox.isFocused() || this.placementOffsetBox.isFocused()) {
-            if (keyCode == GLFW.GLFW_KEY_E) {
-                if (this.countdownBox.isFocused())
-                    this.countdownBox.setFocused(true);
-                if (this.placementOffsetBox.isFocused())
-                    this.placementOffsetBox.setFocused(true);
-                return true;
-            }
+        if (this.countdownBox.canConsumeInput()) {
+            this.countdownBox.keyPressed(keyCode, b, c);
+            return true;
+        }
+
+        if (this.placementOffsetBox.canConsumeInput()) {
+            this.placementOffsetBox.keyPressed(keyCode, b, c);
+            return true;
         }
         return super.keyPressed(keyCode, b, c);
     }

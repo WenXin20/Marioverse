@@ -267,8 +267,8 @@ public class QuestionBlockScreen extends AbstractContainerScreen<QuestionBlockMe
             return false;
         }
 
-        if (this.countdownBox.isFocused() && keyCode == GLFW.GLFW_KEY_E) {
-            this.countdownBox.setFocused(true);
+        if (this.countdownBox.canConsumeInput()) {
+            this.countdownBox.keyPressed(keyCode, b, c);
             return true;
         }
 

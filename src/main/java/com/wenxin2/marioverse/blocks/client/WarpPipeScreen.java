@@ -318,8 +318,8 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             return false;
         }
 
-        if (this.renameBox.isFocused() && keyCode == GLFW.GLFW_KEY_E) {
-            this.renameBox.setFocused(true);
+        if (this.renameBox.canConsumeInput()) {
+            this.renameBox.keyPressed(keyCode, b, c);
             return true;
         }
 
