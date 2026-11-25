@@ -27,7 +27,7 @@
 - Fixed thrown shells not entering clear pipes
 - Fixed gui backgrounds being too dark
 - Fixed pipe gui sliders not working with scrolling and click-dragging
-- Fixed keybinds added by mods closing gui's
+- Fixed keybinds added by mods closing guis
 
 Please report any bugs found to [GitHub](https://github.com/WenXin20/Marioverse/issues)
 
