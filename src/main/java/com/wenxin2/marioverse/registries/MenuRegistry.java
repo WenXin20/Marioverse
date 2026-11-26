@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.inventory.QuestionBlockMenu;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class MenuRegistry {
@@ -16,7 +17,7 @@ public class MenuRegistry {
     static {
         BLOCK_SPAWNER_MENU = Marioverse.MENUS.register("block_spawner", () -> new MenuType<>(BlockSpawnerMenu::new, FeatureFlags.REGISTRY.allFlags()));
         QUESTION_BLOCK_MENU = Marioverse.MENUS.register("question_block", () -> new MenuType<>(QuestionBlockMenu::new, FeatureFlags.REGISTRY.allFlags()));
-        WARP_PIPE_MENU = Marioverse.MENUS.register("warp_pipe", () -> new MenuType<>(WarpPipeMenu::new, FeatureFlags.REGISTRY.allFlags()));
+        WARP_PIPE_MENU = Marioverse.MENUS.register("warp_pipe", () -> IMenuTypeExtension.create(WarpPipeMenu::new));
     }
 
     public static void init() {}

@@ -4,8 +4,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.client.BubblesSlider;
 import com.wenxin2.marioverse.client.StateImageButton;
+import com.wenxin2.marioverse.client.TabButton;
 import com.wenxin2.marioverse.client.WaterSpoutSlider;
 import com.wenxin2.marioverse.network.server_bound.data.ConnectedPipesCheckboxPayload;
+import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSourceCheckboxPayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
@@ -32,21 +34,27 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import org.lwjgl.glfw.GLFW;
 
 public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
-    public static ResourceLocation WARP_PIPE_GUI = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/warp_pipe.png");
+    public static ResourceLocation WARP_PIPE_GUI = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/warp_pipe.png");
     Button bubblesButton;
     Button closeButton;
+    Button connectionCheckbox;
     Button renameButton;
+    Button waterSourceCheckbox;
     Button waterSpoutButton;
     EditBox renameBox;
-    Button waterSourceCheckbox;
-    Button connectionCheckbox;
     Inventory inventory;
+    TabButton paymentsTab;
+    TabButton warpPipeTab;
+    TabButton waterworksTab;
 
     public ExtendedSlider waterSpoutSlider;
     public ExtendedSlider bubblesSlider;
     private String pipeName = "";
+    private int lastMenuType = -1;
     private int lastSpoutHeight;
     private int lastBubblesDistance;
+    private int sliderSyncDelay;
 
     private static final WidgetSprites RENAME_SPRITES = sprites("rename");
     private static final WidgetSprites PIPE_OPEN_SPRITES = sprites("pipe_open");
@@ -65,6 +73,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_waxed"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_waxed"));
+    private static final int TAB_X_OFFSET = -30;
+    private static final int TAB_Y_OFFSET = 3;
+    private static final int TAB_SPACING = 27;
+    private static final int SLIDER_SYNC_DELAY = 10;
 
     public WarpPipeScreen(WarpPipeMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -73,14 +85,15 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     @Override
     public void renderLabels(GuiGraphics graphics, int x, int y) {
-        if (this.renameBox.visible)
-            graphics.drawString(this.font, "", this.titleLabelX, this.titleLabelY, 4210752, false);
-        else if (!this.pipeName.isEmpty())
+        Component title = switch (this.menu.getMenuType()) {
+            case WarpPipeMenu.WATERWORKS_TAB -> Component.translatable("menu.marioverse.warp_pipe.waterworks");
+            case WarpPipeMenu.PAYMENTS_TAB -> Component.translatable("menu.marioverse.warp_pipe.payments");
             // Warp Pipe "Name"
-            graphics.drawString(this.font, this.pipeName, this.titleLabelX, this.titleLabelY, 4210752, false);
-            // "Warp Pipe"
-        else graphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
+            default -> this.pipeName.isEmpty() ? this.title : Component.literal(this.pipeName);
+        };
 
+        if (!this.renameBox.visible)
+            graphics.drawString(this.font, title, this.titleLabelX, this.titleLabelY, 4210752, false);
         // Inventory
         graphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
     }
@@ -124,55 +137,66 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 () -> !this.isLocked(ConfigRegistry.CREATIVE_CLOSE_PIPES.get(), ConfigRegistry.WAX_DISABLES_CLOSING.get()),
                 button -> this.closeButtonOnPress(), Component.translatable("menu.marioverse.warp_pipe.close_button.narrate")));
 
-        this.waterSpoutButton = this.addRenderableWidget(new StateImageButton(x + 34, y + 18, 24, 24,
+        this.waterSpoutButton = this.addRenderableWidget(new StateImageButton(x + 7, y + 18, 24, 24,
                 () -> this.menu.hasWaterSpout() ? WATER_SPOUT_ON_SPRITES : WATER_SPOUT_OFF_SPRITES,
                 () -> !this.isLocked(ConfigRegistry.CREATIVE_WATER_SPOUT.get(), ConfigRegistry.WAX_DISABLES_WATER_SPOUTS.get()),
                 button -> this.waterSpoutButtonOnPress(), Component.translatable("menu.marioverse.warp_pipe.water_spout_button.narrate")));
 
         this.lastSpoutHeight = this.menu.getSpoutHeight();
         final Component height = Component.translatable("menu.marioverse.warp_pipe.water_spout_slider.height");
-        this.waterSpoutSlider = this.addRenderableWidget(new WaterSpoutSlider(x + 61, y + 18, 90, 24,
+        this.waterSpoutSlider = this.addRenderableWidget(new WaterSpoutSlider(x + 37, y + 21, 114, 18,
                 height, Component.literal(""), 0D, 16D, this.lastSpoutHeight, 1D, 0, true, this.menu::isWaxed));
 
-        this.bubblesButton = this.addRenderableWidget(new StateImageButton(x + 34, y + 45, 24, 24,
+        this.bubblesButton = this.addRenderableWidget(new StateImageButton(x + 7, y + 45, 24, 24,
                 () -> this.menu.hasBubbles() ? BUBBLES_ON_SPRITES : BUBBLES_OFF_SPRITES,
                 () -> !this.isLocked(ConfigRegistry.CREATIVE_BUBBLES.get(), ConfigRegistry.WAX_DISABLES_BUBBLES.get()),
                 button -> this.bubblesButtonOnPress(), Component.translatable("menu.marioverse.warp_pipe.bubbles_button.narrate")));
 
         this.lastBubblesDistance = this.menu.getBubblesDistance();
         final Component distance = Component.translatable("menu.marioverse.warp_pipe.bubbles_slider.distance");
-        this.bubblesSlider = this.addRenderableWidget(new BubblesSlider(x + 61, y + 45, 90, 24,
+        this.bubblesSlider = this.addRenderableWidget(new BubblesSlider(x + 37, y + 48, 114, 18,
                 distance, Component.literal(""), 0D, 16D, this.lastBubblesDistance, 1D, 0, true, this.menu::isWaxed));
 
-        this.waterSourceCheckbox = this.addRenderableWidget(new StateImageButton(x + 155, y + 26, 10, 8,
+        this.waterSourceCheckbox = this.addRenderableWidget(new StateImageButton(x + 157, y + 26, 10, 8,
                 () -> this.menu.isWaxed() ? CHECKBOX_WAXED_SPRITES : CHECKBOX_SPRITES, () -> !this.menu.requiresWaterSource() && !this.isWaterSourceForced(),
                 button -> this.waterSourceCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox.tooltip")));
         this.waterSourceCheckbox.active = !this.isWaterSourceForced();
 
-        this.connectionCheckbox = this.addRenderableWidget(new StateImageButton(x + 155, y + 53, 10, 8,
+        this.connectionCheckbox = this.addRenderableWidget(new StateImageButton(x + 157, y + 26, 10, 8,
                 () -> this.menu.isWaxed() ? CHECKBOX_WAXED_SPRITES : CHECKBOX_SPRITES, () -> !this.menu.requiresConnection() && !this.isConnectionForced(),
                 button -> this.connectionCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.tooltip")));
         this.connectionCheckbox.active = !this.isConnectionForced();
+
+        this.warpPipeTab = this.addTab(WarpPipeMenu.WARP_PIPE_TAB, "warp_pipe");
+        this.waterworksTab = this.addTab(WarpPipeMenu.WATERWORKS_TAB, "waterworks");
+        this.paymentsTab = this.addTab(WarpPipeMenu.PAYMENTS_TAB, "payments");
+
+        this.lastMenuType = -1;
+        this.containerTick();
     }
 
     @Override
     protected void containerTick() {
         super.containerTick();
+        if (this.sliderSyncDelay > 0)
+            this.sliderSyncDelay--;
 
         if (this.menu.getSpoutHeight() != this.lastSpoutHeight) {
             this.lastSpoutHeight = this.menu.getSpoutHeight();
-            this.waterSpoutSlider.setValue(this.lastSpoutHeight);
+            if (this.sliderSyncDelay == 0)
+                this.waterSpoutSlider.setValue(this.lastSpoutHeight);
         }
 
         if (this.menu.getBubblesDistance() != this.lastBubblesDistance) {
             this.lastBubblesDistance = this.menu.getBubblesDistance();
-            this.bubblesSlider.setValue(this.lastBubblesDistance);
+            if (this.sliderSyncDelay == 0)
+                this.bubblesSlider.setValue(this.lastBubblesDistance);
         }
     }
 
     @Override
-    // Draws the screen and all the components in it.
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks) {
+        this.updateTabWidgets();
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.renderTooltip(graphics, mouseX, mouseY);
     }
@@ -270,19 +294,25 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (this.isDragging() && button == GLFW.GLFW_MOUSE_BUTTON_LEFT && this.getFocused() instanceof ExtendedSlider slider)
+        if (this.isDragging() && button == GLFW.GLFW_MOUSE_BUTTON_LEFT && this.getFocused() instanceof ExtendedSlider slider) {
+            this.sliderSyncDelay = SLIDER_SYNC_DELAY;
             return slider.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        }
         return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (this.waterSpoutSlider.isMouseOver(mouseX, mouseY) && this.waterSpoutSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+            this.sliderSyncDelay = SLIDER_SYNC_DELAY;
+            this.waterSpoutSliderOnPress();
             this.waterSpoutSliderOnPress();
             return true;
         }
 
         if (this.bubblesSlider.isMouseOver(mouseX, mouseY) && this.bubblesSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+            this.sliderSyncDelay = SLIDER_SYNC_DELAY;
+            this.bubblesSliderOnPress();
             this.bubblesSliderOnPress();
             return true;
         }
@@ -440,5 +470,46 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/" + name),
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/" + name + "_disabled"),
                 ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/" + name + "_highlighted"));
+    }
+
+    private TabButton addTab(int tab, String name) {
+        TabButton tabButton = this.addRenderableWidget(
+                new TabButton(this.leftPos + TAB_X_OFFSET, this.topPos + TAB_Y_OFFSET + tab * TAB_SPACING,
+                        ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/" + name),
+                () -> this.menu.getMenuType() == tab, () -> this.tabOnPress(tab),
+                        Component.translatable("menu.marioverse.warp_pipe." + name + "_tab.narrate")));
+
+        tabButton.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe." + name + "_tab.tooltip")));
+        return tabButton;
+    }
+
+    private void tabOnPress(int tab) {
+        if (this.menu.getMenuType() == tab)
+            return;
+        this.renameBox.setVisible(false);
+        PacketHandler.sendToServer(new MenuTypePayload(this.menu.containerId, tab));
+    }
+
+    private void updateTabWidgets() {
+        this.paymentsTab.visible = this.menu.canManagePayments();
+        int menuType = this.menu.getMenuType();
+
+        if (menuType != this.lastMenuType) {
+            this.lastMenuType = menuType;
+            boolean isWarpPipeTab = menuType == WarpPipeMenu.WARP_PIPE_TAB;
+            boolean isWaterworksTab = menuType == WarpPipeMenu.WATERWORKS_TAB;
+
+            this.renameButton.visible = isWarpPipeTab;
+            this.closeButton.visible = isWarpPipeTab;
+            this.connectionCheckbox.visible = isWarpPipeTab;
+            if (!isWarpPipeTab)
+                this.renameBox.setVisible(false);
+
+            this.waterSpoutButton.visible = isWaterworksTab;
+            this.waterSpoutSlider.visible = isWaterworksTab;
+            this.waterSourceCheckbox.visible = isWaterworksTab;
+            this.bubblesButton.visible = isWaterworksTab;
+            this.bubblesSlider.visible = isWaterworksTab;
+        }
     }
 }

@@ -92,6 +92,7 @@ import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
@@ -114,35 +115,43 @@ import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 import org.slf4j.Logger;
 
-public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProvider, Nameable, Spawner, ContainerSingleItem.BlockContainerSingleItem {
-    // Store a map to track whether entities have teleported or not
+public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProvider, Nameable, Spawner,
+        ContainerSingleItem.BlockContainerSingleItem {
     public static final Map<Integer, Boolean> teleportedEntities = new HashMap<>();
     private static final Logger LOGGER = LogUtils.getLogger();
+    public PipeText pipeText = this.createDefaultPipeText();
+
     private static final Component DEFAULT_NAME = Component.translatable("menu.marioverse.warp_pipe");
     private static final int MAX_TEXT_LINE_WIDTH = 78;
-    private static final int TEXT_LINE_HEIGHT = 10;
-
-    public PipeText pipeText = this.createDefaultPipeText();
-    public static final String SPOUT_HEIGHT = "SpoutHeight";
-    public static final String BUBBLES_DISTANCE = "BubblesDistance";
-    public static final String BUBBLES = "Bubbles";
-    public static final String WATER_SPOUT = "WaterSpout";
-    public static final String SPOUT_REGROW_TIME = "SpoutRegrowTime";
-    public static final String SPOUT_SIZZLED = "SpoutSizzled";
-    public static final String SPOUT_BUCKETED = "SpoutBucketed";
-    public static final String SPOUT_RETRACTING = "SpoutRetracting";
-    public static final String REQUIRES_WATER_SOURCE = "RequiresWaterSource";
-    public static final String REQUIRES_CONNECTION = "RequiresConnection";
     private static final int SPOUT_RETRACT_TICKS = 5;
     private static final int SPOUT_WATER_CHECK_TICKS = 20;
-    public static final String DISPLAY_TEXT_NORTH = "displayTextNorth";
-    public static final String DISPLAY_TEXT_SOUTH = "displayTextSouth";
-    public static final String DISPLAY_TEXT_EAST = "displayTextEast";
-    public static final String DISPLAY_TEXT_WEST = "displayTextWest";
+    private static final int TEXT_LINE_HEIGHT = 10;
+    public static final String BUBBLES = "Bubbles";
+    public static final String BUBBLES_DISTANCE = "BubblesDistance";
+    public static final String CUSTOM_NAME = "CustomName";
     public static final String DISPLAY_TEXT_ABOVE = "displayTextAbove";
     public static final String DISPLAY_TEXT_BELOW = "displayTextBelow";
-    public static final String CUSTOM_NAME = "CustomName";
+    public static final String DISPLAY_TEXT_EAST = "displayTextEast";
+    public static final String DISPLAY_TEXT_NORTH = "displayTextNorth";
+    public static final String DISPLAY_TEXT_SOUTH = "displayTextSouth";
+    public static final String DISPLAY_TEXT_WEST = "displayTextWest";
+    public static final String LIFETIME_ITEMS_EARNED = "LifetimeItemsEarned";
+    public static final String LIFETIME_WARPS = "LifetimeWarps";
+    public static final String LIFETIME_XP_EARNED = "LifetimeXpEarned";
+    public static final String OWNER = "Owner";
     public static final String PIPE_NAME = "PipeName";
+    public static final String REQUIRES_CONNECTION = "RequiresConnection";
+    public static final String REQUIRES_WATER_SOURCE = "RequiresWaterSource";
+    public static final String SPOUT_BUCKETED = "SpoutBucketed";
+    public static final String SPOUT_HEIGHT = "SpoutHeight";
+    public static final String SPOUT_REGROW_TIME = "SpoutRegrowTime";
+    public static final String SPOUT_RETRACTING = "SpoutRetracting";
+    public static final String SPOUT_SIZZLED = "SpoutSizzled";
+    public static final String STORED_PAYMENT = "StoredPayment";
+    public static final String STORED_PAYMENT_COUNT = "StoredPaymentCount";
+    public static final String STORED_XP = "StoredXp";
+    public static final String VOID_PAYMENTS = "VoidPayments";
+    public static final String WATER_SPOUT = "WaterSpout";
     @Nullable public Component name;
     public Component pipeName;
     private LockCode lockKey = LockCode.NO_LOCK;
@@ -164,6 +173,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 case 7 -> WarpPipeBlockEntity.this.requiresWaterSource() ? 1 : 0;
                 case 8 -> WarpPipeBlockEntity.this.requiresConnection() ? 1 : 0;
                 case 9 -> state.getBlock() instanceof ClearWarpPipeBlock ? 1 : 0;
+                case 10 -> WarpPipeBlockEntity.this.getMenuType();
                 default -> 0;
             };
         }
@@ -176,27 +186,36 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             return WarpPipeMenu.DATA_COUNT;
         }
     };
+
+    @Nullable private ResolvableProfile owner;
     private ItemStack spawnItemStack = ItemStack.EMPTY;
-    public int spoutHeight = 4;
-    public int bubblesDistance = 3;
+    private ItemStack storedPayment = ItemStack.EMPTY;
     private boolean bubbles = true;
-    private boolean waterSpout = true;
-    private long spoutRegrowTime;
-    private boolean hasSpoutSizzled;
-    private boolean isSpoutBucketed;
-    private boolean isSpoutRetracting;
-    private long spoutRetractTime;
-    private long nextSpoutWaterCheckTime;
-    private boolean hasSpoutWater;
-    private boolean requiresWaterSource;
-    private boolean requiresConnection;
-    public int spawnItemDelay = 20;
-    public boolean displayTextNorth;
-    public boolean displayTextSouth;
-    public boolean displayTextEast;
-    public boolean displayTextWest;
     public boolean displayTextAbove;
     public boolean displayTextBelow;
+    public boolean displayTextEast;
+    public boolean displayTextNorth;
+    public boolean displayTextSouth;
+    public boolean displayTextWest;
+    private boolean hasSpoutSizzled;
+    private boolean hasSpoutWater;
+    private boolean isSpoutBucketed;
+    private boolean isSpoutRetracting;
+    private boolean requiresConnection;
+    private boolean requiresWaterSource;
+    private boolean voidPayments;
+    private boolean waterSpout = true;
+    public int bubblesDistance = 3;
+    private int lifetimeWarps;
+    public int spawnItemDelay = 20;
+    public int spoutHeight = 4;
+    private int storedPaymentCount;
+    private int storedXp;
+    private long lifetimeItemsEarned;
+    private long lifetimeXpEarned;
+    private long nextSpoutWaterCheckTime;
+    private long spoutRegrowTime;
+    private long spoutRetractTime;
 
     private final PipeSpawner pipeSpawner = new PipeSpawner() {
         @Override
@@ -247,23 +266,29 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         super.saveAdditional(tag, provider);
         this.lockKey.addToTag(tag);
         this.pipeSpawner.save(tag);
-        tag.putShort("SpawnItemDelay", (short) this.spawnItemDelay);
-        tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
-        tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
         tag.putBoolean(BUBBLES, this.bubbles);
-        tag.putBoolean(WATER_SPOUT, this.waterSpout);
-        tag.putLong(SPOUT_REGROW_TIME, this.spoutRegrowTime);
-        tag.putBoolean(SPOUT_SIZZLED, this.hasSpoutSizzled);
-        tag.putBoolean(SPOUT_BUCKETED, this.isSpoutBucketed);
-        tag.putBoolean(SPOUT_RETRACTING, this.isSpoutRetracting);
-        tag.putBoolean(REQUIRES_WATER_SOURCE, this.requiresWaterSource);
-        tag.putBoolean(REQUIRES_CONNECTION, this.requiresConnection);
-        tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
-        tag.putBoolean(DISPLAY_TEXT_SOUTH, this.displayTextSouth);
-        tag.putBoolean(DISPLAY_TEXT_EAST, this.displayTextEast);
-        tag.putBoolean(DISPLAY_TEXT_WEST, this.displayTextWest);
         tag.putBoolean(DISPLAY_TEXT_ABOVE, this.displayTextAbove);
         tag.putBoolean(DISPLAY_TEXT_BELOW, this.displayTextBelow);
+        tag.putBoolean(DISPLAY_TEXT_EAST, this.displayTextEast);
+        tag.putBoolean(DISPLAY_TEXT_NORTH, this.displayTextNorth);
+        tag.putBoolean(DISPLAY_TEXT_SOUTH, this.displayTextSouth);
+        tag.putBoolean(DISPLAY_TEXT_WEST, this.displayTextWest);
+        tag.putBoolean(REQUIRES_CONNECTION, this.requiresConnection);
+        tag.putBoolean(REQUIRES_WATER_SOURCE, this.requiresWaterSource);
+        tag.putBoolean(SPOUT_BUCKETED, this.isSpoutBucketed);
+        tag.putBoolean(SPOUT_RETRACTING, this.isSpoutRetracting);
+        tag.putBoolean(SPOUT_SIZZLED, this.hasSpoutSizzled);
+        tag.putBoolean(VOID_PAYMENTS, this.voidPayments);
+        tag.putBoolean(WATER_SPOUT, this.waterSpout);
+        tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
+        tag.putInt(LIFETIME_WARPS, this.lifetimeWarps);
+        tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
+        tag.putInt(STORED_PAYMENT_COUNT, this.storedPaymentCount);
+        tag.putInt(STORED_XP, this.storedXp);
+        tag.putLong(LIFETIME_ITEMS_EARNED, this.lifetimeItemsEarned);
+        tag.putLong(LIFETIME_XP_EARNED, this.lifetimeXpEarned);
+        tag.putLong(SPOUT_REGROW_TIME, this.spoutRegrowTime);
+        tag.putShort("SpawnItemDelay", (short) this.spawnItemDelay);
 
         if (this.name != null)
             tag.putString(CUSTOM_NAME, Component.Serializer.toJson(this.name, provider));
@@ -271,6 +296,11 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             tag.putString(PIPE_NAME, Component.Serializer.toJson(this.pipeName, provider));
         if (!this.spawnItemStack.isEmpty())
             tag.put("SpawnItem", this.spawnItemStack.save(provider));
+        if (this.owner != null)
+            ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE, this.owner).resultOrPartial(LOGGER::error)
+                    .ifPresent(owner -> tag.put(OWNER, owner));
+        if (!this.storedPayment.isEmpty())
+            tag.put(STORED_PAYMENT, this.storedPayment.save(provider));
 
         PipeText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.pipeText).resultOrPartial(LOGGER::error)
                 .ifPresent(pipeName -> tag.put(PIPE_NAME, pipeName));
@@ -279,25 +309,41 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        this.lockKey = LockCode.fromTag(tag);
-        this.pipeSpawner.load(this.level, this.worldPosition, tag);
-        this.spawnItemDelay = tag.getShort("SpawnItemDelay");
-        this.spoutHeight = tag.getInt(SPOUT_HEIGHT);
-        this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
         this.bubbles = !tag.contains(BUBBLES) || tag.getBoolean(BUBBLES);
-        this.waterSpout = tag.getBoolean(WATER_SPOUT);
-        this.spoutRegrowTime = tag.getLong(SPOUT_REGROW_TIME);
+        this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
+        this.displayTextAbove = tag.getBoolean(DISPLAY_TEXT_ABOVE);
+        this.displayTextBelow = tag.getBoolean(DISPLAY_TEXT_BELOW);
+        this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
+        this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
+        this.displayTextSouth = tag.getBoolean(DISPLAY_TEXT_SOUTH);
+        this.displayTextWest = tag.getBoolean(DISPLAY_TEXT_WEST);
         this.hasSpoutSizzled = tag.getBoolean(SPOUT_SIZZLED);
         this.isSpoutBucketed = tag.getBoolean(SPOUT_BUCKETED);
         this.isSpoutRetracting = tag.getBoolean(SPOUT_RETRACTING);
-        this.requiresWaterSource = tag.getBoolean(REQUIRES_WATER_SOURCE);
+        tag.putInt(STORED_PAYMENT_COUNT, this.storedPaymentCount);
+        tag.putInt(STORED_XP, this.storedXp);
+        tag.putBoolean(VOID_PAYMENTS, this.voidPayments);
+        tag.putInt(LIFETIME_WARPS, this.lifetimeWarps);
+        tag.putLong(LIFETIME_ITEMS_EARNED, this.lifetimeItemsEarned);
+        tag.putLong(LIFETIME_XP_EARNED, this.lifetimeXpEarned);
+        this.lifetimeItemsEarned = tag.getLong(LIFETIME_ITEMS_EARNED);
+        this.lifetimeWarps = tag.getInt(LIFETIME_WARPS);
+        this.lifetimeXpEarned = tag.getLong(LIFETIME_XP_EARNED);
+        this.lockKey = LockCode.fromTag(tag);
+        this.owner = tag.contains(OWNER) ? ResolvableProfile.CODEC.parse(NbtOps.INSTANCE, tag.get(OWNER))
+                .resultOrPartial(LOGGER::error).orElse(null) : null;
+        this.pipeSpawner.load(this.level, this.worldPosition, tag);
         this.requiresConnection = tag.getBoolean(REQUIRES_CONNECTION);
-        this.displayTextNorth = tag.getBoolean(DISPLAY_TEXT_NORTH);
-        this.displayTextSouth = tag.getBoolean(DISPLAY_TEXT_SOUTH);
-        this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
-        this.displayTextWest = tag.getBoolean(DISPLAY_TEXT_WEST);
-        this.displayTextAbove = tag.getBoolean(DISPLAY_TEXT_ABOVE);
-        this.displayTextBelow = tag.getBoolean(DISPLAY_TEXT_BELOW);
+        this.requiresWaterSource = tag.getBoolean(REQUIRES_WATER_SOURCE);
+        this.spawnItemDelay = tag.getShort("SpawnItemDelay");
+        this.spoutHeight = tag.getInt(SPOUT_HEIGHT);
+        this.spoutRegrowTime = tag.getLong(SPOUT_REGROW_TIME);
+        this.storedPayment = tag.contains(STORED_PAYMENT, 10)
+                ? ItemStack.parse(provider, tag.getCompound(STORED_PAYMENT)).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
+        this.storedPaymentCount = tag.getInt(STORED_PAYMENT_COUNT);
+        this.storedXp = tag.getInt(STORED_XP);
+        this.voidPayments = tag.getBoolean(VOID_PAYMENTS);
+        this.waterSpout = tag.getBoolean(WATER_SPOUT);
 
         if (tag.contains(CUSTOM_NAME, 8))
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
@@ -349,7 +395,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         if (this.level != null)
-            return new WarpPipeMenu(id, inventory, this.getDataAccess(), ContainerLevelAccess.create(this.level, this.getBlockPos()));
+            return new WarpPipeMenu(id, inventory, this.getDataAccess(), ContainerLevelAccess.create(this.level, this.getBlockPos()),
+                    this.getBlockPos(), this.canManagePayments(player));
         else return null;
     }
 
@@ -604,6 +651,73 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         }
 
         return text;
+    }
+
+    public int getMenuType() {
+        return this.getData(DataAttachmentRegistry.MENU_TYPE);
+    }
+
+    public void setMenuType(int menuType) {
+        this.setData(DataAttachmentRegistry.MENU_TYPE, menuType);
+        this.setChanged();
+    }
+
+
+    public boolean hasOwner() {
+        return this.owner != null;
+    }
+
+    @Nullable
+    public ResolvableProfile getPipeOwner() {
+        return this.owner;
+    }
+
+    public void setPipeOwner(Player player) {
+        this.owner = new ResolvableProfile(player.getGameProfile());
+        this.setChanged();
+        this.sendData();
+    }
+
+    public boolean isPipeOwner(Player player) {
+        return this.owner != null && this.owner.id().map(player.getUUID()::equals).orElse(false);
+    }
+
+    public boolean canManagePayments(Player player) {
+        return this.isPipeOwner(player) || player.hasPermissions(2);
+    }
+
+    public ItemStack getStoredPayment() {
+        return this.storedPayment;
+    }
+
+    public int getStoredPaymentCount() {
+        return this.storedPaymentCount;
+    }
+
+    public int getStoredXp() {
+        return this.storedXp;
+    }
+
+    public boolean isVoidPayments() {
+        return this.voidPayments;
+    }
+
+    public void setVoidPayments(boolean voidPayments) {
+        this.voidPayments = voidPayments;
+        this.setChanged();
+        this.sendData();
+    }
+
+    public int getLifetimeWarps() {
+        return this.lifetimeWarps;
+    }
+
+    public long getLifetimeItemsEarned() {
+        return this.lifetimeItemsEarned;
+    }
+
+    public long getLifetimeXpEarned() {
+        return this.lifetimeXpEarned;
     }
 
     public void closePipe(ServerPlayer player) {

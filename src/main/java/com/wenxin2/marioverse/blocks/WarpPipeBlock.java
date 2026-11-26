@@ -227,8 +227,24 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
 
         if (state.getValue(ENTRANCE) && player.getItemInHand(hand).is(TagRegistry.WRENCHES)) {
             if (blockEntity instanceof WarpPipeBlockEntity pipeBlockEntity) {
-                player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) -> new WarpPipeMenu(id,
-                        playerInventory, pipeBlockEntity.getDataAccess(), ContainerLevelAccess.create(level, pos)), pipeBlockEntity.getDisplayName()));
+
+                if (!level.isClientSide) {
+                    if (!pipeBlockEntity.hasOwner())
+                        pipeBlockEntity.setPipeOwner(player);
+                    boolean canManagePayments = pipeBlockEntity.canManagePayments(player);
+                    if (!canManagePayments && pipeBlockEntity.getMenuType() == WarpPipeMenu.PAYMENTS_TAB)
+                        pipeBlockEntity.setMenuType(WarpPipeMenu.WARP_PIPE_TAB);
+
+                    player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) ->
+                            new WarpPipeMenu(id, playerInventory,
+                                    pipeBlockEntity.getDataAccess(), ContainerLevelAccess.create(level, pos), pos, canManagePayments),
+                            pipeBlockEntity.getDisplayName()), buf -> {
+                        buf.writeBlockPos(pos);
+                        buf.writeBoolean(canManagePayments);
+                        buf.writeVarInt(pipeBlockEntity.getMenuType());
+                    });
+                }
+
                 if (player instanceof ServerPlayer serverPlayer) {
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                     player.awardStat(Stats.ITEM_USED.get(stack.getItem()));

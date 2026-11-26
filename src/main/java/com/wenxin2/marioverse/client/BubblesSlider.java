@@ -33,24 +33,23 @@ public class BubblesSlider extends TexturedSlider {
     }
 
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
-    {
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         final Minecraft minecraft = Minecraft.getInstance();
-        LocalPlayer player = minecraft.player;
 
         guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX(), this.getY(), 0, getTextureY(), this.width, this.height,
-                200, 24, 2, 3, 2, 2);
+                200, 18, 2, 3, 2, 2);
 
-        if (player != null && requiresCreativeBubbles(player))
-            guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 12)), this.getY(),
-                    0, 96, 12, this.height, 200, 24 , 2, 3, 3, 3);
-        else if (player != null && waxDisablesBubbles())
-            guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 12)), this.getY(),
-                    0, 96, 12, this.height, 200, 24 , 2, 3, 3, 3);
-        else guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 12)), this.getY(),
-                0, getHandleTextureY(), 12, this.height, 200, 24 , 2, 3, 3, 3);
+        guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 10)), this.getY(),
+                0, this.isLocked() ? 72 : this.getHandleTextureY(), 10, this.height,
+                200, 18, 2, 3, 3, 3);
 
         renderScrollingString(guiGraphics, minecraft.font, 2, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
+    }
+
+    @Override
+    public boolean isLocked() {
+        LocalPlayer player = Minecraft.getInstance().player;
+        return player != null && (this.requiresCreativeBubbles(player) || this.waxDisablesBubbles());
     }
 
     public boolean requiresCreativeBubbles(LocalPlayer player) {

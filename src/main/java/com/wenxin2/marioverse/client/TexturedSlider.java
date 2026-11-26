@@ -31,35 +31,50 @@ public class TexturedSlider extends ExtendedSlider {
     }
 
     @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
-    {
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         final Minecraft mc = Minecraft.getInstance();
 
         guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX(), this.getY(), 0, getTextureY(), this.width, this.height,
-                200, 24, 2, 3, 2, 2);
+                200, 18, 2, 3, 2, 2);
 
-        guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 12)), this.getY(),
-                0, getHandleTextureY(), 12, this.height, 200, 24 , 2, 3, 3, 3);
+        guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 10)), this.getY(),
+                0, getHandleTextureY(), 10, this.height, 200, 18 , 2, 3, 3, 3);
 
         renderScrollingString(guiGraphics, mc.font, 2, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
     }
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        if (!this.active || !this.visible || scrollY == 0)
+        if (!this.active || !this.visible || scrollY == 0 || this.isLocked())
             return false;
         double step = this.stepSize > 0 ? this.stepSize : (this.maxValue - this.minValue) / 100;
         this.setValue(this.getValue() + Math.signum(scrollY) * step);
         return true;
     }
 
+    @Override
+    public void onClick(double mouseX, double mouseY) {
+        if (!this.isLocked())
+            super.onClick(mouseX, mouseY);
+    }
+
+    @Override
+    protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
+        if (!this.isLocked())
+            super.onDrag(mouseX, mouseY, dragX, dragY);
+    }
+
     public int getHandleTextureY() {
         int i = !this.isHovered && !this.canChangeValue ? 2 : 3;
-        return i * 24;
+        return i * 18;
     }
 
     public int getTextureY() {
         int i = this.isFocused() && !this.canChangeValue ? 1 : 0;
-        return i * 24;
+        return i * 18;
+    }
+
+    public boolean isLocked() {
+        return false;
     }
 }
