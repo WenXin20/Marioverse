@@ -2780,6 +2780,7 @@
   "display.marioverse.warp_not_enough_fuel": "You need to have %1$s %2$s%3$s to warp here!",
   "display.marioverse.warp_not_enough_xp": "You need to have %1$s xp level%2$s to warp here!",
   "display.marioverse.warp_not_enough_xp_and_fuel": "You need to have %1$s xp level%2$s and %3$s %4$s%5$s to warp here!",
+  "display.marioverse.warp_not_enough_items": "You need to have %1$s %2$s%3$s to warp here!",
 
   "advancements.marioverse.abilities_galore.description": "Craft all 8 ability blocks",
   "advancements.marioverse.abilities_galore.title": "Abilities Galore!",

@@ -291,7 +291,7 @@ public interface BlockWarpEntityHandler {
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             if (!level.isClientSide && (WarpDoorBlock.isDoor(state) || state.getBlock() instanceof TrapDoorBlock))
                 level.scheduleTick(pos, state.getBlock(), WARP_DOOR_CLOSE_DELAY);
-            WarpCost.chargeIfWarped(entity, startPos, warpCost);
+            WarpCost.chargeIfWarped(entity, startPos, warpCost, warpBE);
             return;
         }
 
@@ -323,7 +323,7 @@ public interface BlockWarpEntityHandler {
             if (state.getBlock() instanceof WarpPipeBlock)
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
-            WarpCost.chargeIfWarped(entity, startPos, warpCost);
+            WarpCost.chargeIfWarped(entity, startPos, warpCost, warpBE);
             WarpReturn.onWarped(entity, warpPos, startPos);
 
             if (level instanceof ServerLevel serverLevel && !entity.position().equals(startPos))
@@ -354,7 +354,7 @@ public interface BlockWarpEntityHandler {
             if (state.getBlock() instanceof WarpPipeBlock)
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
-            WarpCost.chargeIfWarped(entity, startPos, warpCost);
+            WarpCost.chargeIfWarped(entity, startPos, warpCost, warpBE);
             WarpReturn.onWarped(entity, warpPos, startPos);
 
             if (level instanceof ServerLevel serverLevel && !entity.position().equals(startPos))

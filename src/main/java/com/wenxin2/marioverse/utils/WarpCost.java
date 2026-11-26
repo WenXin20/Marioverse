@@ -2,6 +2,8 @@ package com.wenxin2.marioverse.utils;
 
 import com.wenxin2.marioverse.blocks.WarpDoorBlock;
 import com.wenxin2.marioverse.blocks.WarpPipeBlock;
+import com.wenxin2.marioverse.blocks.entities.BaseWarpBlockEntity;
+import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.integration.sable_compat.SableProvider;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -9,6 +11,7 @@ import com.wenxin2.marioverse.registries.ItemRegistry;
 import com.wenxin2.marioverse.registries.TagRegistry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,9 +32,16 @@ public class WarpCost {
     public static final int STAR_COIN_VALUE = 9;
     public static final Cost FREE = new Cost(0, 0);
 
-    public record Cost(int xp, int coins) {}
+    public record Cost(int xp, int coins, ItemStack item, int itemCount) {
+        public Cost(int xp, int coins) {
+            this(xp, coins, ItemStack.EMPTY, 0);
+        }
+    }
 
     public static Cost getBlockCost(Level level, BlockPos source, @Nullable BlockPos destination, BlockState state) {
+        if (state.getBlock() instanceof WarpPipeBlock && !WarpCost.hasConfigPipeCost()
+                && level.getBlockEntity(source) instanceof WarpPipeBlockEntity pipeBE)
+            return pipeBE.getWarpCost();
         return WarpCost.getBlockCost(WarpCost.getDistance(level, source, destination), state);
     }
 
@@ -43,6 +53,10 @@ public class WarpCost {
         if (state.getBlock() instanceof WarpPipeBlock)
             return WarpCost.getCost(distance, ConfigRegistry.WARP_PIPE_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_PIPE_FUEL_COST_MULTIPLIER.get());
         return FREE;
+    }
+
+    public static boolean hasConfigPipeCost() {
+        return ConfigRegistry.WARP_PIPE_XP_COST_MULTIPLIER.get() > 0.0 || ConfigRegistry.WARP_PIPE_FUEL_COST_MULTIPLIER.get() > 0.0;
     }
 
     public static Cost getEntityCost(Level level, BlockPos source, @Nullable BlockPos destination, boolean isPainting) {
@@ -73,11 +87,12 @@ public class WarpCost {
     }
 
     public static boolean canAfford(List<Player> players, Cost cost) {
-        if (cost.xp() <= 0 && cost.coins() <= 0)
+        if (cost.xp() <= 0 && cost.coins() <= 0 && cost.itemCount() <= 0)
             return true;
 
         boolean missingXp = false;
         boolean missingCoins = false;
+        boolean missingItems = false;
 
         for (Player player : players) {
             if (player.getAbilities().instabuild || player.isSpectator())
@@ -86,12 +101,17 @@ public class WarpCost {
                 missingXp = true;
             if (cost.coins() > 0 && WarpCost.countCoins(player) < cost.coins())
                 missingCoins = true;
+            if (cost.itemCount() > 0 && WarpCost.countItems(player, cost.item()) < cost.itemCount())
+                missingItems = true;
         }
 
-        if (!missingXp && !missingCoins)
+        if (!missingXp && !missingCoins && !missingItems)
             return true;
 
-        MutableComponent message = WarpCost.getMissingMessage(cost, missingXp, missingCoins).withStyle(ChatFormatting.RED);
+        MutableComponent message = (missingItems
+                ? Component.translatable("display.marioverse.warp_not_enough_items", cost.itemCount(),
+                    cost.item().getHoverName(), WarpCost.getItemPlural(cost.item(), cost.itemCount()))
+                : WarpCost.getMissingMessage(cost, missingXp, missingCoins)).withStyle(ChatFormatting.RED);
         for (Player player : players) {
             if (!player.level().isClientSide)
                 player.displayClientMessage(message, true);
@@ -104,7 +124,18 @@ public class WarpCost {
             WarpCost.charge(WarpCost.getPayingPlayers(entity), cost);
     }
 
-    public static void charge(List<Player> players, Cost cost) {
+    public static void chargeIfWarped(Entity entity, Vec3 startPos, Cost cost, BaseWarpBlockEntity warpBE) {
+        if (entity.level().isClientSide || entity.position().equals(startPos))
+            return;
+
+        int payers = WarpCost.charge(WarpCost.getPayingPlayers(entity), cost);
+        if (warpBE instanceof WarpPipeBlockEntity pipeBE)
+            pipeBE.receivePayment(cost, payers);
+    }
+
+    public static int charge(List<Player> players, Cost cost) {
+        int payers = 0;
+
         for (Player player : players) {
             if (player.level().isClientSide || player.getAbilities().instabuild || player.isSpectator())
                 continue;
@@ -112,7 +143,11 @@ public class WarpCost {
                 player.giveExperiencePoints(-cost.xp());
             if (cost.coins() > 0)
                 WarpCost.consumeCoins(player, cost.coins());
+            if (cost.itemCount() > 0)
+                WarpCost.consumeItems(player, cost.item(), cost.itemCount());
+            payers++;
         }
+        return payers;
     }
 
     private static double getDistance(Level level, BlockPos source, @Nullable BlockPos destination) {
@@ -150,6 +185,12 @@ public class WarpCost {
         return amount == 1 ? Component.empty() : Component.translatable("display.marioverse.warp_cost.plural");
     }
 
+    private static Component getItemPlural(ItemStack item, int amount) {
+        if (item.getHoverName().getString().toLowerCase(Locale.ROOT).endsWith("s"))
+            return Component.empty();
+        return WarpCost.getPlural(amount);
+    }
+
     private static Component getFuelName() {
         ItemStack coin = new ItemStack(BlockRegistry.COIN.asItem());
 
@@ -161,7 +202,7 @@ public class WarpCost {
                 .orElse(coin.getHoverName());
     }
 
-    private static int getCoinValue(ItemStack stack) {
+    public static int getCoinValue(ItemStack stack) {
         if (!stack.is(TagRegistry.WARP_FUEL))
             return 0;
         return stack.is(ItemRegistry.STAR_COIN.get()) ? STAR_COIN_VALUE : 1;
@@ -205,6 +246,34 @@ public class WarpCost {
 
         if (remaining < 0)
             inventory.placeItemBackInInventory(new ItemStack(BlockRegistry.COIN.asItem(), -remaining));
+        inventory.setChanged();
+    }
+
+    private static int countItems(Player player, ItemStack item) {
+        Inventory inventory = player.getInventory();
+        int total = 0;
+
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            ItemStack stack = inventory.getItem(slot);
+            if (ItemStack.isSameItemSameComponents(stack, item))
+                total += stack.getCount();
+        }
+        return total;
+    }
+
+    private static void consumeItems(Player player, ItemStack item, int count) {
+        Inventory inventory = player.getInventory();
+        int remaining = count;
+
+        for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
+            ItemStack stack = inventory.getItem(slot);
+
+            if (ItemStack.isSameItemSameComponents(stack, item)) {
+                int used = Math.min(stack.getCount(), remaining);
+                stack.shrink(used);
+                remaining -= used;
+            }
+        }
         inventory.setChanged();
     }
 
