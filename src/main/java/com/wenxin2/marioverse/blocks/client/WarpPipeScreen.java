@@ -2,12 +2,15 @@ package com.wenxin2.marioverse.blocks.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.client.BubblesSlider;
 import com.wenxin2.marioverse.client.StateImageButton;
 import com.wenxin2.marioverse.client.TabButton;
+import com.wenxin2.marioverse.client.TexturedSlider;
 import com.wenxin2.marioverse.client.WaterSpoutSlider;
 import com.wenxin2.marioverse.network.server_bound.data.ConnectedPipesCheckboxPayload;
 import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
+import com.wenxin2.marioverse.network.server_bound.data.PipeCostPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSourceCheckboxPayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
@@ -30,31 +33,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import org.lwjgl.glfw.GLFW;
 
 public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     public static ResourceLocation WARP_PIPE_GUI = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/warp_pipe.png");
-    Button bubblesButton;
-    Button closeButton;
-    Button connectionCheckbox;
-    Button renameButton;
-    Button waterSourceCheckbox;
-    Button waterSpoutButton;
-    EditBox renameBox;
-    Inventory inventory;
-    TabButton paymentsTab;
-    TabButton warpPipeTab;
-    TabButton waterworksTab;
-
-    public ExtendedSlider waterSpoutSlider;
-    public ExtendedSlider bubblesSlider;
-    private String pipeName = "";
-    private int lastMenuType = -1;
-    private int lastSpoutHeight;
-    private int lastBubblesDistance;
-    private int sliderSyncDelay;
+    private static final ResourceLocation GENERIC_SLOT = ResourceLocation.withDefaultNamespace("container/slot");
 
     private static final WidgetSprites RENAME_SPRITES = sprites("rename");
     private static final WidgetSprites PIPE_OPEN_SPRITES = sprites("pipe_open");
@@ -73,10 +59,33 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_waxed"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_waxed"));
+
     private static final int TAB_X_OFFSET = -30;
     private static final int TAB_Y_OFFSET = 3;
     private static final int TAB_SPACING = 27;
     private static final int SLIDER_SYNC_DELAY = 10;
+
+    Button bubblesButton;
+    Button closeButton;
+    Button connectionCheckbox;
+    Button renameButton;
+    Button waterSourceCheckbox;
+    Button waterSpoutButton;
+    EditBox renameBox;
+    Inventory inventory;
+    TabButton paymentsTab;
+    TabButton warpPipeTab;
+    TabButton waterworksTab;
+    TexturedSlider itemCostSlider;
+
+    public ExtendedSlider waterSpoutSlider;
+    public ExtendedSlider bubblesSlider;
+    private String pipeName = "";
+    private int lastBubblesDistance;
+    private int lastCostItemCount;
+    private int lastMenuType = -1;
+    private int lastSpoutHeight;
+    private int sliderSyncDelay;
 
     public WarpPipeScreen(WarpPipeMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -108,6 +117,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
         graphics.blit(WARP_PIPE_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
+
+        if (this.menu.getMenuType() == WarpPipeMenu.WARP_PIPE_TAB)
+            graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.COST_SLOT_X - 1,
+                    y + WarpPipeMenu.COST_SLOT_Y - 1, 18, 18);
 
         if (this.renameBox.visible && !this.isWaxLocked(ConfigRegistry.WAX_DISABLES_RENAMING.get()))
             graphics.blit(WARP_PIPE_GUI, x + 7, y + 4, 0, 167, 162, 12);
@@ -167,6 +180,17 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 button -> this.connectionCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.tooltip")));
         this.connectionCheckbox.active = !this.isConnectionForced();
 
+        this.lastCostItemCount = this.getCostItem().getCount();
+        this.itemCostSlider = this.addRenderableWidget(new TexturedSlider(x + 61, y + 21, 90, 18,
+                Component.translatable("menu.marioverse.warp_pipe.item_cost_slider"), Component.empty(),
+                1D, WarpPipeBlockEntity.MAX_COST_ITEM_COUNT, Math.max(1, this.lastCostItemCount), 1D, 0, true) {
+            @Override
+            public boolean isLocked() {
+                return !WarpPipeScreen.this.menu.canEditCost() || WarpPipeScreen.this.getCostItem().isEmpty();
+            }
+        });
+        this.itemCostSlider.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.item_cost_slider.tooltip")));
+
         this.warpPipeTab = this.addTab(WarpPipeMenu.WARP_PIPE_TAB, "warp_pipe");
         this.waterworksTab = this.addTab(WarpPipeMenu.WATERWORKS_TAB, "waterworks");
         this.paymentsTab = this.addTab(WarpPipeMenu.PAYMENTS_TAB, "payments");
@@ -192,6 +216,13 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             if (this.sliderSyncDelay == 0)
                 this.bubblesSlider.setValue(this.lastBubblesDistance);
         }
+
+        int costItemCount = this.getCostItem().getCount();
+        if (costItemCount != this.lastCostItemCount) {
+            this.lastCostItemCount = costItemCount;
+            if (this.sliderSyncDelay == 0)
+                this.itemCostSlider.setValue(Math.max(1, costItemCount));
+        }
     }
 
     @Override
@@ -207,6 +238,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         Component tooltip;
         Player player = this.inventory.player;
+
+        if (this.hoveredSlot == this.menu.getCostSlot() && !this.hoveredSlot.hasItem())
+            graphics.renderTooltip(this.font, this.font.split(Component
+                    .translatable("menu.marioverse.warp_pipe.item_cost_slot.tooltip"), 200), mouseX, mouseY);
 
         if (this.isWaxLocked(ConfigRegistry.WAX_DISABLES_RENAMING.get()))
             tooltip = Component.translatable("menu.marioverse.warp_pipe.rename_button_waxed.tooltip");
@@ -286,9 +321,11 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (waterSpoutSlider.isFocused())
-            waterSpoutSliderOnPress();
+            this.waterSpoutSliderOnPress();
         if (bubblesSlider.isFocused())
-            bubblesSliderOnPress();
+            this.bubblesSliderOnPress();
+        if (this.itemCostSlider.isFocused() && !this.itemCostSlider.isLocked())
+            this.sendPipeCost(PipeCostPayload.ITEM_COUNT, this.itemCostSlider.getValueInt());
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
@@ -306,14 +343,18 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.waterSpoutSlider.isMouseOver(mouseX, mouseY) && this.waterSpoutSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
             this.waterSpoutSliderOnPress();
-            this.waterSpoutSliderOnPress();
             return true;
         }
 
         if (this.bubblesSlider.isMouseOver(mouseX, mouseY) && this.bubblesSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
             this.bubblesSliderOnPress();
-            this.bubblesSliderOnPress();
+            return true;
+        }
+
+        if (this.itemCostSlider.isMouseOver(mouseX, mouseY) && this.itemCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+            this.sliderSyncDelay = SLIDER_SYNC_DELAY;
+            this.sendPipeCost(PipeCostPayload.ITEM_COUNT, this.itemCostSlider.getValueInt());
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
@@ -502,6 +543,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             this.renameButton.visible = isWarpPipeTab;
             this.closeButton.visible = isWarpPipeTab;
             this.connectionCheckbox.visible = isWarpPipeTab;
+            this.itemCostSlider.visible = isWarpPipeTab;
             if (!isWarpPipeTab)
                 this.renameBox.setVisible(false);
 
@@ -511,5 +553,13 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             this.bubblesButton.visible = isWaterworksTab;
             this.bubblesSlider.visible = isWaterworksTab;
         }
+    }
+
+    private ItemStack getCostItem() {
+        return this.menu.getCostSlot().getItem();
+    }
+
+    private void sendPipeCost(int action, int value) {
+        PacketHandler.sendToServer(new PipeCostPayload(this.menu.containerId, action, value));
     }
 }

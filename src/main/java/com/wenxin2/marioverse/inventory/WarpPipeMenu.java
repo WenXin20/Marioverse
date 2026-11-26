@@ -1,35 +1,53 @@
 package com.wenxin2.marioverse.inventory;
 
+import com.mojang.datafixers.util.Pair;
+import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
+import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.registries.MenuRegistry;
+import com.wenxin2.marioverse.utils.WarpCost;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 public class WarpPipeMenu extends AbstractContainerMenu {
+    private static final ResourceLocation EMPTY_COIN_SLOT = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "slot/empty_coin_slot");
+    public static final int COST_SLOT_X = 38;
+    public static final int COST_SLOT_Y = 22;
     public static final int DATA_COUNT = 11;
     public static final int WARP_PIPE_TAB = 0;
     public static final int WATERWORKS_TAB = 1;
     public static final int PAYMENTS_TAB = 2;
     private final ContainerLevelAccess access;
+    private final Slot costSlot;
     private final ContainerData data;
     private final BlockPos blockPos;
     private final DataSlot canManagePayments = DataSlot.standalone();
 
     public WarpPipeMenu(int id, Inventory inventory, RegistryFriendlyByteBuf buf) {
-        this(id, inventory, new SimpleContainerData(DATA_COUNT), ContainerLevelAccess.NULL, buf.readBlockPos(), buf.readBoolean());
+        this(id, inventory, new SimpleContainerData(DATA_COUNT), ContainerLevelAccess.NULL,
+                buf.readBlockPos(), buf.readBoolean(), new SimpleContainer(1));
         this.data.set(10, buf.readVarInt());
     }
 
     public WarpPipeMenu(int id, Inventory inventory, ContainerData data, final ContainerLevelAccess levelAccess,
-                        BlockPos blockPos, boolean canManagePayments) {
+                        BlockPos blockPos, boolean canManagePayments, Container costContainer) {
         super(MenuRegistry.WARP_PIPE_MENU.get(), id);
         this.access = levelAccess;
         this.data = data;
@@ -48,16 +66,68 @@ public class WarpPipeMenu extends AbstractContainerMenu {
         for(int l = 0; l < 9; ++l) {
             this.addSlot(new Slot(inventory, l, 8 + l * 18, 142));
         }
+
+        this.costSlot = this.addSlot(new GhostSlot(costContainer, 0, COST_SLOT_X, COST_SLOT_Y) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return WarpPipeMenu.this.canEditCost();
+            }
+
+            @Override
+            public void set(ItemStack stack) {
+                this.container.setItem(this.getContainerSlot(), stack);
+                this.setChanged();
+            }
+
+            @Override
+            public boolean isActive() {
+                return WarpPipeMenu.this.getMenuType() == WARP_PIPE_TAB;
+            }
+
+            @Override
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_COIN_SLOT);
+            }
+        });
     }
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
     public boolean stillValid(Player player) {
         return true;
+    }
+
+    @Override
+    public void clicked(int slotId, int button, ClickType clickType, Player player) {
+        if (slotId < 0 || this.slots.get(slotId) != this.costSlot) {
+            super.clicked(slotId, button, clickType, player);
+            return;
+        }
+
+        if (!this.canEditCost() || (clickType != ClickType.PICKUP && clickType != ClickType.QUICK_MOVE))
+            return;
+
+        ItemStack stack = button == 1 || clickType == ClickType.QUICK_MOVE ? ItemStack.EMPTY : this.getCarried().copy();
+        this.access.execute((level, pos) -> {
+            if (level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && !pipeBE.canChangeCostItem(stack))
+                player.displayClientMessage(Component.translatable("display.marioverse.warp_cost.collect_payments_first")
+                        .withStyle(ChatFormatting.RED), true);
+        });
+        this.costSlot.set(stack);
+    }
+
+    @Override
+    public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
+        return slot != this.costSlot && super.canTakeItemForPickAll(stack, slot);
+    }
+
+    @Override
+    public boolean canDragTo(Slot slot) {
+        return slot != this.costSlot && super.canDragTo(slot);
     }
 
     public ContainerLevelAccess getAccess() {
@@ -115,5 +185,13 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     public boolean canManagePayments() {
         return this.canManagePayments.get() == 1;
+    }
+
+    public boolean canEditCost() {
+        return this.canManagePayments() && !WarpCost.hasConfigPipeCost();
+    }
+
+    public Slot getCostSlot() {
+        return this.costSlot;
     }
 }

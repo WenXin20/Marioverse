@@ -51,10 +51,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.Nameable;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -409,7 +411,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         if (this.level != null)
             return new WarpPipeMenu(id, inventory, this.getDataAccess(), ContainerLevelAccess.create(this.level, this.getBlockPos()),
-                    this.getBlockPos(), this.canManagePayments(player));
+                    this.getBlockPos(), this.canManagePayments(player), this.createCostContainer());
         else return null;
     }
 
@@ -808,6 +810,22 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
     private ItemStack getPaymentItem(ItemStack costItem) {
         return WarpCost.getCoinValue(costItem) > 0 ? new ItemStack(BlockRegistry.COIN.asItem()) : costItem;
+    }
+
+    public Container createCostContainer() {
+        return new SimpleContainer(1) {
+            @NotNull
+            @Override
+            public ItemStack getItem(int slot) {
+                return WarpPipeBlockEntity.this.costItem.isEmpty() ? ItemStack.EMPTY
+                        : WarpPipeBlockEntity.this.costItem.copyWithCount(WarpPipeBlockEntity.this.costItemCount);
+            }
+
+            @Override
+            public void setItem(int slot, ItemStack stack) {
+                WarpPipeBlockEntity.this.setCostItem(stack);
+            }
+        };
     }
 
     public void closePipe(ServerPlayer player) {

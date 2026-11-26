@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import net.minecraft.client.renderer.texture.atlas.sources.DirectoryLister;
 import net.minecraft.client.renderer.texture.atlas.sources.PalettedPermutations;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -15,7 +16,6 @@ import net.minecraft.world.item.DyeColor;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SpriteSourceProvider;
 
-/** Adds arrow item overlay sprites (paletted_permutations) to the vanilla blocks atlas. */
 public class ArrowItemSpriteSourceGen extends SpriteSourceProvider {
     public ArrowItemSpriteSourceGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Marioverse.MOD_ID, existingFileHelper);
@@ -42,6 +42,8 @@ public class ArrowItemSpriteSourceGen extends SpriteSourceProvider {
 
         ResourceLocation paletteKey = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "palettes/arrow/gray_key");
 
-        this.atlas(BLOCKS_ATLAS).addSource(new PalettedPermutations(textures, paletteKey, permutations));
+        this.atlas(BLOCKS_ATLAS)
+                .addSource(new PalettedPermutations(textures, paletteKey, permutations))
+                .addSource(new DirectoryLister("gui/sprites/slot", "slot/"));
     }
 }
