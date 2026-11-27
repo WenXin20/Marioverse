@@ -37,12 +37,15 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     public static ResourceLocation WARP_PIPE_GUI = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/warp_pipe.png");
     private static final ResourceLocation GENERIC_SLOT = ResourceLocation.withDefaultNamespace("container/slot");
+    private static final ResourceLocation TEXT_FIELD = ResourceLocation.withDefaultNamespace("widget/text_field");
+    private static final ResourceLocation XP_COST_ICON = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/xp_orb");
 
     private static final WidgetSprites RENAME_SPRITES = sprites("rename");
     private static final WidgetSprites PIPE_OPEN_SPRITES = sprites("pipe_open");
@@ -66,6 +69,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     private static final int TAB_Y_OFFSET = 3;
     private static final int TAB_SPACING = 27;
     private static final int SLIDER_SYNC_DELAY = 10;
+    private static final int XP_COST_SLIDER_MAX = 100;
 
     Button bubblesButton;
     Button closeButton;
@@ -74,11 +78,13 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     Button waterSourceCheckbox;
     Button waterSpoutButton;
     EditBox renameBox;
+    EditBox xpCostBox;
     Inventory inventory;
     TabButton paymentsTab;
     TabButton warpPipeTab;
     TabButton waterworksTab;
     TexturedSlider itemCostSlider;
+    TexturedSlider xpCostSlider;
 
     public ExtendedSlider waterSpoutSlider;
     public ExtendedSlider bubblesSlider;
@@ -87,6 +93,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     private int lastCostItemCount;
     private int lastMenuType = -1;
     private int lastSpoutHeight;
+    private int lastXpCost;
     private int sliderSyncDelay;
 
     public WarpPipeScreen(WarpPipeMenu container, Inventory inventory, Component name) {
@@ -120,12 +127,17 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         final int y = (this.height - this.imageHeight) / 2;
         graphics.blit(WARP_PIPE_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
-        if (this.menu.getMenuType() == WarpPipeMenu.WARP_PIPE_TAB)
-            graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.COST_SLOT_X - 1,
-                    y + WarpPipeMenu.COST_SLOT_Y - 1, 18, 18);
+        if (this.menu.getMenuType() == WarpPipeMenu.WARP_PIPE_TAB) {
+            graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.COST_SLOT_X - 1, y + WarpPipeMenu.COST_SLOT_Y - 1, 18, 18);
+            graphics.blitSprite(TEXT_FIELD, x + 37, y + 51, 18, 12);
+            graphics.blitSprite(XP_COST_ICON, x + 156, y + 51, 12, 12);
+        }
 
         if (this.renameBox.visible && !this.isWaxLocked(ConfigRegistry.WAX_DISABLES_RENAMING.get()))
             graphics.blit(WARP_PIPE_GUI, x + 7, y + 4, 0, 167, 162, 12);
+
+        if (this.xpCostBox.visible)
+            graphics.blit(WARP_PIPE_GUI, x + 33, y + 51, 0, 180, 26, 12);
     }
 
     @Override
@@ -193,6 +205,41 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         });
         this.itemCostSlider.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.item_cost_slider.tooltip")));
 
+        this.lastXpCost = this.getXpCost();
+        this.xpCostBox = new EditBox(this.font, x + 34, y + 53, 24, 12,
+                Component.translatable("menu.marioverse.warp_pipe.xp_cost_box.narrate"));
+        this.xpCostBox.setBordered(false);
+        this.xpCostBox.setVisible(false);
+        this.xpCostBox.setMaxLength(6);
+        this.xpCostBox.setFilter(value -> value.chars().allMatch(Character::isDigit));
+        this.xpCostBox.setValue(String.valueOf(this.lastXpCost));
+        this.xpCostBox.setResponder(this::xpCostBoxOnChange);
+        this.xpCostBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.xp_cost_box.tooltip")));
+        this.addRenderableWidget(this.xpCostBox);
+
+        this.xpCostSlider = this.addRenderableWidget(new TexturedSlider(x + 61, y + 48, 90, 18,
+                Component.translatable("menu.marioverse.warp_pipe.xp_cost_slider"), Component.empty(),
+                0D, XP_COST_SLIDER_MAX, Math.min(this.lastXpCost, XP_COST_SLIDER_MAX), 1D, 0, true) {
+            @Override
+            public boolean isLocked() {
+                return !WarpPipeScreen.this.menu.canEditCost();
+            }
+
+            @NotNull
+            @Override
+            public String getValueString() {
+                String value = WarpPipeScreen.this.xpCostBox.getValue();
+                return value.isEmpty() ? "0" : value;
+            }
+
+            @Override
+            protected void applyValue() {
+                if (!WarpPipeScreen.this.xpCostBox.isFocused())
+                    WarpPipeScreen.this.xpCostBox.setValue(String.valueOf(this.getValueInt()));
+            }
+        });
+        this.xpCostSlider.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.xp_cost_slider.tooltip")));
+
         this.warpPipeTab = this.addTab(WarpPipeMenu.WARP_PIPE_TAB, "warp_pipe");
         this.waterworksTab = this.addTab(WarpPipeMenu.WATERWORKS_TAB, "waterworks");
         this.paymentsTab = this.addTab(WarpPipeMenu.PAYMENTS_TAB, "payments");
@@ -225,6 +272,16 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             if (this.sliderSyncDelay == 0)
                 this.itemCostSlider.setValue(Math.max(1, costItemCount));
         }
+
+        int xpCost = this.getXpCost();
+        if (xpCost != this.lastXpCost) {
+            this.lastXpCost = xpCost;
+            if (this.sliderSyncDelay == 0 && !this.xpCostBox.isFocused()) {
+                this.xpCostSlider.setValue(Math.min(xpCost, XP_COST_SLIDER_MAX));
+                this.xpCostBox.setValue(String.valueOf(xpCost));
+            }
+        }
+        this.xpCostBox.setEditable(this.menu.canEditCost());
     }
 
     @Override
@@ -331,6 +388,8 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             this.bubblesSliderOnPress();
         if (this.itemCostSlider.isFocused() && !this.itemCostSlider.isLocked())
             this.sendPipeCost(PipeCostPayload.ITEM_COUNT, this.itemCostSlider.getValueInt());
+        if (this.xpCostSlider.isFocused() && !this.xpCostSlider.isLocked())
+            this.sendPipeCost(PipeCostPayload.XP_COST, this.xpCostSlider.getValueInt());
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
@@ -360,6 +419,12 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.itemCostSlider.isMouseOver(mouseX, mouseY) && this.itemCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
             this.sendPipeCost(PipeCostPayload.ITEM_COUNT, this.itemCostSlider.getValueInt());
+            return true;
+        }
+
+        if (this.xpCostSlider.isMouseOver(mouseX, mouseY) && this.xpCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+            this.sliderSyncDelay = SLIDER_SYNC_DELAY;
+            this.sendPipeCost(PipeCostPayload.XP_COST, this.xpCostSlider.getValueInt());
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
@@ -392,6 +457,13 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             }
             this.renameBox.setFocused(false);
             return false;
+        }
+
+        if (this.xpCostBox.canConsumeInput()) {
+            if (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
+                this.setFocused(null);
+            else this.xpCostBox.keyPressed(keyCode, b, c);
+            return true;
         }
 
         if (this.renameBox.canConsumeInput()) {
@@ -549,6 +621,8 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             this.closeButton.visible = isWarpPipeTab;
             this.connectionCheckbox.visible = isWarpPipeTab;
             this.itemCostSlider.visible = isWarpPipeTab;
+            this.xpCostSlider.visible = isWarpPipeTab;
+            this.xpCostBox.setVisible(isWarpPipeTab);
             if (!isWarpPipeTab)
                 this.renameBox.setVisible(false);
 
@@ -571,6 +645,21 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     private void sendPipeCost(int action, int value) {
         PacketHandler.sendToServer(new PipeCostPayload(this.menu.containerId, action, value));
+    }
+
+    private int getXpCost() {
+        WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
+        return pipeBE == null ? 0 : pipeBE.getXpCost();
+    }
+
+    private void xpCostBoxOnChange(String value) {
+        if (value.isEmpty() || !this.xpCostBox.isFocused())
+            return;
+
+        int xpCost = Integer.parseInt(value);
+        this.sliderSyncDelay = SLIDER_SYNC_DELAY;
+        this.xpCostSlider.setValue(Math.min(xpCost, XP_COST_SLIDER_MAX));
+        this.sendPipeCost(PipeCostPayload.XP_COST, xpCost);
     }
 
     @Nullable

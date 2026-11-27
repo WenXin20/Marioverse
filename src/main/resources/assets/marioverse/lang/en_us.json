@@ -2743,6 +2743,10 @@
   "menu.marioverse.warp_pipe.connection_checkbox.tooltip": "Require Connected Pipes\n§7• Pipes must be connected to the destination pipe%s§7 to warp",
   "menu.marioverse.warp_pipe.connection_checkbox_config.tooltip": "Require Connected Pipes\n§7• Pipes must be connected to the destination pipe%s§7 to warp\n§eRequired for all pipes by the config",
   "menu.marioverse.warp_pipe.connection_checkbox_waxed.tooltip": "§mRequire Connected Pipes§r\n§7• Pipes must be connected to the destination pipe%s§7 to warp\n§cPipe is Waxed!",
+  "menu.marioverse.warp_pipe.xp_cost_box.narrate": "Exact XP Cost",
+  "menu.marioverse.warp_pipe.xp_cost_box.tooltip": "Exact XP Cost\n§7• Type a value to set the slider",
+  "menu.marioverse.warp_pipe.xp_cost_slider": "XP Cost: ",
+  "menu.marioverse.warp_pipe.xp_cost_slider.tooltip": "XP Cost\n§7• In experience points",
 
   "display.marioverse.rename_pipes.pipe_waxed": "Pipe is waxed!",
   "display.marioverse.close_pipes.requires_creative": "Requires creative to open/close pipes!",
