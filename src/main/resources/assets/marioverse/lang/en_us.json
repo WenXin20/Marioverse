@@ -2747,8 +2747,6 @@
   "menu.marioverse.warp_pipe.xp_cost_box.tooltip": "Exact XP Cost\n§7• Type an exact amount of xp",
   "menu.marioverse.warp_pipe.xp_cost_slider": "XP Cost: ",
   "menu.marioverse.warp_pipe.xp_cost_slider.tooltip": "XP Cost\n§7• Set the xp cost in levels",
-  "menu.marioverse.warp_pipe.xp_cost_slider.level": "%s Level",
-  "menu.marioverse.warp_pipe.xp_cost_slider.levels": "%s Levels",
 
   "display.marioverse.rename_pipes.pipe_waxed": "Pipe is waxed!",
   "display.marioverse.close_pipes.requires_creative": "Requires creative to open/close pipes!",

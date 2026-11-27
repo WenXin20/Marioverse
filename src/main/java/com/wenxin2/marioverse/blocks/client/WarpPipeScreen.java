@@ -230,11 +230,8 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             @NotNull
             @Override
             public String getValueString() {
-                String value = WarpPipeScreen.this.xpCostBox.getValue();
-                int level = value.isEmpty() ? 0 : WarpCost.getLevelForExperience(Integer.parseInt(value));
-
-                return Component.translatable(level == 1 ? "menu.marioverse.warp_pipe.xp_cost_slider.level"
-                        : "menu.marioverse.warp_pipe.xp_cost_slider.levels", level).getString();
+                String xpCost = WarpPipeScreen.this.xpCostBox.getValue();
+                return String.valueOf(xpCost.isEmpty() ? 0 : WarpCost.getLevelForExperience(Integer.parseInt(xpCost)));
             }
 
             @Override
@@ -303,7 +300,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         Component tooltip;
         Player player = this.inventory.player;
 
-        if (this.hoveredSlot == this.menu.getCostSlot() && !this.hoveredSlot.hasItem())
+        if (this.hoveredSlot == this.menu.getCostSlot() && this.hoveredSlot != null && !this.hoveredSlot.hasItem())
             graphics.renderTooltip(this.font, this.font.split(Component
                     .translatable("menu.marioverse.warp_pipe.item_cost_slot.tooltip"), 200), mouseX, mouseY);
 
