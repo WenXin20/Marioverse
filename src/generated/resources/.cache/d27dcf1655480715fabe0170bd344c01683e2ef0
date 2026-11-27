@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-06T15:13:57.212176	Tags for minecraft:block mod id marioverse
+// 1.21.1	2026-11-26T08:00:45.7557917	Tags for minecraft:block mod id marioverse
 0d273a477729e70532eef1b6b2aedbc5fe7c59e2 data/create/tags/block/brittle.json
 2ae05645c670586c0191a5c9c3fc23facc74c41c data/create/tags/block/copycat_allow.json
 b5b05bcd88861c9f86addd1c4b4cc47c720ee239 data/create/tags/block/corals.json
@@ -78,9 +78,11 @@ bc590e338e30cd82f298c82a9df02acc5f78631e data/marioverse/tags/block/dotted_line_
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/block/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/block/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/block/dyeable_warp_pipes.json
+9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/block/dyed_pipe_junctions.json
 8079bf4b3192621a465f4f333abe04910aa4cd42 data/marioverse/tags/block/fireball_sets_on_fire.json
 619667c1b7332d180fa0737d335fc257a9549000 data/marioverse/tags/block/freezes_into_packed_ice.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/block/goal_poles.json
+3ff6d12e3568c33331f086da2de27da8a70039d8 data/marioverse/tags/block/golem_heads.json
 1de3bb2d253002f740e8b1dbc4a2165781adafe6 data/marioverse/tags/block/grassy.json
 64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/marioverse/tags/block/grassy/dirt.json
 207e5dbe44fae9a5a15d0a807868c22daca44852 data/marioverse/tags/block/grassy/stone.json
@@ -135,7 +137,7 @@ f1f53f32264771db68a2813211ae60091abaf2fd data/marioverse/tags/block/picket_fence
 211c10df2c9f4278fc919eae0269b9cc583bcf57 data/marioverse/tags/block/picket_fence_gates/dyed.json
 8230f4e848f9dba16d6ac075375376fa65447ec0 data/marioverse/tags/block/picket_fence_gates/flammable.json
 982a7eb4028d8a1e8af50b9f088b05740e61770d data/marioverse/tags/block/picket_fence_gates/wooden.json
-9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/block/pipe_junction_blocks.json
+c2dd4a041a03a78e8b3f6064d5c7eea1ff50af38 data/marioverse/tags/block/pipe_junctions.json
 0a6d57dbfee5c2462339b802e3d71f90b2dbf41c data/marioverse/tags/block/piranha_plants_cannot_attach.json
 f62aa77ec565005717121de25d7a660229f0124a data/marioverse/tags/block/piranha_plants_can_hide.json
 31bdfbff542c88b54b0353a0078cd2b1ae1d40fc data/marioverse/tags/block/piranha_plants_spawnable_on.json
@@ -199,10 +201,10 @@ f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_logs
 f260bc3f9d8aac12279535bf5b09de9a25703bc7 data/minecraft/tags/block/mangrove_roots_can_grow_through.json
 4c370547d2bd30c94878ccfac05a24ed3d599ff4 data/minecraft/tags/block/mineable/axe.json
 b13d9e92ee25ffb3576bffac1a26b0a6d16894ef data/minecraft/tags/block/mineable/hoe.json
-f2a5b9617087942714315ab00f7ab1c4bce11048 data/minecraft/tags/block/mineable/pickaxe.json
+a06599dafbb3780372a3348f29d74e4090b037d0 data/minecraft/tags/block/mineable/pickaxe.json
 900948a7d4e0c2a6119b39bd9d042459a1b8d280 data/minecraft/tags/block/mineable/shovel.json
 11bf9914a37f97368e3320edbd090ecc24c07476 data/minecraft/tags/block/needs_iron_tool.json
-6b500a6588c30ade65410a28900865f0cae5a247 data/minecraft/tags/block/needs_stone_tool.json
+f106bfeec7877a9cb31fb588f2711f1642c05da1 data/minecraft/tags/block/needs_stone_tool.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/parrots_spawnable_on.json
 dcc89d58c805878825fa8c866221f3185138daa3 data/minecraft/tags/block/planks.json
 141619bb054ef57ea9990a3899399bdbec67dbce data/minecraft/tags/block/rabbits_spawnable_on.json

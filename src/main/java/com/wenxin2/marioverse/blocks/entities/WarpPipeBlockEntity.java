@@ -91,6 +91,7 @@ import net.minecraft.world.item.EndCrystalItem;
 import net.minecraft.world.item.ExperienceBottleItem;
 import net.minecraft.world.item.FireChargeItem;
 import net.minecraft.world.item.FireworkRocketItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.ThrowablePotionItem;
@@ -159,7 +160,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public static final String VOID_PAYMENTS = "VoidPayments";
     public static final String WATER_SPOUT = "WaterSpout";
     public static final String XP_COST = "XpCost";
-    public static final int MAX_COST_ITEM_COUNT = 64;
+    public static final int MAX_COST_ITEM_COUNT = Item.ABSOLUTE_MAX_STACK_SIZE;
     public static final int MAX_XP_COST = 100000;
     @Nullable public Component name;
     public Component pipeName;
@@ -216,7 +217,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     private boolean voidPayments;
     private boolean waterSpout = true;
     public int bubblesDistance = 3;
-    private int costItemCount;
+    private int costItemCount = 1;
     private int lifetimeWarps;
     public int spawnItemDelay = 20;
     public int spoutHeight = 4;
@@ -329,8 +330,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.bubbles = !tag.contains(BUBBLES) || tag.getBoolean(BUBBLES);
         this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
         this.costItem = tag.contains(COST_ITEM, 10)
-                ? ItemStack.parse(provider, tag.getCompound(COST_ITEM)).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
-        this.costItemCount = tag.getInt(COST_ITEM_COUNT);
+                ? ItemStack.parse(provider, tag.getCompound(COST_ITEM)).map(stack -> new ItemStack(stack.getItem())).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
+        this.costItemCount = Math.max(1, tag.getInt(COST_ITEM_COUNT));
         this.displayTextAbove = tag.getBoolean(DISPLAY_TEXT_ABOVE);
         this.displayTextBelow = tag.getBoolean(DISPLAY_TEXT_BELOW);
         this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
@@ -411,7 +412,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         if (this.level != null)
             return new WarpPipeMenu(id, inventory, this.getDataAccess(), ContainerLevelAccess.create(this.level, this.getBlockPos()),
-                    this.getBlockPos(), this.canManagePayments(player), this.createCostContainer());
+                    this.getBlockPos(), this.getDestinationPos(), this.createCostContainer(), this.canManagePayments(player));
         else return null;
     }
 
@@ -762,17 +763,15 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (!this.canChangeCostItem(stack))
             return false;
 
-        this.costItem = stack.copyWithCount(1);
-        this.costItemCount = stack.isEmpty() ? 0 : Mth.clamp(stack.getCount(), 1, MAX_COST_ITEM_COUNT);
+        this.costItem = stack.isEmpty() ? ItemStack.EMPTY : new ItemStack(stack.getItem());
+        if (!stack.isEmpty())
+            this.costItemCount = Mth.clamp(stack.getCount(), 1, MAX_COST_ITEM_COUNT);
         this.setChanged();
         this.sendData();
         return true;
     }
 
     public void setCostItemCount(int count) {
-        if (this.costItem.isEmpty())
-            return;
-
         this.costItemCount = Mth.clamp(count, 1, MAX_COST_ITEM_COUNT);
         this.setChanged();
         this.sendData();

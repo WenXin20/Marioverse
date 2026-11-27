@@ -255,7 +255,7 @@ public class WarpCost {
 
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
             ItemStack stack = inventory.getItem(slot);
-            if (ItemStack.isSameItemSameComponents(stack, item))
+            if (ItemStack.isSameItem(stack, item))
                 total += stack.getCount();
         }
         return total;
@@ -268,7 +268,7 @@ public class WarpCost {
         for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
             ItemStack stack = inventory.getItem(slot);
 
-            if (ItemStack.isSameItemSameComponents(stack, item)) {
+            if (ItemStack.isSameItem(stack, item)) {
                 int used = Math.min(stack.getCount(), remaining);
                 stack.shrink(used);
                 remaining -= used;

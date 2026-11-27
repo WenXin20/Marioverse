@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-29T00:44:47.56502	Tags for minecraft:item mod id marioverse
+// 1.21.1	2026-11-26T08:00:45.7623493	Tags for minecraft:item mod id marioverse
 265baa7f3dced2121fb0848548ff79774c0e5919 data/curios/tags/item/charm.json
 12a385e27b83b786abd681ad79468c23b4ea7928 data/curios/tags/item/costume_hat.json
 c8e114ebbf480c6baaa69e6383e61efc5d7a484d data/curios/tags/item/costume_pants.json
@@ -100,6 +100,7 @@ bc590e338e30cd82f298c82a9df02acc5f78631e data/marioverse/tags/item/dotted_line_b
 cd304d48ffe0b2b04bed3990df7bda6e81e702b5 data/marioverse/tags/item/dyeable_checkpoint_flags.json
 2e55cd5fed0ead5e4a545fcfa7ab0ccfc66f96f5 data/marioverse/tags/item/dyeable_goal_poles.json
 6e34d33d5c06b895af3fedd7389a2bd57b6cc909 data/marioverse/tags/item/dyeable_warp_pipes.json
+9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/item/dyed_pipe_junctions.json
 86463db0041cea3cfb20d0760e6f07fd40be8cf8 data/marioverse/tags/item/goal_poles.json
 1de3bb2d253002f740e8b1dbc4a2165781adafe6 data/marioverse/tags/item/grassy.json
 64cd7761e2fe14c645681247a93f8e1d7eb5f5e5 data/marioverse/tags/item/grassy/dirt.json
@@ -149,7 +150,7 @@ f1f53f32264771db68a2813211ae60091abaf2fd data/marioverse/tags/item/picket_fences
 211c10df2c9f4278fc919eae0269b9cc583bcf57 data/marioverse/tags/item/picket_fence_gates/dyed.json
 8230f4e848f9dba16d6ac075375376fa65447ec0 data/marioverse/tags/item/picket_fence_gates/flammable.json
 982a7eb4028d8a1e8af50b9f088b05740e61770d data/marioverse/tags/item/picket_fence_gates/wooden.json
-9695f632d2a212d080ed24deabc64ee05203bd24 data/marioverse/tags/item/pipe_junction_blocks.json
+c2dd4a041a03a78e8b3f6064d5c7eea1ff50af38 data/marioverse/tags/item/pipe_junctions.json
 51c64a5ea272d8b17a8acacd965c546d474f5efe data/marioverse/tags/item/piranha_plant_food.json
 c20fca4effcee87410d7931dd6c1d3ca164d668e data/marioverse/tags/item/platforms.json
 909312db468ca68474bb323f4960385c01247d64 data/marioverse/tags/item/platforms/flammable.json

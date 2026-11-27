@@ -6,6 +6,7 @@ import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.registries.MenuRegistry;
 import com.wenxin2.marioverse.utils.WarpCost;
+import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -38,20 +39,27 @@ public class WarpPipeMenu extends AbstractContainerMenu {
     private final Slot costSlot;
     private final ContainerData data;
     private final BlockPos blockPos;
+    @Nullable private final BlockPos destinationPos;
     private final DataSlot canManagePayments = DataSlot.standalone();
 
     public WarpPipeMenu(int id, Inventory inventory, RegistryFriendlyByteBuf buf) {
         this(id, inventory, new SimpleContainerData(DATA_COUNT), ContainerLevelAccess.NULL,
-                buf.readBlockPos(), buf.readBoolean(), new SimpleContainer(1));
+                buf.readBlockPos(), buf.readOptional(BlockPos.STREAM_CODEC).orElse(null), new SimpleContainer(1) {
+                    @Override
+                    public int getMaxStackSize(ItemStack stack) {
+                        return WarpPipeBlockEntity.MAX_COST_ITEM_COUNT;
+                    }
+                }, buf.readBoolean());
         this.data.set(10, buf.readVarInt());
     }
 
     public WarpPipeMenu(int id, Inventory inventory, ContainerData data, final ContainerLevelAccess levelAccess,
-                        BlockPos blockPos, boolean canManagePayments, Container costContainer) {
+                        BlockPos blockPos, @Nullable BlockPos destinationPos, Container costContainer, boolean canManagePayments) {
         super(MenuRegistry.WARP_PIPE_MENU.get(), id);
         this.access = levelAccess;
-        this.data = data;
         this.blockPos = blockPos;
+        this.data = data;
+        this.destinationPos = destinationPos;
         this.canManagePayments.set(canManagePayments ? 1 : 0);
 
         this.addDataSlots(data);
@@ -111,7 +119,8 @@ public class WarpPipeMenu extends AbstractContainerMenu {
         if (!this.canEditCost() || (clickType != ClickType.PICKUP && clickType != ClickType.QUICK_MOVE))
             return;
 
-        ItemStack stack = button == 1 || clickType == ClickType.QUICK_MOVE ? ItemStack.EMPTY : this.getCarried().copy();
+        ItemStack stack = button == 1 || clickType == ClickType.QUICK_MOVE ? ItemStack.EMPTY
+                : new ItemStack(this.getCarried().getItem(), this.getCarried().getCount());
         this.access.execute((level, pos) -> {
             if (level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && !pipeBE.canChangeCostItem(stack))
                 player.displayClientMessage(Component.translatable("display.marioverse.warp_cost.collect_payments_first")
@@ -136,6 +145,11 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     public BlockPos getBlockPos() {
         return this.blockPos;
+    }
+
+    @Nullable
+    public BlockPos getDestinationPos() {
+        return this.destinationPos;
     }
 
     public boolean isClosed() {

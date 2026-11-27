@@ -21,6 +21,7 @@ import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesButtonPayload
 import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
+import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -29,6 +30,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -180,13 +182,13 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 button -> this.connectionCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.tooltip")));
         this.connectionCheckbox.active = !this.isConnectionForced();
 
-        this.lastCostItemCount = this.getCostItem().getCount();
+        this.lastCostItemCount = this.getCostItemCount();
         this.itemCostSlider = this.addRenderableWidget(new TexturedSlider(x + 61, y + 21, 90, 18,
                 Component.translatable("menu.marioverse.warp_pipe.item_cost_slider"), Component.empty(),
                 1D, WarpPipeBlockEntity.MAX_COST_ITEM_COUNT, Math.max(1, this.lastCostItemCount), 1D, 0, true) {
             @Override
             public boolean isLocked() {
-                return !WarpPipeScreen.this.menu.canEditCost() || WarpPipeScreen.this.getCostItem().isEmpty();
+                return !WarpPipeScreen.this.menu.canEditCost();
             }
         });
         this.itemCostSlider.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.item_cost_slider.tooltip")));
@@ -217,7 +219,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 this.bubblesSlider.setValue(this.lastBubblesDistance);
         }
 
-        int costItemCount = this.getCostItem().getCount();
+        int costItemCount = this.getCostItemCount();
         if (costItemCount != this.lastCostItemCount) {
             this.lastCostItemCount = costItemCount;
             if (this.sliderSyncDelay == 0)
@@ -311,10 +313,13 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         this.waterSourceCheckbox.setTooltip(Tooltip.create(tooltip));
 
         if (this.isConnectionForced())
-            tooltip = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox_config.tooltip");
+            tooltip = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox_config.tooltip",
+                    this.getDestinationText());
         else if (this.menu.isWaxed())
-            tooltip = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox_waxed.tooltip");
-        else tooltip = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.tooltip");
+            tooltip = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox_waxed.tooltip",
+                    this.getDestinationText());
+        else tooltip = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.tooltip",
+                    this.getDestinationText());
         this.connectionCheckbox.setTooltip(Tooltip.create(tooltip));
     }
 
@@ -559,7 +564,30 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         return this.menu.getCostSlot().getItem();
     }
 
+    private int getCostItemCount() {
+        WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
+        return pipeBE == null ? 1 : pipeBE.getCostItemCount();
+    }
+
     private void sendPipeCost(int action, int value) {
         PacketHandler.sendToServer(new PipeCostPayload(this.menu.containerId, action, value));
+    }
+
+    @Nullable
+    private WarpPipeBlockEntity getPipeBlockEntity() {
+        if (this.minecraft == null || this.minecraft.level == null)
+            return null;
+        return this.minecraft.level.getBlockEntity(this.menu.getBlockPos()) instanceof WarpPipeBlockEntity pipeBE ? pipeBE : null;
+    }
+
+    private Component getDestinationText() {
+        BlockPos destination = this.menu.getDestinationPos();
+        if (destination == null)
+            return Component.empty();
+
+        Component coordinates = Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.coordinates",
+                destination.getX(), destination.getY(), destination.getZ()).withStyle(ChatFormatting.YELLOW);
+        return Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.destination", coordinates)
+                .withStyle(ChatFormatting.GRAY);
     }
 }

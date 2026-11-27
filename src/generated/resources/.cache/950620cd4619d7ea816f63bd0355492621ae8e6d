@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-05T12:12:07.5078033	Tags for minecraft:entity_type mod id marioverse
+// 1.21.1	2026-11-26T08:00:45.6469699	Tags for minecraft:entity_type mod id marioverse
 44f403a7e81a606f61a6f18750ca7a1519500e02 data/c/tags/entity_type/boats.json
 565fad8ac5d7043b657fb6d5f66cc6edc5095988 data/marioverse/tags/entity_type/bee_can_pollinate.json
 6ded3ea2e35a47445f95b3e2a263d918575d48cf data/marioverse/tags/entity_type/boo_can_attack.json
@@ -119,7 +119,7 @@ ca049038b34d05d99a21a104618cd6ddbaf3b894 data/minecraft/tags/entity_type/axolotl
 499509579a2d01aee016087d84ad1bbdfa83b9e3 data/minecraft/tags/entity_type/fall_damage_immune.json
 56b9548661cdca76adc221d01d57f50c79fcfefd data/minecraft/tags/entity_type/freeze_immune_entity_types.json
 68d00486dd0e534f7343f8205e47da2c6a617953 data/minecraft/tags/entity_type/frog_food.json
-1995cbf2db276b200e2d23721db592c823401a5f data/minecraft/tags/entity_type/impact_projectiles.json
+6aab7d318224e7d6bea7047bbff7bdc013c39e14 data/minecraft/tags/entity_type/impact_projectiles.json
 19443162a35180f2cac1583c2728ac564296c99f data/minecraft/tags/entity_type/not_scary_for_pufferfish.json
 36569be02b0d1aff59642a2900e4c9d1eda1ecff data/minecraft/tags/entity_type/redirectable_projectile.json
 ca049038b34d05d99a21a104618cd6ddbaf3b894 data/minecraft/tags/entity_type/sensitive_to_impaling.json

@@ -1,9 +1,9 @@
 {
   "values": [
+    "marioverse:dry_bones_shell",
     "#marioverse:koopa_shells",
     "marioverse:bouncing_fireball",
     "marioverse:bouncing_ice_ball",
-    "marioverse:dry_bones_shell",
     "marioverse:large_snowball"
   ]
 }

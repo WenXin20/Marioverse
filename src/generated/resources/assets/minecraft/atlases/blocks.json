@@ -39,6 +39,11 @@
         "marioverse:item/large_arrow_sign/pattern/left",
         "marioverse:item/large_arrow_sign/pattern/top_left"
       ]
+    },
+    {
+      "type": "minecraft:directory",
+      "prefix": "slot/",
+      "source": "gui/sprites/slot"
     }
   ]
 }
