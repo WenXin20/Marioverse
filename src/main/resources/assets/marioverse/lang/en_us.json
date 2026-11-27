@@ -2696,7 +2696,7 @@
   "menu.marioverse.warp_pipe.waterworks_tab.narrate": "Waterworks Tab",
   "menu.marioverse.warp_pipe.waterworks_tab.tooltip": "Waterworks",
 
-  "menu.marioverse.warp_pipe.allow_automation_checkbox.tooltip": "Allow Automation\n§7• Stored payments can be extracted",
+  "menu.marioverse.warp_pipe.allow_automation_checkbox.tooltip": "Allow Automation\n§7• Payments can be extracted",
   "menu.marioverse.warp_pipe.allow_automation_checkbox.narrate": "Allow Automation",
 
   "menu.marioverse.warp_pipe.bubbles_button": "",
@@ -2756,7 +2756,7 @@
   "menu.marioverse.warp_pipe.water_source_checkbox_waxed.tooltip": "§mRequire Water Source§r\n§7• Water spout only flows if the opposite entrance has water\n§cPipe is Waxed!",
 
   "menu.marioverse.warp_pipe.xp_price_box.narrate": "Exact XP Price",
-  "menu.marioverse.warp_pipe.xp_price_box.tooltip": "Exact XP Price\n§7• Type an exact amount of xp",
+  "menu.marioverse.warp_pipe.xp_price_box.tooltip": "Exact XP Price\n§7• Insert an exact amount of xp",
   "menu.marioverse.warp_pipe.xp_price_box_config.tooltip": "Exact XP Price\n§eSet by the config",
   "menu.marioverse.warp_pipe.xp_price_slider": "XP Price: ",
   "menu.marioverse.warp_pipe.xp_price_slider.tooltip": "XP Price\n§7• Set the xp price in levels",
