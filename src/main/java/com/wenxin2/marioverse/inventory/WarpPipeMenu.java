@@ -29,6 +29,8 @@ import net.minecraft.world.item.ItemStack;
 public class WarpPipeMenu extends AbstractContainerMenu {
     private static final ResourceLocation EMPTY_COIN_SLOT = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "slot/empty_coin_slot");
+    private static final ResourceLocation EMPTY_VOID_SLOT = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "slot/empty_void_slot");
     public static final int PRICE_SLOT_X = 38;
     public static final int PRICE_SLOT_Y = 22;
     public static final int DATA_COUNT = 11;
@@ -45,6 +47,7 @@ public class WarpPipeMenu extends AbstractContainerMenu {
     @Nullable private final BlockPos destinationPos;
     private final DataSlot canManagePayments = DataSlot.standalone();
     private int configXpPrice;
+    private final Player player;
 
     public WarpPipeMenu(int id, Inventory inventory, RegistryFriendlyByteBuf buf) {
         this(id, inventory, new SimpleContainerData(DATA_COUNT), ContainerLevelAccess.NULL,
@@ -60,9 +63,10 @@ public class WarpPipeMenu extends AbstractContainerMenu {
         super(MenuRegistry.WARP_PIPE_MENU.get(), id);
         this.access = levelAccess;
         this.blockPos = blockPos;
+        this.canManagePayments.set(canManagePayments ? 1 : 0);
         this.data = data;
         this.destinationPos = destinationPos;
-        this.canManagePayments.set(canManagePayments ? 1 : 0);
+        this.player = inventory.player;
 
         this.addDataSlots(data);
         this.addDataSlot(this.canManagePayments);
@@ -113,7 +117,7 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
             @Override
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_COIN_SLOT);
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, WarpPipeMenu.this.isVoidPayments() ? EMPTY_VOID_SLOT : EMPTY_COIN_SLOT);
             }
         });
     }
@@ -261,6 +265,10 @@ public class WarpPipeMenu extends AbstractContainerMenu {
                     carried.grow(pipeBE.takeStoredPayment(carried.getMaxStackSize() - carried.getCount()).getCount());
             }
         });
+    }
+
+    public boolean isVoidPayments() {
+        return this.player.level().getBlockEntity(this.blockPos) instanceof WarpPipeBlockEntity pipeBE && pipeBE.isVoidPayments();
     }
 
     private static Container createDisplayContainer() {
