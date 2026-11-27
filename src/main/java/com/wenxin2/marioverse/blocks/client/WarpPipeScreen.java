@@ -45,6 +45,8 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector2i;
+import org.joml.Vector2ic;
 import org.lwjgl.glfw.GLFW;
 
 public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
@@ -345,7 +347,6 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         if (this.hoveredSlot != null && this.hoveredSlot == this.menu.getPaymentSlot() && this.menu.getCarried().isEmpty())
             this.renderPaymentSlotTooltip(graphics, mouseX, mouseY);
-        else super.renderTooltip(graphics, mouseX, mouseY);
 
         if (this.hoveredSlot == this.menu.getPriceSlot() && this.hoveredSlot != null && !this.hoveredSlot.hasItem())
             graphics.renderTooltip(this.font, this.font.split(Component
@@ -796,7 +797,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 WarpPrice.getItemPlural(payment, payment.getCount())).getVisualOrderText());
 
         lines.addAll(this.font.split(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip.info"), 200));
-        graphics.renderTooltip(this.font, lines, mouseX, mouseY);
+        if (payment.isEmpty())
+            graphics.renderTooltip(this.font, lines, mouseX, mouseY);
+        else graphics.renderTooltip(this.font, lines, WarpPipeScreen::positionAboveItemTooltip, mouseX, mouseY);
     }
 
     @Nullable
@@ -810,5 +813,12 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (count < 1000000)
             return count / 1000 + "k";
         return String.format(Locale.ROOT, "%.1fm", Math.floor(count / 100000.0) / 10.0);
+    }
+
+    private static Vector2ic positionAboveItemTooltip(int screenWidth, int screenHeight, int mouseX, int mouseY, int width, int height) {
+        int tooltipX = mouseX + 12;
+        if (tooltipX + width > screenWidth)
+            tooltipX = Math.max(mouseX - 16 - width, 4);
+        return new Vector2i(tooltipX, Math.max(mouseY - 22 - height, 4));
     }
 }
