@@ -5,7 +5,7 @@ import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.inventory.slots.GhostSlot;
 import com.wenxin2.marioverse.registries.MenuRegistry;
-import com.wenxin2.marioverse.utils.WarpCost;
+import com.wenxin2.marioverse.utils.WarpPrice;
 import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -29,8 +29,8 @@ import net.minecraft.world.item.ItemStack;
 public class WarpPipeMenu extends AbstractContainerMenu {
     private static final ResourceLocation EMPTY_COIN_SLOT = ResourceLocation
             .fromNamespaceAndPath(Marioverse.MOD_ID, "slot/empty_coin_slot");
-    public static final int COST_SLOT_X = 38;
-    public static final int COST_SLOT_Y = 22;
+    public static final int PRICE_SLOT_X = 38;
+    public static final int PRICE_SLOT_Y = 22;
     public static final int DATA_COUNT = 11;
     public static final int PAYMENTS_TAB = 2;
     public static final int PAYMENT_SLOT_X = 11;
@@ -38,24 +38,24 @@ public class WarpPipeMenu extends AbstractContainerMenu {
     public static final int WARP_PIPE_TAB = 0;
     public static final int WATERWORKS_TAB = 1;
     private final ContainerLevelAccess access;
-    private final Slot costSlot;
+    private final Slot priceSlot;
     private final Slot paymentSlot;
     private final ContainerData data;
     private final BlockPos blockPos;
     @Nullable private final BlockPos destinationPos;
     private final DataSlot canManagePayments = DataSlot.standalone();
-    private int configXpCost;
+    private int configXpPrice;
 
     public WarpPipeMenu(int id, Inventory inventory, RegistryFriendlyByteBuf buf) {
         this(id, inventory, new SimpleContainerData(DATA_COUNT), ContainerLevelAccess.NULL,
                 buf.readBlockPos(), buf.readOptional(BlockPos.STREAM_CODEC).orElse(null),
                 WarpPipeMenu.createDisplayContainer(), WarpPipeMenu.createDisplayContainer(), buf.readBoolean());
         this.data.set(10, buf.readVarInt());
-        this.configXpCost = buf.readVarInt();
+        this.configXpPrice = buf.readVarInt();
     }
 
     public WarpPipeMenu(int id, Inventory inventory, ContainerData data, final ContainerLevelAccess levelAccess,
-                        BlockPos blockPos, @Nullable BlockPos destinationPos, Container costContainer,
+                        BlockPos blockPos, @Nullable BlockPos destinationPos, Container priceContainer,
                         Container paymentContainer, boolean canManagePayments) {
         super(MenuRegistry.WARP_PIPE_MENU.get(), id);
         this.access = levelAccess;
@@ -77,10 +77,10 @@ public class WarpPipeMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(inventory, l, 8 + l * 18, 142));
         }
 
-        this.costSlot = this.addSlot(new GhostSlot(costContainer, 0, COST_SLOT_X, COST_SLOT_Y) {
+        this.priceSlot = this.addSlot(new GhostSlot(priceContainer, 0, PRICE_SLOT_X, PRICE_SLOT_Y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return WarpPipeMenu.this.canEditCost();
+                return WarpPipeMenu.this.canEditPrice();
             }
 
             @Override
@@ -137,32 +137,32 @@ public class WarpPipeMenu extends AbstractContainerMenu {
             return;
         }
 
-        if (slot != this.costSlot) {
+        if (slot != this.priceSlot) {
             super.clicked(slotId, button, clickType, player);
             return;
         }
 
-        if (!this.canEditCost() || (clickType != ClickType.PICKUP && clickType != ClickType.QUICK_MOVE))
+        if (!this.canEditPrice() || (clickType != ClickType.PICKUP && clickType != ClickType.QUICK_MOVE))
             return;
 
         ItemStack stack = button == 1 || clickType == ClickType.QUICK_MOVE ? ItemStack.EMPTY
                 : new ItemStack(this.getCarried().getItem(), this.getCarried().getCount());
         this.access.execute((level, pos) -> {
-            if (level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && !pipeBE.canChangeCostItem(stack))
-                player.displayClientMessage(Component.translatable("display.marioverse.warp_cost.collect_payments_first")
+            if (level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && !pipeBE.canChangePriceItem(stack))
+                player.displayClientMessage(Component.translatable("display.marioverse.warp_price.collect_payments_first")
                         .withStyle(ChatFormatting.RED), true);
         });
-        this.costSlot.set(stack);
+        this.priceSlot.set(stack);
     }
 
     @Override
     public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
-        return slot != this.costSlot && slot != this.paymentSlot && super.canTakeItemForPickAll(stack, slot);
+        return slot != this.priceSlot && slot != this.paymentSlot && super.canTakeItemForPickAll(stack, slot);
     }
 
     @Override
     public boolean canDragTo(Slot slot) {
-        return slot != this.costSlot && slot != this.paymentSlot && super.canDragTo(slot);
+        return slot != this.priceSlot && slot != this.paymentSlot && super.canDragTo(slot);
     }
 
     public ContainerLevelAccess getAccess() {
@@ -178,8 +178,8 @@ public class WarpPipeMenu extends AbstractContainerMenu {
         return this.destinationPos;
     }
 
-    public int getConfigXpCost() {
-        return this.configXpCost;
+    public int getConfigXpPrice() {
+        return this.configXpPrice;
     }
 
     public boolean isClosed() {
@@ -231,12 +231,12 @@ public class WarpPipeMenu extends AbstractContainerMenu {
         return this.canManagePayments.get() == 1;
     }
 
-    public boolean canEditCost() {
-        return this.canManagePayments() && !WarpCost.hasConfigPipeCost();
+    public boolean canEditPrice() {
+        return this.canManagePayments() && !WarpPrice.hasConfigPipePrice();
     }
 
-    public Slot getCostSlot() {
-        return this.costSlot;
+    public Slot getPriceSlot() {
+        return this.priceSlot;
     }
 
     public Slot getPaymentSlot() {

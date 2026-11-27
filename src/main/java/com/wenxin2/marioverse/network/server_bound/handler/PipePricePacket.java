@@ -2,19 +2,19 @@ package com.wenxin2.marioverse.network.server_bound.handler;
 
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
-import com.wenxin2.marioverse.network.server_bound.data.PipeCostPayload;
-import com.wenxin2.marioverse.utils.WarpCost;
+import com.wenxin2.marioverse.network.server_bound.data.PipePricePayload;
+import com.wenxin2.marioverse.utils.WarpPrice;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public class PipeCostPacket {
-    public static final PipeCostPacket INSTANCE = new PipeCostPacket();
+public class PipePricePacket {
+    public static final PipePricePacket INSTANCE = new PipePricePacket();
 
-    public static PipeCostPacket get() {
+    public static PipePricePacket get() {
         return INSTANCE;
     }
 
-    public void handle(final PipeCostPayload payload, IPayloadContext context) {
+    public void handle(final PipePricePayload payload, IPayloadContext context) {
         if (context.flow().isServerbound()) {
             context.enqueueWork(() -> {
                 ServerPlayer player = (ServerPlayer) context.player();
@@ -23,12 +23,12 @@ public class PipeCostPacket {
 
                 menu.getAccess().execute((level, pos) -> {
                     if (!(level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE)
-                            || !pipeBE.canManagePayments(player) || WarpCost.hasConfigPipeCost())
+                            || !pipeBE.canManagePayments(player) || WarpPrice.hasConfigPipePrice())
                         return;
 
                     switch (payload.action()) {
-                        case PipeCostPayload.ITEM_COUNT -> pipeBE.setCostItemCount(payload.value());
-                        case PipeCostPayload.XP_COST -> pipeBE.setXpCost(payload.value());
+                        case PipePricePayload.ITEM_COUNT -> pipeBE.setPriceItemCount(payload.value());
+                        case PipePricePayload.XP_PRICE -> pipeBE.setXpPrice(payload.value());
                     }
                 });
             });

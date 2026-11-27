@@ -20,7 +20,7 @@ import com.wenxin2.marioverse.registries.TagRegistry;
 import com.wenxin2.marioverse.integration.CompatRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.sounds.MarioverseSoundTypes;
-import com.wenxin2.marioverse.utils.WarpCost;
+import com.wenxin2.marioverse.utils.WarpPrice;
 import com.wenxin2.marioverse.world.PipeSpawner;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -135,8 +135,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public static final String ALLOW_AUTOMATION = "AllowAutomation";
     public static final String BUBBLES = "Bubbles";
     public static final String BUBBLES_DISTANCE = "BubblesDistance";
-    public static final String COST_ITEM = "CostItem";
-    public static final String COST_ITEM_COUNT = "CostItemCount";
+    public static final String PRICE_ITEM = "PriceItem";
+    public static final String PRICE_ITEM_COUNT = "PriceItemCount";
     public static final String CUSTOM_NAME = "CustomName";
     public static final String DISPLAY_TEXT_ABOVE = "displayTextAbove";
     public static final String DISPLAY_TEXT_BELOW = "displayTextBelow";
@@ -161,9 +161,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public static final String STORED_XP = "StoredXp";
     public static final String VOID_PAYMENTS = "VoidPayments";
     public static final String WATER_SPOUT = "WaterSpout";
-    public static final String XP_COST = "XpCost";
-    public static final int MAX_COST_ITEM_COUNT = Item.ABSOLUTE_MAX_STACK_SIZE;
-    public static final int MAX_XP_COST = 100000;
+    public static final String XP_PRICE = "XpPrice";
+    public static final int MAX_PRICE_ITEM_COUNT = Item.ABSOLUTE_MAX_STACK_SIZE;
+    public static final int MAX_XP_PRICE = 100000;
     @Nullable public Component name;
     public Component pipeName;
     private LockCode lockKey = LockCode.NO_LOCK;
@@ -200,7 +200,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     };
 
     @Nullable private ResolvableProfile owner;
-    private ItemStack costItem = ItemStack.EMPTY;
+    private ItemStack priceItem = ItemStack.EMPTY;
     private ItemStack spawnItemStack = ItemStack.EMPTY;
     private ItemStack storedPayment = ItemStack.EMPTY;
     private boolean allowAutomation;
@@ -220,13 +220,13 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     private boolean voidPayments;
     private boolean waterSpout = true;
     public int bubblesDistance = 3;
-    private int costItemCount = 1;
+    private int priceItemCount = 1;
     private int lifetimeWarps;
     public int spawnItemDelay = 20;
     public int spoutHeight = 4;
     private int storedPaymentCount;
     private int storedXp;
-    private int xpCost;
+    private int xpPrice;
     private long lifetimeItemsEarned;
     private long lifetimeXpEarned;
     private long nextSpoutWaterCheckTime;
@@ -298,12 +298,12 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         tag.putBoolean(VOID_PAYMENTS, this.voidPayments);
         tag.putBoolean(WATER_SPOUT, this.waterSpout);
         tag.putInt(BUBBLES_DISTANCE, this.bubblesDistance);
-        tag.putInt(COST_ITEM_COUNT, this.costItemCount);
+        tag.putInt(PRICE_ITEM_COUNT, this.priceItemCount);
         tag.putInt(LIFETIME_WARPS, this.lifetimeWarps);
         tag.putInt(SPOUT_HEIGHT, this.spoutHeight);
         tag.putInt(STORED_PAYMENT_COUNT, this.storedPaymentCount);
         tag.putInt(STORED_XP, this.storedXp);
-        tag.putInt(XP_COST, this.xpCost);
+        tag.putInt(XP_PRICE, this.xpPrice);
         tag.putLong(LIFETIME_ITEMS_EARNED, this.lifetimeItemsEarned);
         tag.putLong(LIFETIME_XP_EARNED, this.lifetimeXpEarned);
         tag.putLong(SPOUT_REGROW_TIME, this.spoutRegrowTime);
@@ -318,8 +318,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (this.owner != null)
             ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE, this.owner).resultOrPartial(LOGGER::error)
                     .ifPresent(owner -> tag.put(OWNER, owner));
-        if (!this.costItem.isEmpty())
-            tag.put(COST_ITEM, this.costItem.save(provider));
+        if (!this.priceItem.isEmpty())
+            tag.put(PRICE_ITEM, this.priceItem.save(provider));
         if (!this.storedPayment.isEmpty())
             tag.put(STORED_PAYMENT, this.storedPayment.save(provider));
 
@@ -334,9 +334,9 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.allowAutomation = tag.getBoolean(ALLOW_AUTOMATION);
         this.bubbles = !tag.contains(BUBBLES) || tag.getBoolean(BUBBLES);
         this.bubblesDistance = tag.getInt(BUBBLES_DISTANCE);
-        this.costItem = tag.contains(COST_ITEM, 10)
-                ? ItemStack.parse(provider, tag.getCompound(COST_ITEM)).map(stack -> new ItemStack(stack.getItem())).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
-        this.costItemCount = Math.max(1, tag.getInt(COST_ITEM_COUNT));
+        this.priceItem = tag.contains(PRICE_ITEM, 10)
+                ? ItemStack.parse(provider, tag.getCompound(PRICE_ITEM)).map(stack -> new ItemStack(stack.getItem())).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
+        this.priceItemCount = Math.max(1, tag.getInt(PRICE_ITEM_COUNT));
         this.displayTextAbove = tag.getBoolean(DISPLAY_TEXT_ABOVE);
         this.displayTextBelow = tag.getBoolean(DISPLAY_TEXT_BELOW);
         this.displayTextEast = tag.getBoolean(DISPLAY_TEXT_EAST);
@@ -364,7 +364,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.storedXp = tag.getInt(STORED_XP);
         this.voidPayments = tag.getBoolean(VOID_PAYMENTS);
         this.waterSpout = tag.getBoolean(WATER_SPOUT);
-        this.xpCost = tag.getInt(XP_COST);
+        this.xpPrice = tag.getInt(XP_PRICE);
 
         if (tag.contains(CUSTOM_NAME, 8))
             this.name = parseCustomNameSafe(tag.getString(CUSTOM_NAME), provider);
@@ -417,7 +417,7 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         if (this.level != null)
             return new WarpPipeMenu(id, inventory, this.getDataAccess(), ContainerLevelAccess.create(this.level, this.getBlockPos()),
-                    this.getBlockPos(), this.getDestinationPos(), this.createCostContainer(),
+                    this.getBlockPos(), this.getDestinationPos(), this.createPriceContainer(),
                     this.createPaymentContainer(), this.canManagePayments(player));
         else return null;
     }
@@ -760,61 +760,61 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         return this.lifetimeXpEarned;
     }
 
-    public int getXpCost() {
-        return this.xpCost;
+    public int getXpPrice() {
+        return this.xpPrice;
     }
 
-    public void setXpCost(int xpCost) {
-        this.xpCost = Mth.clamp(xpCost, 0, MAX_XP_COST);
+    public void setXpPrice(int xpPrice) {
+        this.xpPrice = Mth.clamp(xpPrice, 0, MAX_XP_PRICE);
         this.setChanged();
         this.sendData();
     }
 
-    public ItemStack getCostItem() {
-        return this.costItem;
+    public ItemStack getPriceItem() {
+        return this.priceItem;
     }
 
-    public int getCostItemCount() {
-        return this.costItemCount;
+    public int getPriceItemCount() {
+        return this.priceItemCount;
     }
 
-    public boolean canChangeCostItem(ItemStack item) {
+    public boolean canChangePriceItem(ItemStack item) {
         return this.storedPaymentCount <= 0 || item.isEmpty()
                 || ItemStack.isSameItemSameComponents(this.getPaymentItem(item), this.storedPayment);
     }
 
-    public boolean setCostItem(ItemStack stack) {
-        if (!this.canChangeCostItem(stack))
+    public boolean setPriceItem(ItemStack stack) {
+        if (!this.canChangePriceItem(stack))
             return false;
 
-        this.costItem = stack.isEmpty() ? ItemStack.EMPTY : new ItemStack(stack.getItem());
+        this.priceItem = stack.isEmpty() ? ItemStack.EMPTY : new ItemStack(stack.getItem());
         if (!stack.isEmpty())
-            this.costItemCount = Mth.clamp(stack.getCount(), 1, MAX_COST_ITEM_COUNT);
+            this.priceItemCount = Mth.clamp(stack.getCount(), 1, MAX_PRICE_ITEM_COUNT);
         this.setChanged();
         this.sendData();
         return true;
     }
 
-    public void setCostItemCount(int count) {
-        this.costItemCount = Mth.clamp(count, 1, MAX_COST_ITEM_COUNT);
+    public void setPriceItemCount(int count) {
+        this.priceItemCount = Mth.clamp(count, 1, MAX_PRICE_ITEM_COUNT);
         this.setChanged();
         this.sendData();
     }
 
-    public WarpCost.Cost getWarpCost() {
-        if (this.costItem.isEmpty() || this.costItemCount <= 0)
-            return new WarpCost.Cost(this.xpCost, 0);
+    public WarpPrice.Price getWarpPrice() {
+        if (this.priceItem.isEmpty() || this.priceItemCount <= 0)
+            return new WarpPrice.Price(this.xpPrice, 0);
 
-        int coinValue = WarpCost.getCoinValue(this.costItem);
+        int coinValue = WarpPrice.getCoinValue(this.priceItem);
         if (coinValue > 0)
-            return new WarpCost.Cost(this.xpCost, coinValue * this.costItemCount);
-        return new WarpCost.Cost(this.xpCost, 0, this.costItem, this.costItemCount);
+            return new WarpPrice.Price(this.xpPrice, coinValue * this.priceItemCount);
+        return new WarpPrice.Price(this.xpPrice, 0, this.priceItem, this.priceItemCount);
     }
 
-    public void receivePayment(WarpCost.Cost cost, int payers) {
-        ItemStack paymentItem = cost.coins() > 0 ? new ItemStack(BlockRegistry.COIN.asItem()) : cost.item();
-        int itemCount = (cost.coins() > 0 ? cost.coins() : cost.itemCount()) * payers;
-        int xp = cost.xp() * payers;
+    public void receivePayment(WarpPrice.Price price, int payers) {
+        ItemStack paymentItem = price.coins() > 0 ? new ItemStack(BlockRegistry.COIN.asItem()) : price.item();
+        int itemCount = (price.coins() > 0 ? price.coins() : price.itemCount()) * payers;
+        int xp = price.xp() * payers;
 
         this.lifetimeWarps++;
         this.lifetimeItemsEarned += itemCount;
@@ -831,32 +831,32 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         this.sendData();
     }
 
-    private ItemStack getPaymentItem(ItemStack costItem) {
-        return WarpCost.getCoinValue(costItem) > 0 ? new ItemStack(BlockRegistry.COIN.asItem()) : costItem;
+    private ItemStack getPaymentItem(ItemStack priceItem) {
+        return WarpPrice.getCoinValue(priceItem) > 0 ? new ItemStack(BlockRegistry.COIN.asItem()) : priceItem;
     }
 
-    public Container createCostContainer() {
+    public Container createPriceContainer() {
         return new SimpleContainer(1) {
             @NotNull
             @Override
             public ItemStack getItem(int slot) {
-                if (WarpCost.hasConfigPipeCost()) {
-                    int coins = WarpPipeBlockEntity.this.getConfigCost().coins();
+                if (WarpPrice.hasConfigPipePrice()) {
+                    int coins = WarpPipeBlockEntity.this.getConfigPrice().coins();
                     return coins > 0 ? new ItemStack(BlockRegistry.COIN.asItem(), coins) : ItemStack.EMPTY;
                 }
-                return WarpPipeBlockEntity.this.costItem.isEmpty() ? ItemStack.EMPTY
-                        : WarpPipeBlockEntity.this.costItem.copyWithCount(WarpPipeBlockEntity.this.costItemCount);
+                return WarpPipeBlockEntity.this.priceItem.isEmpty() ? ItemStack.EMPTY
+                        : WarpPipeBlockEntity.this.priceItem.copyWithCount(WarpPipeBlockEntity.this.priceItemCount);
             }
 
             @Override
             public void setItem(int slot, ItemStack stack) {
-                WarpPipeBlockEntity.this.setCostItem(stack);
+                WarpPipeBlockEntity.this.setPriceItem(stack);
             }
         };
     }
 
-    public WarpCost.Cost getConfigCost() {
-        return this.level == null ? WarpCost.FREE : WarpCost.getConfigPipeCost(this.level, this.worldPosition, this.getDestinationPos());
+    public WarpPrice.Price getConfigPrice() {
+        return this.level == null ? WarpPrice.FREE : WarpPrice.getConfigPipePrice(this.level, this.worldPosition, this.getDestinationPos());
     }
 
     public Container createPaymentContainer() {
@@ -906,8 +906,8 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         if (this.voidPayments)
             return false;
 
-        WarpCost.Cost cost = WarpCost.hasConfigPipeCost() ? this.getConfigCost() : this.getWarpCost();
-        return cost.coins() > 0 || cost.itemCount() > 0;
+        WarpPrice.Price price = WarpPrice.hasConfigPipePrice() ? this.getConfigPrice() : this.getWarpPrice();
+        return price.coins() > 0 || price.itemCount() > 0;
     }
 
     public void closePipe(ServerPlayer player) {

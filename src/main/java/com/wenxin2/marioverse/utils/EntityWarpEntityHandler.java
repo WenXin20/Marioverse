@@ -114,10 +114,10 @@ public interface EntityWarpEntityHandler {
                 return;
             }
             boolean isWarpPainting = EntityWarpEntityHandler.isWarpPainting(warpLinkableEntity);
-            WarpCost.Cost warpCost = WarpCost.getEntityCost(world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting);
+            WarpPrice.Price warpPrice = WarpPrice.getEntityPrice(world, BlockPos.containing(enteredPos), xpDestination, isWarpPainting);
             Vec3 startPos = entity.position();
 
-            if (!WarpCost.canAfford(entity, warpCost))
+            if (!WarpPrice.canAfford(entity, warpPrice))
                 return;
 
             if (warpEntity != null) {
@@ -249,7 +249,7 @@ public interface EntityWarpEntityHandler {
                 }
             }
 
-            WarpCost.chargeIfWarped(entity, startPos, warpCost);
+            WarpPrice.chargeIfWarped(entity, startPos, warpPrice);
 
             if (!entity.position().equals(startPos)) {
                 if (warpLinkableEntity instanceof Entity enteredWarp)

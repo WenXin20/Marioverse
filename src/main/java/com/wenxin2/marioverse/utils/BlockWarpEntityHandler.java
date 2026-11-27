@@ -274,10 +274,10 @@ public interface BlockWarpEntityHandler {
                     BlockWarpEntityHandler.displayPipesNotConnectedMessage(player, level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos);
                 return;
             }
-            WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos, state);
+            WarpPrice.Price warpPrice = WarpPrice.getBlockPrice(level, pos, linkedEntity != null ? linkedEntity.blockPosition() : warpPos, state);
             Vec3 startPos = entity.position();
 
-            if (!WarpCost.canAfford(entity, warpCost))
+            if (!WarpPrice.canAfford(entity, warpPrice))
                 return;
             if (linkedEntity != null ? !EntityWarpEntityHandler.warpToEntity(entity, level, linkedEntity)
                     : !EntityWarpEntityHandler.warpToSavedTarget(entity, level, warpPos, warpBE.warpEntityDirection, warpBE.warpEntityWidth))
@@ -291,7 +291,7 @@ public interface BlockWarpEntityHandler {
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             if (!level.isClientSide && (WarpDoorBlock.isDoor(state) || state.getBlock() instanceof TrapDoorBlock))
                 level.scheduleTick(pos, state.getBlock(), WARP_DOOR_CLOSE_DELAY);
-            WarpCost.chargeIfWarped(entity, startPos, warpCost, warpBE);
+            WarpPrice.chargeIfWarped(entity, startPos, warpPrice, warpBE);
             return;
         }
 
@@ -308,10 +308,10 @@ public interface BlockWarpEntityHandler {
                     BlockWarpEntityHandler.displayPipesNotConnectedMessage(player, level, pos, warpPos);
                 return;
             }
-            WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
+            WarpPrice.Price warpPrice = WarpPrice.getBlockPrice(level, pos, warpPos, state);
             Vec3 startPos = entity.position();
 
-            if (!WarpCost.canAfford(entity, warpCost))
+            if (!WarpPrice.canAfford(entity, warpPrice))
                 return;
 
             if (WarpDoorBlock.isDoor(warpState))
@@ -323,7 +323,7 @@ public interface BlockWarpEntityHandler {
             if (state.getBlock() instanceof WarpPipeBlock)
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
-            WarpCost.chargeIfWarped(entity, startPos, warpCost, warpBE);
+            WarpPrice.chargeIfWarped(entity, startPos, warpPrice, warpBE);
             WarpReturn.onWarped(entity, warpPos, startPos);
 
             if (level instanceof ServerLevel serverLevel && !entity.position().equals(startPos))
@@ -339,10 +339,10 @@ public interface BlockWarpEntityHandler {
                     BlockWarpEntityHandler.displayPipesNotConnectedMessage(player, level, pos, warpPos);
                 return;
             }
-            WarpCost.Cost warpCost = WarpCost.getBlockCost(level, pos, warpPos, state);
+            WarpPrice.Price warpPrice = WarpPrice.getBlockPrice(level, pos, warpPos, state);
             Vec3 startPos = entity.position();
 
-            if (!WarpCost.canAfford(entity, warpCost))
+            if (!WarpPrice.canAfford(entity, warpPrice))
                 return;
 
             if (WarpDoorBlock.isDoor(warpState))
@@ -354,7 +354,7 @@ public interface BlockWarpEntityHandler {
             if (state.getBlock() instanceof WarpPipeBlock)
                 level.playSound(null, pos, SoundRegistry.PIPE_WARPS.get(), SoundSource.BLOCKS, 1.0F, pitch);
             this.updateDoorState(level, pos, state, warpPos, warpState);
-            WarpCost.chargeIfWarped(entity, startPos, warpCost, warpBE);
+            WarpPrice.chargeIfWarped(entity, startPos, warpPrice, warpBE);
             WarpReturn.onWarped(entity, warpPos, startPos);
 
             if (level instanceof ServerLevel serverLevel && !entity.position().equals(startPos))

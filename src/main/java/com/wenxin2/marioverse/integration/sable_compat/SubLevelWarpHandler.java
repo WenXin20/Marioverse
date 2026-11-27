@@ -11,7 +11,7 @@ import com.wenxin2.marioverse.integration.fast_paintings_compat.PaintingBlockWar
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.registries.DataAttachmentRegistry;
 import com.wenxin2.marioverse.utils.PaintingRipples;
-import com.wenxin2.marioverse.utils.WarpCost;
+import com.wenxin2.marioverse.utils.WarpPrice;
 import com.wenxin2.marioverse.utils.WarpLinkParticles;
 import dev.ryanhcode.sable.api.physics.handle.RigidBodyHandle;
 import dev.ryanhcode.sable.api.sublevel.ServerSubLevelContainer;
@@ -143,15 +143,15 @@ public class SubLevelWarpHandler {
                 continue;
 
             List<Player> passengers = SubLevelWarpHandler.getPassengers(level, bounds);
-            WarpCost.Cost warpCost = WarpCost.getBlockCost(entrance.center().distanceTo(exit.center()), state);
+            WarpPrice.Price warpPrice = WarpPrice.getBlockPrice(entrance.center().distanceTo(exit.center()), state);
 
-            if (!WarpCost.canAfford(passengers, warpCost))
+            if (!WarpPrice.canAfford(passengers, warpPrice))
                 continue;
 
             if (!SubLevelWarpHandler.warp(sub, entrance, motion, exit))
                 continue;
 
-            WarpCost.charge(passengers, warpCost);
+            WarpPrice.charge(passengers, warpPrice);
             PENDING_LOADS.remove(sub.getUniqueId());
             WarpLinkParticles.spawnWarpTransition(level, pos, state, exit.pos(), level.getBlockState(exit.pos()));
             if (FastPaintingsProvider.isLoaded() && warpBE.hasWarpEntityTarget())
@@ -218,12 +218,12 @@ public class SubLevelWarpHandler {
     private static boolean warpThroughPainting(ServerLevel level, ServerSubLevel sub, AABB bounds, WarpPoint entrance, EntryMotion motion,
                                                PaintingDestination destination) {
         List<Player> passengers = SubLevelWarpHandler.getPassengers(level, bounds);
-        WarpCost.Cost warpCost = WarpCost.getEntityCost(entrance.center().distanceTo(destination.point().center()), true);
+        WarpPrice.Price warpPrice = WarpPrice.getEntityPrice(entrance.center().distanceTo(destination.point().center()), true);
 
-        if (!WarpCost.canAfford(passengers, warpCost) || !SubLevelWarpHandler.warp(sub, entrance, motion, destination.point()))
+        if (!WarpPrice.canAfford(passengers, warpPrice) || !SubLevelWarpHandler.warp(sub, entrance, motion, destination.point()))
             return false;
 
-        WarpCost.charge(passengers, warpCost);
+        WarpPrice.charge(passengers, warpPrice);
         PaintingRipples.sendRipple(destination.entity());
         PaintingRipples.sendBlockRipple(destination.painting());
         WARP_COOLDOWNS.put(sub.getUniqueId(), level.getGameTime() + ConfigRegistry.WARP_PAINTING_COOLDOWN.get());

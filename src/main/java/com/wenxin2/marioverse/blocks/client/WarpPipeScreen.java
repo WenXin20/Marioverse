@@ -11,7 +11,7 @@ import com.wenxin2.marioverse.client.WaterSpoutSlider;
 import com.wenxin2.marioverse.network.server_bound.data.ConnectedPipesCheckboxPayload;
 import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
 import com.wenxin2.marioverse.network.server_bound.data.PaymentsPayload;
-import com.wenxin2.marioverse.network.server_bound.data.PipeCostPayload;
+import com.wenxin2.marioverse.network.server_bound.data.PipePricePayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSourceCheckboxPayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
@@ -22,7 +22,7 @@ import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesButtonPayload
 import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
-import com.wenxin2.marioverse.utils.WarpCost;
+import com.wenxin2.marioverse.utils.WarpPrice;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -52,7 +52,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/warp_pipe.png");
     private static final ResourceLocation GENERIC_SLOT = ResourceLocation.withDefaultNamespace("container/slot");
     private static final ResourceLocation TEXT_FIELD = ResourceLocation.withDefaultNamespace("widget/text_field");
-    private static final ResourceLocation XP_COST_ICON = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/xp_orb");
+    private static final ResourceLocation XP_PRICE_ICON = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/xp_orb");
 
     private static final WidgetSprites RENAME_SPRITES = sprites("rename");
     private static final WidgetSprites PIPE_OPEN_SPRITES = sprites("pipe_open");
@@ -76,7 +76,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     private static final int TAB_Y_OFFSET = 3;
     private static final int TAB_SPACING = 27;
     private static final int SLIDER_SYNC_DELAY = 10;
-    private static final int XP_COST_SLIDER_MAX = 30;
+    private static final int XP_PRICE_SLIDER_MAX = 30;
 
     Button allowAutomationCheckbox;
     Button bubblesButton;
@@ -87,22 +87,22 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     Button waterSourceCheckbox;
     Button waterSpoutButton;
     EditBox renameBox;
-    EditBox xpCostBox;
+    EditBox xpPriceBox;
     Inventory inventory;
     TabButton paymentsTab;
     TabButton warpPipeTab;
     TabButton waterworksTab;
-    TexturedSlider itemCostSlider;
-    TexturedSlider xpCostSlider;
+    TexturedSlider itemPriceSlider;
+    TexturedSlider xpPriceSlider;
 
     public ExtendedSlider waterSpoutSlider;
     public ExtendedSlider bubblesSlider;
     private String pipeName = "";
     private int lastBubblesDistance;
-    private int lastCostItemCount;
+    private int lastPriceItemCount;
     private int lastMenuType = -1;
     private int lastSpoutHeight;
-    private int lastXpCost;
+    private int lastXpPrice;
     private int sliderSyncDelay;
 
     public WarpPipeScreen(WarpPipeMenu container, Inventory inventory, Component name) {
@@ -137,9 +137,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         graphics.blit(WARP_PIPE_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         if (this.menu.getMenuType() == WarpPipeMenu.WARP_PIPE_TAB) {
-            graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.COST_SLOT_X - 1, y + WarpPipeMenu.COST_SLOT_Y - 1, 18, 18);
+            graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.PRICE_SLOT_X - 1, y + WarpPipeMenu.PRICE_SLOT_Y - 1, 18, 18);
             graphics.blitSprite(TEXT_FIELD, x + 37, y + 51, 18, 12);
-            graphics.blitSprite(XP_COST_ICON, x + 156, y + 51, 12, 12);
+            graphics.blitSprite(XP_PRICE_ICON, x + 156, y + 51, 12, 12);
         }
 
         if (this.menu.getMenuType() == WarpPipeMenu.PAYMENTS_TAB)
@@ -149,7 +149,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.renameBox.visible && !this.isWaxLocked(ConfigRegistry.WAX_DISABLES_RENAMING.get()))
             graphics.blit(WARP_PIPE_GUI, x + 7, y + 4, 0, 167, 162, 12);
 
-        if (this.xpCostBox.visible)
+        if (this.xpPriceBox.visible)
             graphics.blit(WARP_PIPE_GUI, x + 33, y + 51, 0, 180, 26, 12);
     }
 
@@ -209,59 +209,59 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 button -> this.connectionCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.tooltip")));
         this.connectionCheckbox.active = !this.isConnectionForced();
 
-        this.lastCostItemCount = this.getCostItemCount();
-        this.itemCostSlider = this.addRenderableWidget(new TexturedSlider(x + 61, y + 21, 90, 18,
-                Component.translatable("menu.marioverse.warp_pipe.item_cost_slider"), Component.empty(),
-                1D, WarpPipeBlockEntity.MAX_COST_ITEM_COUNT, Math.max(1, this.lastCostItemCount), 1D, 0, true) {
+        this.lastPriceItemCount = this.getPriceItemCount();
+        this.itemPriceSlider = this.addRenderableWidget(new TexturedSlider(x + 61, y + 21, 90, 18,
+                Component.translatable("menu.marioverse.warp_pipe.item_price_slider"), Component.empty(),
+                1D, WarpPipeBlockEntity.MAX_PRICE_ITEM_COUNT, Math.max(1, this.lastPriceItemCount), 1D, 0, true) {
             @Override
             public boolean isLocked() {
-                return !WarpPipeScreen.this.menu.canEditCost();
+                return !WarpPipeScreen.this.menu.canEditPrice();
             }
 
             @NotNull
             @Override
             public String getValueString() {
-                return WarpCost.hasConfigPipeCost() ? String.valueOf(WarpPipeScreen.this.getCostItemCount()) : super.getValueString();
+                return WarpPrice.hasConfigPipePrice() ? String.valueOf(WarpPipeScreen.this.getPriceItemCount()) : super.getValueString();
             }
         });
-        this.itemCostSlider.setTooltip(this.getCostTooltip("menu.marioverse.warp_pipe.item_cost_slider"));
+        this.itemPriceSlider.setTooltip(this.getPriceTooltip("menu.marioverse.warp_pipe.item_price_slider"));
 
-        this.lastXpCost = this.getXpCost();
-        this.xpCostBox = new EditBox(this.font, x + 34, y + 53, 24, 12,
-                Component.translatable("menu.marioverse.warp_pipe.xp_cost_box.narrate"));
-        this.xpCostBox.setBordered(false);
-        this.xpCostBox.setVisible(false);
-        this.xpCostBox.setMaxLength(6);
-        this.xpCostBox.setTextColorUneditable(ChatFormatting.RED.getColor());
-        this.xpCostBox.setFilter(value -> value.chars().allMatch(Character::isDigit));
-        this.xpCostBox.setValue(String.valueOf(this.lastXpCost));
-        this.xpCostBox.setResponder(this::xpCostBoxOnChange);
-        this.xpCostBox.setTooltip(this.getCostTooltip("menu.marioverse.warp_pipe.xp_cost_box"));
-        this.addRenderableWidget(this.xpCostBox);
+        this.lastXpPrice = this.getXpPrice();
+        this.xpPriceBox = new EditBox(this.font, x + 34, y + 53, 24, 12,
+                Component.translatable("menu.marioverse.warp_pipe.xp_price_box.narrate"));
+        this.xpPriceBox.setBordered(false);
+        this.xpPriceBox.setVisible(false);
+        this.xpPriceBox.setMaxLength(6);
+        this.xpPriceBox.setTextColorUneditable(ChatFormatting.RED.getColor());
+        this.xpPriceBox.setFilter(value -> value.chars().allMatch(Character::isDigit));
+        this.xpPriceBox.setValue(String.valueOf(this.lastXpPrice));
+        this.xpPriceBox.setResponder(this::xpPriceBoxOnChange);
+        this.xpPriceBox.setTooltip(this.getPriceTooltip("menu.marioverse.warp_pipe.xp_price_box"));
+        this.addRenderableWidget(this.xpPriceBox);
 
-        this.xpCostSlider = this.addRenderableWidget(new TexturedSlider(x + 61, y + 48, 90, 18,
-                Component.translatable("menu.marioverse.warp_pipe.xp_cost_slider"), Component.empty(), 0D,
-                XP_COST_SLIDER_MAX, Math.min(WarpCost.getLevelForExperience(this.lastXpCost), XP_COST_SLIDER_MAX),
+        this.xpPriceSlider = this.addRenderableWidget(new TexturedSlider(x + 61, y + 48, 90, 18,
+                Component.translatable("menu.marioverse.warp_pipe.xp_price_slider"), Component.empty(), 0D,
+                XP_PRICE_SLIDER_MAX, Math.min(WarpPrice.getLevelForExperience(this.lastXpPrice), XP_PRICE_SLIDER_MAX),
                 1D, 0, true) {
             @Override
             public boolean isLocked() {
-                return !WarpPipeScreen.this.menu.canEditCost();
+                return !WarpPipeScreen.this.menu.canEditPrice();
             }
 
             @NotNull
             @Override
             public String getValueString() {
-                String xpCost = WarpPipeScreen.this.xpCostBox.getValue();
-                return String.valueOf(xpCost.isEmpty() ? 0 : WarpCost.getLevelForExperience(Integer.parseInt(xpCost)));
+                String xpPrice = WarpPipeScreen.this.xpPriceBox.getValue();
+                return String.valueOf(xpPrice.isEmpty() ? 0 : WarpPrice.getLevelForExperience(Integer.parseInt(xpPrice)));
             }
 
             @Override
             protected void applyValue() {
-                if (!WarpPipeScreen.this.xpCostBox.isFocused())
-                    WarpPipeScreen.this.xpCostBox.setValue(String.valueOf(WarpCost.getExperienceForLevel(this.getValueInt())));
+                if (!WarpPipeScreen.this.xpPriceBox.isFocused())
+                    WarpPipeScreen.this.xpPriceBox.setValue(String.valueOf(WarpPrice.getExperienceForLevel(this.getValueInt())));
             }
         });
-        this.xpCostSlider.setTooltip(this.getCostTooltip("menu.marioverse.warp_pipe.xp_cost_slider"));
+        this.xpPriceSlider.setTooltip(this.getPriceTooltip("menu.marioverse.warp_pipe.xp_price_slider"));
 
         this.voidPaymentsCheckbox = this.addRenderableWidget(new StateImageButton(x + 14, y + 49, 10, 8, CHECKBOX_SPRITES,
                 () -> !this.isVoidPayments(), button -> this.sendPayments(PaymentsPayload.TOGGLE_VOID),
@@ -299,22 +299,22 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 this.bubblesSlider.setValue(this.lastBubblesDistance);
         }
 
-        int costItemCount = this.getCostItemCount();
-        if (costItemCount != this.lastCostItemCount) {
-            this.lastCostItemCount = costItemCount;
+        int priceItemCount = this.getPriceItemCount();
+        if (priceItemCount != this.lastPriceItemCount) {
+            this.lastPriceItemCount = priceItemCount;
             if (this.sliderSyncDelay == 0)
-                this.itemCostSlider.setValue(Math.max(1, costItemCount));
+                this.itemPriceSlider.setValue(Math.max(1, priceItemCount));
         }
 
-        int xpCost = this.getXpCost();
-        if (xpCost != this.lastXpCost) {
-            this.lastXpCost = xpCost;
-            if (this.sliderSyncDelay == 0 && !this.xpCostBox.isFocused()) {
-                this.xpCostSlider.setValue(Math.min(WarpCost.getLevelForExperience(xpCost), XP_COST_SLIDER_MAX));
-                this.xpCostBox.setValue(String.valueOf(xpCost));
+        int xpPrice = this.getXpPrice();
+        if (xpPrice != this.lastXpPrice) {
+            this.lastXpPrice = xpPrice;
+            if (this.sliderSyncDelay == 0 && !this.xpPriceBox.isFocused()) {
+                this.xpPriceSlider.setValue(Math.min(WarpPrice.getLevelForExperience(xpPrice), XP_PRICE_SLIDER_MAX));
+                this.xpPriceBox.setValue(String.valueOf(xpPrice));
             }
         }
-        this.xpCostBox.setEditable(this.menu.canEditCost());
+        this.xpPriceBox.setEditable(this.menu.canEditPrice());
     }
 
     @Override
@@ -347,9 +347,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             this.renderPaymentSlotTooltip(graphics, mouseX, mouseY);
         else super.renderTooltip(graphics, mouseX, mouseY);
 
-        if (this.hoveredSlot == this.menu.getCostSlot() && this.hoveredSlot != null && !this.hoveredSlot.hasItem())
+        if (this.hoveredSlot == this.menu.getPriceSlot() && this.hoveredSlot != null && !this.hoveredSlot.hasItem())
             graphics.renderTooltip(this.font, this.font.split(Component
-                    .translatable("menu.marioverse.warp_pipe.item_cost_slot.tooltip"), 200), mouseX, mouseY);
+                    .translatable("menu.marioverse.warp_pipe.item_price_slot.tooltip"), 200), mouseX, mouseY);
 
         if (this.isWaxLocked(ConfigRegistry.WAX_DISABLES_RENAMING.get()))
             tooltip = Component.translatable("menu.marioverse.warp_pipe.rename_button_waxed.tooltip");
@@ -435,10 +435,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             this.waterSpoutSliderOnPress();
         if (bubblesSlider.isFocused())
             this.bubblesSliderOnPress();
-        if (this.itemCostSlider.isFocused() && !this.itemCostSlider.isLocked())
-            this.sendPipeCost(PipeCostPayload.ITEM_COUNT, this.itemCostSlider.getValueInt());
-        if (this.xpCostSlider.isFocused() && !this.xpCostSlider.isLocked())
-            this.sendPipeCost(PipeCostPayload.XP_COST, WarpCost.getExperienceForLevel(this.xpCostSlider.getValueInt()));
+        if (this.itemPriceSlider.isFocused() && !this.itemPriceSlider.isLocked())
+            this.sendPipePrice(PipePricePayload.ITEM_COUNT, this.itemPriceSlider.getValueInt());
+        if (this.xpPriceSlider.isFocused() && !this.xpPriceSlider.isLocked())
+            this.sendPipePrice(PipePricePayload.XP_PRICE, WarpPrice.getExperienceForLevel(this.xpPriceSlider.getValueInt()));
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
@@ -473,17 +473,17 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             return true;
         }
 
-        if (this.itemCostSlider.isMouseOver(mouseX, mouseY)
-                && this.itemCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+        if (this.itemPriceSlider.isMouseOver(mouseX, mouseY)
+                && this.itemPriceSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
-            this.sendPipeCost(PipeCostPayload.ITEM_COUNT, this.itemCostSlider.getValueInt());
+            this.sendPipePrice(PipePricePayload.ITEM_COUNT, this.itemPriceSlider.getValueInt());
             return true;
         }
 
-        if (this.xpCostSlider.isMouseOver(mouseX, mouseY)
-                && this.xpCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+        if (this.xpPriceSlider.isMouseOver(mouseX, mouseY)
+                && this.xpPriceSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
-            this.sendPipeCost(PipeCostPayload.XP_COST, WarpCost.getExperienceForLevel(this.xpCostSlider.getValueInt()));
+            this.sendPipePrice(PipePricePayload.XP_PRICE, WarpPrice.getExperienceForLevel(this.xpPriceSlider.getValueInt()));
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
@@ -499,10 +499,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             slider.keyPressed(keyCode, b, c);
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
 
-            if (slider == this.itemCostSlider)
-                this.sendPipeCost(PipeCostPayload.ITEM_COUNT, slider.getValueInt());
-            else if (slider == this.xpCostSlider)
-                this.sendPipeCost(PipeCostPayload.XP_COST, WarpCost.getExperienceForLevel(slider.getValueInt()));
+            if (slider == this.itemPriceSlider)
+                this.sendPipePrice(PipePricePayload.ITEM_COUNT, slider.getValueInt());
+            else if (slider == this.xpPriceSlider)
+                this.sendPipePrice(PipePricePayload.XP_PRICE, WarpPrice.getExperienceForLevel(slider.getValueInt()));
             else if (slider == this.waterSpoutSlider)
                 this.waterSpoutSliderOnPress();
             else if (slider == this.bubblesSlider)
@@ -537,10 +537,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             return false;
         }
 
-        if (this.xpCostBox.canConsumeInput()) {
+        if (this.xpPriceBox.canConsumeInput()) {
             if (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
                 this.setFocused(null);
-            else this.xpCostBox.keyPressed(keyCode, b, c);
+            else this.xpPriceBox.keyPressed(keyCode, b, c);
             return true;
         }
 
@@ -698,9 +698,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             this.renameButton.visible = isWarpPipeTab;
             this.closeButton.visible = isWarpPipeTab;
             this.connectionCheckbox.visible = isWarpPipeTab;
-            this.itemCostSlider.visible = isWarpPipeTab;
-            this.xpCostSlider.visible = isWarpPipeTab;
-            this.xpCostBox.setVisible(isWarpPipeTab);
+            this.itemPriceSlider.visible = isWarpPipeTab;
+            this.xpPriceSlider.visible = isWarpPipeTab;
+            this.xpPriceBox.setVisible(isWarpPipeTab);
             if (!isWarpPipeTab)
                 this.renameBox.setVisible(false);
 
@@ -715,42 +715,42 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         }
     }
 
-    private ItemStack getCostItem() {
-        return this.menu.getCostSlot().getItem();
+    private ItemStack getPriceItem() {
+        return this.menu.getPriceSlot().getItem();
     }
 
-    private int getCostItemCount() {
-        if (WarpCost.hasConfigPipeCost())
-            return Math.max(1, this.getCostItem().getCount());
+    private int getPriceItemCount() {
+        if (WarpPrice.hasConfigPipePrice())
+            return Math.max(1, this.getPriceItem().getCount());
 
         WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
-        return pipeBE == null ? 1 : pipeBE.getCostItemCount();
+        return pipeBE == null ? 1 : pipeBE.getPriceItemCount();
     }
 
-    private void sendPipeCost(int action, int value) {
-        PacketHandler.sendToServer(new PipeCostPayload(this.menu.containerId, action, value));
+    private void sendPipePrice(int action, int value) {
+        PacketHandler.sendToServer(new PipePricePayload(this.menu.containerId, action, value));
     }
 
-    private int getXpCost() {
-        if (WarpCost.hasConfigPipeCost())
-            return this.menu.getConfigXpCost();
+    private int getXpPrice() {
+        if (WarpPrice.hasConfigPipePrice())
+            return this.menu.getConfigXpPrice();
 
         WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
-        return pipeBE == null ? 0 : pipeBE.getXpCost();
+        return pipeBE == null ? 0 : pipeBE.getXpPrice();
     }
 
-    private Tooltip getCostTooltip(String key) {
-        return Tooltip.create(Component.translatable(WarpCost.hasConfigPipeCost() ? key + "_config.tooltip" : key + ".tooltip"));
+    private Tooltip getPriceTooltip(String key) {
+        return Tooltip.create(Component.translatable(WarpPrice.hasConfigPipePrice() ? key + "_config.tooltip" : key + ".tooltip"));
     }
 
-    private void xpCostBoxOnChange(String value) {
-        if (value.isEmpty() || !this.xpCostBox.isFocused())
+    private void xpPriceBoxOnChange(String value) {
+        if (value.isEmpty() || !this.xpPriceBox.isFocused())
             return;
 
-        int xpCost = Integer.parseInt(value);
+        int xpPrice = Integer.parseInt(value);
         this.sliderSyncDelay = SLIDER_SYNC_DELAY;
-        this.xpCostSlider.setValue(Math.min(WarpCost.getLevelForExperience(xpCost), XP_COST_SLIDER_MAX));
-        this.sendPipeCost(PipeCostPayload.XP_COST, xpCost);
+        this.xpPriceSlider.setValue(Math.min(WarpPrice.getLevelForExperience(xpPrice), XP_PRICE_SLIDER_MAX));
+        this.sendPipePrice(PipePricePayload.XP_PRICE, xpPrice);
     }
 
     @Nullable
@@ -793,7 +793,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip").getVisualOrderText());
         else lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.count",
                 String.format(Locale.ROOT, "%,d", payment.getCount()), payment.getHoverName(),
-                WarpCost.getItemPlural(payment, payment.getCount())).getVisualOrderText());
+                WarpPrice.getItemPlural(payment, payment.getCount())).getVisualOrderText());
 
         lines.addAll(this.font.split(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip.info"), 200));
         graphics.renderTooltip(this.font, lines, mouseX, mouseY);

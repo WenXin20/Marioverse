@@ -28,50 +28,50 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class WarpCost {
+public class WarpPrice {
     public static final int STAR_COIN_VALUE = 9;
-    public static final Cost FREE = new Cost(0, 0);
+    public static final Price FREE = new Price(0, 0);
 
-    public record Cost(int xp, int coins, ItemStack item, int itemCount) {
-        public Cost(int xp, int coins) {
+    public record Price(int xp, int coins, ItemStack item, int itemCount) {
+        public Price(int xp, int coins) {
             this(xp, coins, ItemStack.EMPTY, 0);
         }
     }
 
-    public static Cost getBlockCost(Level level, BlockPos source, @Nullable BlockPos destination, BlockState state) {
-        if (state.getBlock() instanceof WarpPipeBlock && !WarpCost.hasConfigPipeCost()
+    public static Price getBlockPrice(Level level, BlockPos source, @Nullable BlockPos destination, BlockState state) {
+        if (state.getBlock() instanceof WarpPipeBlock && !WarpPrice.hasConfigPipePrice()
                 && level.getBlockEntity(source) instanceof WarpPipeBlockEntity pipeBE)
-            return pipeBE.getWarpCost();
-        return WarpCost.getBlockCost(WarpCost.getDistance(level, source, destination), state);
+            return pipeBE.getWarpPrice();
+        return WarpPrice.getBlockPrice(WarpPrice.getDistance(level, source, destination), state);
     }
 
-    public static Cost getBlockCost(double distance, BlockState state) {
+    public static Price getBlockPrice(double distance, BlockState state) {
         if (WarpDoorBlock.isDoor(state))
-            return WarpCost.getCost(distance, ConfigRegistry.WARP_DOOR_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_DOOR_FUEL_COST_MULTIPLIER.get());
+            return WarpPrice.getPrice(distance, ConfigRegistry.WARP_DOOR_XP_PRICE_MULTIPLIER.get(), ConfigRegistry.WARP_DOOR_FUEL_PRICE_MULTIPLIER.get());
         if (state.getBlock() instanceof TrapDoorBlock)
-            return WarpCost.getCost(distance, ConfigRegistry.WARP_TRAPDOOR_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_TRAPDOOR_FUEL_COST_MULTIPLIER.get());
+            return WarpPrice.getPrice(distance, ConfigRegistry.WARP_TRAPDOOR_XP_PRICE_MULTIPLIER.get(), ConfigRegistry.WARP_TRAPDOOR_FUEL_PRICE_MULTIPLIER.get());
         if (state.getBlock() instanceof WarpPipeBlock)
-            return WarpCost.getCost(distance, ConfigRegistry.WARP_PIPE_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_PIPE_FUEL_COST_MULTIPLIER.get());
+            return WarpPrice.getPrice(distance, ConfigRegistry.WARP_PIPE_XP_PRICE_MULTIPLIER.get(), ConfigRegistry.WARP_PIPE_FUEL_PRICE_MULTIPLIER.get());
         return FREE;
     }
 
-    public static boolean hasConfigPipeCost() {
-        return ConfigRegistry.WARP_PIPE_XP_COST_MULTIPLIER.get() > 0.0 || ConfigRegistry.WARP_PIPE_FUEL_COST_MULTIPLIER.get() > 0.0;
+    public static boolean hasConfigPipePrice() {
+        return ConfigRegistry.WARP_PIPE_XP_PRICE_MULTIPLIER.get() > 0.0 || ConfigRegistry.WARP_PIPE_FUEL_PRICE_MULTIPLIER.get() > 0.0;
     }
 
-    public static Cost getConfigPipeCost(Level level, BlockPos source, @Nullable BlockPos destination) {
-        return WarpCost.getCost(WarpCost.getDistance(level, source, destination),
-                ConfigRegistry.WARP_PIPE_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_PIPE_FUEL_COST_MULTIPLIER.get());
+    public static Price getConfigPipePrice(Level level, BlockPos source, @Nullable BlockPos destination) {
+        return WarpPrice.getPrice(WarpPrice.getDistance(level, source, destination),
+                ConfigRegistry.WARP_PIPE_XP_PRICE_MULTIPLIER.get(), ConfigRegistry.WARP_PIPE_FUEL_PRICE_MULTIPLIER.get());
     }
 
-    public static Cost getEntityCost(Level level, BlockPos source, @Nullable BlockPos destination, boolean isPainting) {
-        return WarpCost.getEntityCost(WarpCost.getDistance(level, source, destination), isPainting);
+    public static Price getEntityPrice(Level level, BlockPos source, @Nullable BlockPos destination, boolean isPainting) {
+        return WarpPrice.getEntityPrice(WarpPrice.getDistance(level, source, destination), isPainting);
     }
 
-    public static Cost getEntityCost(double distance, boolean isPainting) {
+    public static Price getEntityPrice(double distance, boolean isPainting) {
         if (isPainting)
-            return WarpCost.getCost(distance, ConfigRegistry.WARP_PAINTING_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_PAINTING_FUEL_COST_MULTIPLIER.get());
-        return WarpCost.getCost(distance, ConfigRegistry.WARP_ENTITY_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_ENTITY_FUEL_COST_MULTIPLIER.get());
+            return WarpPrice.getPrice(distance, ConfigRegistry.WARP_PAINTING_XP_PRICE_MULTIPLIER.get(), ConfigRegistry.WARP_PAINTING_FUEL_PRICE_MULTIPLIER.get());
+        return WarpPrice.getPrice(distance, ConfigRegistry.WARP_ENTITY_XP_PRICE_MULTIPLIER.get(), ConfigRegistry.WARP_ENTITY_FUEL_PRICE_MULTIPLIER.get());
     }
 
     public static List<Player> getPayingPlayers(Entity entity) {
@@ -87,12 +87,12 @@ public class WarpCost {
         return players;
     }
 
-    public static boolean canAfford(Entity entity, Cost cost) {
-        return WarpCost.canAfford(WarpCost.getPayingPlayers(entity), cost);
+    public static boolean canAfford(Entity entity, Price price) {
+        return WarpPrice.canAfford(WarpPrice.getPayingPlayers(entity), price);
     }
 
-    public static boolean canAfford(List<Player> players, Cost cost) {
-        if (cost.xp() <= 0 && cost.coins() <= 0 && cost.itemCount() <= 0)
+    public static boolean canAfford(List<Player> players, Price price) {
+        if (price.xp() <= 0 && price.coins() <= 0 && price.itemCount() <= 0)
             return true;
 
         boolean missingXp = false;
@@ -102,11 +102,11 @@ public class WarpCost {
         for (Player player : players) {
             if (player.getAbilities().instabuild || player.isSpectator())
                 continue;
-            if (cost.xp() > 0 && WarpCost.getTotalExperience(player) < cost.xp())
+            if (price.xp() > 0 && WarpPrice.getTotalExperience(player) < price.xp())
                 missingXp = true;
-            if (cost.coins() > 0 && WarpCost.countCoins(player) < cost.coins())
+            if (price.coins() > 0 && WarpPrice.countCoins(player) < price.coins())
                 missingCoins = true;
-            if (cost.itemCount() > 0 && WarpCost.countItems(player, cost.item()) < cost.itemCount())
+            if (price.itemCount() > 0 && WarpPrice.countItems(player, price.item()) < price.itemCount())
                 missingItems = true;
         }
 
@@ -114,9 +114,9 @@ public class WarpCost {
             return true;
 
         MutableComponent message = (missingItems
-                ? Component.translatable("display.marioverse.warp_not_enough_items", cost.itemCount(),
-                    cost.item().getHoverName(), WarpCost.getItemPlural(cost.item(), cost.itemCount()))
-                : WarpCost.getMissingMessage(cost, missingXp, missingCoins)).withStyle(ChatFormatting.RED);
+                ? Component.translatable("display.marioverse.warp_not_enough_items", price.itemCount(),
+                    price.item().getHoverName(), WarpPrice.getItemPlural(price.item(), price.itemCount()))
+                : WarpPrice.getMissingMessage(price, missingXp, missingCoins)).withStyle(ChatFormatting.RED);
         for (Player player : players) {
             if (!player.level().isClientSide)
                 player.displayClientMessage(message, true);
@@ -124,32 +124,32 @@ public class WarpCost {
         return false;
     }
 
-    public static void chargeIfWarped(Entity entity, Vec3 startPos, Cost cost) {
+    public static void chargeIfWarped(Entity entity, Vec3 startPos, Price price) {
         if (!entity.level().isClientSide && !entity.position().equals(startPos))
-            WarpCost.charge(WarpCost.getPayingPlayers(entity), cost);
+            WarpPrice.charge(WarpPrice.getPayingPlayers(entity), price);
     }
 
-    public static void chargeIfWarped(Entity entity, Vec3 startPos, Cost cost, BaseWarpBlockEntity warpBE) {
+    public static void chargeIfWarped(Entity entity, Vec3 startPos, Price price, BaseWarpBlockEntity warpBE) {
         if (entity.level().isClientSide || entity.position().equals(startPos))
             return;
 
-        int payers = WarpCost.charge(WarpCost.getPayingPlayers(entity), cost);
+        int payers = WarpPrice.charge(WarpPrice.getPayingPlayers(entity), price);
         if (warpBE instanceof WarpPipeBlockEntity pipeBE)
-            pipeBE.receivePayment(cost, payers);
+            pipeBE.receivePayment(price, payers);
     }
 
-    public static int charge(List<Player> players, Cost cost) {
+    public static int charge(List<Player> players, Price price) {
         int payers = 0;
 
         for (Player player : players) {
             if (player.level().isClientSide || player.getAbilities().instabuild || player.isSpectator())
                 continue;
-            if (cost.xp() > 0)
-                player.giveExperiencePoints(-cost.xp());
-            if (cost.coins() > 0)
-                WarpCost.consumeCoins(player, cost.coins());
-            if (cost.itemCount() > 0)
-                WarpCost.consumeItems(player, cost.item(), cost.itemCount());
+            if (price.xp() > 0)
+                player.giveExperiencePoints(-price.xp());
+            if (price.coins() > 0)
+                WarpPrice.consumeCoins(player, price.coins());
+            if (price.itemCount() > 0)
+                WarpPrice.consumeItems(player, price.item(), price.itemCount());
             payers++;
         }
         return payers;
@@ -166,34 +166,34 @@ public class WarpCost {
         return Math.sqrt(worldSource.distSqr(worldDestination));
     }
 
-    private static Cost getCost(double distance, double xpMultiplier, double coinMultiplier) {
+    private static Price getPrice(double distance, double xpMultiplier, double coinMultiplier) {
         if (distance < 0.0 || (xpMultiplier <= 0.0 && coinMultiplier <= 0.0))
             return FREE;
-        return new Cost(xpMultiplier > 0.0 ? Mth.ceil(distance * xpMultiplier) : 0,
+        return new Price(xpMultiplier > 0.0 ? Mth.ceil(distance * xpMultiplier) : 0,
                 coinMultiplier > 0.0 ? Mth.ceil(distance * coinMultiplier) : 0);
     }
 
-    private static MutableComponent getMissingMessage(Cost cost, boolean missingXp, boolean missingCoins) {
-        int requiredLevel = WarpCost.getLevelForExperience(cost.xp());
-        Component levelPlural = WarpCost.getPlural(requiredLevel);
-        Component fuelPlural = WarpCost.getPlural(cost.coins());
+    private static MutableComponent getMissingMessage(Price price, boolean missingXp, boolean missingCoins) {
+        int requiredLevel = WarpPrice.getLevelForExperience(price.xp());
+        Component levelPlural = WarpPrice.getPlural(requiredLevel);
+        Component fuelPlural = WarpPrice.getPlural(price.coins());
 
         if (missingXp && missingCoins)
             return Component.translatable("display.marioverse.warp_not_enough_xp_and_fuel",
-                    requiredLevel, levelPlural, cost.coins(), WarpCost.getFuelName(), fuelPlural);
+                    requiredLevel, levelPlural, price.coins(), WarpPrice.getFuelName(), fuelPlural);
         if (missingXp)
             return Component.translatable("display.marioverse.warp_not_enough_xp", requiredLevel, levelPlural);
-        return Component.translatable("display.marioverse.warp_not_enough_fuel", cost.coins(), WarpCost.getFuelName(), fuelPlural);
+        return Component.translatable("display.marioverse.warp_not_enough_fuel", price.coins(), WarpPrice.getFuelName(), fuelPlural);
     }
 
     private static Component getPlural(int amount) {
-        return amount == 1 ? Component.empty() : Component.translatable("display.marioverse.warp_cost.plural");
+        return amount == 1 ? Component.empty() : Component.translatable("display.marioverse.warp_price.plural");
     }
 
     public static Component getItemPlural(ItemStack item, int amount) {
         if (item.getHoverName().getString().toLowerCase(Locale.ROOT).endsWith("s"))
             return Component.empty();
-        return WarpCost.getPlural(amount);
+        return WarpPrice.getPlural(amount);
     }
 
     private static Component getFuelName() {
@@ -219,19 +219,19 @@ public class WarpCost {
 
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
             ItemStack stack = inventory.getItem(slot);
-            total += WarpCost.getCoinValue(stack) * stack.getCount();
+            total += WarpPrice.getCoinValue(stack) * stack.getCount();
         }
         return total;
     }
 
-    private static void consumeCoins(Player player, int cost) {
+    private static void consumeCoins(Player player, int price) {
         Inventory inventory = player.getInventory();
-        int remaining = cost;
+        int remaining = price;
 
         for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
             ItemStack stack = inventory.getItem(slot);
 
-            if (WarpCost.getCoinValue(stack) == 1) {
+            if (WarpPrice.getCoinValue(stack) == 1) {
                 int used = Math.min(stack.getCount(), remaining);
                 stack.shrink(used);
                 remaining -= used;
@@ -240,7 +240,7 @@ public class WarpCost {
 
         for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
             ItemStack stack = inventory.getItem(slot);
-            int value = WarpCost.getCoinValue(stack);
+            int value = WarpPrice.getCoinValue(stack);
 
             if (value > 1) {
                 int used = Math.min(stack.getCount(), (remaining + value - 1) / value);
@@ -286,7 +286,7 @@ public class WarpCost {
         int total = 0;
 
         for (int level = 0; level < player.experienceLevel; level++)
-            total += WarpCost.getXpNeededForLevel(level);
+            total += WarpPrice.getXpNeededForLevel(level);
         return total + Mth.floor(player.experienceProgress * player.getXpNeededForNextLevel());
     }
 
@@ -294,7 +294,7 @@ public class WarpCost {
         int level = 0;
 
         for (int total = 0; total < experience; level++)
-            total += WarpCost.getXpNeededForLevel(level);
+            total += WarpPrice.getXpNeededForLevel(level);
         return level;
     }
 
@@ -302,7 +302,7 @@ public class WarpCost {
         int total = 0;
 
         for (int currentLevel = 0; currentLevel < level; currentLevel++)
-            total += WarpCost.getXpNeededForLevel(currentLevel);
+            total += WarpPrice.getXpNeededForLevel(currentLevel);
         return total;
     }
 
