@@ -186,6 +186,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
     protected int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof WarpPipeBlockEntity warpPipeBE) {
+            if (warpPipeBE.hasPayment())
+                return warpPipeBE.getPaymentSignal();
             if (warpPipeBE.hasWaterSpout())
                 return Math.min(warpPipeBE.getSpoutHeight(), 15);
             else if (warpPipeBE.hasBubbles())
@@ -238,7 +240,8 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                     player.openMenu(new SimpleMenuProvider((id, playerInventory, playerIn) ->
                             new WarpPipeMenu(id, playerInventory,
                                     pipeBlockEntity.getDataAccess(), ContainerLevelAccess.create(level, pos), pos,
-                                    pipeBlockEntity.getDestinationPos(), pipeBlockEntity.createCostContainer(), canManagePayments),
+                                    pipeBlockEntity.getDestinationPos(), pipeBlockEntity.createCostContainer(),
+                                    pipeBlockEntity.createPaymentContainer(), canManagePayments),
                             pipeBlockEntity.getDisplayName()), buf -> {
                         buf.writeBlockPos(pos);
                         buf.writeOptional(Optional.ofNullable(pipeBlockEntity.getDestinationPos()), BlockPos.STREAM_CODEC);

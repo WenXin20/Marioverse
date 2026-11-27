@@ -10,6 +10,7 @@ import com.wenxin2.marioverse.client.TexturedSlider;
 import com.wenxin2.marioverse.client.WaterSpoutSlider;
 import com.wenxin2.marioverse.network.server_bound.data.ConnectedPipesCheckboxPayload;
 import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
+import com.wenxin2.marioverse.network.server_bound.data.PaymentsPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeCostPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSourceCheckboxPayload;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -22,6 +23,9 @@ import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
 import com.wenxin2.marioverse.utils.WarpCost;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -34,8 +38,10 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import org.jetbrains.annotations.NotNull;
@@ -72,10 +78,12 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     private static final int SLIDER_SYNC_DELAY = 10;
     private static final int XP_COST_SLIDER_MAX = 30;
 
+    Button allowAutomationCheckbox;
     Button bubblesButton;
     Button closeButton;
     Button connectionCheckbox;
     Button renameButton;
+    Button voidPaymentsCheckbox;
     Button waterSourceCheckbox;
     Button waterSpoutButton;
     EditBox renameBox;
@@ -133,6 +141,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             graphics.blitSprite(TEXT_FIELD, x + 37, y + 51, 18, 12);
             graphics.blitSprite(XP_COST_ICON, x + 156, y + 51, 12, 12);
         }
+
+        if (this.menu.getMenuType() == WarpPipeMenu.PAYMENTS_TAB)
+            graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.PAYMENT_SLOT_X - 1,
+                    y + WarpPipeMenu.PAYMENT_SLOT_Y - 1, 18, 18);
 
         if (this.renameBox.visible && !this.isWaxLocked(ConfigRegistry.WAX_DISABLES_RENAMING.get()))
             graphics.blit(WARP_PIPE_GUI, x + 7, y + 4, 0, 167, 162, 12);
@@ -251,6 +263,16 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         });
         this.xpCostSlider.setTooltip(this.getCostTooltip("menu.marioverse.warp_pipe.xp_cost_slider"));
 
+        this.voidPaymentsCheckbox = this.addRenderableWidget(new StateImageButton(x + 14, y + 49, 10, 8, CHECKBOX_SPRITES,
+                () -> !this.isVoidPayments(), button -> this.sendPayments(PaymentsPayload.TOGGLE_VOID),
+                Component.translatable("menu.marioverse.warp_pipe.void_payments_checkbox.narrate")));
+        this.voidPaymentsCheckbox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.void_payments_checkbox.tooltip")));
+
+        this.allowAutomationCheckbox = this.addRenderableWidget(new StateImageButton(x + 14, y + 59, 10, 8, CHECKBOX_SPRITES,
+                () -> !this.isAllowAutomation(), button -> this.sendPayments(PaymentsPayload.TOGGLE_AUTOMATION),
+                Component.translatable("menu.marioverse.warp_pipe.allow_automation_checkbox.narrate")));
+        this.allowAutomationCheckbox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.allow_automation_checkbox.tooltip")));
+
         this.warpPipeTab = this.addTab(WarpPipeMenu.WARP_PIPE_TAB, "warp_pipe");
         this.waterworksTab = this.addTab(WarpPipeMenu.WATERWORKS_TAB, "waterworks");
         this.paymentsTab = this.addTab(WarpPipeMenu.PAYMENTS_TAB, "payments");
@@ -303,11 +325,27 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     }
 
     @Override
+    protected void renderSlot(GuiGraphics graphics, Slot slot) {
+        if (slot != this.menu.getPaymentSlot() || !slot.hasItem()) {
+            super.renderSlot(graphics, slot);
+            return;
+        }
+
+        ItemStack stack = slot.getItem();
+        graphics.renderItem(stack, slot.x, slot.y);
+        graphics.renderItemDecorations(this.font, stack, slot.x, slot.y, WarpPipeScreen.formatCount(stack.getCount()));
+    }
+
+    @Override
     protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
         super.renderTooltip(graphics, mouseX, mouseY);
 
         Component tooltip;
         Player player = this.inventory.player;
+
+        if (this.hoveredSlot != null && this.hoveredSlot == this.menu.getPaymentSlot() && this.menu.getCarried().isEmpty())
+            this.renderPaymentSlotTooltip(graphics, mouseX, mouseY);
+        else super.renderTooltip(graphics, mouseX, mouseY);
 
         if (this.hoveredSlot == this.menu.getCostSlot() && this.hoveredSlot != null && !this.hoveredSlot.hasItem())
             graphics.renderTooltip(this.font, this.font.split(Component
@@ -415,25 +453,35 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        if (this.waterSpoutSlider.isMouseOver(mouseX, mouseY) && this.waterSpoutSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+        if (scrollY != 0 && this.hoveredSlot != null && this.hoveredSlot == this.menu.getPaymentSlot()
+                && this.hoveredSlot.hasItem()) {
+            this.sendPayments(PaymentsPayload.TAKE_ONE);
+            return true;
+        }
+
+        if (this.waterSpoutSlider.isMouseOver(mouseX, mouseY)
+                && this.waterSpoutSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
             this.waterSpoutSliderOnPress();
             return true;
         }
 
-        if (this.bubblesSlider.isMouseOver(mouseX, mouseY) && this.bubblesSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+        if (this.bubblesSlider.isMouseOver(mouseX, mouseY)
+                && this.bubblesSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
             this.bubblesSliderOnPress();
             return true;
         }
 
-        if (this.itemCostSlider.isMouseOver(mouseX, mouseY) && this.itemCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+        if (this.itemCostSlider.isMouseOver(mouseX, mouseY)
+                && this.itemCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
             this.sendPipeCost(PipeCostPayload.ITEM_COUNT, this.itemCostSlider.getValueInt());
             return true;
         }
 
-        if (this.xpCostSlider.isMouseOver(mouseX, mouseY) && this.xpCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+        if (this.xpCostSlider.isMouseOver(mouseX, mouseY)
+                && this.xpCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
             this.sendPipeCost(PipeCostPayload.XP_COST, WarpCost.getExperienceForLevel(this.xpCostSlider.getValueInt()));
             return true;
@@ -661,6 +709,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             this.waterSourceCheckbox.visible = isWaterworksTab;
             this.bubblesButton.visible = isWaterworksTab;
             this.bubblesSlider.visible = isWaterworksTab;
+
+            this.voidPaymentsCheckbox.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
+            this.allowAutomationCheckbox.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
         }
     }
 
@@ -718,5 +769,46 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 destination.getX(), destination.getY(), destination.getZ()).withStyle(ChatFormatting.YELLOW);
         return Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.destination", coordinates)
                 .withStyle(ChatFormatting.GRAY);
+    }
+
+    private boolean isVoidPayments() {
+        WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
+        return pipeBE != null && pipeBE.isVoidPayments();
+    }
+
+    private boolean isAllowAutomation() {
+        WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
+        return pipeBE != null && pipeBE.isAllowAutomation();
+    }
+
+    private void sendPayments(int action) {
+        PacketHandler.sendToServer(new PaymentsPayload(this.menu.containerId, action));
+    }
+
+    private void renderPaymentSlotTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        ItemStack payment = this.menu.getPaymentSlot().getItem();
+        List<FormattedCharSequence> lines = new ArrayList<>();
+
+        if (payment.isEmpty())
+            lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip").getVisualOrderText());
+        else lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.count",
+                String.format(Locale.ROOT, "%,d", payment.getCount()), payment.getHoverName(),
+                WarpCost.getItemPlural(payment, payment.getCount())).getVisualOrderText());
+
+        lines.addAll(this.font.split(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip.info"), 200));
+        graphics.renderTooltip(this.font, lines, mouseX, mouseY);
+    }
+
+    @Nullable
+    private static String formatCount(int count) {
+        if (count == 1)
+            return null;
+        if (count < 1000)
+            return String.valueOf(count);
+        if (count < 10000)
+            return String.format(Locale.ROOT, "%.1fk", Math.floor(count / 100.0) / 10.0);
+        if (count < 1000000)
+            return count / 1000 + "k";
+        return String.format(Locale.ROOT, "%.1fm", Math.floor(count / 100000.0) / 10.0);
     }
 }

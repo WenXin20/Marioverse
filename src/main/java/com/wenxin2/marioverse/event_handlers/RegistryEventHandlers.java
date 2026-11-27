@@ -1,5 +1,7 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.inventory.WarpPipeItemHandler;
+import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.util.RandomSource;
 import com.wenxin2.marioverse.Marioverse;
@@ -462,6 +464,8 @@ public class RegistryEventHandlers {
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(),
+                (pipeBE, side) -> new WarpPipeItemHandler(pipeBE));
         event.registerItem(Capabilities.FluidHandler.ITEM,
                 (stack, contex) -> new PlasticBucketWrapper(stack), ItemRegistry.PLASTIC_BUCKET);
         event.registerItem(Capabilities.FluidHandler.ITEM,

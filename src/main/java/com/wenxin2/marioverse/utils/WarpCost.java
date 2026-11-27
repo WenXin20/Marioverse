@@ -190,7 +190,7 @@ public class WarpCost {
         return amount == 1 ? Component.empty() : Component.translatable("display.marioverse.warp_cost.plural");
     }
 
-    private static Component getItemPlural(ItemStack item, int amount) {
+    public static Component getItemPlural(ItemStack item, int amount) {
         if (item.getHoverName().getString().toLowerCase(Locale.ROOT).endsWith("s"))
             return Component.empty();
         return WarpCost.getPlural(amount);

@@ -32,11 +32,14 @@ public class WarpPipeMenu extends AbstractContainerMenu {
     public static final int COST_SLOT_X = 38;
     public static final int COST_SLOT_Y = 22;
     public static final int DATA_COUNT = 11;
+    public static final int PAYMENTS_TAB = 2;
+    public static final int PAYMENT_SLOT_X = 11;
+    public static final int PAYMENT_SLOT_Y = 22;
     public static final int WARP_PIPE_TAB = 0;
     public static final int WATERWORKS_TAB = 1;
-    public static final int PAYMENTS_TAB = 2;
     private final ContainerLevelAccess access;
     private final Slot costSlot;
+    private final Slot paymentSlot;
     private final ContainerData data;
     private final BlockPos blockPos;
     @Nullable private final BlockPos destinationPos;
@@ -45,18 +48,15 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     public WarpPipeMenu(int id, Inventory inventory, RegistryFriendlyByteBuf buf) {
         this(id, inventory, new SimpleContainerData(DATA_COUNT), ContainerLevelAccess.NULL,
-                buf.readBlockPos(), buf.readOptional(BlockPos.STREAM_CODEC).orElse(null), new SimpleContainer(1) {
-                    @Override
-                    public int getMaxStackSize(ItemStack stack) {
-                        return Integer.MAX_VALUE;
-                    }
-                }, buf.readBoolean());
+                buf.readBlockPos(), buf.readOptional(BlockPos.STREAM_CODEC).orElse(null),
+                WarpPipeMenu.createDisplayContainer(), WarpPipeMenu.createDisplayContainer(), buf.readBoolean());
         this.data.set(10, buf.readVarInt());
         this.configXpCost = buf.readVarInt();
     }
 
     public WarpPipeMenu(int id, Inventory inventory, ContainerData data, final ContainerLevelAccess levelAccess,
-                        BlockPos blockPos, @Nullable BlockPos destinationPos, Container costContainer, boolean canManagePayments) {
+                        BlockPos blockPos, @Nullable BlockPos destinationPos, Container costContainer,
+                        Container paymentContainer, boolean canManagePayments) {
         super(MenuRegistry.WARP_PIPE_MENU.get(), id);
         this.access = levelAccess;
         this.blockPos = blockPos;
@@ -99,6 +99,23 @@ public class WarpPipeMenu extends AbstractContainerMenu {
                 return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_COIN_SLOT);
             }
         });
+
+        this.paymentSlot = this.addSlot(new Slot(paymentContainer, 0, PAYMENT_SLOT_X, PAYMENT_SLOT_Y) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return false;
+            }
+
+            @Override
+            public boolean isActive() {
+                return WarpPipeMenu.this.getMenuType() == PAYMENTS_TAB;
+            }
+
+            @Override
+            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_COIN_SLOT);
+            }
+        });
     }
 
     @Override
@@ -113,7 +130,14 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     @Override
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
-        if (slotId < 0 || this.slots.get(slotId) != this.costSlot) {
+        Slot slot = slotId >= 0 ? this.slots.get(slotId) : null;
+
+        if (slot == this.paymentSlot) {
+            this.clickPaymentSlot(clickType, player);
+            return;
+        }
+
+        if (slot != this.costSlot) {
             super.clicked(slotId, button, clickType, player);
             return;
         }
@@ -133,12 +157,12 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     @Override
     public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
-        return slot != this.costSlot && super.canTakeItemForPickAll(stack, slot);
+        return slot != this.costSlot && slot != this.paymentSlot && super.canTakeItemForPickAll(stack, slot);
     }
 
     @Override
     public boolean canDragTo(Slot slot) {
-        return slot != this.costSlot && super.canDragTo(slot);
+        return slot != this.costSlot && slot != this.paymentSlot && super.canDragTo(slot);
     }
 
     public ContainerLevelAccess getAccess() {
@@ -213,5 +237,38 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     public Slot getCostSlot() {
         return this.costSlot;
+    }
+
+    public Slot getPaymentSlot() {
+        return this.paymentSlot;
+    }
+
+    private void clickPaymentSlot(ClickType clickType, Player player) {
+        if (clickType != ClickType.PICKUP && clickType != ClickType.QUICK_MOVE)
+            return;
+
+        this.access.execute((level, pos) -> {
+            if (!(level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE) || !pipeBE.canManagePayments(player))
+                return;
+
+            if (clickType == ClickType.QUICK_MOVE)
+                pipeBE.collectPayments(player, Integer.MAX_VALUE);
+            else {
+                ItemStack carried = this.getCarried();
+                if (carried.isEmpty())
+                    this.setCarried(pipeBE.takeStoredPayment(Integer.MAX_VALUE));
+                else if (ItemStack.isSameItemSameComponents(carried, pipeBE.getStoredPayment()))
+                    carried.grow(pipeBE.takeStoredPayment(carried.getMaxStackSize() - carried.getCount()).getCount());
+            }
+        });
+    }
+
+    private static Container createDisplayContainer() {
+        return new SimpleContainer(1) {
+            @Override
+            public int getMaxStackSize(ItemStack stack) {
+                return Integer.MAX_VALUE;
+            }
+        };
     }
 }

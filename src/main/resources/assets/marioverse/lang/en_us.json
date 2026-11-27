@@ -2696,12 +2696,8 @@
   "menu.marioverse.warp_pipe.waterworks_tab.narrate": "Waterworks Tab",
   "menu.marioverse.warp_pipe.waterworks_tab.tooltip": "Waterworks",
 
-  "menu.marioverse.warp_pipe.rename_button": "",
-  "menu.marioverse.warp_pipe.rename_button.tooltip": "Rename Pipe",
-  "menu.marioverse.warp_pipe.rename_button_waxed.tooltip": "§mRename Pipe§r \n§cPipe is Waxed!",
-  "menu.marioverse.warp_pipe.rename_button.narrate": "Rename Pipe",
-  "menu.marioverse.warp_pipe.rename_box.tooltip": "Rename Pipe",
-  "menu.marioverse.warp_pipe.rename_box.narrate": "Rename Pipe",
+  "menu.marioverse.warp_pipe.allow_automation_checkbox.tooltip": "Allow Automation\n§7• Stored payments can be extracted",
+  "menu.marioverse.warp_pipe.allow_automation_checkbox.narrate": "Allow Automation",
 
   "menu.marioverse.warp_pipe.bubbles_button": "",
   "menu.marioverse.warp_pipe.bubbles_on_button.tooltip": "Underwater Pipe Bubbles On",
@@ -2726,6 +2722,20 @@
   "menu.marioverse.warp_pipe.item_cost_slider.tooltip": "Item Cost Amount",
   "menu.marioverse.warp_pipe.item_cost_slider_config.tooltip": "Item Cost Amount\n§eSet by the config",
   "menu.marioverse.warp_pipe.item_cost_slot.tooltip": "Item Cost\n§7• Click with a stack to set the item and amount",
+
+  "menu.marioverse.warp_pipe.payment_slot.tooltip": "Collected Payments",
+  "menu.marioverse.warp_pipe.payment_slot.count": "Collected Payments: %s %s%s",
+  "menu.marioverse.warp_pipe.payment_slot.tooltip.info": "§7• Click to take one stack\n§7• Shift-click to take all\n§7• Scroll to take one item",
+
+  "menu.marioverse.warp_pipe.rename_button": "",
+  "menu.marioverse.warp_pipe.rename_button.tooltip": "Rename Pipe",
+  "menu.marioverse.warp_pipe.rename_button_waxed.tooltip": "§mRename Pipe§r \n§cPipe is Waxed!",
+  "menu.marioverse.warp_pipe.rename_button.narrate": "Rename Pipe",
+  "menu.marioverse.warp_pipe.rename_box.tooltip": "Rename Pipe",
+  "menu.marioverse.warp_pipe.rename_box.narrate": "Rename Pipe",
+
+  "menu.marioverse.warp_pipe.void_payments_checkbox.tooltip": "Void Payments\n§7• Payments are voided instead of stored",
+  "menu.marioverse.warp_pipe.void_payments_checkbox.narrate": "Void Payments",
 
   "menu.marioverse.warp_pipe.water_spout_button": "",
   "menu.marioverse.warp_pipe.water_spout_on_button.tooltip": "Water Spout On",

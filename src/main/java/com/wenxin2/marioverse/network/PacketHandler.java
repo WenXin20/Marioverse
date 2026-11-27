@@ -29,6 +29,7 @@ import com.wenxin2.marioverse.network.server_bound.data.IsRightClickablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsSneakingPayload;
 import com.wenxin2.marioverse.network.server_bound.data.IsUnbreakablePayload;
 import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
+import com.wenxin2.marioverse.network.server_bound.data.PaymentsPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesButtonPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipeCostPayload;
@@ -58,6 +59,7 @@ import com.wenxin2.marioverse.network.server_bound.handler.IsRightClickablePacke
 import com.wenxin2.marioverse.network.server_bound.handler.IsSneakingPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.IsUnbreakablePacket;
 import com.wenxin2.marioverse.network.server_bound.handler.MenuTypePacket;
+import com.wenxin2.marioverse.network.server_bound.handler.PaymentsPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.PipeBubblesButtonPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.PipeBubblesSliderPacket;
 import com.wenxin2.marioverse.network.server_bound.handler.PipeCostPacket;
@@ -110,6 +112,7 @@ public class PacketHandler {
         registrar.playToServer(IsSneakingPayload.PAYLOAD, IsSneakingPayload.STREAM_CODEC, IsSneakingPacket.get()::handle);
         registrar.playToServer(IsUnbreakablePayload.PAYLOAD, IsUnbreakablePayload.STREAM_CODEC, IsUnbreakablePacket.get()::handle);
         registrar.playToServer(MenuTypePayload.PAYLOAD, MenuTypePayload.STREAM_CODEC, MenuTypePacket.get()::handle);
+        registrar.playToServer(PaymentsPayload.PAYLOAD, PaymentsPayload.STREAM_CODEC, PaymentsPacket.get()::handle);
         registrar.playToServer(PipeBubblesButtonPayload.PAYLOAD, PipeBubblesButtonPayload.STREAM_CODEC, PipeBubblesButtonPacket.get()::handle);
         registrar.playToServer(PipeBubblesSliderPayload.PAYLOAD, PipeBubblesSliderPayload.STREAM_CODEC, PipeBubblesSliderPacket.get()::handle);
         registrar.playToServer(PipeCostPayload.PAYLOAD, PipeCostPayload.STREAM_CODEC, PipeCostPacket.get()::handle);
