@@ -1,21 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_dyes/blue": {
-      "conditions": {
-        "items": [
-          {
-            "items": "#c:dyes/blue"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_dyed_pipe_junctions": {
       "conditions": {
         "items": [
           {
             "items": "#marioverse:dyed_pipe_junctions"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dyes/blue": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:dyes/blue"
           }
         ]
       },
