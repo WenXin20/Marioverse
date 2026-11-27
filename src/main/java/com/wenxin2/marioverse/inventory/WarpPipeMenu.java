@@ -41,16 +41,18 @@ public class WarpPipeMenu extends AbstractContainerMenu {
     private final BlockPos blockPos;
     @Nullable private final BlockPos destinationPos;
     private final DataSlot canManagePayments = DataSlot.standalone();
+    private int configXpCost;
 
     public WarpPipeMenu(int id, Inventory inventory, RegistryFriendlyByteBuf buf) {
         this(id, inventory, new SimpleContainerData(DATA_COUNT), ContainerLevelAccess.NULL,
                 buf.readBlockPos(), buf.readOptional(BlockPos.STREAM_CODEC).orElse(null), new SimpleContainer(1) {
                     @Override
                     public int getMaxStackSize(ItemStack stack) {
-                        return WarpPipeBlockEntity.MAX_COST_ITEM_COUNT;
+                        return Integer.MAX_VALUE;
                     }
                 }, buf.readBoolean());
         this.data.set(10, buf.readVarInt());
+        this.configXpCost = buf.readVarInt();
     }
 
     public WarpPipeMenu(int id, Inventory inventory, ContainerData data, final ContainerLevelAccess levelAccess,
@@ -150,6 +152,10 @@ public class WarpPipeMenu extends AbstractContainerMenu {
     @Nullable
     public BlockPos getDestinationPos() {
         return this.destinationPos;
+    }
+
+    public int getConfigXpCost() {
+        return this.configXpCost;
     }
 
     public boolean isClosed() {

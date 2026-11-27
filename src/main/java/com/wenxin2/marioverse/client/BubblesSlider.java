@@ -3,10 +3,8 @@ package com.wenxin2.marioverse.client;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import java.util.function.BooleanSupplier;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 
 public class BubblesSlider extends TexturedSlider {
     private final BooleanSupplier waxed;
@@ -30,20 +28,6 @@ public class BubblesSlider extends TexturedSlider {
                          double minValue, double maxValue, double currentValue, double stepSize, int precision, boolean drawString, BooleanSupplier waxed){
         super(x, y, width, height, prefix, suffix, minValue, maxValue, currentValue, stepSize, precision, drawString);
         this.waxed = waxed;
-    }
-
-    @Override
-    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        final Minecraft minecraft = Minecraft.getInstance();
-
-        guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX(), this.getY(), 0, getTextureY(), this.width, this.height,
-                200, 18, 2, 3, 2, 2);
-
-        guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 10)), this.getY(),
-                0, this.isLocked() ? 72 : this.getHandleTextureY(), 10, this.height,
-                200, 18, 2, 3, 3, 3);
-
-        renderScrollingString(guiGraphics, minecraft.font, 2, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
     }
 
     @Override

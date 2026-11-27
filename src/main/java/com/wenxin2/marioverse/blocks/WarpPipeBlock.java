@@ -244,6 +244,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                         buf.writeOptional(Optional.ofNullable(pipeBlockEntity.getDestinationPos()), BlockPos.STREAM_CODEC);
                         buf.writeBoolean(canManagePayments);
                         buf.writeVarInt(pipeBlockEntity.getMenuType());
+                        buf.writeVarInt(pipeBlockEntity.getConfigCost().xp());
                     });
                 }
 

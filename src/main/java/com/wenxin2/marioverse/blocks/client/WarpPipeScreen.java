@@ -60,11 +60,11 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_highlighted"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_highlighted"));
-    private static final WidgetSprites CHECKBOX_WAXED_SPRITES = new WidgetSprites(
+    private static final WidgetSprites CHECKBOX_FORCED_SPRITES = new WidgetSprites(
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox"),
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_waxed"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_forced"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox"),
-            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_waxed"));
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_forced"));
 
     private static final int TAB_X_OFFSET = -30;
     private static final int TAB_Y_OFFSET = 3;
@@ -186,12 +186,14 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 distance, Component.literal(""), 0D, 16D, this.lastBubblesDistance, 1D, 0, true, this.menu::isWaxed));
 
         this.waterSourceCheckbox = this.addRenderableWidget(new StateImageButton(x + 157, y + 26, 10, 8,
-                () -> this.menu.isWaxed() ? CHECKBOX_WAXED_SPRITES : CHECKBOX_SPRITES, () -> !this.menu.requiresWaterSource() && !this.isWaterSourceForced(),
+                () -> this.menu.isWaxed() || ConfigRegistry.WATER_SPOUTS_REQUIRE_WATER.get() ? CHECKBOX_FORCED_SPRITES : CHECKBOX_SPRITES,
+                () -> !this.menu.requiresWaterSource() && !this.isWaterSourceForced(),
                 button -> this.waterSourceCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.water_source_checkbox.tooltip")));
         this.waterSourceCheckbox.active = !this.isWaterSourceForced();
 
         this.connectionCheckbox = this.addRenderableWidget(new StateImageButton(x + 157, y + 26, 10, 8,
-                () -> this.menu.isWaxed() ? CHECKBOX_WAXED_SPRITES : CHECKBOX_SPRITES, () -> !this.menu.requiresConnection() && !this.isConnectionForced(),
+                () -> this.menu.isWaxed() || this.isConnectionForced() ? CHECKBOX_FORCED_SPRITES : CHECKBOX_SPRITES,
+                () -> !this.menu.requiresConnection() && !this.isConnectionForced(),
                 button -> this.connectionCheckboxOnPress(), Component.translatable("menu.marioverse.warp_pipe.connection_checkbox.tooltip")));
         this.connectionCheckbox.active = !this.isConnectionForced();
 
@@ -203,8 +205,14 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             public boolean isLocked() {
                 return !WarpPipeScreen.this.menu.canEditCost();
             }
+
+            @NotNull
+            @Override
+            public String getValueString() {
+                return WarpCost.hasConfigPipeCost() ? String.valueOf(WarpPipeScreen.this.getCostItemCount()) : super.getValueString();
+            }
         });
-        this.itemCostSlider.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.item_cost_slider.tooltip")));
+        this.itemCostSlider.setTooltip(this.getCostTooltip("menu.marioverse.warp_pipe.item_cost_slider"));
 
         this.lastXpCost = this.getXpCost();
         this.xpCostBox = new EditBox(this.font, x + 34, y + 53, 24, 12,
@@ -212,10 +220,11 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         this.xpCostBox.setBordered(false);
         this.xpCostBox.setVisible(false);
         this.xpCostBox.setMaxLength(6);
+        this.xpCostBox.setTextColorUneditable(ChatFormatting.RED.getColor());
         this.xpCostBox.setFilter(value -> value.chars().allMatch(Character::isDigit));
         this.xpCostBox.setValue(String.valueOf(this.lastXpCost));
         this.xpCostBox.setResponder(this::xpCostBoxOnChange);
-        this.xpCostBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.xp_cost_box.tooltip")));
+        this.xpCostBox.setTooltip(this.getCostTooltip("menu.marioverse.warp_pipe.xp_cost_box"));
         this.addRenderableWidget(this.xpCostBox);
 
         this.xpCostSlider = this.addRenderableWidget(new TexturedSlider(x + 61, y + 48, 90, 18,
@@ -240,7 +249,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                     WarpPipeScreen.this.xpCostBox.setValue(String.valueOf(WarpCost.getExperienceForLevel(this.getValueInt())));
             }
         });
-        this.xpCostSlider.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.xp_cost_slider.tooltip")));
+        this.xpCostSlider.setTooltip(this.getCostTooltip("menu.marioverse.warp_pipe.xp_cost_slider"));
 
         this.warpPipeTab = this.addTab(WarpPipeMenu.WARP_PIPE_TAB, "warp_pipe");
         this.waterworksTab = this.addTab(WarpPipeMenu.WATERWORKS_TAB, "waterworks");
@@ -434,6 +443,25 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c) {
+        if ((keyCode == GLFW.GLFW_KEY_LEFT || keyCode == GLFW.GLFW_KEY_RIGHT)
+                && this.getFocused() instanceof TexturedSlider slider && slider.visible) {
+            if (slider.isLocked())
+                return true;
+
+            slider.keyPressed(keyCode, b, c);
+            this.sliderSyncDelay = SLIDER_SYNC_DELAY;
+
+            if (slider == this.itemCostSlider)
+                this.sendPipeCost(PipeCostPayload.ITEM_COUNT, slider.getValueInt());
+            else if (slider == this.xpCostSlider)
+                this.sendPipeCost(PipeCostPayload.XP_COST, WarpCost.getExperienceForLevel(slider.getValueInt()));
+            else if (slider == this.waterSpoutSlider)
+                this.waterSpoutSliderOnPress();
+            else if (slider == this.bubblesSlider)
+                this.bubblesSliderOnPress();
+            return true;
+        }
+
         if (waterSpoutSlider.isFocused() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
             waterSpoutSliderOnPress();
             return false;
@@ -641,6 +669,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     }
 
     private int getCostItemCount() {
+        if (WarpCost.hasConfigPipeCost())
+            return Math.max(1, this.getCostItem().getCount());
+
         WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
         return pipeBE == null ? 1 : pipeBE.getCostItemCount();
     }
@@ -650,8 +681,15 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     }
 
     private int getXpCost() {
+        if (WarpCost.hasConfigPipeCost())
+            return this.menu.getConfigXpCost();
+
         WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
         return pipeBE == null ? 0 : pipeBE.getXpCost();
+    }
+
+    private Tooltip getCostTooltip(String key) {
+        return Tooltip.create(Component.translatable(WarpCost.hasConfigPipeCost() ? key + "_config.tooltip" : key + ".tooltip"));
     }
 
     private void xpCostBoxOnChange(String value) {

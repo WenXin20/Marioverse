@@ -38,7 +38,8 @@ public class TexturedSlider extends ExtendedSlider {
                 200, 18, 2, 3, 2, 2);
 
         guiGraphics.blitWithBorder(SLIDER_LOCATION, this.getX() + (int)(this.value * (double)(this.width - 10)), this.getY(),
-                0, getHandleTextureY(), 10, this.height, 200, 18 , 2, 3, 3, 3);
+                0, this.isLocked() ? 72 : getHandleTextureY(), 10, this.height,
+                200, 18, 2, 3, 3, 3);
 
         renderScrollingString(guiGraphics, mc.font, 2, getFGColor() | Mth.ceil(this.alpha * 255.0F) << 24);
     }
@@ -47,6 +48,7 @@ public class TexturedSlider extends ExtendedSlider {
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (!this.active || !this.visible || scrollY == 0 || this.isLocked())
             return false;
+
         double step = this.stepSize > 0 ? this.stepSize : (this.maxValue - this.minValue) / 100;
         this.setValue(this.getValue() + Math.signum(scrollY) * step);
         return true;
@@ -62,6 +64,13 @@ public class TexturedSlider extends ExtendedSlider {
     protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
         if (!this.isLocked())
             super.onDrag(mouseX, mouseY, dragX, dragY);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (this.isLocked())
+            return false;
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     public int getHandleTextureY() {

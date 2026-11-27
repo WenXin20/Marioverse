@@ -816,6 +816,10 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
             @NotNull
             @Override
             public ItemStack getItem(int slot) {
+                if (WarpCost.hasConfigPipeCost()) {
+                    int coins = WarpPipeBlockEntity.this.getConfigCost().coins();
+                    return coins > 0 ? new ItemStack(BlockRegistry.COIN.asItem(), coins) : ItemStack.EMPTY;
+                }
                 return WarpPipeBlockEntity.this.costItem.isEmpty() ? ItemStack.EMPTY
                         : WarpPipeBlockEntity.this.costItem.copyWithCount(WarpPipeBlockEntity.this.costItemCount);
             }
@@ -825,6 +829,10 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
                 WarpPipeBlockEntity.this.setCostItem(stack);
             }
         };
+    }
+
+    public WarpCost.Cost getConfigCost() {
+        return this.level == null ? WarpCost.FREE : WarpCost.getConfigPipeCost(this.level, this.worldPosition, this.getDestinationPos());
     }
 
     public void closePipe(ServerPlayer player) {

@@ -59,6 +59,11 @@ public class WarpCost {
         return ConfigRegistry.WARP_PIPE_XP_COST_MULTIPLIER.get() > 0.0 || ConfigRegistry.WARP_PIPE_FUEL_COST_MULTIPLIER.get() > 0.0;
     }
 
+    public static Cost getConfigPipeCost(Level level, BlockPos source, @Nullable BlockPos destination) {
+        return WarpCost.getCost(WarpCost.getDistance(level, source, destination),
+                ConfigRegistry.WARP_PIPE_XP_COST_MULTIPLIER.get(), ConfigRegistry.WARP_PIPE_FUEL_COST_MULTIPLIER.get());
+    }
+
     public static Cost getEntityCost(Level level, BlockPos source, @Nullable BlockPos destination, boolean isPainting) {
         return WarpCost.getEntityCost(WarpCost.getDistance(level, source, destination), isPainting);
     }
@@ -293,17 +298,17 @@ public class WarpCost {
         return level;
     }
 
-    private static int getXpNeededForLevel(int level) {
-        if (level >= 30)
-            return 112 + (level - 30) * 9;
-        return level >= 15 ? 37 + (level - 15) * 5 : 7 + level * 2;
-    }
-
     public static int getExperienceForLevel(int level) {
         int total = 0;
 
         for (int currentLevel = 0; currentLevel < level; currentLevel++)
             total += WarpCost.getXpNeededForLevel(currentLevel);
         return total;
+    }
+
+    private static int getXpNeededForLevel(int level) {
+        if (level >= 30)
+            return 112 + (level - 30) * 9;
+        return level >= 15 ? 37 + (level - 15) * 5 : 7 + level * 2;
     }
 }
