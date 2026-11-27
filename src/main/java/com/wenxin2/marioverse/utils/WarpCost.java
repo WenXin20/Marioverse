@@ -285,7 +285,7 @@ public class WarpCost {
         return total + Mth.floor(player.experienceProgress * player.getXpNeededForNextLevel());
     }
 
-    private static int getLevelForExperience(int experience) {
+    public static int getLevelForExperience(int experience) {
         int level = 0;
 
         for (int total = 0; total < experience; level++)
@@ -297,5 +297,13 @@ public class WarpCost {
         if (level >= 30)
             return 112 + (level - 30) * 9;
         return level >= 15 ? 37 + (level - 15) * 5 : 7 + level * 2;
+    }
+
+    public static int getExperienceForLevel(int level) {
+        int total = 0;
+
+        for (int currentLevel = 0; currentLevel < level; currentLevel++)
+            total += WarpCost.getXpNeededForLevel(currentLevel);
+        return total;
     }
 }

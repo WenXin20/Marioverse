@@ -21,6 +21,7 @@ import com.wenxin2.marioverse.network.server_bound.data.PipeBubblesButtonPayload
 import com.wenxin2.marioverse.network.server_bound.data.RenamePipePayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutSliderPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSpoutButtonPayload;
+import com.wenxin2.marioverse.utils.WarpCost;
 import javax.annotation.Nullable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -69,7 +70,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     private static final int TAB_Y_OFFSET = 3;
     private static final int TAB_SPACING = 27;
     private static final int SLIDER_SYNC_DELAY = 10;
-    private static final int XP_COST_SLIDER_MAX = 100;
+    private static final int XP_COST_SLIDER_MAX = 30;
 
     Button bubblesButton;
     Button closeButton;
@@ -218,8 +219,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         this.addRenderableWidget(this.xpCostBox);
 
         this.xpCostSlider = this.addRenderableWidget(new TexturedSlider(x + 61, y + 48, 90, 18,
-                Component.translatable("menu.marioverse.warp_pipe.xp_cost_slider"), Component.empty(),
-                0D, XP_COST_SLIDER_MAX, Math.min(this.lastXpCost, XP_COST_SLIDER_MAX), 1D, 0, true) {
+                Component.translatable("menu.marioverse.warp_pipe.xp_cost_slider"), Component.empty(), 0D,
+                XP_COST_SLIDER_MAX, Math.min(WarpCost.getLevelForExperience(this.lastXpCost), XP_COST_SLIDER_MAX),
+                1D, 0, true) {
             @Override
             public boolean isLocked() {
                 return !WarpPipeScreen.this.menu.canEditCost();
@@ -229,13 +231,16 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             @Override
             public String getValueString() {
                 String value = WarpPipeScreen.this.xpCostBox.getValue();
-                return value.isEmpty() ? "0" : value;
+                int level = value.isEmpty() ? 0 : WarpCost.getLevelForExperience(Integer.parseInt(value));
+
+                return Component.translatable(level == 1 ? "menu.marioverse.warp_pipe.xp_cost_slider.level"
+                        : "menu.marioverse.warp_pipe.xp_cost_slider.levels", level).getString();
             }
 
             @Override
             protected void applyValue() {
                 if (!WarpPipeScreen.this.xpCostBox.isFocused())
-                    WarpPipeScreen.this.xpCostBox.setValue(String.valueOf(this.getValueInt()));
+                    WarpPipeScreen.this.xpCostBox.setValue(String.valueOf(WarpCost.getExperienceForLevel(this.getValueInt())));
             }
         });
         this.xpCostSlider.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.xp_cost_slider.tooltip")));
@@ -277,7 +282,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (xpCost != this.lastXpCost) {
             this.lastXpCost = xpCost;
             if (this.sliderSyncDelay == 0 && !this.xpCostBox.isFocused()) {
-                this.xpCostSlider.setValue(Math.min(xpCost, XP_COST_SLIDER_MAX));
+                this.xpCostSlider.setValue(Math.min(WarpCost.getLevelForExperience(xpCost), XP_COST_SLIDER_MAX));
                 this.xpCostBox.setValue(String.valueOf(xpCost));
             }
         }
@@ -389,7 +394,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.itemCostSlider.isFocused() && !this.itemCostSlider.isLocked())
             this.sendPipeCost(PipeCostPayload.ITEM_COUNT, this.itemCostSlider.getValueInt());
         if (this.xpCostSlider.isFocused() && !this.xpCostSlider.isLocked())
-            this.sendPipeCost(PipeCostPayload.XP_COST, this.xpCostSlider.getValueInt());
+            this.sendPipeCost(PipeCostPayload.XP_COST, WarpCost.getExperienceForLevel(this.xpCostSlider.getValueInt()));
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
@@ -424,7 +429,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         if (this.xpCostSlider.isMouseOver(mouseX, mouseY) && this.xpCostSlider.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
             this.sliderSyncDelay = SLIDER_SYNC_DELAY;
-            this.sendPipeCost(PipeCostPayload.XP_COST, this.xpCostSlider.getValueInt());
+            this.sendPipeCost(PipeCostPayload.XP_COST, WarpCost.getExperienceForLevel(this.xpCostSlider.getValueInt()));
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
@@ -658,7 +663,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         int xpCost = Integer.parseInt(value);
         this.sliderSyncDelay = SLIDER_SYNC_DELAY;
-        this.xpCostSlider.setValue(Math.min(xpCost, XP_COST_SLIDER_MAX));
+        this.xpCostSlider.setValue(Math.min(WarpCost.getLevelForExperience(xpCost), XP_COST_SLIDER_MAX));
         this.sendPipeCost(PipeCostPayload.XP_COST, xpCost);
     }
 
