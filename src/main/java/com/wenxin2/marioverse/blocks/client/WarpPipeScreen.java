@@ -106,8 +106,8 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     private static final int LIFETIME_PANEL_X = 34;
     private static final int LIFETIME_PANEL_Y = 46;
     private static final int OWNER_HEAD_SIZE = 12;
-    private static final int OWNER_HEAD_X = 157;
-    private static final int OWNER_HEAD_Y = 4;
+    private static final int OWNER_HEAD_X = 182;
+    private static final int OWNER_HEAD_Y = 14;
     private static final int SLIDER_SYNC_DELAY = 10;
     private static final int TAB_SPACING = 27;
     private static final int TAB_X_OFFSET = -30;
