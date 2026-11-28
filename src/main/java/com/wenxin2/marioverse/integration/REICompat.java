@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.integration;
 
+import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.data.ArrowColorShapedRecipe;
 import com.wenxin2.marioverse.data.ArrowColorShapelessRecipe;
 import com.wenxin2.marioverse.data.ArrowSignUpgradeRecipe;
@@ -17,8 +18,10 @@ import com.wenxin2.marioverse.integration.rei_compat.HexColorShapelessCraftingDi
 import com.wenxin2.marioverse.integration.rei_compat.HexColorShapelessRecipeTransferHandler;
 import com.wenxin2.marioverse.integration.rei_compat.WarpDoorCraftingDisplay;
 import dev.architectury.event.EventResult;
+import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
+import me.shedaniel.rei.api.client.registry.screen.ExclusionZones;
 import me.shedaniel.rei.api.client.registry.transfer.TransferHandlerRegistry;
 import me.shedaniel.rei.forge.REIPluginClient;
 import me.shedaniel.rei.plugin.common.BuiltinPlugin;
@@ -69,5 +72,11 @@ public class REICompat implements REIClientPlugin {
         registry.register(new HexColorShapelessRecipeTransferHandler(BuiltinPlugin.CRAFTING));
         registry.register(new ArrowColorRecipeTransferHandler(BuiltinPlugin.CRAFTING));
         registry.register(new ArrowColorShapelessRecipeTransferHandler(BuiltinPlugin.CRAFTING));
+    }
+
+    @Override
+    public void registerExclusionZones(ExclusionZones zones) {
+        zones.register(WarpPipeScreen.class, screen -> screen.getExtraAreas().stream()
+                .map(area -> new Rectangle(area.getX(), area.getY(), area.getWidth(), area.getHeight())).toList());
     }
 }

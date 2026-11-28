@@ -1,6 +1,7 @@
 package com.wenxin2.marioverse.integration;
 
 import com.wenxin2.marioverse.Marioverse;
+import com.wenxin2.marioverse.blocks.client.WarpPipeScreen;
 import com.wenxin2.marioverse.data.ArrowColorShapedRecipe;
 import com.wenxin2.marioverse.data.ArrowColorShapelessRecipe;
 import com.wenxin2.marioverse.data.ArrowSignUpgradeRecipe;
@@ -14,8 +15,12 @@ import com.wenxin2.marioverse.integration.jei_compat.HexColorShapedRecipeExtensi
 import com.wenxin2.marioverse.integration.jei_compat.HexColorShapelessRecipeExtension;
 import com.wenxin2.marioverse.integration.jei_compat.WarpDoorCraftingExtension;
 import mezz.jei.api.IModPlugin;
+import java.util.List;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.gui.handlers.IGuiContainerHandler;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,5 +48,16 @@ public class JEICompat implements IModPlugin {
                 new ArrowColorShapelessRecipeExtension(registration.getJeiHelpers().getGuiHelper()));
         registration.getCraftingCategory().addExtension(ArrowSignUpgradeRecipe.class,
                 new ArrowSignUpgradeRecipeExtension(registration.getJeiHelpers().getGuiHelper()));
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addGuiContainerHandler(WarpPipeScreen.class, new IGuiContainerHandler<>() {
+            @NotNull
+            @Override
+            public List<Rect2i> getGuiExtraAreas(@NotNull WarpPipeScreen screen) {
+                return screen.getExtraAreas();
+            }
+        });
     }
 }

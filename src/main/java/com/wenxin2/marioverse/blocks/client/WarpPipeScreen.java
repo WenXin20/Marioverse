@@ -44,6 +44,7 @@ import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.GameRenderer;
@@ -1029,7 +1030,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     }
 
     private void renderOwnerNametag(GuiGraphics graphics, ResolvableProfile owner, float headX, int headTop) {
-        String name = owner.name().orElse(owner.gameProfile().getName());
+        String name = WarpPipeScreen.getOwnerName(owner);
         int nameWidth = this.font.width(name);
         int textX = Math.round(headX - nameWidth / 2.0F);
         int textY = headTop - 11;
@@ -1050,5 +1051,29 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (count < 1000000)
             return count / 1000 + "k";
         return String.format(Locale.ROOT, "%.1fm", Math.floor(count / 100000.0) / 10.0);
+    }
+
+    public List<Rect2i> getExtraAreas() {
+        List<Rect2i> areas = new ArrayList<>();
+        for (TabButton tab : List.of(this.warpPipeTab, this.waterworksTab, this.paymentsTab))
+            if (tab.visible)
+                areas.add(new Rect2i(tab.getX(), tab.getY(), tab.getWidth(), tab.getHeight()));
+
+        WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
+        if (this.menu.getMenuType() != WarpPipeMenu.PAYMENTS_TAB || pipeBE == null || pipeBE.getPipeOwner() == null)
+            return areas;
+
+        int nameWidth = this.font.width(WarpPipeScreen.getOwnerName(pipeBE.getPipeOwner()));
+        int headCenterX = this.leftPos + OWNER_HEAD_X + OWNER_HEAD_SIZE / 2;
+        int left = Math.max(this.leftPos + this.imageWidth, Math.min(this.leftPos + OWNER_HEAD_X - 2, headCenterX - nameWidth / 2 - 1));
+        int right = Math.max(this.leftPos + OWNER_HEAD_X + OWNER_HEAD_SIZE + 2, headCenterX + (nameWidth + 1) / 2 + 1);
+        int top = this.topPos + OWNER_HEAD_Y - 12;
+        int bottom = this.topPos + OWNER_HEAD_Y + OWNER_HEAD_SIZE + 2;
+        areas.add(new Rect2i(left, top, right - left, bottom - top));
+        return areas;
+    }
+
+    private static String getOwnerName(ResolvableProfile owner) {
+        return owner.name().orElse(owner.gameProfile().getName());
     }
 }
