@@ -2715,10 +2715,10 @@
   "menu.marioverse.warp_pipe.collect_xp_button.tooltip": "Collect XP\n§7• Collect all stashed XP",
 
   "menu.marioverse.warp_pipe.connection_checkbox.coordinates": "X: %s, Y: %s, Z: %s",
-  "menu.marioverse.warp_pipe.connection_checkbox.destination": "\n  at %s",
-  "menu.marioverse.warp_pipe.connection_checkbox.tooltip": "Require Connected Pipes\n§7• Pipes must be connected \n  to the destination pipe%s§7 to warp",
-  "menu.marioverse.warp_pipe.connection_checkbox_config.tooltip": "Require Connected Pipes\n§7• Pipes must be connected \n  to the destination pipe%s§7 to warp\n§c• Required for all pipes by the config",
-  "menu.marioverse.warp_pipe.connection_checkbox_waxed.tooltip": "§mRequire Connected Pipes§r\n§7• Pipes must be connected \n  to the destination pipe%s§7 to warp\n§c• Pipe is Waxed!",
+  "menu.marioverse.warp_pipe.connection_checkbox.destination": "\nat %s",
+  "menu.marioverse.warp_pipe.connection_checkbox.tooltip": "Require Connected Pipes\n§7• Pipes must be connected \nto the destination pipe%s§7 to warp",
+  "menu.marioverse.warp_pipe.connection_checkbox_config.tooltip": "Require Connected Pipes\n§7• Pipes must be connected \nto the destination pipe%s§7 to warp\n§c• Required for all pipes by the config",
+  "menu.marioverse.warp_pipe.connection_checkbox_waxed.tooltip": "§mRequire Connected Pipes§r\n§7• Pipes must be connected \nto the destination pipe%s§7 to warp\n§c• Pipe is Waxed!",
 
   "menu.marioverse.warp_pipe.deposit_slot.tooltip": "Deposit:",
   "menu.marioverse.warp_pipe.deposit_slot.count": "• %s %s%s",
