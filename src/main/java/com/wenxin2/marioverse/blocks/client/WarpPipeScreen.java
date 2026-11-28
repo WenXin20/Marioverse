@@ -105,7 +105,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     private static final int LIFETIME_PANEL_BACKGROUND = 0xF0100010;
     private static final int LIFETIME_PANEL_BORDER_BOTTOM = 0x50287F00;
-    private static final int LIFETIME_PANEL_BORDER_TOP = 0xFF00FF00;
+    private static final int LIFETIME_PANEL_BORDER_TOP = 0xF000FF00;
     private static final int LIFETIME_PANEL_HEIGHT = 21;
     private static final int LIFETIME_PANEL_WIDTH = 105;
     private static final int LIFETIME_PANEL_X = 34;
