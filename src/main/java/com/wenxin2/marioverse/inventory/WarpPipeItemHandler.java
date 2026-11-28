@@ -27,11 +27,11 @@ public class WarpPipeItemHandler implements IItemHandler {
     public ItemStack getStackInSlot(int slot) {
         if (slot == SPAWN_ITEM_SLOT)
             return this.spawnItemHandler.getStackInSlot(slot);
-        if (!this.pipeBE.isAllowAutomation() || this.pipeBE.getStoredPaymentCount() <= 0)
+        if (!this.pipeBE.isAllowAutomation() || this.pipeBE.getDepositCount() <= 0)
             return ItemStack.EMPTY;
 
-        ItemStack payment = this.pipeBE.getStoredPayment();
-        return payment.copyWithCount(Math.min(this.pipeBE.getStoredPaymentCount(), payment.getMaxStackSize()));
+        ItemStack payment = this.pipeBE.getDeposit();
+        return payment.copyWithCount(Math.min(this.pipeBE.getDepositCount(), payment.getMaxStackSize()));
     }
 
     @NotNull
@@ -51,7 +51,7 @@ public class WarpPipeItemHandler implements IItemHandler {
             ItemStack stack = this.getStackInSlot(slot);
             return stack.copyWithCount(Math.min(amount, stack.getCount()));
         }
-        return this.pipeBE.takeStoredPayment(amount);
+        return this.pipeBE.takeDeposit(amount);
     }
 
     @Override

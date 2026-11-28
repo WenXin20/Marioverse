@@ -35,13 +35,13 @@ public class WarpPipeMenu extends AbstractContainerMenu {
     public static final int PRICE_SLOT_Y = 22;
     public static final int DATA_COUNT = 11;
     public static final int PAYMENTS_TAB = 2;
-    public static final int PAYMENT_SLOT_X = 11;
-    public static final int PAYMENT_SLOT_Y = 22;
+    public static final int DEPOSIT_SLOT_X = 11;
+    public static final int DEPOSIT_SLOT_Y = 22;
     public static final int WARP_PIPE_TAB = 0;
     public static final int WATERWORKS_TAB = 1;
     private final ContainerLevelAccess access;
     private final Slot priceSlot;
-    private final Slot paymentSlot;
+    private final Slot depositSlot;
     private final ContainerData data;
     private final BlockPos blockPos;
     @Nullable private final BlockPos destinationPos;
@@ -59,7 +59,7 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     public WarpPipeMenu(int id, Inventory inventory, ContainerData data, final ContainerLevelAccess levelAccess,
                         BlockPos blockPos, @Nullable BlockPos destinationPos, Container priceContainer,
-                        Container paymentContainer, boolean canManagePayments) {
+                        Container depositContainer, boolean canManagePayments) {
         super(MenuRegistry.WARP_PIPE_MENU.get(), id);
         this.access = levelAccess;
         this.blockPos = blockPos;
@@ -104,7 +104,7 @@ public class WarpPipeMenu extends AbstractContainerMenu {
             }
         });
 
-        this.paymentSlot = this.addSlot(new Slot(paymentContainer, 0, PAYMENT_SLOT_X, PAYMENT_SLOT_Y) {
+        this.depositSlot = this.addSlot(new Slot(depositContainer, 0, DEPOSIT_SLOT_X, DEPOSIT_SLOT_Y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return false;
@@ -136,8 +136,8 @@ public class WarpPipeMenu extends AbstractContainerMenu {
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
         Slot slot = slotId >= 0 ? this.slots.get(slotId) : null;
 
-        if (slot == this.paymentSlot) {
-            this.clickPaymentSlot(clickType, player);
+        if (slot == this.depositSlot) {
+            this.clickDepositSlot(clickType, player);
             return;
         }
 
@@ -153,7 +153,7 @@ public class WarpPipeMenu extends AbstractContainerMenu {
                 : new ItemStack(this.getCarried().getItem(), this.getCarried().getCount());
         this.access.execute((level, pos) -> {
             if (level.getBlockEntity(pos) instanceof WarpPipeBlockEntity pipeBE && !pipeBE.canChangePriceItem(stack))
-                player.displayClientMessage(Component.translatable("display.marioverse.warp_price.collect_payments_first")
+                player.displayClientMessage(Component.translatable("display.marioverse.warp_price.collect_deposit_first")
                         .withStyle(ChatFormatting.RED), true);
         });
         this.priceSlot.set(stack);
@@ -161,12 +161,12 @@ public class WarpPipeMenu extends AbstractContainerMenu {
 
     @Override
     public boolean canTakeItemForPickAll(ItemStack stack, Slot slot) {
-        return slot != this.priceSlot && slot != this.paymentSlot && super.canTakeItemForPickAll(stack, slot);
+        return slot != this.priceSlot && slot != this.depositSlot && super.canTakeItemForPickAll(stack, slot);
     }
 
     @Override
     public boolean canDragTo(Slot slot) {
-        return slot != this.priceSlot && slot != this.paymentSlot && super.canDragTo(slot);
+        return slot != this.priceSlot && slot != this.depositSlot && super.canDragTo(slot);
     }
 
     public ContainerLevelAccess getAccess() {
@@ -243,11 +243,11 @@ public class WarpPipeMenu extends AbstractContainerMenu {
         return this.priceSlot;
     }
 
-    public Slot getPaymentSlot() {
-        return this.paymentSlot;
+    public Slot getDepositSlot() {
+        return this.depositSlot;
     }
 
-    private void clickPaymentSlot(ClickType clickType, Player player) {
+    private void clickDepositSlot(ClickType clickType, Player player) {
         if (clickType != ClickType.PICKUP && clickType != ClickType.QUICK_MOVE)
             return;
 
@@ -256,13 +256,13 @@ public class WarpPipeMenu extends AbstractContainerMenu {
                 return;
 
             if (clickType == ClickType.QUICK_MOVE)
-                pipeBE.collectPayments(player, Integer.MAX_VALUE);
+                pipeBE.collectDeposit(player, Integer.MAX_VALUE);
             else {
                 ItemStack carried = this.getCarried();
                 if (carried.isEmpty())
-                    this.setCarried(pipeBE.takeStoredPayment(Integer.MAX_VALUE));
-                else if (ItemStack.isSameItemSameComponents(carried, pipeBE.getStoredPayment()))
-                    carried.grow(pipeBE.takeStoredPayment(carried.getMaxStackSize() - carried.getCount()).getCount());
+                    this.setCarried(pipeBE.takeDeposit(Integer.MAX_VALUE));
+                else if (ItemStack.isSameItemSameComponents(carried, pipeBE.getDeposit()))
+                    carried.grow(pipeBE.takeDeposit(carried.getMaxStackSize() - carried.getCount()).getCount());
             }
         });
     }

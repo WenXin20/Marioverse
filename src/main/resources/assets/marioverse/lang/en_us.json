@@ -2712,7 +2712,7 @@
   "menu.marioverse.warp_pipe.bubbles_slider_creative.tooltip": "§mPipe Bubbles Distance§r \n§cCreative Only!",
   "menu.marioverse.warp_pipe.bubbles_slider_waxed.tooltip": "§mPipe Bubbles Distance§r \n§cPipe is Waxed!",
   "menu.marioverse.warp_pipe.collect_xp_button.narrate": "Collect XP",
-  "menu.marioverse.warp_pipe.collect_xp_button.tooltip": "Collect XP\n§7• Collect all stored xp",
+  "menu.marioverse.warp_pipe.collect_xp_button.tooltip": "Collect XP\n§7• Collect all stashed XP",
 
   "menu.marioverse.warp_pipe.connection_checkbox.coordinates": "X: %s, Y: %s, Z: %s",
   "menu.marioverse.warp_pipe.connection_checkbox.destination": "\nat %s",
@@ -2720,14 +2720,14 @@
   "menu.marioverse.warp_pipe.connection_checkbox_config.tooltip": "Require Connected Pipes\n§7• Pipes must be connected \nto the destination pipe%s§7 to warp\n§cRequired for all pipes by the config",
   "menu.marioverse.warp_pipe.connection_checkbox_waxed.tooltip": "§mRequire Connected Pipes§r\n§7• Pipes must be connected \nto the destination pipe%s§7 to warp\n§cPipe is Waxed!",
 
+  "menu.marioverse.warp_pipe.deposit_slot.tooltip": "Deposit",
+  "menu.marioverse.warp_pipe.deposit_slot.count": "§a• %s %s%s",
+  "menu.marioverse.warp_pipe.deposit_slot.tooltip.info": "§7• Click to take one stack\n§7• Shift-click to take all\n§7• Scroll to take one item",
+
   "menu.marioverse.warp_pipe.item_price_slider": "Item Price: ",
   "menu.marioverse.warp_pipe.item_price_slider.tooltip": "Item Price Amount",
   "menu.marioverse.warp_pipe.item_price_slider_config.tooltip": "Item Price Amount\n§eSet by the config",
   "menu.marioverse.warp_pipe.item_price_slot.tooltip": "Item Price\n§7• Click with a stack to set the item and amount",
-
-  "menu.marioverse.warp_pipe.payment_slot.tooltip": "Deposit",
-  "menu.marioverse.warp_pipe.payment_slot.count": "§a• %s %s%s",
-  "menu.marioverse.warp_pipe.payment_slot.tooltip.info": "§7• Click to take one stack\n§7• Shift-click to take all\n§7• Scroll to take one item",
 
   "menu.marioverse.warp_pipe.rename_button": "",
   "menu.marioverse.warp_pipe.rename_button.tooltip": "Rename Pipe",
@@ -2736,11 +2736,11 @@
   "menu.marioverse.warp_pipe.rename_box.tooltip": "Rename Pipe",
   "menu.marioverse.warp_pipe.rename_box.narrate": "Rename Pipe",
 
-  "menu.marioverse.warp_pipe.stored_xp.level": "§a• %s Level",
-  "menu.marioverse.warp_pipe.stored_xp.levels": "§a• %s Levels",
-  "menu.marioverse.warp_pipe.stored_xp.point": "§a• %s Point",
-  "menu.marioverse.warp_pipe.stored_xp.points": "§a• %s Points",
-  "menu.marioverse.warp_pipe.stored_xp.tooltip": "Stashed XP:",
+  "menu.marioverse.warp_pipe.stashed_xp.level": "§a• %s Level",
+  "menu.marioverse.warp_pipe.stashed_xp.levels": "§a• %s Levels",
+  "menu.marioverse.warp_pipe.stashed_xp.point": "§a• %s Point",
+  "menu.marioverse.warp_pipe.stashed_xp.points": "§a• %s Points",
+  "menu.marioverse.warp_pipe.stashed_xp.tooltip": "Stashed XP:",
 
   "menu.marioverse.warp_pipe.void_payments_checkbox.tooltip": "Void Payments\n§7• Payments are voided instead of stored",
   "menu.marioverse.warp_pipe.void_payments_checkbox.narrate": "Void Payments",
@@ -2791,7 +2791,7 @@
   "display.marioverse.pipes_cannot_teleport_players": "§cWarp Pipes cannot teleport Players!",
   "display.marioverse.trapdoors_cannot_teleport_players": "§cWarp Trapdoors cannot teleport Players!",
 
-  "display.marioverse.warp_price.collect_payments_first": "Collect the stored payments before changing the price item!",
+  "display.marioverse.warp_price.collect_deposit_first": "Collect the deposit before changing the price item!",
 
   "display.marioverse.warp_disrupted": "§c%1$s was prevented from warping you!",
   "display.marioverse.painting_warp_disrupted": "§c%1$s %2$s was prevented from warping you!",

@@ -241,7 +241,7 @@ public class WarpPipeBlock extends BaseEntityDirectionalBlock {
                             new WarpPipeMenu(id, playerInventory,
                                     pipeBlockEntity.getDataAccess(), ContainerLevelAccess.create(level, pos), pos,
                                     pipeBlockEntity.getDestinationPos(), pipeBlockEntity.createPriceContainer(),
-                                    pipeBlockEntity.createPaymentContainer(), canManagePayments),
+                                    pipeBlockEntity.createDepositContainer(), canManagePayments),
                             pipeBlockEntity.getDisplayName()), buf -> {
                         buf.writeBlockPos(pos);
                         buf.writeOptional(Optional.ofNullable(pipeBlockEntity.getDestinationPos()), BlockPos.STREAM_CODEC);

@@ -157,9 +157,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         }
 
         if (this.menu.getMenuType() == WarpPipeMenu.PAYMENTS_TAB) {
-            graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.PAYMENT_SLOT_X - 1,
-                    y + WarpPipeMenu.PAYMENT_SLOT_Y - 1, 18, 18);
-            this.renderStoredXpBar(graphics, x, y);
+            graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.DEPOSIT_SLOT_X - 1,
+                    y + WarpPipeMenu.DEPOSIT_SLOT_Y - 1, 18, 18);
+            this.renderStashedXpBar(graphics, x, y);
         }
 
         if (this.renameBox.visible && !this.isWaxLocked(ConfigRegistry.WAX_DISABLES_RENAMING.get()))
@@ -290,7 +290,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         this.allowAutomationCheckbox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.allow_automation_checkbox.tooltip")));
 
         this.collectXpButton = this.addRenderableWidget(new StateImageButton(x + 145, y + 17, 24, 24, COLLECT_XP_SPRITES,
-                () -> this.getStoredXp() > 0, button -> this.sendPayments(PaymentsPayload.COLLECT_XP),
+                () -> this.getStashedXp() > 0, button -> this.sendPayments(PaymentsPayload.COLLECT_XP),
                 Component.translatable("menu.marioverse.warp_pipe.collect_xp_button.narrate")));
         this.collectXpButton.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.collect_xp_button.tooltip")));
 
@@ -347,7 +347,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     @Override
     protected void renderSlot(GuiGraphics graphics, Slot slot) {
-        if (slot != this.menu.getPaymentSlot() || !slot.hasItem()) {
+        if (slot != this.menu.getDepositSlot() || !slot.hasItem()) {
             super.renderSlot(graphics, slot);
             return;
         }
@@ -362,13 +362,13 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         Component tooltip;
         Player player = this.inventory.player;
 
-        if (this.hoveredSlot != null && this.hoveredSlot == this.menu.getPaymentSlot() && this.menu.getCarried().isEmpty())
-            this.renderPaymentSlotTooltip(graphics, mouseX, mouseY);
+        if (this.hoveredSlot != null && this.hoveredSlot == this.menu.getDepositSlot() && this.menu.getCarried().isEmpty())
+            this.renderDepositSlotTooltip(graphics, mouseX, mouseY);
         else super.renderTooltip(graphics, mouseX, mouseY);
 
         if (this.menu.getMenuType() == WarpPipeMenu.PAYMENTS_TAB
                 && this.isHovering(XP_BAR_X, XP_BAR_Y - 7, XP_BAR_WIDTH, 12, mouseX, mouseY))
-            this.renderStoredXpTooltip(graphics, mouseX, mouseY);
+            this.renderStashedXpTooltip(graphics, mouseX, mouseY);
 
         if (this.hoveredSlot == this.menu.getPriceSlot() && this.hoveredSlot != null && !this.hoveredSlot.hasItem())
             graphics.renderTooltip(this.font, this.font.split(Component
@@ -476,7 +476,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        if (scrollY != 0 && this.hoveredSlot != null && this.hoveredSlot == this.menu.getPaymentSlot()
+        if (scrollY != 0 && this.hoveredSlot != null && this.hoveredSlot == this.menu.getDepositSlot()
                 && this.hoveredSlot.hasItem()) {
             this.sendPayments(PaymentsPayload.TAKE_ONE);
             return true;
@@ -809,52 +809,52 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         PacketHandler.sendToServer(new PaymentsPayload(this.menu.containerId, action));
     }
 
-    private void renderPaymentSlotTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
-        ItemStack payment = this.menu.getPaymentSlot().getItem();
+    private void renderDepositSlotTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        ItemStack payment = this.menu.getDepositSlot().getItem();
         List<FormattedCharSequence> lines = new ArrayList<>();
 
-        lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip").getVisualOrderText());
+        lines.add(Component.translatable("menu.marioverse.warp_pipe.deposit_slot.tooltip").getVisualOrderText());
         if (!payment.isEmpty())
-            lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.count",
+            lines.add(Component.translatable("menu.marioverse.warp_pipe.deposit_slot.count",
                     String.format(Locale.ROOT, "%,d", payment.getCount()), payment.getHoverName(),
                     WarpPrice.getItemPlural(payment, payment.getCount())).getVisualOrderText());
 
-        lines.addAll(this.font.split(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip.info"), 200));
+        lines.addAll(this.font.split(Component.translatable("menu.marioverse.warp_pipe.deposit_slot.tooltip.info"), 200));
         graphics.renderTooltip(this.font, lines, mouseX, mouseY);
     }
 
-    private int getStoredXp() {
+    private int getStashedXp() {
         WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
-        return pipeBE == null ? 0 : pipeBE.getStoredXp();
+        return pipeBE == null ? 0 : pipeBE.getStashedXp();
     }
 
     private int getStoredLevel() {
-        int storedXp = this.getStoredXp();
-        int level = WarpPrice.getLevelForExperience(storedXp);
-        return WarpPrice.getExperienceForLevel(level) > storedXp ? level - 1 : level;
+        int stashedXp = this.getStashedXp();
+        int level = WarpPrice.getLevelForExperience(stashedXp);
+        return WarpPrice.getExperienceForLevel(level) > stashedXp ? level - 1 : level;
     }
 
-    private void renderStoredXpTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
-        int storedXp = this.getStoredXp();
+    private void renderStashedXpTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        int stashedXp = this.getStashedXp();
         int level = this.getStoredLevel();
         List<Component> lines = new ArrayList<>();
 
-        lines.add(Component.translatable("menu.marioverse.warp_pipe.stored_xp.tooltip"));
+        lines.add(Component.translatable("menu.marioverse.warp_pipe.stashed_xp.tooltip"));
         if (level > 0)
-            lines.add(Component.translatable(level == 1 ? "menu.marioverse.warp_pipe.stored_xp.level"
-                    : "menu.marioverse.warp_pipe.stored_xp.levels", String.format(Locale.ROOT, "%,d", level)));
-        lines.add(Component.translatable(storedXp == 1 ? "menu.marioverse.warp_pipe.stored_xp.point"
-                : "menu.marioverse.warp_pipe.stored_xp.points", String.format(Locale.ROOT, "%,d", storedXp)));
+            lines.add(Component.translatable(level == 1 ? "menu.marioverse.warp_pipe.stashed_xp.level"
+                    : "menu.marioverse.warp_pipe.stashed_xp.levels", String.format(Locale.ROOT, "%,d", level)));
+        lines.add(Component.translatable(stashedXp == 1 ? "menu.marioverse.warp_pipe.stashed_xp.point"
+                : "menu.marioverse.warp_pipe.stashed_xp.points", String.format(Locale.ROOT, "%,d", stashedXp)));
 
         graphics.renderComponentTooltip(this.font, lines, mouseX, mouseY);
     }
 
-    private void renderStoredXpBar(GuiGraphics graphics, int x, int y) {
-        int storedXp = this.getStoredXp();
+    private void renderStashedXpBar(GuiGraphics graphics, int x, int y) {
+        int stashedXp = this.getStashedXp();
         int level = this.getStoredLevel();
 
         int levelXp = WarpPrice.getExperienceForLevel(level);
-        float progress = (storedXp - levelXp) / (float) (WarpPrice.getExperienceForLevel(level + 1) - levelXp);
+        float progress = (stashedXp - levelXp) / (float) (WarpPrice.getExperienceForLevel(level + 1) - levelXp);
 
         this.renderXpBarPart(graphics, XP_BAR_BACKGROUND, x + XP_BAR_X, y + XP_BAR_Y, XP_BAR_WIDTH);
         this.renderXpBarPart(graphics, XP_BAR_PROGRESS, x + XP_BAR_X, y + XP_BAR_Y, (int) (progress * XP_BAR_WIDTH));
