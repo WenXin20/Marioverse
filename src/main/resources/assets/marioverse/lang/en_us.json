@@ -2752,6 +2752,12 @@
   "menu.marioverse.warp_pipe.stashed_xp.points": "• %s Points",
   "menu.marioverse.warp_pipe.stashed_xp.tooltip": "Stashed XP:",
 
+  "menu.marioverse.warp_pipe.transfer_box.hint": "Player Username",
+  "menu.marioverse.warp_pipe.transfer_box.narrate": "New Owner",
+  "menu.marioverse.warp_pipe.transfer_box.tooltip": "New Owner\n§7• Type the username of a player\n§7• Press Enter to transfer",
+  "menu.marioverse.warp_pipe.transfer_button.narrate": "Transfer Ownership",
+  "menu.marioverse.warp_pipe.transfer_button.tooltip": "Transfer Ownership\n§7• Give the earnings to another player",
+
   "menu.marioverse.warp_pipe.void_payments_checkbox.tooltip": "Void Payments\n§7• Payments are voided instead of stored",
   "menu.marioverse.warp_pipe.void_payments_checkbox.narrate": "Void Payments",
 
@@ -2785,6 +2791,11 @@
   "display.marioverse.pipe_bubbles.requires_creative": "Requires creative to turn on/off pipe bubbles!",
   "display.marioverse.water_spouts.requires_creative": "Requires creative to turn on/off water spouts!",
   "display.marioverse.water_spouts.requires_waterlogging": "Requires waterlogged pipe!",
+
+  "display.marioverse.transfer_pipe.already_owner": "%s already owns this pipe!",
+  "display.marioverse.transfer_pipe.never_joined": "%s has never joined this server!",
+  "display.marioverse.transfer_pipe.received": "%s gave you the Warp Pipe at %s, %s, %s",
+  "display.marioverse.transfer_pipe.success": "Transferred this pipe to %s",
 
   "display.marioverse.consecutive_bounce.excellent": "§9Excellent",
   "display.marioverse.consecutive_bounce.fantastic": "§dFantastic",

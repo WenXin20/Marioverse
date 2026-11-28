@@ -2,7 +2,6 @@ package com.wenxin2.marioverse.blocks.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
@@ -15,6 +14,7 @@ import com.wenxin2.marioverse.network.server_bound.data.ConnectedPipesCheckboxPa
 import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
 import com.wenxin2.marioverse.network.server_bound.data.PaymentsPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipePricePayload;
+import com.wenxin2.marioverse.network.server_bound.data.TransferOwnerPayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSourceCheckboxPayload;
 import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
@@ -98,17 +98,21 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/collect_xp"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/collect_xp"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/collect_xp_highlighted"));
+    private static final WidgetSprites TRANSFER_OWNER_SPRITES = new WidgetSprites(
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/transfer_owner"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/transfer_owner"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/transfer_owner_highlighted"));
 
     private static final int LIFETIME_PANEL_BACKGROUND = 0xF0100010;
     private static final int LIFETIME_PANEL_BORDER_BOTTOM = 0x50287F00;
-    private static final int LIFETIME_PANEL_BORDER_TOP = 0x00FF00;
+    private static final int LIFETIME_PANEL_BORDER_TOP = 0xFF00FF00;
     private static final int LIFETIME_PANEL_HEIGHT = 21;
     private static final int LIFETIME_PANEL_WIDTH = 105;
     private static final int LIFETIME_PANEL_X = 34;
     private static final int LIFETIME_PANEL_Y = 46;
     private static final int OWNER_HEAD_SIZE = 12;
     private static final int OWNER_HEAD_X = 182;
-    private static final int OWNER_HEAD_Y = 14;
+    private static final int OWNER_HEAD_Y = 4;
     private static final int SLIDER_SYNC_DELAY = 10;
     private static final int TAB_SPACING = 27;
     private static final int TAB_X_OFFSET = -30;
@@ -127,10 +131,12 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     Button collectXpButton;
     Button connectionCheckbox;
     Button renameButton;
+    Button transferButton;
     Button voidPaymentsCheckbox;
     Button waterSourceCheckbox;
     Button waterSpoutButton;
     EditBox renameBox;
+    EditBox transferBox;
     EditBox xpPriceBox;
     Inventory inventory;
     SkullModelBase ownerHeadModel;
@@ -165,7 +171,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             default -> this.pipeName.isEmpty() ? this.title : Component.literal(this.pipeName);
         };
 
-        if (!this.renameBox.visible)
+        if (!this.renameBox.visible && !this.transferBox.visible)
             graphics.drawString(this.font, title, this.titleLabelX, this.titleLabelY, 4210752, false);
         // Inventory
         graphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752, false);
@@ -201,6 +207,9 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         if (this.xpPriceBox.visible)
             graphics.blit(WARP_PIPE_GUI, x + 33, y + 51, 0, 180, 26, 12);
+
+        if (this.transferBox.visible)
+            graphics.blit(WARP_PIPE_GUI, x + 7, y + 4, 0, 167, 162, 12);
     }
 
     @Override
@@ -329,6 +338,20 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 () -> this.getStashedXp() > 0, button -> this.sendPayments(PaymentsPayload.COLLECT_XP),
                 Component.translatable("menu.marioverse.warp_pipe.collect_xp_button.narrate")));
         this.collectXpButton.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.collect_xp_button.tooltip")));
+
+        this.transferBox = new EditBox(this.font, x + 8, y + 6, 160, 12,
+                Component.translatable("menu.marioverse.warp_pipe.transfer_box.narrate"));
+        this.transferBox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.transfer_box.tooltip")));
+        this.transferBox.setHint(Component.translatable("menu.marioverse.warp_pipe.transfer_box.hint").withStyle(ChatFormatting.GRAY));
+        this.transferBox.setBordered(false);
+        this.transferBox.setVisible(false);
+        this.transferBox.setMaxLength(16);
+        this.addRenderableWidget(this.transferBox);
+
+        this.transferButton = this.addRenderableWidget(new StateImageButton(x + 145, y + 45, 24, 24, TRANSFER_OWNER_SPRITES,
+                () -> true, button -> this.transferButtonOnPress(),
+                Component.translatable("menu.marioverse.warp_pipe.transfer_button.narrate")));
+        this.transferButton.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.transfer_button.tooltip")));
 
         this.warpPipeTab = this.addTab(WarpPipeMenu.WARP_PIPE_TAB, "warp_pipe");
         this.waterworksTab = this.addTab(WarpPipeMenu.WATERWORKS_TAB, "waterworks");
@@ -613,6 +636,14 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             return false;
         }
 
+        if (this.transferBox.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
+                || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
+            if (keyCode != GLFW.GLFW_KEY_ESCAPE)
+                this.transferButtonOnPress();
+            this.transferBox.setFocused(false);
+            return false;
+        }
+
         if (this.xpPriceBox.canConsumeInput()) {
             if (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
                 this.setFocused(null);
@@ -622,6 +653,11 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         if (this.renameBox.canConsumeInput()) {
             this.renameBox.keyPressed(keyCode, b, c);
+            return true;
+        }
+
+        if (this.transferBox.canConsumeInput()) {
+            this.transferBox.keyPressed(keyCode, b, c);
             return true;
         }
 
@@ -642,6 +678,15 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
         if (!waxLocked)
             this.renameBox.setVisible(!this.renameBox.visible);
+    }
+
+    public void transferButtonOnPress() {
+        String newOwner = this.transferBox.getValue().trim();
+        if (this.transferBox.visible && !newOwner.isEmpty())
+            PacketHandler.sendToServer(new TransferOwnerPayload(this.menu.containerId, newOwner));
+
+        this.transferBox.setValue("");
+        this.transferBox.setVisible(!this.transferBox.visible);
     }
 
     public void closeButtonOnPress() {
@@ -759,6 +804,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.menu.getMenuType() == tab)
             return;
         this.renameBox.setVisible(false);
+        this.transferBox.setVisible(false);
         PacketHandler.sendToServer(new MenuTypePayload(this.menu.containerId, tab));
     }
 
@@ -788,7 +834,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
             this.allowAutomationCheckbox.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
             this.collectXpButton.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
+            this.transferButton.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
             this.voidPaymentsCheckbox.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
+            if (menuType != WarpPipeMenu.PAYMENTS_TAB)
+                this.transferBox.setVisible(false);
         }
     }
 

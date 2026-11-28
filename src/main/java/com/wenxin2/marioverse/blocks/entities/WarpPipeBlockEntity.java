@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.blocks.entities;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import javax.annotation.Nullable;
@@ -699,13 +701,21 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
     }
 
     public void setPipeOwner(Player player) {
-        this.owner = new ResolvableProfile(player.getGameProfile());
+        this.setPipeOwner(player.getGameProfile());
+    }
+
+    public void setPipeOwner(GameProfile profile) {
+        this.owner = new ResolvableProfile(profile);
         this.setChanged();
         this.sendData();
     }
 
     public boolean isPipeOwner(Player player) {
-        return this.owner != null && this.owner.id().map(player.getUUID()::equals).orElse(false);
+        return this.isPipeOwner(player.getUUID());
+    }
+
+    public boolean isPipeOwner(UUID id) {
+        return this.owner != null && this.owner.id().map(id::equals).orElse(false);
     }
 
     public boolean canManagePayments(Player player) {
