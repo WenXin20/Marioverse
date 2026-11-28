@@ -810,14 +810,15 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     }
 
     private void renderDepositSlotTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
-        ItemStack payment = this.menu.getDepositSlot().getItem();
+        ItemStack paymentStack = this.menu.getDepositSlot().getItem();
         List<FormattedCharSequence> lines = new ArrayList<>();
 
         lines.add(Component.translatable("menu.marioverse.warp_pipe.deposit_slot.tooltip").getVisualOrderText());
-        if (!payment.isEmpty())
+        if (!paymentStack.isEmpty())
             lines.add(Component.translatable("menu.marioverse.warp_pipe.deposit_slot.count",
-                    String.format(Locale.ROOT, "%,d", payment.getCount()), payment.getHoverName(),
-                    WarpPrice.getItemPlural(payment, payment.getCount())).getVisualOrderText());
+                    String.format(Locale.ROOT, "%,d", paymentStack.getCount()), paymentStack.getHoverName(),
+                    WarpPrice.getItemPlural(paymentStack, paymentStack.getCount()))
+                    .withStyle(ChatFormatting.GREEN).getVisualOrderText());
 
         lines.addAll(this.font.split(Component.translatable("menu.marioverse.warp_pipe.deposit_slot.tooltip.info"), 200));
         graphics.renderTooltip(this.font, lines, mouseX, mouseY);
@@ -828,7 +829,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         return pipeBE == null ? 0 : pipeBE.getStashedXp();
     }
 
-    private int getStoredLevel() {
+    private int getStashedLevel() {
         int stashedXp = this.getStashedXp();
         int level = WarpPrice.getLevelForExperience(stashedXp);
         return WarpPrice.getExperienceForLevel(level) > stashedXp ? level - 1 : level;
@@ -836,22 +837,24 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     private void renderStashedXpTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
         int stashedXp = this.getStashedXp();
-        int level = this.getStoredLevel();
+        int level = this.getStashedLevel();
         List<Component> lines = new ArrayList<>();
 
         lines.add(Component.translatable("menu.marioverse.warp_pipe.stashed_xp.tooltip"));
         if (level > 0)
             lines.add(Component.translatable(level == 1 ? "menu.marioverse.warp_pipe.stashed_xp.level"
-                    : "menu.marioverse.warp_pipe.stashed_xp.levels", String.format(Locale.ROOT, "%,d", level)));
+                    : "menu.marioverse.warp_pipe.stashed_xp.levels", String.format(Locale.ROOT, "%,d", level))
+                    .withStyle(ChatFormatting.GREEN));
         lines.add(Component.translatable(stashedXp == 1 ? "menu.marioverse.warp_pipe.stashed_xp.point"
-                : "menu.marioverse.warp_pipe.stashed_xp.points", String.format(Locale.ROOT, "%,d", stashedXp)));
+                : "menu.marioverse.warp_pipe.stashed_xp.points", String.format(Locale.ROOT, "%,d", stashedXp))
+                .withStyle(ChatFormatting.GREEN));
 
         graphics.renderComponentTooltip(this.font, lines, mouseX, mouseY);
     }
 
     private void renderStashedXpBar(GuiGraphics graphics, int x, int y) {
         int stashedXp = this.getStashedXp();
-        int level = this.getStoredLevel();
+        int level = this.getStashedLevel();
 
         int levelXp = WarpPrice.getExperienceForLevel(level);
         float progress = (stashedXp - levelXp) / (float) (WarpPrice.getExperienceForLevel(level + 1) - levelXp);

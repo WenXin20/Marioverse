@@ -2720,8 +2720,8 @@
   "menu.marioverse.warp_pipe.connection_checkbox_config.tooltip": "Require Connected Pipes\n§7• Pipes must be connected \nto the destination pipe%s§7 to warp\n§cRequired for all pipes by the config",
   "menu.marioverse.warp_pipe.connection_checkbox_waxed.tooltip": "§mRequire Connected Pipes§r\n§7• Pipes must be connected \nto the destination pipe%s§7 to warp\n§cPipe is Waxed!",
 
-  "menu.marioverse.warp_pipe.deposit_slot.tooltip": "Deposit",
-  "menu.marioverse.warp_pipe.deposit_slot.count": "§a• %s %s%s",
+  "menu.marioverse.warp_pipe.deposit_slot.tooltip": "Deposit:",
+  "menu.marioverse.warp_pipe.deposit_slot.count": "• %s %s%s",
   "menu.marioverse.warp_pipe.deposit_slot.tooltip.info": "§7• Click to take one stack\n§7• Shift-click to take all\n§7• Scroll to take one item",
 
   "menu.marioverse.warp_pipe.item_price_slider": "Item Price: ",
@@ -2736,10 +2736,10 @@
   "menu.marioverse.warp_pipe.rename_box.tooltip": "Rename Pipe",
   "menu.marioverse.warp_pipe.rename_box.narrate": "Rename Pipe",
 
-  "menu.marioverse.warp_pipe.stashed_xp.level": "§a• %s Level",
-  "menu.marioverse.warp_pipe.stashed_xp.levels": "§a• %s Levels",
-  "menu.marioverse.warp_pipe.stashed_xp.point": "§a• %s Point",
-  "menu.marioverse.warp_pipe.stashed_xp.points": "§a• %s Points",
+  "menu.marioverse.warp_pipe.stashed_xp.level": "• %s Level",
+  "menu.marioverse.warp_pipe.stashed_xp.levels": "• %s Levels",
+  "menu.marioverse.warp_pipe.stashed_xp.point": "• %s Point",
+  "menu.marioverse.warp_pipe.stashed_xp.points": "• %s Points",
   "menu.marioverse.warp_pipe.stashed_xp.tooltip": "Stashed XP:",
 
   "menu.marioverse.warp_pipe.void_payments_checkbox.tooltip": "Void Payments\n§7• Payments are voided instead of stored",
