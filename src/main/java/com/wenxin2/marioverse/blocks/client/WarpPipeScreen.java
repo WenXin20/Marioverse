@@ -52,7 +52,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             .fromNamespaceAndPath(Marioverse.MOD_ID, "textures/gui/warp_pipe.png");
     private static final ResourceLocation GENERIC_SLOT = ResourceLocation.withDefaultNamespace("container/slot");
     private static final ResourceLocation TEXT_FIELD = ResourceLocation.withDefaultNamespace("widget/text_field");
-    private static final ResourceLocation XP_PRICE_ICON = ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/xp_orb");
+    private static final ResourceLocation XP_BAR_BACKGROUND = ResourceLocation.withDefaultNamespace("hud/experience_bar_background");
+    private static final ResourceLocation XP_BAR_PROGRESS = ResourceLocation.withDefaultNamespace("hud/experience_bar_progress");
+    private static final ResourceLocation XP_PRICE_ICON = ResourceLocation
+            .fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/xp_orb");
 
     private static final WidgetSprites RENAME_SPRITES = sprites("rename");
     private static final WidgetSprites PIPE_OPEN_SPRITES = sprites("pipe_open");
@@ -71,16 +74,27 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_forced"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "checkbox_selected_forced"));
+    private static final WidgetSprites COLLECT_XP_SPRITES = new WidgetSprites(
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/collect_xp"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/collect_xp"),
+            ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/collect_xp_highlighted"));
 
+    private static final int SLIDER_SYNC_DELAY = 10;
+    private static final int TAB_SPACING = 27;
     private static final int TAB_X_OFFSET = -30;
     private static final int TAB_Y_OFFSET = 3;
-    private static final int TAB_SPACING = 27;
-    private static final int SLIDER_SYNC_DELAY = 10;
+    private static final int VANILLA_XP_BAR_WIDTH = 182;
+    private static final int XP_BAR_END_WIDTH = 2;
+    private static final int XP_BAR_HEIGHT = 5;
+    private static final int XP_BAR_WIDTH = 105;
+    private static final int XP_BAR_X = 34;
+    private static final int XP_BAR_Y = 31;
     private static final int XP_PRICE_SLIDER_MAX = 30;
 
     Button allowAutomationCheckbox;
     Button bubblesButton;
     Button closeButton;
+    Button collectXpButton;
     Button connectionCheckbox;
     Button renameButton;
     Button voidPaymentsCheckbox;
@@ -142,9 +156,11 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             graphics.blitSprite(XP_PRICE_ICON, x + 156, y + 51, 12, 12);
         }
 
-        if (this.menu.getMenuType() == WarpPipeMenu.PAYMENTS_TAB)
+        if (this.menu.getMenuType() == WarpPipeMenu.PAYMENTS_TAB) {
             graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.PAYMENT_SLOT_X - 1,
                     y + WarpPipeMenu.PAYMENT_SLOT_Y - 1, 18, 18);
+            this.renderStoredXpBar(graphics, x, y);
+        }
 
         if (this.renameBox.visible && !this.isWaxLocked(ConfigRegistry.WAX_DISABLES_RENAMING.get()))
             graphics.blit(WARP_PIPE_GUI, x + 7, y + 4, 0, 167, 162, 12);
@@ -273,6 +289,11 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 Component.translatable("menu.marioverse.warp_pipe.allow_automation_checkbox.narrate")));
         this.allowAutomationCheckbox.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.allow_automation_checkbox.tooltip")));
 
+        this.collectXpButton = this.addRenderableWidget(new StateImageButton(x + 145, y + 17, 24, 24, COLLECT_XP_SPRITES,
+                () -> this.getStoredXp() > 0, button -> this.sendPayments(PaymentsPayload.COLLECT_XP),
+                Component.translatable("menu.marioverse.warp_pipe.collect_xp_button.narrate")));
+        this.collectXpButton.setTooltip(Tooltip.create(Component.translatable("menu.marioverse.warp_pipe.collect_xp_button.tooltip")));
+
         this.warpPipeTab = this.addTab(WarpPipeMenu.WARP_PIPE_TAB, "warp_pipe");
         this.waterworksTab = this.addTab(WarpPipeMenu.WATERWORKS_TAB, "waterworks");
         this.paymentsTab = this.addTab(WarpPipeMenu.PAYMENTS_TAB, "payments");
@@ -344,6 +365,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.hoveredSlot != null && this.hoveredSlot == this.menu.getPaymentSlot() && this.menu.getCarried().isEmpty())
             this.renderPaymentSlotTooltip(graphics, mouseX, mouseY);
         else super.renderTooltip(graphics, mouseX, mouseY);
+
+        if (this.menu.getMenuType() == WarpPipeMenu.PAYMENTS_TAB
+                && this.isHovering(XP_BAR_X, XP_BAR_Y - 7, XP_BAR_WIDTH, 12, mouseX, mouseY))
+            this.renderStoredXpTooltip(graphics, mouseX, mouseY);
 
         if (this.hoveredSlot == this.menu.getPriceSlot() && this.hoveredSlot != null && !this.hoveredSlot.hasItem())
             graphics.renderTooltip(this.font, this.font.split(Component
@@ -702,14 +727,15 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             if (!isWarpPipeTab)
                 this.renameBox.setVisible(false);
 
-            this.waterSpoutButton.visible = isWaterworksTab;
-            this.waterSpoutSlider.visible = isWaterworksTab;
-            this.waterSourceCheckbox.visible = isWaterworksTab;
             this.bubblesButton.visible = isWaterworksTab;
             this.bubblesSlider.visible = isWaterworksTab;
+            this.waterSourceCheckbox.visible = isWaterworksTab;
+            this.waterSpoutButton.visible = isWaterworksTab;
+            this.waterSpoutSlider.visible = isWaterworksTab;
 
-            this.voidPaymentsCheckbox.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
             this.allowAutomationCheckbox.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
+            this.collectXpButton.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
+            this.voidPaymentsCheckbox.visible = menuType == WarpPipeMenu.PAYMENTS_TAB;
         }
     }
 
@@ -787,14 +813,74 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         ItemStack payment = this.menu.getPaymentSlot().getItem();
         List<FormattedCharSequence> lines = new ArrayList<>();
 
-        if (payment.isEmpty())
-            lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip").getVisualOrderText());
-        else lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.count",
-                String.format(Locale.ROOT, "%,d", payment.getCount()), payment.getHoverName(),
-                WarpPrice.getItemPlural(payment, payment.getCount())).getVisualOrderText());
+        lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip").getVisualOrderText());
+        if (!payment.isEmpty())
+            lines.add(Component.translatable("menu.marioverse.warp_pipe.payment_slot.count",
+                    String.format(Locale.ROOT, "%,d", payment.getCount()), payment.getHoverName(),
+                    WarpPrice.getItemPlural(payment, payment.getCount())).getVisualOrderText());
 
         lines.addAll(this.font.split(Component.translatable("menu.marioverse.warp_pipe.payment_slot.tooltip.info"), 200));
         graphics.renderTooltip(this.font, lines, mouseX, mouseY);
+    }
+
+    private int getStoredXp() {
+        WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
+        return pipeBE == null ? 0 : pipeBE.getStoredXp();
+    }
+
+    private int getStoredLevel() {
+        int storedXp = this.getStoredXp();
+        int level = WarpPrice.getLevelForExperience(storedXp);
+        return WarpPrice.getExperienceForLevel(level) > storedXp ? level - 1 : level;
+    }
+
+    private void renderStoredXpTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        int storedXp = this.getStoredXp();
+        int level = this.getStoredLevel();
+        List<Component> lines = new ArrayList<>();
+
+        lines.add(Component.translatable("menu.marioverse.warp_pipe.stored_xp.tooltip"));
+        if (level > 0)
+            lines.add(Component.translatable(level == 1 ? "menu.marioverse.warp_pipe.stored_xp.level"
+                    : "menu.marioverse.warp_pipe.stored_xp.levels", String.format(Locale.ROOT, "%,d", level)));
+        lines.add(Component.translatable(storedXp == 1 ? "menu.marioverse.warp_pipe.stored_xp.point"
+                : "menu.marioverse.warp_pipe.stored_xp.points", String.format(Locale.ROOT, "%,d", storedXp)));
+
+        graphics.renderComponentTooltip(this.font, lines, mouseX, mouseY);
+    }
+
+    private void renderStoredXpBar(GuiGraphics graphics, int x, int y) {
+        int storedXp = this.getStoredXp();
+        int level = this.getStoredLevel();
+
+        int levelXp = WarpPrice.getExperienceForLevel(level);
+        float progress = (storedXp - levelXp) / (float) (WarpPrice.getExperienceForLevel(level + 1) - levelXp);
+
+        this.renderXpBarPart(graphics, XP_BAR_BACKGROUND, x + XP_BAR_X, y + XP_BAR_Y, XP_BAR_WIDTH);
+        this.renderXpBarPart(graphics, XP_BAR_PROGRESS, x + XP_BAR_X, y + XP_BAR_Y, (int) (progress * XP_BAR_WIDTH));
+
+        if (level <= 0)
+            return;
+
+        String text = String.valueOf(level);
+        int textX = x + XP_BAR_X + (XP_BAR_WIDTH - this.font.width(text)) / 2;
+        int textY = y + XP_BAR_Y - 6;
+        graphics.drawString(this.font, text, textX + 1, textY, 0, false);
+        graphics.drawString(this.font, text, textX - 1, textY, 0, false);
+        graphics.drawString(this.font, text, textX, textY + 1, 0, false);
+        graphics.drawString(this.font, text, textX, textY - 1, 0, false);
+        graphics.drawString(this.font, text, textX, textY, 8453920, false);
+    }
+
+    private void renderXpBarPart(GuiGraphics graphics, ResourceLocation sprite, int x, int y, int width) {
+        int leftWidth = Math.min(width, XP_BAR_WIDTH - XP_BAR_END_WIDTH);
+        if (leftWidth > 0)
+            graphics.blitSprite(sprite, VANILLA_XP_BAR_WIDTH, XP_BAR_HEIGHT, 0, 0, x, y, leftWidth, XP_BAR_HEIGHT);
+
+        int endWidth = width - leftWidth;
+        if (endWidth > 0)
+            graphics.blitSprite(sprite, VANILLA_XP_BAR_WIDTH, XP_BAR_HEIGHT, VANILLA_XP_BAR_WIDTH - XP_BAR_END_WIDTH, 0,
+                    x + leftWidth, y, endWidth, XP_BAR_HEIGHT);
     }
 
     @Nullable

@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
@@ -98,6 +99,9 @@ import net.minecraft.world.item.ThrowablePotionItem;
 import net.minecraft.world.item.WindChargeItem;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.item.enchantment.EnchantedItemInUse;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SpawnData;
@@ -718,6 +722,39 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
     public int getStoredXp() {
         return this.storedXp;
+    }
+
+    public void collectXp(Player player) {
+        if (this.storedXp <= 0 || !(player instanceof ServerPlayer serverPlayer))
+            return;
+
+        int xp = WarpPipeBlockEntity.repairWithXp(serverPlayer, this.storedXp);
+        if (xp > 0)
+            serverPlayer.giveExperiencePoints(xp);
+
+        this.storedXp = 0;
+        serverPlayer.level().playSound(null, serverPlayer.blockPosition(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS,
+                0.1F, 0.9F + serverPlayer.getRandom().nextFloat() * 0.2F);
+        this.setChanged();
+        this.sendData();
+    }
+
+    private static int repairWithXp(ServerPlayer player, int xp) {
+        while (xp > 0) {
+            Optional<EnchantedItemInUse> item = EnchantmentHelper.getRandomItemWith(EnchantmentEffectComponents.REPAIR_WITH_XP, player, ItemStack::isDamaged);
+            if (item.isEmpty())
+                return xp;
+
+            ItemStack stack = item.get().itemStack();
+            int repairable = EnchantmentHelper.modifyDurabilityToRepairFromXp(player.serverLevel(), stack, (int) (xp * stack.getXpRepairRatio()));
+            int repaired = Math.min(repairable, stack.getDamageValue());
+            if (repaired <= 0)
+                return xp;
+
+            stack.setDamageValue(stack.getDamageValue() - repaired);
+            xp -= (int) ((long) repaired * xp / repairable);
+        }
+        return 0;
     }
 
     public boolean isVoidPayments() {

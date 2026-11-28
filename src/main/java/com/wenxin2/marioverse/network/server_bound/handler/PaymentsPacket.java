@@ -25,9 +25,10 @@ public class PaymentsPacket {
                         return;
 
                     switch (payload.action()) {
+                        case PaymentsPayload.COLLECT_XP -> pipeBE.collectXp(player);
                         case PaymentsPayload.TAKE_ONE -> pipeBE.collectPayments(player, 1);
-                        case PaymentsPayload.TOGGLE_VOID -> pipeBE.setVoidPayments(!pipeBE.isVoidPayments());
                         case PaymentsPayload.TOGGLE_AUTOMATION -> pipeBE.setAllowAutomation(!pipeBE.isAllowAutomation());
+                        case PaymentsPayload.TOGGLE_VOID -> pipeBE.setVoidPayments(!pipeBE.isVoidPayments());
                     }
                 });
             });
