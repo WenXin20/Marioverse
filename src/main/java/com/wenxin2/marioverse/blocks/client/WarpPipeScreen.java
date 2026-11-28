@@ -1,6 +1,9 @@
 package com.wenxin2.marioverse.blocks.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.wenxin2.marioverse.Marioverse;
 import com.wenxin2.marioverse.blocks.entities.WarpPipeBlockEntity;
 import com.wenxin2.marioverse.client.BubblesSlider;
@@ -36,7 +39,13 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.model.SkullModel;
+import net.minecraft.client.model.SkullModelBase;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
@@ -50,6 +59,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import org.jetbrains.annotations.NotNull;
@@ -89,11 +100,14 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
 
     private static final int LIFETIME_PANEL_BACKGROUND = 0xF0100010;
     private static final int LIFETIME_PANEL_BORDER_BOTTOM = 0x50287F00;
-    private static final int LIFETIME_PANEL_BORDER_TOP = 0x00FF0000;
+    private static final int LIFETIME_PANEL_BORDER_TOP = 0x00FF00;
     private static final int LIFETIME_PANEL_HEIGHT = 21;
     private static final int LIFETIME_PANEL_WIDTH = 105;
     private static final int LIFETIME_PANEL_X = 34;
     private static final int LIFETIME_PANEL_Y = 46;
+    private static final int OWNER_HEAD_SIZE = 12;
+    private static final int OWNER_HEAD_X = 157;
+    private static final int OWNER_HEAD_Y = 4;
     private static final int SLIDER_SYNC_DELAY = 10;
     private static final int TAB_SPACING = 27;
     private static final int TAB_X_OFFSET = -30;
@@ -118,6 +132,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     EditBox renameBox;
     EditBox xpPriceBox;
     Inventory inventory;
+    SkullModelBase ownerHeadModel;
     TabButton paymentsTab;
     TabButton warpPipeTab;
     TabButton waterworksTab;
@@ -175,6 +190,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         if (this.menu.getMenuType() == WarpPipeMenu.PAYMENTS_TAB) {
             graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.DEPOSIT_SLOT_X - 1,
                     y + WarpPipeMenu.DEPOSIT_SLOT_Y - 1, 18, 18);
+            this.renderOwnerHead(graphics, x, y, mouseX, mouseY);
             this.renderStashedXpBar(graphics, x, y);
             this.renderLifetimePanel(graphics, x, y);
         }
@@ -191,6 +207,8 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         super.init();
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
+
+        this.ownerHeadModel = new SkullModel(this.minecraft.getEntityModels().bakeLayer(ModelLayers.PLAYER_HEAD));
 
         this.renameBox = new EditBox(this.font, x + 8, y + 6, 160, 12,
                 Component.translatable("menu.marioverse.warp_pipe.rename_box.narrate"));
@@ -982,6 +1000,41 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
         ResourceLocation id = ResourceLocation.tryParse(ConfigRegistry.LIFETIME_PANEL_ITEM.get());
         Item item = id == null ? Items.AIR : BuiltInRegistries.ITEM.get(id);
         return new ItemStack(item == Items.AIR ? BlockRegistry.COIN.get().asItem() : item);
+    }
+
+    private void renderOwnerHead(GuiGraphics graphics, int x, int y, int mouseX, int mouseY) {
+        WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
+        if (pipeBE == null || pipeBE.getPipeOwner() == null)
+            return;
+
+        ResolvableProfile owner = pipeBE.getPipeOwner();
+        float headX = x + OWNER_HEAD_X + OWNER_HEAD_SIZE / 2.0F;
+        float headY = y + OWNER_HEAD_Y + OWNER_HEAD_SIZE;
+        float yaw = (float) Math.atan((headX - mouseX) / 40.0F) * 40.0F;
+        float pitch = -(float) Math.atan((headY - OWNER_HEAD_SIZE / 2.0F - mouseY) / 40.0F) * 20.0F;
+
+        PoseStack pose = graphics.pose();
+        pose.pushPose();
+        pose.translate(headX, headY, 100.0F);
+        pose.scale(OWNER_HEAD_SIZE * 2.0F, OWNER_HEAD_SIZE * 2.0F, -OWNER_HEAD_SIZE * 2.0F);
+        Lighting.setupForEntityInInventory();
+        this.ownerHeadModel.setupAnim(0.0F, yaw, pitch);
+        this.ownerHeadModel.renderToBuffer(pose, graphics.bufferSource().getBuffer(
+                SkullBlockRenderer.getRenderType(SkullBlock.Types.PLAYER, owner)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+        graphics.flush();
+        Lighting.setupFor3DItems();
+        pose.popPose();
+
+        this.renderOwnerNametag(graphics, owner, headX, y + OWNER_HEAD_Y);
+    }
+
+    private void renderOwnerNametag(GuiGraphics graphics, ResolvableProfile owner, float headX, int headTop) {
+        String name = owner.name().orElse(owner.gameProfile().getName());
+        int nameWidth = this.font.width(name);
+        int textX = Math.round(headX - nameWidth / 2.0F);
+        int textY = headTop - 11;
+        graphics.fill(textX - 1, textY - 1, textX + nameWidth + 1, textY + 9, 0x40000000);
+        graphics.drawString(this.font, name, textX, textY, 0xFFFFFF, false);
     }
 
     @Nullable
