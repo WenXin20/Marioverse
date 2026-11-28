@@ -2696,7 +2696,7 @@
   "menu.marioverse.warp_pipe.waterworks_tab.narrate": "Waterworks Tab",
   "menu.marioverse.warp_pipe.waterworks_tab.tooltip": "Waterworks",
 
-  "menu.marioverse.warp_pipe.allow_automation_checkbox.tooltip": "Allow Automation\n§7• Payments can be extracted",
+  "menu.marioverse.warp_pipe.allow_automation_checkbox.tooltip": "Allow Automation\n§7• Payments & XP can be extracted",
   "menu.marioverse.warp_pipe.allow_automation_checkbox.narrate": "Allow Automation",
 
   "menu.marioverse.warp_pipe.bubbles_button": "",

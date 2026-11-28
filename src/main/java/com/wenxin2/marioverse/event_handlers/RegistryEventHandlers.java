@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.event_handlers;
 
+import com.wenxin2.marioverse.inventory.WarpPipeFluidHandler;
 import com.wenxin2.marioverse.inventory.WarpPipeItemHandler;
 import com.wenxin2.marioverse.registries.BlockEntityRegistry;
 import org.jetbrains.annotations.Nullable;
@@ -464,6 +465,8 @@ public class RegistryEventHandlers {
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(),
+                (pipeBE, side) -> new WarpPipeFluidHandler(pipeBE));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityRegistry.WARP_PIPE_BLOCK_ENTITY.get(),
                 (pipeBE, side) -> new WarpPipeItemHandler(pipeBE));
         event.registerItem(Capabilities.FluidHandler.ITEM,

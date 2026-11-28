@@ -734,6 +734,17 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         return this.stashedXp;
     }
 
+    public int takeStashedXp(int points) {
+        int taken = Math.min(points, this.stashedXp);
+        if (taken <= 0)
+            return 0;
+
+        this.stashedXp -= taken;
+        this.setChanged();
+        this.sendData();
+        return taken;
+    }
+
     public void collectXp(Player player) {
         if (this.stashedXp <= 0 || !(player instanceof ServerPlayer serverPlayer))
             return;
@@ -1009,6 +1020,14 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
 
     public boolean hasWaterSpout() {
         return this.waterSpout;
+    }
+
+    public boolean isSpoutActive() {
+        if (this.level == null || !this.waterSpout || !(this.getBlockState().getBlock() instanceof WarpPipeBlock))
+            return false;
+
+        BlockPos spoutPos = this.worldPosition.relative(this.getBlockState().getValue(WarpPipeBlock.FACING));
+        return this.level.getBlockState(spoutPos).getBlock() instanceof WaterSpoutBlock;
     }
 
     public void setWaterSpout(boolean waterSpout) {
