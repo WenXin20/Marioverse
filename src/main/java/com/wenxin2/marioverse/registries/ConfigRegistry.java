@@ -1,5 +1,6 @@
 package com.wenxin2.marioverse.registries;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -350,6 +351,8 @@ public class ConfigRegistry {
     public static ModConfigSpec.IntValue WARP_PIPE_COOLDOWN;
     public static ModConfigSpec.IntValue WARP_TRAPDOOR_COOLDOWN;
 
+    public static ModConfigSpec.ConfigValue<String> LIFETIME_PANEL_ITEM;
+
     private ConfigRegistry() {
         ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
@@ -423,6 +426,10 @@ public class ConfigRegistry {
                     .comment("Display \"ticks to stay pressed\" on button tooltips.")
                     .comment("§9[Default: true]")
                     .define("display_button_tooltip", true);
+            LIFETIME_PANEL_ITEM = BUILDER.translation("configuration.marioverse.lifetime_panel_item")
+                    .comment("The item icon displayed in the Warp Pipe's lifetime earnings panel.")
+                    .comment("§9[Default: marioverse:coin]")
+                    .define("lifetime_panel_item", "marioverse:coin", value -> value instanceof String id && ResourceLocation.tryParse(id) != null);
             RENDER_ONE_UP_CHARM = BUILDER.translation("configuration.marioverse.render_one_up_charm")
                     .comment("Render the 1-Up on the player or mobs when in an Accessory slot.")
                     .comment("§9[Default: true]")

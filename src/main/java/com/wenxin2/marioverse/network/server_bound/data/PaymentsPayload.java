@@ -13,6 +13,7 @@ public record PaymentsPayload(int containerId, int action) implements CustomPack
     public static final int TOGGLE_VOID = 1;
     public static final int COLLECT_XP = 2;
     public static final int TOGGLE_AUTOMATION = 3;
+    public static final int RESET_LIFETIME = 4;
     public static final Type<PaymentsPayload> PAYLOAD = new Type<>(ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "payments_payload"));
 
     @NotNull

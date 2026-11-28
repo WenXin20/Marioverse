@@ -13,6 +13,7 @@ import com.wenxin2.marioverse.network.server_bound.data.MenuTypePayload;
 import com.wenxin2.marioverse.network.server_bound.data.PaymentsPayload;
 import com.wenxin2.marioverse.network.server_bound.data.PipePricePayload;
 import com.wenxin2.marioverse.network.server_bound.data.WaterSourceCheckboxPayload;
+import com.wenxin2.marioverse.registries.BlockRegistry;
 import com.wenxin2.marioverse.registries.ConfigRegistry;
 import com.wenxin2.marioverse.inventory.WarpPipeMenu;
 import com.wenxin2.marioverse.network.PacketHandler;
@@ -33,16 +34,23 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
@@ -79,6 +87,13 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/collect_xp"),
             ResourceLocation.fromNamespaceAndPath(Marioverse.MOD_ID, "warp_pipe/collect_xp_highlighted"));
 
+    private static final int LIFETIME_PANEL_BACKGROUND = 0xF0100010;
+    private static final int LIFETIME_PANEL_BORDER_BOTTOM = 0x50287F00;
+    private static final int LIFETIME_PANEL_BORDER_TOP = 0x5050FF00;
+    private static final int LIFETIME_PANEL_HEIGHT = 21;
+    private static final int LIFETIME_PANEL_WIDTH = 105;
+    private static final int LIFETIME_PANEL_X = 34;
+    private static final int LIFETIME_PANEL_Y = 46;
     private static final int SLIDER_SYNC_DELAY = 10;
     private static final int TAB_SPACING = 27;
     private static final int TAB_X_OFFSET = -30;
@@ -112,6 +127,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
     public ExtendedSlider waterSpoutSlider;
     public ExtendedSlider bubblesSlider;
     private String pipeName = "";
+    private boolean confirmLifetimeReset;
     private int lastBubblesDistance;
     private int lastPriceItemCount;
     private int lastMenuType = -1;
@@ -160,6 +176,7 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             graphics.blitSprite(GENERIC_SLOT, x + WarpPipeMenu.DEPOSIT_SLOT_X - 1,
                     y + WarpPipeMenu.DEPOSIT_SLOT_Y - 1, 18, 18);
             this.renderStashedXpBar(graphics, x, y);
+            this.renderLifetimePanel(graphics, x, y);
         }
 
         if (this.renameBox.visible && !this.isWaxLocked(ConfigRegistry.WAX_DISABLES_RENAMING.get()))
@@ -370,6 +387,10 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                 && this.isHovering(XP_BAR_X, XP_BAR_Y - 7, XP_BAR_WIDTH, 12, mouseX, mouseY))
             this.renderStashedXpTooltip(graphics, mouseX, mouseY);
 
+        if (this.isHoveringLifetimePanel(mouseX, mouseY))
+            this.renderLifetimeTooltip(graphics, mouseX, mouseY);
+        else this.confirmLifetimeReset = false;
+
         if (this.hoveredSlot == this.menu.getPriceSlot() && this.hoveredSlot != null && !this.hoveredSlot.hasItem())
             graphics.renderTooltip(this.font, this.font.split(Component
                     .translatable("menu.marioverse.warp_pipe.item_price_slot.tooltip"), 200), mouseX, mouseY);
@@ -510,6 +531,19 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && Screen.hasShiftDown() && this.isHoveringLifetimePanel(mouseX, mouseY)) {
+            if (this.confirmLifetimeReset)
+                this.sendPayments(PaymentsPayload.RESET_LIFETIME);
+            this.confirmLifetimeReset = !this.confirmLifetimeReset;
+            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK,
+                    0.9F + this.inventory.player.getRandom().nextFloat() * 0.2F));
+            return true;
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
@@ -886,10 +920,76 @@ public class WarpPipeScreen extends AbstractContainerScreen<WarpPipeMenu> {
                     x + leftWidth, y, endWidth, XP_BAR_HEIGHT);
     }
 
+    private boolean isHoveringLifetimePanel(double mouseX, double mouseY) {
+        return this.menu.getMenuType() == WarpPipeMenu.PAYMENTS_TAB && this.isHovering(LIFETIME_PANEL_X - 4, LIFETIME_PANEL_Y - 4,
+                LIFETIME_PANEL_WIDTH + 8, LIFETIME_PANEL_HEIGHT + 8, mouseX, mouseY);
+    }
+
+    private void renderLifetimePanel(GuiGraphics graphics, int x, int y) {
+        WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
+        if (pipeBE == null)
+            return;
+
+        int panelX = x + LIFETIME_PANEL_X;
+        int panelY = y + LIFETIME_PANEL_Y;
+        TooltipRenderUtil.renderTooltipBackground(graphics, panelX, panelY, LIFETIME_PANEL_WIDTH, LIFETIME_PANEL_HEIGHT, 0,
+                LIFETIME_PANEL_BACKGROUND, LIFETIME_PANEL_BACKGROUND, LIFETIME_PANEL_BORDER_TOP, LIFETIME_PANEL_BORDER_BOTTOM);
+
+        graphics.drawString(this.font, Component.translatable("menu.marioverse.warp_pipe.lifetime_panel.label",
+                WarpPipeScreen.formatCompact(pipeBE.getLifetimeWarps())), panelX, panelY, 0xFFFFFF);
+        graphics.fill(panelX, panelY + 10, panelX + LIFETIME_PANEL_WIDTH, panelY + 11, LIFETIME_PANEL_BORDER_TOP);
+
+        int lineY = panelY + 13;
+        int itemsEndX = this.renderLifetimeEntry(graphics, WarpPipeScreen.getLifetimePanelIcon(),
+                pipeBE.getLifetimeItemsEarned(), panelX, lineY);
+        this.renderLifetimeEntry(graphics, new ItemStack(Items.EXPERIENCE_BOTTLE),
+                pipeBE.getLifetimeXpEarned(), itemsEndX + 6, lineY);
+    }
+
+    private int renderLifetimeEntry(GuiGraphics graphics, ItemStack icon, long count, int x, int y) {
+        graphics.pose().pushPose();
+        graphics.pose().translate(x, y - 1, 0);
+        graphics.pose().scale(0.5F, 0.5F, 1.0F);
+        graphics.renderFakeItem(icon, 0, 0);
+        graphics.pose().popPose();
+        return graphics.drawString(this.font, WarpPipeScreen.formatCompact(count), x + 10, y, 0xFFFFFF);
+    }
+
+    private void renderLifetimeTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+        WarpPipeBlockEntity pipeBE = this.getPipeBlockEntity();
+        if (pipeBE == null)
+            return;
+
+        int warps = pipeBE.getLifetimeWarps();
+        long items = pipeBE.getLifetimeItemsEarned();
+        List<Component> lines = List.of(
+                Component.translatable("menu.marioverse.warp_pipe.lifetime_panel.tooltip"),
+                Component.translatable(warps == 1 ? "menu.marioverse.warp_pipe.lifetime_panel.warp"
+                                : "menu.marioverse.warp_pipe.lifetime_panel.warps", String.format(Locale.ROOT, "%,d", warps))
+                        .withStyle(ChatFormatting.GREEN),
+                Component.translatable(items == 1 ? "menu.marioverse.warp_pipe.lifetime_panel.item"
+                                : "menu.marioverse.warp_pipe.lifetime_panel.items", String.format(Locale.ROOT, "%,d", items))
+                        .withStyle(ChatFormatting.GREEN),
+                Component.translatable("menu.marioverse.warp_pipe.lifetime_panel.xp",
+                                String.format(Locale.ROOT, "%,d", pipeBE.getLifetimeXpEarned()))
+                        .withStyle(ChatFormatting.GREEN),
+                Component.translatable(this.confirmLifetimeReset ? "menu.marioverse.warp_pipe.lifetime_panel.tooltip.confirm"
+                        : "menu.marioverse.warp_pipe.lifetime_panel.tooltip.info"));
+        graphics.renderComponentTooltip(this.font, lines, mouseX, mouseY);
+    }
+
+    private static ItemStack getLifetimePanelIcon() {
+        ResourceLocation id = ResourceLocation.tryParse(ConfigRegistry.LIFETIME_PANEL_ITEM.get());
+        Item item = id == null ? Items.AIR : BuiltInRegistries.ITEM.get(id);
+        return new ItemStack(item == Items.AIR ? BlockRegistry.COIN.get().asItem() : item);
+    }
+
     @Nullable
     private static String formatCount(int count) {
-        if (count == 1)
-            return null;
+        return count == 1 ? null : WarpPipeScreen.formatCompact(count);
+    }
+
+    private static String formatCompact(long count) {
         if (count < 1000)
             return String.valueOf(count);
         if (count < 10000)

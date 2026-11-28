@@ -797,6 +797,14 @@ public class WarpPipeBlockEntity extends BaseWarpBlockEntity implements MenuProv
         return this.lifetimeXpEarned;
     }
 
+    public void resetLifetimeEarnings() {
+        this.lifetimeWarps = 0;
+        this.lifetimeItemsEarned = 0;
+        this.lifetimeXpEarned = 0;
+        this.setChanged();
+        this.sendData();
+    }
+
     public int getXpPrice() {
         return this.xpPrice;
     }
