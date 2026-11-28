@@ -27,13 +27,12 @@ public class WarpPipeFluidHandler implements IFluidHandler {
     @NotNull
     @Override
     public FluidStack getFluidInTank(int tank) {
-        if (!this.pipeBE.isAllowAutomation())
+        Fluid xpFluid = this.getXpFluid();
+        if (xpFluid == null)
             return this.pipeBE.isSpoutActive() ? new FluidStack(Fluids.WATER, Integer.MAX_VALUE) : FluidStack.EMPTY;
-
-        Fluid fluid = WarpPipeFluidHandler.getExperienceFluid();
-        if (fluid == null || this.pipeBE.getStashedXp() <= 0)
+        if (this.pipeBE.getStashedXp() <= 0)
             return FluidStack.EMPTY;
-        return new FluidStack(fluid, (int) Math.min(Integer.MAX_VALUE, (long) this.pipeBE.getStashedXp() * MB_PER_XP));
+        return new FluidStack(xpFluid, (int) Math.min(Integer.MAX_VALUE, (long) this.pipeBE.getStashedXp() * MB_PER_XP));
     }
 
     @Override
@@ -56,7 +55,7 @@ public class WarpPipeFluidHandler implements IFluidHandler {
     public FluidStack drain(@NotNull FluidStack resource, @NotNull FluidAction action) {
         if (resource.isEmpty())
             return FluidStack.EMPTY;
-        if (!this.pipeBE.isAllowAutomation())
+        if (this.getXpFluid() == null)
             return resource.is(Fluids.WATER) ? this.drainWater(resource.getAmount()) : FluidStack.EMPTY;
         return resource.is(Tags.Fluids.EXPERIENCE) ? this.drainXp(resource.getFluid(), resource.getAmount(), action) : FluidStack.EMPTY;
     }
@@ -64,11 +63,8 @@ public class WarpPipeFluidHandler implements IFluidHandler {
     @NotNull
     @Override
     public FluidStack drain(int maxDrain, @NotNull FluidAction action) {
-        if (!this.pipeBE.isAllowAutomation())
-            return this.drainWater(maxDrain);
-
-        Fluid fluid = WarpPipeFluidHandler.getExperienceFluid();
-        return fluid == null ? FluidStack.EMPTY : this.drainXp(fluid, maxDrain, action);
+        Fluid xpFluid = this.getXpFluid();
+        return xpFluid == null ? this.drainWater(maxDrain) : this.drainXp(xpFluid, maxDrain, action);
     }
 
     private FluidStack drainWater(int maxDrain) {
@@ -83,6 +79,11 @@ public class WarpPipeFluidHandler implements IFluidHandler {
         if (action.execute())
             this.pipeBE.takeStashedXp(points);
         return new FluidStack(fluid, points * MB_PER_XP);
+    }
+
+    @Nullable
+    private Fluid getXpFluid() {
+        return this.pipeBE.isAllowAutomation() ? WarpPipeFluidHandler.getExperienceFluid() : null;
     }
 
     @Nullable
